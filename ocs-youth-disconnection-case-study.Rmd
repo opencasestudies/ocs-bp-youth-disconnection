@@ -1,0 +1,396 @@
+---
+title: "Open Case Studies : Youth Disconnection "
+output:
+  html_document:
+    self_contained: yes
+    code_download: yes
+    highlight: tango
+    number_sections: no
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+
+---
+
+**This is how I will communicate general comments via this draft**
+
+<style>
+div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "green">
+
+**MICHAEL ONTIVEROS**
+
+*A quick search of my name will lead you to comments embedded in a green bubble like this.*
+</div>
+
+**This is how I will communicate problems via this draft**
+
+<style>
+div.red { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "red">
+
+**MICHAEL ONTIVEROS**
+
+*Things in a red bubble like this must be addressed.*
+</div>
+
+**This is a real example of the above**
+
+<style>
+div.green { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "red">
+
+**MICHAEL ONTIVEROS**
+
+*"css: style.css" is not included in the YAML metadata for this document.*
+</div>
+
+<style>
+#TOC {
+  background: url("https://opencasestudies.github.io/img/logo.jpg");
+  background-size: contain;
+  padding-top: 240px !important;
+  background-repeat: no-repeat;
+}
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
+                      message = FALSE, warning = FALSE, cache = FALSE,
+                      fig.align = "center", out.width = '90%')
+library(here)
+library(knitr)
+```
+
+
+#### {.outline }
+```{r, echo = FALSE, out.width = "800 px", eval=FALSE}
+knitr::include_graphics(here::here("img", "mainplot.png"))
+```
+
+####
+
+## {.disclaimer_block}
+
+**Disclaimer**: The purpose of the [Open Case Studies](https://opencasestudies.github.io){target="_blank"} project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most appropriate way to analyze a given data set, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
+
+## **Motivation**
+*** 
+
+https://onlinelibrary.wiley.com/doi/full/10.1111/1468-0009.12425
+
+PDF of interest
+
+Page 39
+
+https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf
+
+
+## **Main Questions**
+*** 
+
+#### {.main_question_block}
+<b><u> Our main question: </u></b>
+
+1) What differences in youth disconnection rates exist in 2017?  
+
+####
+
+## **Learning Objectives** 
+*** 
+
+In this case study, we will demonstrate how to import and wrangle data available in the <u>**P**</u>ortable <u>**D**</u>ocument <u>**F**</u>ormat (**PDF**). We will especially focus on using packages and functions from the [`Tidyverse`](https://www.tidyverse.org/){target="_blank"}, such as `dplyr`, `ggplot2`. The tidyverse is a library of packages created by RStudio. While some students may be familiar with previous R programming packages, these packages make data science in R especially efficient.
+
+
+```{r, out.width = "20%", echo = FALSE, fig.align ="center"}
+include_graphics("https://tidyverse.tidyverse.org/logo.png")
+```
+
+
+*** 
+
+We will begin by loading the packages that we will need:
+
+```{r}
+library(here)
+library(tidyverse)
+library(pdftools)
+library(magick)
+```
+
+<style>
+div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "green">
+**MICHAEL ONTIVEROS** *I changed the way the table looks below to present the package names in bold. Many of these case studies have lots of text. Having important features of a case study presented in bold, italics, or both may make the document more easily interpretable. This is just my two &cent;. Feel free to disregard this suggestion for any reason.*
+</div>
+
+ Package   | Use                                                                         
+---------- |-------------
+[**here**](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data
+[**tidyverse**](https://readr.tidyverse.org/){target="_blank"}      | for data science operations
+[**pdftools**](https://readr.tidyverse.org/){target="_blank"}      | to manage PDF documents
+[**magick**](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution){target="_blank"}      | for image processing 
+
+The first time we use a function, we will use the `::` to indicate which package we are using. Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
+
+
+## **Context**
+*** 
+
+## **Limitations**
+*** 
+
+<style>
+div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "green">
+
+**MICHAEL ONTIVEROS**
+
+*I compared the mechanics of image processing tools to a black box process. I feel it brings in some vocab while highlighting that this type of tool requires caution. Feel free to update as you think appropriate.*
+</div>
+
+There are some important considerations regarding this data analysis to keep in mind: 
+
+1) The statistical procedures we are using may be overly simplistic. *We need to be wary about deriving meaning from the statistical procedures we use*. 
+
+2) Using image processing tools can be very helpful. The manner in which data is obtained with image processing tools is what we would describe as a **black box process**, <u>*a process with known inputs and outputs but unknown mechanics*</u>. Because we are unaware of how our outputs are generate from our inputs, we need to be wary of the output. With the small output we are creating in this case study, a visual inspection should suffice. 
+
+
+## **What are the data?**
+*** 
+
+Discussion about data source/organization/organization mission or the like.
+
+The data come from a PDF that can be found [**here**](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf).
+
+## **Data Import**
+*** 
+
+We import the data using the `pdftools` and `here` packages. 
+
+From the output, it's clear that a large amount of manipulation will be required to wrangle this data with the `pdftools` package.
+
+#### {.scrollable }
+```{r}
+pdf_data_example <- pdftools::pdf_data(here("Making the Connection.pdf"))
+
+utils::head(pdf_data_example, 1)
+
+pdf_tools_example <- pdftools::pdf_text(here("Making the Connection.pdf"))
+
+head(pdf_tools_example, 1)
+```
+####
+
+While not impossible, it's hard to argue that using the `pdftools` package in this scenario will require a lot of advanced data wrangling. While our output may be reproducible, the amount of time to achieve this reproducibility may not be any more efficient than typing the table by hand into a text or spreadsheet program.
+
+Fortunately, there is another way we can proceed to wrangle the data. 
+
+We will demonstrate how to produce reproducible tables with image processing software on `R`. 
+
+For demonstrative purposes, we will import two sets of data. The first set of data will be used to highlight common errors that the image processing software may produce. The second set of data will be used to demonstrate how to circumvent these errors and, resultantly, produce reproducible datasets efficient.
+
+We import the data using the `magick` and `here` packages. 
+
+```{r, dpi = 1000}
+#bold is causing issues
+image1 <- magick::image_read(here("gender_race_ethnicity.png"))
+
+magick::image_info(image1)
+```
+
+We import the same data—this time without regions of the table without special formatting—using the `magick` and `here` packages. 
+
+```{r, dpi = 1000}
+#bold is causing issues
+image2 <- image_read(here("gender_race_ethnicity2.png"))
+
+magick::image_info(image2)
+```
+
+
+## **Data Exploration and Wrangling**
+*** 
+
+The image we imported looks like this. 
+
+```{r}
+image1
+```
+
+Parts of the table depicted in the image above contain [**newline**](https://en.wikipedia.org/wiki/Newline?oldformat=true) characters. A newline character denotes the end of a line of text and the start of a new line of text. 
+
+This makes it more difficult to wrangle this table. Wrangling the data via regular expressions may be very tedious. It's unlikely that image processing software can handly the newline characters—or any other special characters—correctly.
+
+Using `image_ocr()` by `magick` on the image above will render some errors in the first few lines. 
+
+```{r}
+test <- magick::image_ocr(image1)
+
+test %>%
+    base::strsplit("\n") %>%
+  base::unlist() %>%
+  tibble::as_tibble()
+```
+
+If we remove these lines, some new errors emerge. 
+
+```{r}
+test %>%
+    base::strsplit("\n") %>%
+  base::unlist() %>%
+  tibble::as_tibble() %>%
+  dplyr::slice(-(1:3))
+```
+
+Data wrangling is not an exact science. The approaches we can take are extremely dependent on the data. We can exploit patterns in the data to render the output we desire. 
+
+We will now use a cropped version of image above without the special formatting.
+
+#### {.scrollable }
+```{r, dpi = 1000}
+image_info(image2)
+
+base::print(image2)
+
+test <- image_ocr(image2)
+
+test <- test %>%
+    strsplit("\n") %>%
+  unlist() %>%
+  as_tibble()
+
+test <- test %>%
+  dplyr::select(value) %>%
+  pull(value) %>%
+  str_split(" ") %>%
+  map(~str_remove(.,","))
+
+test2 <- map(test, tail, 8) %>%
+  map(~gsub("[,]+|[.]+", "",.)) %>%
+  do.call(rbind,.) %>%
+  data.frame() %>%
+  mutate_if(is.character, as.numeric) %>%
+  mutate_at(vars(-X7), ~ . * 0.1) %>%
+  tibble() 
+
+test1 <- test %>%
+  map(~paste(.,collapse = "")) %>%
+  map(~gsub("[[:digit:]]+|[[:punct:]]+", "",.)) %>%
+  do.call(rbind,.) %>%
+  data.frame() %>%
+  tibble()
+  
+df <- bind_cols(test1, test2)
+names(df) <- c()
+
+column_names <- c("Group",
+                  "Perc_2008",
+                  "Perc_2010",
+                  "Perc_2012",
+                  "Perc_2014",
+                  "Perc_2016",
+                  "Perc_2017",
+                  "N_2017",
+                  "Delta_perc")
+
+colnames(df) <- column_names
+
+df <- df %>%
+  dplyr::select(-N_2017,
+                -Delta_perc)
+
+df <- df %>%
+  pivot_longer(cols=contains("Perc_"),
+               names_to = "Year",
+               values_to = "Rate",
+               names_prefix = "Perc_") %>%
+  mutate(Year = as.numeric(Year))
+
+df
+```
+####
+
+## **Data Analysis**
+*** 
+
+<style>
+div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "green">
+
+**MICHAEL ONTIVEROS**
+
+*We could introduce baseline adjustment to introduce a statistical concept. This would circumvent the need for a model that would capture the temporal autocorrelation present in panel data.*
+</div>
+
+
+## **Data Visualization**
+*** 
+
+```{r}
+df %>%
+  ggplot(aes(x = Year, y = Rate, group = Group)) +
+  geom_line() + 
+  labs(title = "Youth Disconnection Rates")
+```
+
+## **Summary**
+*** 
+
+## **Suggested Homework**
+*** 
+
+1) Find another table in the document. Find differences between groups with the process described above. 
+
+## **Helpful Links**
+*** 
+
+<style>
+div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "green">
+
+**MICHAEL ONTIVEROS**
+
+*Given the simplicity of this case study, I am assuming that there is a high probability you will be discussing RStudio cheatsheets. I left the link and button below. Feel free to delete as needed.*
+</div>
+
+<style>
+div.red { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "red">
+
+**MICHAEL ONTIVEROS**
+
+*This concepts listed here must be revisited.*
+</div>
+
+<u>Terms and concepts covered:</u>  
+
+[Tidyverse](https://www.tidyverse.org/){target="_blank"}  
+[RStudio cheatsheets](https://rstudio.com/resources/cheatsheets/){target="_blank"}  
+[Inference](https://www.britannica.com/science/inference-statistics){target="_blank"}  
+[Regression](https://lindeloev.github.io/tests-as-linear/){target="_blank"}  
+[Different types of regression](https://www.analyticsvidhya.com/blog/2015/08/comprehensive-guide-regression/){target="_blank"}  
+[Ordinary least squares method](http://setosa.io/ev/ordinary-least-squares-regression/){target="_blank"}  
+[Residual](https://www.statisticshowto.datasciencecentral.com/residual/){target="_blank"}  
+
+<u>Packages used in this case study: </u>
+
+ Package   | Use                                                                         
+---------- |-------------
+[**here**](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data
+[**tidyverse**](https://readr.tidyverse.org/){target="_blank"}      | for data science operations
+[**pdftools**](https://readr.tidyverse.org/){target="_blank"}      | to manage PDF documents
+[**magick**](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution){target="_blank"}      | for image processing 
