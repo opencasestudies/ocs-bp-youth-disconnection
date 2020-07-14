@@ -62,6 +62,16 @@ div.green { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
 </style>
 
 
+<style>
+div.green { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "red">
+
+**MICHAEL ONTIVEROS**
+
+*There are some existing typos in the tables in addition to those produced during the use of Magick. I made some assumptions along the way, documenting them. These need to be checked for accuracy.*
+</div>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE, cache = FALSE,
@@ -109,11 +119,9 @@ https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf
 
 In this case study, we will demonstrate how to import and wrangle data available in the <u>**P**</u>ortable <u>**D**</u>ocument <u>**F**</u>ormat (**PDF**). We will especially focus on using packages and functions from the [`Tidyverse`](https://www.tidyverse.org/){target="_blank"}, such as `dplyr`, `ggplot2`. The tidyverse is a library of packages created by RStudio. While some students may be familiar with previous R programming packages, these packages make data science in R especially efficient.
 
-
 ```{r, out.width = "20%", echo = FALSE, fig.align ="center"}
 include_graphics("https://tidyverse.tidyverse.org/logo.png")
 ```
-
 
 *** 
 
@@ -142,7 +150,6 @@ div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
 
 The first time we use a function, we will use the `::` to indicate which package we are using. Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
 
-
 ## **Context**
 *** 
 
@@ -164,7 +171,6 @@ There are some important considerations regarding this data analysis to keep in 
 1) The statistical procedures we are using may be overly simplistic. *We need to be wary about deriving meaning from the statistical procedures we use*. 
 
 2) Using image processing tools can be very helpful. The manner in which data is obtained with image processing tools is what we would describe as a **black box process**, <u>*a process with known inputs and outputs but unknown mechanics*</u>. Because we are unaware of how our outputs are generate from our inputs, we need to be wary of the output. With the small output we are creating in this case study, a visual inspection should suffice. 
-
 
 ## **What are the data?**
 *** 
@@ -204,41 +210,40 @@ We import the data using the `magick` and `here` packages.
 
 ```{r, dpi = 1000}
 #bold is causing issues
-image1 <- magick::image_read(here("gender_race_ethnicity.png"))
+image_example <- magick::image_read(here::here("gender_race_ethnicity.png"))
 
-magick::image_info(image1)
+magick::image_info(image_example)
 ```
 
 We import the same data—this time without regions of the table without special formatting—using the `magick` and `here` packages. 
 
 ```{r, dpi = 1000}
 #bold is causing issues
-image2 <- image_read(here("gender_race_ethnicity2.png"))
+image1 <- image_read(here("gender_race_ethnicity2.png"))
 
-magick::image_info(image2)
+magick::image_info(image1)
 ```
-
 
 ## **Data Exploration and Wrangling**
 *** 
 
-The image we imported looks like this. 
+The first image we imported looks like this. 
 
 ```{r}
-image1
+image_example
 ```
 
 Parts of the table depicted in the image above contain [**newline**](https://en.wikipedia.org/wiki/Newline?oldformat=true) characters. A newline character denotes the end of a line of text and the start of a new line of text. 
 
-This makes it more difficult to wrangle this table. Wrangling the data via regular expressions may be very tedious. It's unlikely that image processing software can handly the newline characters—or any other special characters—correctly.
+This makes it more difficult to wrangle this table. Wrangling the data via regular expressions may be very tedious. It's unlikely that image processing software can handle the newline characters—or any other special characters—correctly.
 
 Using `image_ocr()` by `magick` on the image above will render some errors in the first few lines. 
 
 ```{r}
-test <- magick::image_ocr(image1)
+df1 <- magick::image_ocr(image_example)
 
-test %>%
-    base::strsplit("\n") %>%
+df1 %>%
+  base::strsplit("\n") %>%
   base::unlist() %>%
   tibble::as_tibble()
 ```
@@ -246,7 +251,7 @@ test %>%
 If we remove these lines, some new errors emerge. 
 
 ```{r}
-test %>%
+df1 %>%
     base::strsplit("\n") %>%
   base::unlist() %>%
   tibble::as_tibble() %>%
@@ -259,40 +264,64 @@ We will now use a cropped version of image above without the special formatting.
 
 #### {.scrollable }
 ```{r, dpi = 1000}
-image_info(image2)
+rm(df1)
 
-base::print(image2)
+image_info(image1)
 
-test <- image_ocr(image2)
+base::print(image1)
 
-test <- test %>%
-    strsplit("\n") %>%
+df1 <- image_ocr(image1)
+
+df1 <- df1 %>%
+  strsplit("\n") %>%
   unlist() %>%
   as_tibble()
+```
+####
 
-test <- test %>%
+We have several strings. Each cell of data is on a string separated by space. 
+
+We separate each string by space. 
+
+```{r}
+df1 <- df1 %>%
   dplyr::select(value) %>%
   pull(value) %>%
-  str_split(" ") %>%
-  map(~str_remove(.,","))
+  str_split(" ")
+```
 
-test2 <- map(test, tail, 8) %>%
+We split the dataframe in two: a labels section and a "data" section containing the information we are interested in. 
+
+In the first half, we remove all digits and punctuation to ensure that we are left with character labels.
+
+In the second-half, remove commas and periods, converting the resulting string character class to numeric and selectively multiplying columns to reintroduce the decimal point correctly 
+
+```{r}
+df1a <- df1 %>%
+  purrr::map(~base::paste(.,collapse = "")) %>%
+  purrr::map(~base::gsub("[[:digit:]]+|[[:punct:]]+", "",.)) %>%
+  base::do.call(base::rbind,.) %>%
+  base::data.frame() %>%
+  dplyr::tibble()
+
+df1b <- map(df1, tail, 8) %>%
   map(~gsub("[,]+|[.]+", "",.)) %>%
   do.call(rbind,.) %>%
   data.frame() %>%
-  mutate_if(is.character, as.numeric) %>%
-  mutate_at(vars(-X7), ~ . * 0.1) %>%
+  dplyr::mutate_if(base::is.character, base::as.numeric) %>%
+  dplyr::mutate_at(vars(-X7), ~ . * 0.1) %>%
   tibble() 
 
-test1 <- test %>%
-  map(~paste(.,collapse = "")) %>%
-  map(~gsub("[[:digit:]]+|[[:punct:]]+", "",.)) %>%
-  do.call(rbind,.) %>%
-  data.frame() %>%
-  tibble()
-  
-df <- bind_cols(test1, test2)
-names(df) <- c()
+base::rm(df1)
+```
+
+We combine the two sections of data to create our dataframe, removing and then adding column names.
+
+```{r}
+df1 <- dplyr::bind_cols(df1a,
+                        df1b)
+
+base::names(df1) <- c()
 
 column_names <- c("Group",
                   "Perc_2008",
@@ -304,22 +333,644 @@ column_names <- c("Group",
                   "N_2017",
                   "Delta_perc")
 
-colnames(df) <- column_names
+base::colnames(df1) <- column_names
+```
 
-df <- df %>%
+We remove columns with information we don't need and use the commmon pattern in the column names to convert the data into [long/narrow format](https://en.wikipedia.org/wiki/Wide_and_narrow_data?oldformat=true).
+
+```{r}
+df1 <- df1 %>%
   dplyr::select(-N_2017,
                 -Delta_perc)
 
-df <- df %>%
-  pivot_longer(cols=contains("Perc_"),
-               names_to = "Year",
-               values_to = "Rate",
-               names_prefix = "Perc_") %>%
-  mutate(Year = as.numeric(Year))
-
-df
+df1 <- df1 %>%
+  tidyr::pivot_longer(cols=contains("Perc_"),
+                      names_to = "Year",
+                      values_to = "Rate",
+                      names_prefix = "Perc_") %>%
+  dplyr::mutate(Year = as.numeric(Year))
 ```
-####
+
+We use the `dplyr::case_when()` and `stringr::str_detect()` function to detect patterns and create an separate column with gender and race information.
+
+The two columns created contain `TRUE/FALSE` statements. These are then used to create a third column that will allow us to separate the data by its summary level. 
+
+```{r}
+df1 <- df1 %>%
+  mutate(Gender = dplyr::case_when(stringr::str_detect(Group, "Female") ~ TRUE,
+                            stringr::str_detect(Group, "Male") ~ FALSE,
+                            TRUE ~ NA),
+         Race = stringr::str_remove_all(Group,
+                               pattern = paste(c("Female","Male","UnitedStates"),
+                                               collapse = "|"))) %>%
+  mutate(Race = dplyr::na_if(Race, ""))
+
+df1 <- df1 %>% 
+  mutate(Type = case_when(base::is.na(Gender) & base::is.na(Race) ~ "US Total",
+                          base::is.na(Gender) & !base::is.na(Race) ~ "Race Total",
+                          !base::is.na(Gender) & base::is.na(Race) ~ "Gender Total",
+                          TRUE ~ "Subgroup Total"))
+
+df1 <- df1 %>%
+  mutate(Gender = case_when(str_detect(Group, "Female") ~ "Female",
+                            str_detect(Group, "Male") ~ "Male"))
+```
+
+The columns of `character` class currently contain upper and lower case characters. We want to ensure that we use a cases consistently to ensure that there are no errors driven by case-sensitive function downstream.
+
+To do this, we use the `base::to_upper()` function. This function makes all characters uppercase.
+
+```{r}
+df1 <- df1 %>% 
+  mutate_if(is.character, toupper)
+```
+
+Finally, we homogenize the labels assigned for certain groups, fill in missing (`NA`) values with a string, and remove columns we no longer need from the dataframe. 
+
+```{r}
+df1 <- df1 %>%
+  mutate(Race = case_when(Race == "LATINA" ~ "LATINO/A",
+                          Race == "LATINO" ~ "LATINO/A",
+                          TRUE ~ Race)) %>%
+  mutate(Gender = tidyr::replace_na(Gender, "ALL"),
+         Race = tidyr::replace_na(Race, "ALL")) %>%
+  dplyr::select(-Group)
+```
+
+We can repeat this process for the other two tables listed on page 39.
+
+Let's look at the table without the special formatting.
+
+```{r}
+image2 <- image_read(here("asian_subgroups.png"))
+image2
+```
+
+As you can see, there are empty spaces. According to the PDF, these spaces are empty to denote that the estimates are unreliable.
+
+This may cause problems. Whitespace must be handled differently. We may not want to process the entire image for this reason. 
+
+Instead, we can use separate images to ensure a simpler process like that above. 
+
+We read the three images. 
+```{r}
+image2a <- image_read(here("asian_subgroupsA.png"))
+image2b <- image_read(here("asian_subgroupsB.png"))
+image2c <- image_read(here("asian_subgroupsC.png"))
+
+magick::image_info(image2a)
+magick::image_info(image2b)
+magick::image_info(image2c)
+```
+
+The images look like this.
+
+```{r}
+image2a
+image2b
+image2c
+```
+
+We save the text from the images into objects.
+
+```{r}
+df2a <- magick::image_ocr(image2a)
+df2b <- magick::image_ocr(image2b)
+df2c <- magick::image_ocr(image2c)
+```
+
+We process these objects separately. Note that we use a very similar process to that employed in the wrangling of the previous table. 
+
+```{r}
+df2a <- df2a %>%
+  strsplit("\n") %>%
+  unlist() %>%
+  as_tibble()
+
+df2b <- df2b %>%
+  strsplit("\n") %>%
+  unlist() %>%
+  as_tibble()
+
+df2c <- df2c %>%
+  strsplit("\n") %>%
+  unlist() %>%
+  as_tibble()
+```
+
+We then combine the objects with the `dplyr::bind_rows()` function.
+
+The process is now very similar to the previous table.
+
+```{r}
+df2 <- bind_rows(df2a,
+          df2b,
+          df2c)
+
+df2 <- df2 %>%
+  dplyr::select(value) %>%
+  pull(value) %>%
+  str_split(" ")
+
+df2b <- map(df2, tail, 2) %>%
+  map(~gsub("[,]+|[.]+", "",.)) %>%
+  do.call(rbind,.) %>%
+  data.frame() %>%
+  mutate_if(is.character, as.numeric) %>%
+  mutate_at(vars(-X2), ~ . * 0.1) %>%
+  tibble() 
+
+df2a <- df2 %>%
+  map(~paste(.,collapse = "")) %>%
+  map(~gsub("[[:digit:]]+|[[:punct:]]+", "",.)) %>%
+  do.call(rbind,.) %>%
+  data.frame() %>%
+  tibble()
+
+df2 <- bind_cols(df2a, df2b)
+
+names(df2) <- c()
+
+column_names <- c("Group",
+                  "Rate",
+                  "N_2017")
+
+colnames(df2) <- column_names
+
+df2 <- df2 %>%
+  dplyr::select(-N_2017)
+
+df2 <- df2 %>%
+  dplyr::mutate(Year = 2017)
+
+df2 <- df2 %>%
+  mutate(Gender = case_when(str_detect(Group, "Female") ~ TRUE,
+                            str_detect(Group, "Male") ~ FALSE,
+                            TRUE ~ NA),
+         Subgroup = str_remove_all(Group,
+                                   pattern = paste(c("Female","Male","UnitedStates"),
+                                               collapse = "|"))) %>%
+  mutate(Subgroup = na_if(Subgroup, ""))
+
+glimpse(df2)
+
+df2 <- df2 %>% 
+  mutate(Type = case_when(is.na(Gender) & is.na(Subgroup) ~ "US Total",
+                          is.na(Gender) & !is.na(Subgroup) ~ "Subgroup Total",
+                          !is.na(Gender) & is.na(Subgroup) ~ "Gender Total",
+                          TRUE ~ "Subgroup Total"))
+
+glimpse(df2)
+
+df2 <- df2 %>%
+  mutate(Gender = case_when(str_detect(Group, "Female") ~ "Female",
+                            str_detect(Group, "Male") ~ "Male"))
+
+df2 <- df2 %>% 
+  mutate_if(is.character, tolower) %>%
+  mutate_if(is.character, toupper)
+
+df2 <- df2 %>%
+  mutate(Gender = replace_na(Gender, "ALL"),
+         Subgroup = replace_na(Subgroup, "ALL")) %>%
+  dplyr::select(-Group) %>%
+  mutate(Subgroup)
+
+df2 <- df2 %>%
+  mutate(Subgroup = case_when(Subgroup == "TWOORMORE" ~ "TWO OR MORE",
+                              TRUE ~ Subgroup))
+```
+
+Note that we took a process that had successfully worked for us and modified it slightly for separate, similarly-sourced data. 
+
+This is a common approach in data science. Often, the duration of the wrangling process can limit the depth of an analysis for practical reasons. Using tried methods can help reduce the time needed to wrangle data and allow time for other parts of an analysis. 
+
+Let's add the 2018 data for this group.
+
+We import the image. 
+
+```{r}
+image5 <- image_read(here("asian_subgroups_2018.png"))
+
+df2_2018 <- magick::image_ocr(image5)
+```
+
+As you can see, we have repeated newlines (`\n`). We can remove these with some simplex regex.
+
+```{r}
+df2_2018 <- gsub('([\n])\\1+',
+                 '\\1',
+                 df2_2018)
+
+df2_2018 <- gsub("[[:punct:]]+",
+                 "",
+                 df2_2018)
+
+df2_2018 <- gsub(" i ",
+                 "",
+                 df2_2018)
+```
+
+We proceed, making slight modifications to the process as needed.
+
+The bold font appears to have caused a typos. 
+
+```{r}
+df2_2018 %>%
+  strsplit("\n") %>%
+  unlist() %>%
+  as_tibble()
+```
+
+We fix the typos.
+
+```{r}
+df2_2018 <- df2_2018 %>%
+  strsplit("\n") %>%
+  unlist() %>%
+  gsub(" B44 ","5.4",.) %>%
+  gsub("Women74","Women 74",.) %>%
+  gsub("HMONG102","HMONG 102",.) %>%
+  as_tibble()
+
+df2_2018 %>%
+  print(.,n = dim(.)[1])
+```
+
+We then continue as we would normally. 
+
+```{r}
+df2_2018 <- df2_2018 %>%
+  dplyr::select(value) %>%
+  pull(value) %>%
+  str_split(" ")
+
+df2_2018 <- lapply(df2_2018,
+                   function(x) x[nchar(x) >= 1])
+
+df3a_2018 <- df2_2018 %>%
+  map(~paste(.,collapse = "")) %>%
+  map(~gsub("[[:digit:]]+|[[:punct:]]+", "",.)) %>%
+  do.call(rbind,.) %>%
+  data.frame() %>%
+  tibble()
+
+df3b_2018 <- map(df2_2018, tail, 2) %>%
+  do.call(rbind,.) %>%
+  data.frame() %>%
+  mutate_if(is.character, as.numeric) %>%
+  mutate_at(vars(-X2), ~ . * 0.1) %>%
+  tibble() 
+
+rm(df2_2018)
+  
+df2_2018 <- bind_cols(df3a_2018,
+                      df3b_2018)
+names(df2_2018) <- c()
+
+column_names <- c("Group",
+                  "Rate",
+                  "N_2017")
+
+colnames(df2_2018) <- column_names
+
+df2_2018 <- df2_2018 %>%
+  dplyr::select(-N_2017)
+
+df2_2018 <- df2_2018 %>%
+  dplyr::mutate(Year = 2018)
+
+df2_2018 <- df2_2018 %>%
+  mutate(Gender = case_when(str_detect(Group, "Women") ~ TRUE,
+                            str_detect(Group, "Men") ~ FALSE,
+                            TRUE ~ NA))
+
+labels <- unlist(df2_2018[c(seq(1,15, by=3),16,17),1], use.names = FALSE)
+
+dim(df2_2018)[1]
+
+labels_3 <- c(rep(labels[1:5], each = dim(df2_2018)[1]/(length(labels)-2)),
+              "HMONG",
+              "CAMBODIAN")
+
+df2_2018$Subgroup <- labels_3
+
+df2_2018 <- df2_2018 %>% 
+  mutate(Type = "Subgroup Total")
+
+glimpse(df2_2018)
+
+df2_2018 <- df2_2018 %>%
+  mutate(Gender = case_when(Gender == TRUE ~ "Female",
+                            Gender == FALSE ~ "Male",
+                            TRUE ~ "All"))
+
+df2_2018 <- df2_2018 %>% 
+  mutate_if(is.character, tolower) %>%
+  mutate_if(is.character, toupper)
+
+df2_2018 <- df2_2018 %>%
+  dplyr::select(-Group)
+```
+
+```{r}
+df2 <- bind_rows(df2,
+                 df2_2018)
+```
+
+We repeat this process again for Latino/a subgroups. 
+
+The table, without the special formatting, looks like this.
+
+```{r}
+image3 <- image_read(here("latino_subgroups.png"))
+```
+
+There are no whitespaces in this table.
+
+We proceed using what we've learned while wrangling the first two tables.
+
+```{r}
+df3 <- magick::image_ocr(image3)
+
+df3 %>%
+  base::strsplit("\n") %>%
+  base::unlist() %>%
+  tibble::as_tibble()
+```
+
+We are often presented with scenarios where stand-alone approaches are difficult or time-consuming.
+
+It is always best to document the steps take to respond to these scenarios. Wrangling this third table is a prime example of this. 
+
+We are missing a row. Let's manually add the row.
+
+```{r}
+df3 <- df3 %>%
+  strsplit("\n") %>%
+  unlist() %>%
+  as_tibble()
+
+df3 <- df3 %>%
+  rbind("PR, DR, Cuban 15.1 211,200")
+```
+
+We can now proceed as we did with the previous tables. 
+
+```{r}
+df3 <- df3 %>%
+  dplyr::select(value) %>%
+  pull(value) %>%
+  str_split(" ")
+
+df3b <- map(df3, tail, 2) %>%
+  map(~gsub("[,]+|[.]+", "",.)) %>%
+  do.call(rbind,.) %>%
+  data.frame() %>%
+  mutate_if(is.character, as.numeric) %>%
+  mutate_at(vars(-X2), ~ . * 0.1) %>%
+  tibble() 
+
+df3a <- df3 %>%
+  map(~paste(.,collapse = "")) %>%
+  map(~gsub("[[:digit:]]+|[[:punct:]]+", "",.)) %>%
+  do.call(rbind,.) %>%
+  data.frame() %>%
+  tibble()
+
+rm(df3)
+  
+df3 <- bind_cols(df3a, df3b)
+names(df3) <- c()
+
+column_names <- c("Group",
+                  "Rate",
+                  "N_2017")
+
+colnames(df3) <- column_names
+
+```
+
+If we look at the last few rows, we see that there is a typo. There are two female groups.
+
+```{r}
+tail(df3)
+```
+
+Sometimes when wrangling text data, we will come across a typo. We need to determine how to respond to the typo and make note of it. It's often best to consult a secondary source to confirm that changes made are accurate. 
+
+For the purposes of this case study, we will assume that the first of the two rows represents male disconnection rates in the Latino/a subgroup; this would be consistent with the ordering of genders in the previous subgroups. 
+
+Let's make the correction to the typo.
+
+```{r}
+df3 <- df3 %>%
+  mutate(Group = case_when(Group == "PRDRCubanFemale" & N_2017 == 114500 ~ "PRDRCubanMale",
+                         TRUE ~ Group))
+```
+
+It looks like we've succesfully corrected the typo.
+
+```{r}
+tail(df3)
+```
+
+We can continue with the process we've developed now that we have made the correction.
+
+```{r}
+df3 <- df3 %>%
+  dplyr::select(-N_2017)
+
+df3 <- df3 %>%
+  dplyr::mutate(Year = 2017)
+
+df3 <- df3 %>%
+  mutate(Gender = case_when(str_detect(Group, "Female") ~ TRUE,
+                            str_detect(Group, "Male") ~ FALSE,
+                            TRUE ~ NA),
+         Subgroup = str_remove_all(Group,
+                                   pattern = paste(c("Female",
+                                                     "Male",
+                                                     "LATINO",
+                                                     "Latino",
+                                                     "Latina"),
+                                               collapse = "|"))) %>%
+  mutate(Subgroup = na_if(Subgroup, ""))
+
+glimpse(df3)
+
+df3 <- df3 %>% 
+  mutate(Type = case_when(is.na(Gender) & is.na(Subgroup) ~ "Latino Total",
+                          is.na(Gender) & !is.na(Subgroup) ~ "Subgroup Total",
+                          !is.na(Gender) & is.na(Subgroup) ~ "Gender Total",
+                          TRUE ~ "Subgroup Total"))
+
+glimpse(df3)
+
+df3 <- df3 %>%
+  mutate(Gender = case_when(str_detect(Group, "Female") ~ "Female",
+                            str_detect(Group, "Male") ~ "Male"))
+
+df3 <- df3 %>% 
+  mutate_if(is.character, tolower) %>%
+  mutate_if(is.character, toupper)
+
+df3 <- df3 %>%
+  mutate(Gender = replace_na(Gender, "ALL"),
+         Subgroup = replace_na(Subgroup, "ALL")) %>%
+  dplyr::select(-Group) %>%
+  mutate(Subgroup)
+
+df3 <- df3 %>%
+  mutate(Subgroup = case_when(Subgroup == "SOUTHAMERICAN" ~ "SOUTH AMERICAN",
+                              Subgroup == "CENTRALAMERICAN" ~ "CENTRAL AMERICAN",
+                              Subgroup == "PRDRCUBAN" ~ "PR/DR/CUBAN",
+                              TRUE ~ Subgroup))
+```
+
+Let's add the 2018 data to this dataframe.
+
+We import the image. 
+
+```{r}
+image5 <- image_read(here("latino_subgroups_2018.png"))
+
+df3_2018 <- magick::image_ocr(image5)
+```
+
+As you can see, we have repeated newlines (`\n`). We can remove these with some simplex regex.
+
+```{r}
+df3_2018 <- gsub('([\n])\\1+',
+                 '\\2',
+                 df3_2018)
+
+df3_2018 <- gsub("[[:punct:]]+",
+                 "",
+                 df3_2018)
+```
+
+We proceed, making slight modifications to the process as needed.
+
+```{r}
+df3_2018 <- df3_2018 %>%
+  strsplit("\n") %>%
+  unlist() %>%
+  as_tibble()
+
+df3_2018 <- df3_2018 %>%
+  dplyr::select(value) %>%
+  pull(value) %>%
+  str_split(" ")
+
+df3_2018 <- lapply(df3_2018,
+                   function(x) x[nchar(x) >= 1])
+
+df3a_2018 <- df3_2018 %>%
+  map(~paste(.,collapse = "")) %>%
+  map(~gsub("[[:digit:]]+|[[:punct:]]+", "",.)) %>%
+  do.call(rbind,.) %>%
+  data.frame() %>%
+  tibble()
+
+df3b_2018 <- map(df3_2018, tail, 2) %>%
+  do.call(rbind,.) %>%
+  data.frame() %>%
+  mutate_if(is.character, as.numeric) %>%
+  mutate_at(vars(-X2), ~ . * 0.1) %>%
+  tibble() 
+
+rm(df3_2018)
+  
+df3_2018 <- bind_cols(df3a_2018,
+                      df3b_2018)
+names(df3_2018) <- c()
+
+column_names <- c("Group",
+                  "Rate",
+                  "N_2017")
+
+colnames(df3_2018) <- column_names
+
+df3_2018 <- df3_2018 %>%
+  dplyr::select(-N_2017)
+
+df3_2018 <- df3_2018 %>%
+  dplyr::mutate(Year = 2018)
+
+df3_2018 <- df3_2018 %>%
+  mutate(Gender = case_when(str_detect(Group, "Women") ~ TRUE,
+                            str_detect(Group, "Men") ~ FALSE,
+                            TRUE ~ NA))
+
+labels <- unlist(df3_2018[seq(1,12, by =3),1], use.names = FALSE)
+
+dim(df3_2018)[1]
+
+labels_3 <- rep(labels, each = dim(df3_2018)[1]/length(labels))
+
+df3_2018$Subgroup <- labels_3
+
+df3_2018 <- df3_2018 %>% 
+  mutate(Type = "Subgroup Total")
+
+glimpse(df3_2018)
+
+df3_2018 <- df3_2018 %>%
+  mutate(Gender = case_when(Gender == TRUE ~ "Female",
+                            Gender == FALSE ~ "Male",
+                            TRUE ~ "All"))
+
+df3_2018 <- df3_2018 %>% 
+  mutate_if(is.character, tolower) %>%
+  mutate_if(is.character, toupper)
+
+df3_2018 <- df3_2018 %>%
+  dplyr::select(-Group)
+
+df3_2018 <- df3_2018 %>%
+  mutate(Subgroup = case_when(Subgroup == "SOUTHAMERICAN" ~ "SOUTH AMERICAN",
+                              Subgroup == "CENTRALAMERICAN" ~ "CENTRAL AMERICAN",
+                              Subgroup == "PRDRCUBAN" ~ "PR/DR/CUBAN",
+                              TRUE ~ Subgroup))
+```
+
+We add the 2018 data to the dataframe
+
+```{r}
+df3 <- bind_rows(df3,
+                 df3_2018)
+```
+
+### Map
+
+We will use multiple images to import the data on page 36 to produce maps. 
+
+```{r, eval=FALSE}
+data_map <- map_data("state") %>%
+  filter(region=="california")
+
+years <- c(seq(2008,2016,by=2),2017)
+
+index_rep <- dim(data_map)[1]
+
+data_map <- bind_rows(replicate(length(years), data_map, simplify = FALSE))
+
+data_map$year <- rep(years, each = index_rep)
+
+data_map <- data_map %>%
+  group_by(region, year) %>%
+  mutate(rank_ran = rank(year, ties.method = "random"))
+
+data_map <- data_map[order(data_map$order),]
+
+library(gganimate)
+
+ggplot(data_map, aes(x = long, y = lat, group = group, fill=rank_ran)) +
+  geom_polygon() +
+  transition_time(time = year)
+
+```
 
 ## **Data Analysis**
 *** 
@@ -334,15 +985,122 @@ div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
 *We could introduce baseline adjustment to introduce a statistical concept. This would circumvent the need for a model that would capture the temporal autocorrelation present in panel data.*
 </div>
 
-
 ## **Data Visualization**
 *** 
 
+Let's reproduce the example below.
+
+```{r, out.width = "100%", echo = FALSE, fig.align ="center"}
+include_graphics("Making_the_Connection_plot.png")
+```
+
+We can create a version of the above example with `ggplot` from `tidyverse`.
+
+There are color identifying websites only such as [this](https://imagecolorpicker.com/en/).
+
+Using one of these websites, we identify the [hex triplet](https://en.wikipedia.org/wiki/Web_colors?oldformat=true) for the color used in the visualization included in the PDF: `#008393`. 
+
 ```{r}
-df %>%
-  ggplot(aes(x = Year, y = Rate, group = Group)) +
-  geom_line() + 
-  labs(title = "Youth Disconnection Rates")
+df1 %>%
+  filter(Type == "RACE TOTAL") %>%
+  ggplot(aes(x = Year, y = Rate, group=Race)) +
+  geom_line(color = "#008393", size = 0.5) +
+  geom_point(color = "#008393", size = 3) +
+  scale_x_continuous(breaks = seq(2008,2017, by=1),
+                     limits = c(2008,2017)) +
+  scale_y_continuous(breaks = seq(5,30, by =5),
+                     limits = c(5,30)) +
+  labs(title = "FIGURE 1 YOUTH DISCONNECTION BY RACE AND ETHNICITY, 2008 - 2017",
+       y = "YOUTH DISCONNECTION (%)") +
+  theme_classic() +
+  theme(title = element_text(size = 10,
+                             color = "#008393",
+                             face = "bold"),
+        axis.title.x = element_blank())
+```
+
+We can build off of this idea, using a custom color palette to create a gradient based off the color used. 
+
+```{r}
+custom_pal <- colorRampPalette(c("white", "#008393"))
+gender_n <- 3
+df2 %>%
+  filter(Year == 2017) %>%
+  complete(Gender, Subgroup) %>%
+  group_by(Gender) %>%
+  mutate(sub_rank = rank(Rate, ties.method = "min")) %>%
+  group_by(Subgroup) %>%
+  mutate(rank_all = sub_rank[Gender == "ALL"]) %>%
+  ungroup() %>%
+  mutate(Subgroup = fct_reorder(Subgroup, rank_all)) %>%
+  ggplot(aes(x = Subgroup, y = Rate, fill = Gender)) +
+  geom_bar(stat = "identity",
+           color = "transparent",
+           size = 0.5,
+           position = "dodge",
+           width = 0.5) +
+  labs(title = "FIGURE 2 YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017",
+       subtitle = "ORDERED BY OVERALL DISCONNECTION",
+       y = "YOUTH DISCONNECTION (%)",
+       fill = "Gender") +
+  scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
+  scale_y_continuous(breaks = seq(0,20,2),
+                     labels = seq(0,20,2),
+                     limits = c(0,20)) +
+  theme_classic() +
+  theme(title = element_text(size = 10,
+                             color = "#008393",
+                             face = "bold"),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+Lastly, we can add annotations to add provide even more depth to the visualization. 
+
+```{r}
+latino_total <- df3 %>%
+  filter(Gender == "ALL",
+         Subgroup == "ALL") %>%
+  pull(Rate)
+
+df3 %>%
+  filter(Year == 2017) %>%
+  complete(Gender, Subgroup) %>%
+  group_by(Gender) %>%
+  mutate(sub_rank = rank(Rate, ties.method = "min")) %>%
+  group_by(Subgroup) %>%
+  mutate(rank_all = sub_rank[Gender == "ALL"]) %>%
+  ungroup() %>%
+  mutate(Subgroup = fct_reorder(Subgroup, rank_all)) %>%
+  ggplot(aes(x = Subgroup, y = Rate, fill = Gender)) +
+  geom_hline(yintercept = latino_total, 
+             color = "black",
+             linetype = 2) + 
+  geom_bar(stat = "identity",
+           color = "transparent",
+           size = 0.5,
+           position = "dodge",
+           width = 0.5) +
+  labs(title = "FIGURE X YOUTH DISCONNECTION BY LATINO/A SUBGROUP, 2017",
+       subtitle = "ORDERED BY OVERALL DISCONNECTION",
+       y = "YOUTH DISCONNECTION (%)",
+       fill = "Gender") +
+  scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
+  scale_y_continuous(breaks = seq(0,20,2),
+                     labels = seq(0,20,2),
+                     limits = c(0,20)) +
+  theme_classic() +
+  theme(title = element_text(size = 10,
+                             color = "#008393",
+                             face = "bold"),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1)) +
+  annotate("text", label = 'bold("LATINO TOTAL")',
+           color = "#008393", 
+           size = 3,
+           x = 1.2,
+           y = latino_total + 1,
+           parse = TRUE)
 ```
 
 ## **Summary**
