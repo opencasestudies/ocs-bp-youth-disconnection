@@ -1270,9 +1270,13 @@ df2 %>%
   group_by(Subgroup, Year) %>%
   mutate(rank_all = sub_rank[Gender == "ALL"]) %>%
   ungroup() %>%
+  group_by(Year) %>%
+  mutate(threshold = Rate[Gender == "ALL" & Subgroup == "ALL"]) %>%
+  ungroup() %>%
   mutate(Subgroup = fct_reorder(Subgroup, rank_all)) %>%
   ggplot(aes(x = Subgroup, y = Rate, fill = Gender)) +
   facet_wrap(Year ~., ncol = 1) +
+  geom_hline(aes(yintercept = threshold), linetype = 2) +
   geom_bar(stat = "identity",
            color = "transparent",
            size = 0.5,
@@ -1307,9 +1311,13 @@ df3 %>%
   group_by(Subgroup, Year) %>%
   mutate(rank_all = sub_rank[Gender == "ALL"]) %>%
   ungroup() %>%
+  group_by(Year) %>%
+  mutate(threshold = Rate[Gender == "ALL" & Subgroup == "ALL"]) %>%
+  ungroup() %>%
   mutate(Subgroup = fct_reorder(Subgroup, rank_all)) %>%
   ggplot(aes(x = Subgroup, y = Rate, fill = Gender)) +
   facet_wrap(Year ~., ncol = 1) +
+  geom_hline(aes(yintercept = threshold), linetype = 2) +
   geom_bar(stat = "identity",
            color = "transparent",
            size = 0.5,
