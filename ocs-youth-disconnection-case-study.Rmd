@@ -134,6 +134,7 @@ library(here)
 library(tidyverse)
 library(pdftools)
 library(magick)
+library(cowplot)
 ```
 
 <style>
@@ -1126,15 +1127,32 @@ There are color identifying websites only such as [this](https://imagecolorpicke
 Using one of these websites, we identify the [hex triplet](https://en.wikipedia.org/wiki/Web_colors?oldformat=true) for the color used in the visualization included in the PDF: `#008393`. 
 
 ```{r}
+fa_figurine <- image_read("https://upload.wikimedia.org/wikipedia/commons/7/7c/User_font_awesome.svg")
+
+fa_figurine <- image_fill(fa_figurine,
+                          color = "#008393", 
+                          point = "+800+800",
+                          fuzz = 0)
+
+fa_figurine <- image_fill(fa_figurine,
+                          color = "#008393", 
+                          point = "+800+1000",
+                          fuzz = 0)
+
 df1 %>%
   filter(Type == "RACE TOTAL") %>%
   ggplot(aes(x = Year, y = Rate, group=Race)) +
   geom_line(color = "#008393", size = 0.5) +
   geom_point(color = "#008393", size = 3) +
-  scale_x_continuous(breaks = seq(2008,2017, by=1),
-                     limits = c(2008,2017)) +
+  scale_x_continuous(breaks = seq(2008,2018, by=1),
+                     limits = c(2008,2018)) +
   scale_y_continuous(breaks = seq(5,30, by =5),
                      limits = c(5,30)) +
+  draw_image(fa_figurine, x = 2017, y = 23.5, scale = 2) +
+  draw_image(fa_figurine, x = 2017, y = 17.5, scale = 2) +
+  draw_image(fa_figurine, x = 2017, y = 13, scale = 2) +
+  draw_image(fa_figurine, x = 2017, y = 9, scale = 2) +
+  draw_image(fa_figurine, x = 2017, y = 6.5, scale = 2) +
   labs(title = "FIGURE 1 YOUTH DISCONNECTION BY RACE AND ETHNICITY, 2008 - 2017",
        y = "YOUTH DISCONNECTION (%)") +
   theme_classic() +
