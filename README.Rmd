@@ -1,0 +1,117 @@
+---
+output: md_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# OpenCaseStudies
+
+
+
+### Disclaimer 
+
+The purpose of the [Open Case
+Studies](https://opencasestudies.github.io) project is **to demonstrate
+the use of various data science methods, tools, and software in the
+context of messy, real-world data**. A given case study does not cover
+all aspects of the research process, is not claiming to be the most
+appropriate way to analyze a given dataset, and should not be used in
+the context of making policy decisions without external consultation
+from scientific experts.
+
+### License 
+
+This case study is part of the [OpenCaseStudies](https://opencasestudies.github.io) project. 
+This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 ([CC BY-NC 3.0](https://creativecommons.org/licenses/by-nc/3.0/us/)) United States License.
+
+### Citation 
+
+To cite this case study:
+
+Wright, Carrie, and Ontiveros, Michael and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). https://github.com/opencasestudies/ocs-youth-disconnection-case-study. Exploring CO2 emissions across time (Version v1.0.0).
+
+### Acknowledgements
+
+We would like to acknowledge [Tamar Mendelson](https://www.jhsph.edu/faculty/directory/profile/1770/tamar-mendelson) for assisting in framing the major direction of the case study.
+
+We would also like to acknowledge the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/) for funding this work. 
+
+
+### Title 
+
+Youth Disconnection
+
+### Motivation 
+
+ 
+
+### Motivating questions
+
+1) What differences in youth disconnection rates exist in 2017?  
+
+
+How have youth disconnection rates in American youth changed since 2008? In particular, how has this changed for different states, gender, and ethnic groups? Are any groups particularly disconnected?
+
+### Data
+
+In this case study we will be using data related to youth disconnection from the two following reports from the [Measure of America](https://www.ssrc.org/programs/view/moa/) project:
+
+> Measure of America is a nonpartisan project of the nonprofit Social Science Research Council founded in 2007 to create easy-to-use yet methodologically sound tools for understanding well-being and opportunity in America. Through reports, interactive apps, and custom-built dashboards, Measure of America works with partners to breathe life into numbers, using data to identify areas of highest need, pinpoint levers for change, and track progress over time.
+
+1. Lewis, Kristen. [Making the Connection: Transportation and Youth Disconnection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf). New York: Measure of America, Social Science Research Council, 2019.  (Data up to 2017)
+2. : Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf).
+New York: Measure of America, Social Science Research Council, 2020. (Data up to 2018)
+
+#### Learning Objectives
+Data science skills:
+
+1. Importing data from PDF files using the `magick` package
+2. Apply action verbs in `dplyr` for data wrangling
+3. Wrangling character strings with the `stringr` package
+4. Joining together multiple datasets using `dplyr`
+5. How to create data visualizations with `ggplot2` that are in a similar style to an existing image
+
+Statistical concepts and methods:
+
+
+#### Data import 
+
+Data is imported from several tables within two PDF documents by taking screenshots of the tables of interest and using the `magick` package to import the text from the screenshots.
+
+#### Data wrangling 
+
+This case study particularly focuses on renaming variables, modifying variables, creating new variables, and modifying the shape of the data using fuctions from the `dplyr` package such as: `rename()`, `mutate()`, `pivot_longer()`, and `pivot_wider()`. 
+
+This case study also covers combining data with `bind_rows()` and `full_join()` of the `dplyr` package, including a comparison of the two functions.
+
+We also cover filtering with the`filter()` function of the `dplyr` package, removing NA values with the `drop_na()` function of the `tidyr` package, arrange data with the `arrange()` function of the `dplyr` package,  as well as grouping and summarizing data with the `group_by()` and `summarize()` functions of the `dplyr` package. 
+
+
+#### Data Visualization
+
+We include an example of creating a plot to match the style of a plot in an existing report.
+
+### Analysis 
+
+
+
+
+### Other notes and resources
+
+[Tidyverse](https://www.tidyverse.org/){target="_blank"}  
+[RStudio cheatsheets](https://rstudio.com/resources/cheatsheets/){target="_blank"}   
+
+#### For users 
+
+There is a [`Makefile`](Makefile) in this folder that allows you to type `make` to knit the case study contained in the `index.Rmd` to `index.html` and it will also knit the [`README.Rmd`](README.Rmd) to a markdown file (`README.md`). 
+
+#### For instructors
+
+
+#### Target audience 
+
+This case study is appropriate for those new to R programming and new to statistics. It is also appropriate for more advanced R users who are new to the Tidyverse.
+
+#### Suggested homework
+
+

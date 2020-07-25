@@ -1,5 +1,6 @@
 ---
 title: "Open Case Studies : Youth Disconnection "
+css: style.css
 output:
   html_document:
     self_contained: yes
@@ -15,6 +16,15 @@ output:
     toc: yes
 
 ---
+<style>
+#TOC {
+  background: url("https://opencasestudies.github.io/img/logo.jpg");
+  background-size: contain;
+  padding-top: 240px !important;
+  background-repeat: no-repeat;
+}
+</style>
+
 
 **This is how I will communicate general comments via this draft**
 
@@ -54,14 +64,6 @@ div.red { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
 
 **This is a another real example of the above**
 
-<style>
-#TOC {
-  background: url("https://opencasestudies.github.io/img/logo.jpg");
-  background-size: contain;
-  padding-top: 240px !important;
-  background-repeat: no-repeat;
-}
-</style>
 
 
 <style>
@@ -94,8 +96,22 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 **Disclaimer**: The purpose of the [Open Case Studies](https://opencasestudies.github.io){target="_blank"} project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most appropriate way to analyze a given data set, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
 
+
+## {.license_block}
+
+This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 [(CC BY-NC 3.0)](https://creativecommons.org/licenses/by-nc/3.0/us/){target="_blank"}  United States License.
+
+
+## {.reference_block}
+
+To cite this case study please use:
+
+Wright, Carrie, and Ontiveros, Michael and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). https://github.com/opencasestudies/ocs-youth-disconnection-case-study. Exploring CO2 emissions across time (Version v1.0.0).
+
 ## **Motivation**
 *** 
+
+We will expand beyond this [repoart](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) to create visualizations of percent disconnection of more specific groups of youths (gender, ethnic groups etc.) graphed together over time to allow for easier comparison.
 
 https://onlinelibrary.wiley.com/doi/full/10.1111/1468-0009.12425
 
@@ -114,12 +130,29 @@ https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf
 
 1) What differences in youth disconnection rates exist in 2017?  
 
+
+How have youth disconnection rates in American youth changed since 2008? In particular, how has this changed for different states, gender, and ethnic groups? Are any groups particularly disconnected?
+
 ####
 
 ## **Learning Objectives** 
 *** 
 
 In this case study, we will demonstrate how to import and wrangle data available in the <u>**P**</u>ortable <u>**D**</u>ocument <u>**F**</u>ormat (**PDF**). We will especially focus on using packages and functions from the [`Tidyverse`](https://www.tidyverse.org/){target="_blank"}, such as `dplyr`, `ggplot2`. The tidyverse is a library of packages created by RStudio. While some students may be familiar with previous R programming packages, these packages make data science in R especially efficient.
+
+The skills, methods, and concepts that students will be familiar with by the end of this case study are:
+
+Data science skills:
+
+1. Importing data from PDF files using the `magick` package
+2. Apply action verbs in `dplyr` for data wrangling
+3. How to pivot between "long" and "wide" datasets
+4. Joining together multiple datasets using `dplyr`
+5. How to create data visualizations with `ggplot2` that are in a similar style to an existing image
+
+Statistical concepts and methods:
+
+
 
 ```{r, out.width = "20%", echo = FALSE, fig.align ="center"}
 include_graphics("https://tidyverse.tidyverse.org/logo.png")
@@ -178,14 +211,19 @@ There are some important considerations regarding this data analysis to keep in 
 ## **What are the data?**
 *** 
 
-Discussion about data source/organization/organization mission or the like.
+In this case study we will be using data related to youth disconnection from the two following reports from the [Measure of America](https://www.ssrc.org/programs/view/moa/) project:
 
-The data come from a PDF that can be found [**here**](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf).
+> Measure of America is a nonpartisan project of the nonprofit Social Science Research Council founded in 2007 to create easy-to-use yet methodologically sound tools for understanding well-being and opportunity in America. Through reports, interactive apps, and custom-built dashboards, Measure of America works with partners to breathe life into numbers, using data to identify areas of highest need, pinpoint levers for change, and track progress over time.
+
+1. Lewis, Kristen. [Making the Connection: Transportation and Youth Disconnection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf). New York: Measure of America, Social Science Research Council, 2019.  (Data up to 2017)
+2. : Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf).
+New York: Measure of America, Social Science Research Council, 2020. (Data up to 2018)
+
 
 ## **Data Import**
 *** 
 
-We import the data using the `pdftools` and `here` packages. 
+One way to import data from a pdf is to use the  `pdftools` packages. 
 
 From the output, it's clear that a large amount of manipulation will be required to wrangle this data with the `pdftools` package.
 
@@ -209,7 +247,7 @@ We will demonstrate how to produce reproducible tables with image processing sof
 
 For demonstrative purposes, we will import two sets of data. The first set of data will be used to highlight common errors that the image processing software may produce. The second set of data will be used to demonstrate how to circumvent these errors and, resultantly, produce reproducible datasets efficient.
 
-We import the data using the `magick` and `here` packages. 
+We will now import the data using the `magick` and `here` packages. 
 
 ```{r, dpi = 1000}
 #bold is causing issues
@@ -1368,25 +1406,9 @@ df3 %>%
 ## **Helpful Links**
 *** 
 
-<style>
-div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "green">
 
-**MICHAEL ONTIVEROS**
+avocado*This concepts listed here must be revisited.*
 
-*Given the simplicity of this case study, I am assuming that there is a high probability you will be discussing RStudio cheatsheets. I left the link and button below. Feel free to delete as needed.*
-</div>
-
-<style>
-div.red { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "red">
-
-**MICHAEL ONTIVEROS**
-
-*This concepts listed here must be revisited.*
-</div>
 
 <u>Terms and concepts covered:</u>  
 
