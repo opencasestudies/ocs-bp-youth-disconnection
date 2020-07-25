@@ -191,11 +191,11 @@ From the output, it's clear that a large amount of manipulation will be required
 
 #### {.scrollable }
 ```{r}
-pdf_data_example <- pdftools::pdf_data(here("Making the Connection.pdf"))
+pdf_data_example <- pdftools::pdf_data(here("Making_the_Connection.pdf"))
 
 utils::head(pdf_data_example, 1)
 
-pdf_tools_example <- pdftools::pdf_text(here("Making the Connection.pdf"))
+pdf_tools_example <- pdftools::pdf_text(here("Making_the_Connection.pdf"))
 
 head(pdf_tools_example, 1)
 ```
@@ -1406,3 +1406,9 @@ div.red { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
 [**tidyverse**](https://readr.tidyverse.org/){target="_blank"}      | for data science operations
 [**pdftools**](https://readr.tidyverse.org/){target="_blank"}      | to manage PDF documents
 [**magick**](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution){target="_blank"}      | for image processing 
+
+## Acknowledgements
+
+We would like to acknowledge [Tamar Mendelson](https://www.jhsph.edu/faculty/directory/profile/1770/tamar-mendelson) for assisting in framing the major direction of the case study.
+
+We would also like to acknowledge the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/) for funding this work. 
