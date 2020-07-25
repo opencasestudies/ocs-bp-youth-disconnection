@@ -191,11 +191,11 @@ From the output, it's clear that a large amount of manipulation will be required
 
 #### {.scrollable }
 ```{r}
-pdf_data_example <- pdftools::pdf_data(here("Making_the_Connection.pdf"))
+pdf_data_example <- pdftools::pdf_data(here("docs", "Making_the_Connection.pdf"))
 
 utils::head(pdf_data_example, 1)
 
-pdf_tools_example <- pdftools::pdf_text(here("Making_the_Connection.pdf"))
+pdf_tools_example <- pdftools::pdf_text(here("docs","Making_the_Connection.pdf"))
 
 head(pdf_tools_example, 1)
 ```
@@ -213,7 +213,7 @@ We import the data using the `magick` and `here` packages.
 
 ```{r, dpi = 1000}
 #bold is causing issues
-image_example <- magick::image_read(here::here("gender_race_ethnicity.png"))
+image_example <- magick::image_read(here::here("img", "gender_race_ethnicity.png"))
 
 magick::image_info(image_example)
 ```
@@ -222,7 +222,7 @@ We import the same data—this time without regions of the table without special
 
 ```{r, dpi = 1000}
 #bold is causing issues
-image1 <- image_read(here("gender_race_ethnicity2.png"))
+image1 <- image_read(here("img", "gender_race_ethnicity2.png"))
 
 magick::image_info(image1)
 ```
@@ -405,7 +405,7 @@ We can repeat this process for the other two tables listed on page 39.
 Let's look at the table without the special formatting.
 
 ```{r}
-image2 <- image_read(here("asian_subgroups.png"))
+image2 <- image_read(here("img", "asian_subgroups.png"))
 image2
 ```
 
@@ -417,9 +417,9 @@ Instead, we can use separate images to ensure a simpler process like that above.
 
 We read the three images. 
 ```{r}
-image2a <- image_read(here("asian_subgroupsA.png"))
-image2b <- image_read(here("asian_subgroupsB.png"))
-image2c <- image_read(here("asian_subgroupsC.png"))
+image2a <- image_read(here("img", "asian_subgroupsA.png"))
+image2b <- image_read(here("img", "asian_subgroupsB.png"))
+image2c <- image_read(here("img", "asian_subgroupsC.png"))
 
 magick::image_info(image2a)
 magick::image_info(image2b)
@@ -568,7 +568,7 @@ Let's add the 2018 data for this group.
 We import the image. 
 
 ```{r}
-image5 <- image_read(here("asian_subgroups_2018.png"))
+image5 <- image_read(here("img", "asian_subgroups_2018.png"))
 
 df2_2018 <- magick::image_ocr(image5)
 ```
@@ -703,7 +703,7 @@ We can find these totals in the PDF directly and create rows as needed
 We load the PDF.
 
 ```{r}
-excerpt <- image_read(here("asian_youth_excerpt.png"))
+excerpt <- image_read(here("img", "asian_youth_excerpt.png"))
 
 excerpt
 ```
@@ -739,7 +739,7 @@ We repeat this process again for Latino/a subgroups.
 The table, without the special formatting, looks like this.
 
 ```{r}
-image3 <- image_read(here("latino_a_subgroups.png"))
+image3 <- image_read(here("img", "latino_a_subgroups.png"))
 ```
 
 There are no whitespaces in this table.
@@ -889,7 +889,7 @@ Let's add the 2018 data to this dataframe.
 We import the image. 
 
 ```{r}
-image5 <- image_read(here("latino_a_subgroups_2018.png"))
+image5 <- image_read(here("img", "latino_a_subgroups_2018.png"))
 
 df3_2018 <- magick::image_ocr(image5)
 ```
@@ -995,7 +995,7 @@ We load the PDF.
 
 ```{r}
 rm(excerpt)
-excerpt <- image_read(here("latino_a_youth_excerpt.png"))
+excerpt <- image_read(here("img", "latino_a_youth_excerpt.png"))
 
 excerpt
 ```
@@ -1043,10 +1043,10 @@ div.red { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
 </div>
 
 ```{r, eval=FALSE}
-quadrant1 <- image_read(here("state_quadrant1.png"))
-quadrant2 <- image_read(here("state_quadrant2.png"))
-quadrant3 <- image_read(here("state_quadrant3.png"))
-quadrant4 <- image_read(here("state_quadrant4.png"))
+quadrant1 <- image_read(here("img", "state_quadrant1.png"))
+quadrant2 <- image_read(here("img", "state_quadrant2.png"))
+quadrant3 <- image_read(here("img", "state_quadrant3.png"))
+quadrant4 <- image_read(here("img", "state_quadrant4.png"))
 
 quadrant1 <- magick::image_ocr(quadrant1)
 quadrant2 <- magick::image_ocr(quadrant2)
@@ -1117,7 +1117,7 @@ div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
 Let's reproduce the example below.
 
 ```{r, out.width = "100%", echo = FALSE, fig.align ="center"}
-include_graphics("Making_the_Connection_plot.png")
+include_graphics(here::here("img", "Making_the_Connection_plot.png"))
 ```
 
 We can create a version of the above example with `ggplot` from `tidyverse`.
