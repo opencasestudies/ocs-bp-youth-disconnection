@@ -168,6 +168,7 @@ library(tidyverse)
 library(pdftools)
 library(magick)
 library(cowplot)
+library(Kendall)
 ```
 
 <style>
@@ -301,7 +302,7 @@ df1 %>%
 
 Data wrangling is not an exact science. The approaches we can take are extremely dependent on the data. We can exploit patterns in the data to render the output we desire. 
 
-We will now use a cropped version of image above without the special formatting.
+We will now use a cropped version of the image above without the special formatting.
 
 #### {.scrollable }
 ```{r, dpi = 1000}
@@ -432,6 +433,7 @@ Finally, we homogenize the labels assigned for certain groups, fill in missing (
 df1 <- df1 %>%
   mutate(Race = case_when(Race == "LATINA" ~ "LATINO/A",
                           Race == "LATINO" ~ "LATINO/A",
+                          Race == "NATIVEAMERICAN" ~ "NATIVE AMERICAN",
                           TRUE ~ Race)) %>%
   mutate(Gender = tidyr::replace_na(Gender, "ALL"),
          Race = tidyr::replace_na(Race, "ALL")) %>%
@@ -1139,15 +1141,77 @@ ggplot(data_map, aes(x = long, y = lat, group = group, fill=rank_ran)) +
 ## **Data Analysis**
 *** 
 
-<style>
-div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "green">
+**Repeated Cross-sectional Data**
 
-**MICHAEL ONTIVEROS**
+We have repeated cross-sectional data.
 
-*We could introduce baseline adjustment to introduce a statistical concept. This would circumvent the need for a model that would capture the temporal autocorrelation present in panel data.*
-</div>
+This is data produced from repeated measurement of a population over time.
+
+It is often infeasible to collect data for an entire population at once. However, we can still obtain meaningful measures using a random sample of the population. 
+
+At specific time-points, data is collected from a sample of the population. The individuals in each sample are not necessarily the same individuals. This separates repeated cross-sectional data from longitudinal data, which is data from repeated measurement of the same people.   
+
+By sampling from a population at multiple time points, we can generate population level statistics. Although these statistics have some random error, they can provide insight into how the measure variable is changing in a population over time.
+
+We can accomplish this by plotting the measured values over time. Sometimes, however, the trend isn't exactly clear. Fortunately, there are statistical methods to resolve this issue.
+
+The Mann-Kendall trend test tests whether there is a monotonic association, an association that does not increase or decrease but remains static across a dimension.
+
+Recall the youth disconnection rates for Native Americans, some of the highest in the first table we examined. 
+
+```{r}
+image_example
+```
+
+Let's conduct a Mann-Kendall test for trend.
+
+We can accomplish this with the `Kendall::MannKendall()` function. The `Kendall::MannKendall()` accepts a vector of data for which a trend may be observed.    
+
+```{r}
+df1 %>%
+  filter(Gender == "ALL",
+         Race == "NATIVE AMERICAN") %>%
+  pull(Rate) %>%
+  MannKendall(.) %>%
+  summary()
+```
+
+There does not appear to be a change in the trend. However, it's important to note that we only have `r length(df1 %>% filter(Gender == "ALL", Race == "NATIVE AMERICAN") %>% pull(Rate))` observations.
+
+We can also explore the trend using simple linear regression. 
+
+```{r}
+df1 %>%
+  filter(Gender == "ALL",
+         Race == "NATIVE AMERICAN") %>%
+  lm(Rate ~ Year, data = .) %>%
+  summary()
+```
+
+For each one year change, the mean increase in disconnection rates is `r (df1 %>% filter(Gender == "ALL", Race == "NATIVE AMERICAN") %>% lm(Rate ~ Year, data = .))[["coefficients"]]["Year"]`. This relationship is not statistically significant. Again, we are largely limited by the number of observations in this dataset. 
+
+We can visualize the relationship above.
+
+```{r}
+df1 %>%
+  filter(Gender == "ALL",
+         Race == "NATIVE AMERICAN") %>%
+  ggplot(aes(x = Year, y = Rate)) +
+  geom_smooth(method = "lm", color = "red") + 
+  geom_point() + 
+  scale_x_continuous(breaks = seq(2008, 2018, by = 1),
+                     labels = seq(2008, 2018, by = 1),
+                     limits = c(2008, 2018)) +
+  theme_minimal() +
+  labs(title = "Youth Disconnection Rates of Native American Youth",
+       subtitle = "2008 - 2017",
+       x = "Year",
+       y = "Disconnection Rate")
+```
+
+As we can see, there is a large amount of uncertainty around the OLS regression line. 
+
+Let's visualize the data! 
 
 ## **Data Visualization**
 *** 
