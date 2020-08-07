@@ -1143,19 +1143,19 @@ ggplot(data_map, aes(x = long, y = lat, group = group, fill=rank_ran)) +
 
 **Repeated Cross-sectional Data**
 
-We have repeated cross-sectional data.
+We have pooled (repeated) [cross-sectional](https://en.wikipedia.org/wiki/Cross-sectional_data?oldformat=true) data.
 
-This is data produced from repeated measurement of a population over time.
+This is data produced from repeated measurement of a [population](https://en.wikipedia.org/wiki/Population?oldformat=true) over time.
 
-It is often infeasible to collect data for an entire population at once. However, we can still obtain meaningful measures using a random sample of the population. 
+It is often infeasible to collect data for an entire population at once. However, we can still obtain meaningful measures using a random [sample](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true) of the population. 
 
-At specific time-points, data is collected from a sample of the population. The individuals in each sample are not necessarily the same individuals. This separates repeated cross-sectional data from longitudinal data, which is data from repeated measurement of the same people.   
+At specific time-points, data is collected from a sample of the population. The individuals in each sample are not necessarily the same individuals. This separates pooled cross-sectional data from panel data, which is longitudinal data from repeated measurement of the same people.   
 
 By sampling from a population at multiple time points, we can generate population level statistics. Although these statistics have some random error, they can provide insight into how the measure variable is changing in a population over time.
 
 We can accomplish this by plotting the measured values over time. Sometimes, however, the trend isn't exactly clear. Fortunately, there are statistical methods to resolve this issue.
 
-The Mann-Kendall trend test tests whether there is a monotonic association, an association that does not increase or decrease but remains static across a dimension.
+The Mann-Kendall trend test—a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)—tests whether there is a monotonic association, an association that does not increase or decrease but remains static across a dimension.
 
 Recall the youth disconnection rates for Native Americans, some of the highest in the first table we examined. 
 
@@ -1165,7 +1165,7 @@ image_example
 
 Let's conduct a Mann-Kendall test for trend.
 
-We can accomplish this with the `Kendall::MannKendall()` function. The `Kendall::MannKendall()` accepts a vector of data for which a trend may be observed.    
+We can accomplish this with the `Kendall::MannKendall()` function. The `Kendall::MannKendall()` accepts a vector of data for which a trend may be observed. [Consulting the documentation for the `Kendall::MannKendall()` function available on CRAN](https://rdrr.io/cran/Kendall/man/MannKendall.html), we can "test for a a monotonic trend in a time series".
 
 ```{r}
 df1 %>%
@@ -1178,7 +1178,7 @@ df1 %>%
 
 There does not appear to be a change in the trend. However, it's important to note that we only have `r length(df1 %>% filter(Gender == "ALL", Race == "NATIVE AMERICAN") %>% pull(Rate))` observations.
 
-We can also explore the trend using simple linear regression. 
+We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true). 
 
 ```{r}
 df1 %>%
@@ -1209,7 +1209,7 @@ df1 %>%
        y = "Disconnection Rate")
 ```
 
-As we can see, there is a large amount of uncertainty around the OLS regression line. 
+As we can see, there is a large amount of uncertainty around the fitted line. 
 
 Let's visualize the data! 
 
