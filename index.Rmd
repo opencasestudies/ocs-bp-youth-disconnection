@@ -1,5 +1,5 @@
 ---
-title: "Open Case Studies : Youth Disconnection "
+title: "Open Case Studies : Disparities in Youth Disconnection"
 css: style.css
 output:
   html_document:
@@ -16,6 +16,7 @@ output:
     toc: yes
 
 ---
+
 <style>
 #TOC {
   background: url("https://opencasestudies.github.io/img/logo.jpg");
@@ -26,43 +27,8 @@ output:
 </style>
 
 
-**This is how I will communicate general comments via this draft**
 
-<style>
-div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "green">
 
-**MICHAEL ONTIVEROS**
-
-*A quick search of my name will lead you to comments embedded in a green bubble like this.*
-</div>
-
-**This is how I will communicate problems via this draft**
-
-<style>
-div.red { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "red">
-
-**MICHAEL ONTIVEROS**
-
-*Things in a red bubble like this must be addressed.*
-</div>
-
-**This is a real example of the above**
-
-<style>
-div.red { background-color:#ffcccb; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "red">
-
-**MICHAEL ONTIVEROS**
-
-*"css: style.css" is not included in the YAML metadata for this document.*
-</div>
-
-**This is a another real example of the above**
 
 
 
@@ -106,20 +72,29 @@ This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 [
 
 To cite this case study please use:
 
-Wright, Carrie, and Ontiveros, Michael and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). https://github.com/opencasestudies/ocs-youth-disconnection-case-study. Exploring CO2 emissions across time (Version v1.0.0).
+Wright, Carrie, and Ontiveros, Michael and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). https://github.com/opencasestudies/ocs-youth-disconnection-case-study. Disparities in Youth Disconnection (Version v1.0.0).
 
 ## **Motivation**
 *** 
 
-We will expand beyond this [repoart](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) to create visualizations of percent disconnection of more specific groups of youths (gender, ethnic groups etc.) graphed together over time to allow for easier comparison.
+According to this [report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) youth disconnection although generally showing decreasing trends for the past 7 years, shows racial and ethnic disparities, where some groups are showing increased rates of disconnection.
+
+So what deos the term **"youth disconnection"** mean?
+
+According to [Measure of America](https://www.ssrc.org/programs/view/moa/){target="_blank"} (a nonpartisan project of the nonprofit [Social Science Research Council](https://www.ssrc.org/){target="_blank"} that is focused on opportunity in the United States) disconnected youth are:
+
+> "young people between the ages of **16 and 24** who are **neither working nor in school**"
+
+They state that such disconnection hinders these individuals to aquire skills and create relationships necessary to have a sucessful adulthood. 
+
+They state that:
+
+> "people who experience a period of disconnection as young adults go on to **earn less** and are **less likely** to be **employed, own a home, or report good health** by the time they reach their thirties"
+
+We will expand beyond the [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"} to create visualizations of percent disconnection of more specific groups of youths (gender, ethnic groups etc.) graphed together over time to allow for easier comparison.
 
 https://onlinelibrary.wiley.com/doi/full/10.1111/1468-0009.12425
 
-PDF of interest
-
-Page 39
-
-https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf
 
 
 ## **Main Questions**
@@ -190,6 +165,12 @@ The first time we use a function, we will use the `::` to indicate which package
 ## **Context**
 *** 
 
+```{r, echo = FALSE, out.width = "800 px"}
+knitr::include_graphics(here::here("img", "risk_factors.png"))
+```
+##### [[source]](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/pdf/10.1177_0033354918799344.pdf){target="_blank"} 
+
+
 ## **Limitations**
 *** 
 
@@ -212,12 +193,12 @@ There are some important considerations regarding this data analysis to keep in 
 ## **What are the data?**
 *** 
 
-In this case study we will be using data related to youth disconnection from the two following reports from the [Measure of America](https://www.ssrc.org/programs/view/moa/) project:
+In this case study we will be using data related to youth disconnection from the two following reports from the [Measure of America](https://www.ssrc.org/programs/view/moa/){target="_blank"}  project:
 
-> Measure of America is a nonpartisan project of the nonprofit Social Science Research Council founded in 2007 to create easy-to-use yet methodologically sound tools for understanding well-being and opportunity in America. Through reports, interactive apps, and custom-built dashboards, Measure of America works with partners to breathe life into numbers, using data to identify areas of highest need, pinpoint levers for change, and track progress over time.
+> Measure of America is a nonpartisan project of the nonprofit [Social Science Research Council](https://www.ssrc.org/){target="_blank"}  founded in 2007 to create easy-to-use yet methodologically sound tools for understanding well-being and opportunity in America. Through reports, interactive apps, and custom-built dashboards, Measure of America works with partners to breathe life into numbers, using data to identify areas of highest need, pinpoint levers for change, and track progress over time.
 
-1. Lewis, Kristen. [Making the Connection: Transportation and Youth Disconnection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf). New York: Measure of America, Social Science Research Council, 2019.  (Data up to 2017)
-2. : Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf).
+1. Lewis, Kristen. [Making the Connection: Transportation and Youth Disconnection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"} . New York: Measure of America, Social Science Research Council, 2019.  (Data up to 2017)
+2. : Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf){target="_blank"} .
 New York: Measure of America, Social Science Research Council, 2020. (Data up to 2018)
 
 
@@ -240,13 +221,13 @@ head(pdf_tools_example, 1)
 ```
 ####
 
-While not impossible, it's hard to argue that using the `pdftools` package in this scenario will require a lot of advanced data wrangling. While our output may be reproducible, the amount of time to achieve this reproducibility may not be any more efficient than typing the table by hand into a text or spreadsheet program.
+While not impossible, it's hard not to argue that using the `pdftools` package in this scenario will require a lot of advanced data wrangling. While our output may be reproducible, the amount of time to achieve this reproducibility may not be any more efficient than typing the table by hand into a text or spreadsheet program.
 
 Fortunately, there is another way we can proceed to wrangle the data. 
 
-We will demonstrate how to produce reproducible tables with image processing software on `R`. 
+We will demonstrate how to produce reproducible tables with image processing software in `R`. 
 
-For demonstrative purposes, we will import two sets of data. The first set of data will be used to highlight common errors that the image processing software may produce. The second set of data will be used to demonstrate how to circumvent these errors and, resultantly, produce reproducible datasets efficient.
+For demonstrative purposes, we will import two sets of data. The first set of data will be used to highlight common errors that the image processing software may produce. The second set of data will be used to demonstrate how to circumvent these errors and produce reproducible datasets efficiently.
 
 We will now import the data using the `magick` and `here` packages. 
 
