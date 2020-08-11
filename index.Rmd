@@ -77,9 +77,9 @@ Wright, Carrie, and Ontiveros, Michael and Jager, Leah and Taub, Margaret and Hi
 ## **Motivation**
 *** 
 
-According to this [report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) youth disconnection although generally showing decreasing trends for the past 7 years, shows racial and ethnic disparities, where some groups are showing increased rates of disconnection.
+According to this [report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) youth disconnection although generally showing decreasing trends for the past 7 years, shows **racial and ethnic disparities**, where some groups are showing increased rates of disconnection.
 
-So what deos the term **"youth disconnection"** mean?
+So what does the term **"youth disconnection"** mean?
 
 According to [Measure of America](https://www.ssrc.org/programs/view/moa/){target="_blank"} (a nonpartisan project of the nonprofit [Social Science Research Council](https://www.ssrc.org/){target="_blank"} that is focused on opportunity in the United States) disconnected youth are:
 
@@ -91,22 +91,29 @@ They state that:
 
 > "people who experience a period of disconnection as young adults go on to **earn less** and are **less likely** to be **employed, own a home, or report good health** by the time they reach their thirties"
 
-We will expand beyond the [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"} to create visualizations of percent disconnection of more specific groups of youths (gender, ethnic groups etc.) graphed together over time to allow for easier comparison.
+Disconnected youth are also referred to as **opportunity youth**, which has the added positive connotation that promoting such individuals can be beneficial not only for these individuals but also for their communties and for society. 
 
-https://onlinelibrary.wiley.com/doi/full/10.1111/1468-0009.12425
+We will expand beyond the [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"} to take a deeper look at differences of specific groups of youths. Identifying youths particularly at risk or disconnected, can help inform the design of targeted prevention and rengagement strategies.
 
+This case study is motivated by this [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/){target="_blank"}: 
+
+#### {.reference_block}
+
+Mendelson, T., Mmari, K., Blum, R. W., Catalano, R. F. & Brindis, C. D. Opportunity Youth: Insights and Opportunities for a Public Health Approach to Reengage Disconnected Teenagers and Young Adults. *Public Health Rep* 133, 54S-64S (2018).
+
+####
+ 
+This [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/){target="_blank"} describes strategies for prevention of disconnection and reengagement of discconnected youth and how such interventions could greatly positively impact opportunity youth for the entire trajectory of their lives and for future generations. It also points out that indeed their are disparities among different racial/ethnic groups.
 
 
 ## **Main Questions**
 *** 
 
 #### {.main_question_block}
-<b><u> Our main question: </u></b>
+<b><u> Our main questions: </u></b>
 
-1) What differences in youth disconnection rates exist in 2017?  
-
-
-How have youth disconnection rates in American youth changed since 2008? In particular, how has this changed for different states, gender, and ethnic groups? Are any groups particularly disconnected?
+1) How have youth disconnection rates in American youth changed since 2008?   
+2) In particular, how has this changed for different gender and ethnic groups? Are any groups particularly disconnected? 
 
 ####
 
@@ -117,16 +124,18 @@ In this case study, we will demonstrate how to import and wrangle data available
 
 The skills, methods, and concepts that students will be familiar with by the end of this case study are:
 
-Data science skills:
+Data science skills:  
 
-1. Importing data from PDF files using the `magick` package
-2. Apply action verbs in `dplyr` for data wrangling
-3. How to pivot between "long" and "wide" datasets
-4. Joining together multiple datasets using `dplyr`
-5. How to create data visualizations with `ggplot2` that are in a similar style to an existing image
+1. Importing data from PDF files using the `magick` package  
+2. Apply action verbs in `dplyr` for data wrangling  
+3. How to pivot between "long" and "wide" datasets (`tidyr`)  
+4. Joining together multiple datasets using `dplyr`  
+5. How to create data visualizations with `ggplot2` that are in a similar style to an existing image  
 
-Statistical concepts and methods:
+Statistical concepts and methods:  
 
+1. Implementation of the Mann-Kendall trend test  
+2. Interpretation of the Mann-Kendall trend test  
 
 
 ```{r, out.width = "20%", echo = FALSE, fig.align ="center"}
@@ -146,12 +155,7 @@ library(cowplot)
 library(Kendall)
 ```
 
-<style>
-div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "green">
-**MICHAEL ONTIVEROS** *I changed the way the table looks below to present the package names in bold. Many of these case studies have lots of text. Having important features of a case study presented in bold, italics, or both may make the document more easily interpretable. This is just my two &cent;. Feel free to disregard this suggestion for any reason.*
-</div>
+
 
  Package   | Use                                                                         
 ---------- |-------------
@@ -165,30 +169,93 @@ The first time we use a function, we will use the `::` to indicate which package
 ## **Context**
 *** 
 
+So how does youth disconnection happen and what impact does it have?
+
+
+There are many known **risk factors**, which have been identified in a variety of contexts (from family, friends, school, community, society) including:  
+
+ - poverty (disconnected youth are nearly twice as likely to live in poverty and receive Medicaid)  
+ - racial/ethnic disparities (findings suggest that these persist even when controlling for income)  
+ - residential environment (in 2016 while 11.7% was the national average, 24% of people age 16-24 in the rural South were disconnected)  
+ - poor academic performance  
+ - poor mental health  
+ - substance use disorders  
+ - parental unemployment  
+ - trauma exposure  
+ - association with socially deviant peers 
+ - school policies such as "one strike and you're out" - which is a zero tolerance school expulsion policy and shown to increase dropouts and incarceration rates
+ 
+ These risk factors make it more likely for young people to miss out on education, training, and networking that can act as a foundation for a sucessful career.
+ 
+There are also many known **negative consequences** associated with youth disconnection including but not limited to:
+
+- chronic unemployment
+- poverty
+- poor menthal health and poor general health (in a 2002 study - youths discoonected for 6 or more months were 3 times more likely to develop depression or other mental health disorder)
+- crimial behavior (in a 2002 study - youths discoonected for 6 or more months were 5 times more likely to have a criminal record)
+- incarceration
+- early mortality 
+
+
+```{r, out.width= "400px",echo=FALSE}
+knitr::include_graphics(here::here("img", "jon-tyson-ajzN2AYNi1U-unsplash.jpg"))
+```
+<span>Photo by <a href="https://unsplash.com/@jontyson?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jon Tyson</a> on <a href="https://unsplash.com/s/photos/unemployment?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
+
+Furthermore, in 2012 it was estimated that each disconnected youth costs taxpayers $250000 during a life time due to lost tax revenue and costs for social sercices, heath care and criminal justice.
+
+Youth disconnection can be described as a continuum, as some youths will be disconnected for a brief time, while others are chronically disconnected. Additionally, while an individual who is out of school and work and also has poor support from the realtionships of others may be further disconnected than an individual who has social support.
+
+Here is an illustration of risk factors, protective factors and the continuum of disconnection:
+
 ```{r, echo = FALSE, out.width = "800 px"}
 knitr::include_graphics(here::here("img", "risk_factors.png"))
 ```
 ##### [[source]](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/pdf/10.1177_0033354918799344.pdf){target="_blank"} 
 
 
+### Strategies to mitigate youth disconnection
+
+Many programs have identified useful strategies in rengaging disconnected youth or preventing discconection of youth. 
+
+generally speaking, most programs focus on reengagement strategies, however, prevention strategies are likely to be just as important. 
+
+Reserach suggests that active involvement with at risk youth from infancy and across multiple developmental stages through young adulthood whould be the most beneficial.
+
+In fact, the quality of parental caregiving of infants age 6-24 months has actually been shown to be a predictor of high school dropout rates! Thus early interventions may be very important and consistent continual engagement may prevent further disconnection of youths.
+
+Prevention strategies include:  
+
+- Preschool  
+- [The Good Behavior Game](https://www.goodbehaviorgame.org/good-behavior-game-what-is-it){target="_blank"}  
+- Strengthening family and community connections  
+- Promoting academic and career engagement  
+- Life skills training for youths and families  
+- Education about substance abuse  
+- [Cognitive behavioral therapy](https://www.apa.org/ptsd-guideline/patients-and-families/cognitive-behavioral){target="_blank"}    
+
+
+See [here](https://youth.gov/evidence-innovation/program-directory?keywords=&field_pd_factors_risks_tid=413&field_pd_factors_protective_tid=All){target="_blank"} and [here](https://goc.maryland.gov/wp-content/uploads/sites/8/2015/10/Program-Models-for-Serving-Opportunity-Youth.pdf){target="_blank"} for listings of programs dedicated to rengaging disconnected youth or preventing disconnection.
+
+See [here](https://www.communitiesthatcare.net/){target="_blank"} and 
+[here](https://extension.psu.edu/promoting-school-community-university-partnerships-to-enhance-resilience){target="_blank"} for particular examples.
+
+
+The statistics used in this section came from this [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/){target="_blank"}.
+
 ## **Limitations**
 *** 
 
-<style>
-div.green { background-color:#90EE90; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "green">
-
-**MICHAEL ONTIVEROS**
-
-*I compared the mechanics of image processing tools to a black box process. I feel it brings in some vocab while highlighting that this type of tool requires caution. Feel free to update as you think appropriate.*
-</div>
-
 There are some important considerations regarding this data analysis to keep in mind: 
 
-1) The statistical procedures we are using may be overly simplistic. *We need to be wary about deriving meaning from the statistical procedures we use*. 
+1) This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/){target="_blank"}  project reports from the is derived from [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs){target="_blank"} which excludes or underrepresents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused is not available in this dataset. Thus, this data likely underestimates youth disconnection rates. 
 
-2) Using image processing tools can be very helpful. The manner in which data is obtained with image processing tools is what we would describe as a **black box process**, <u>*a process with known inputs and outputs but unknown mechanics*</u>. Because we are unaware of how our outputs are generate from our inputs, we need to be wary of the output. With the small output we are creating in this case study, a visual inspection should suffice. 
+2) Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination){target="_blank"} (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as LGBT (lesbian/gay/bisexual/transgender/queer and questioning) or nonbinary gender populations is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs){target="_blank"} has more detailed infromation about a greater number of racial and ethnic groups and racial/ethnic intersections.
+
+3) The statistical procedures we are using may be overly simplistic. *In all data analysis, we need to be wary about deriving meaning from the statistical procedures we use*.
+
+4) Using image processing tools can be very helpful. The manner in which data is obtained with image processing tools is what we would describe as a **black box process**, <u>*a process with known inputs and outputs but unknown mechanics*</u>. Because we are unaware of how our outputs are generated from our inputs, we need to be wary of the output. With the small output we are creating in this case study, a visual inspection should suffice. 
+
 
 ## **What are the data?**
 *** 
@@ -198,8 +265,24 @@ In this case study we will be using data related to youth disconnection from the
 > Measure of America is a nonpartisan project of the nonprofit [Social Science Research Council](https://www.ssrc.org/){target="_blank"}  founded in 2007 to create easy-to-use yet methodologically sound tools for understanding well-being and opportunity in America. Through reports, interactive apps, and custom-built dashboards, Measure of America works with partners to breathe life into numbers, using data to identify areas of highest need, pinpoint levers for change, and track progress over time.
 
 1. Lewis, Kristen. [Making the Connection: Transportation and Youth Disconnection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"} . New York: Measure of America, Social Science Research Council, 2019.  (Data up to 2017)
-2. : Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf){target="_blank"} .
-New York: Measure of America, Social Science Research Council, 2020. (Data up to 2018)
+
+```{r, out.width="400px", echo = FALSE}
+knitr::include_graphics(here::here("img", "Making_the_Connection.png"))
+```
+
+2. : Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf){target="_blank"}. New York: Measure of America, Social Science Research Council, 2020. (Data up to 2018)
+
+```{r, out.width="400px", echo = FALSE}
+knitr::include_graphics(here::here("img", "A_Decade_Undone.png"))
+```
+
+The data used in these reports comes from the [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs){target="_blank"}, which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizehsip, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey){target="_blank"} for more detailed information about the survey.
+
+According to Wikipedia (https://en.wikipedia.org/wiki/American_Community_Survey){target="_blank"}:
+
+> Data is collected by internet, mail, telephone interviews and in-person interviews...About 95 percent of households across all response modes ultimately respond... ACS responses are confidential... and "immune from legal process"
+
+> It is a mandatory survey, it is governed by federal laws that could impose a fine of as much as $5,000 for refusing to participate.
 
 
 ## **Data Import**
@@ -275,7 +358,7 @@ If we remove these lines, some new errors emerge.
 
 ```{r}
 df1 %>%
-    base::strsplit("\n") %>%
+  base::strsplit("\n") %>%
   base::unlist() %>%
   tibble::as_tibble() %>%
   dplyr::slice(-(1:3))
