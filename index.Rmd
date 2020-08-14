@@ -120,7 +120,7 @@ This [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/){target="_b
 ## **Learning Objectives** 
 *** 
 
-In this case study, we will demonstrate how to import and wrangle data available in the <u>**P**</u>ortable <u>**D**</u>ocument <u>**F**</u>ormat (**PDF**). We will especially focus on using packages and functions from the [`Tidyverse`](https://www.tidyverse.org/){target="_blank"}, such as `dplyr`, `ggplot2`. The tidyverse is a library of packages created by RStudio. While some students may be familiar with previous R programming packages, these packages make data science in R especially efficient.
+In this case study, we will demonstrate how to import and wrangle data available in the <u>**P**</u>ortable <u>**D**</u>ocument <u>**F**</u>ormat (**PDF**). We will especially focus on using packages and functions from the [`Tidyverse`](https://www.tidyverse.org/){target="_blank"}, such as `dplyr`, `ggplot2`. The tidyverse is a library of packages created by RStudio. While some students may be familiar with previous R programming packages, these packages make data science in R more legible and intuitive.
 
 The skills, methods, and concepts that students will be familiar with by the end of this case study are:
 
@@ -307,7 +307,7 @@ knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
 ## **Data Import**
 *** 
 
-One way to import data from a pdf is to use the `pdf_text()` function of the `pdftools` package. The `here()` function of the `here` package can allow us to specify where the document that we want to import is located easily, starting from the directory where a `.Rproj` file is located. In this case, we will import the `Making_the_Connection.pdf` in the `docs` directory. *Note this is the case if you pull the repository from github*
+One way to import data from a pdf is to use the `pdf_text()` function of the `pdftools` package. The `here()` function of the `here` package can allow us to specify where the document that we want to import is located easily, starting from the directory where a `.Rproj` file is located. In this case, we will import the `Making_the_Connection.pdf` in the `docs` directory. *Note this is the case if you pull the repository from github.*
 
 ```{r}
 pdf_tools_example <- pdftools::pdf_text(here::here("docs","Making_the_Connection.pdf"))
@@ -327,7 +327,7 @@ pdf_tools_example[44]
 
 From the output, it's clear that a relatively large amount of manipulation will be required to wrangle this data. If you are interested in learning more about this method, please see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/){target="_blank"} and this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/){target="_blank"}.
 
-While not impossible, it's hard not to argue that using the `pdftools` package in this scenario will require some advanced data wrangling.
+While not impossible, using the `pdftools` package in this scenario will require some advanced data wrangling.
 
 While our output may be reproducible, this process may be too time consuming.
 
@@ -367,30 +367,42 @@ image_example
 
 Nice!
 
-We will demonstrate in a bit that the top part of the table was causing issues when extracting the text from this image.  So now we will take a screen shot without the top part of the table and do the same process.
+We will demonstrate in a bit that the top part of the table causes issues when extracting the text from this image.  So now we will take a screen shot without the top part of the table and do the same process.
 
 ```{r, dpi = 1000}
 cropped_table_gen_race_eth_2018 <- image_read(here("img", "gender_race_ethnicity2.png"))
 cropped_table_gen_race_eth_2018
 ```
-Let's import one more image just for fun. As you can see we can also import images directly from a URL.
+Let's import one more image just for fun. Here we will import an image directly from a URL.
 
 ```{r, out.width="20%"}
-tidyverse_logo <- image_read("https://d33wubrfki0l68.cloudfront.net/2c6239d311be6d037c251c71c3902792f8c4ddd2/12f67/css/images/hex/ggplot2.png")
-tidyverse_logo
+ggplot2_logo <- image_read("https://d33wubrfki0l68.cloudfront.net/2c6239d311be6d037c251c71c3902792f8c4ddd2/12f67/css/images/hex/ggplot2.png")
+ggplot2_logo
 ```
 
-Now we will use the `image_ocr()` function of the `magick` package to extract the text from the OCS logo image. This function uses the `tesseract` package which has tools for [optical character recognition (OCR)](https://en.wikipedia.org/wiki/Optical_character_recognition){target="_blank"}, hence the `ocr` in the function name. This allows the function to identify text in many cases from images. These OCR tools have often used [machine learning](https://en.wikipedia.org/wiki/Machine_learning){target="_blank"} in which an algorithm trained on images with and without text to "learn" to recognize text. See [here](https://towardsdatascience.com/a-gentle-introduction-to-ocr-ee1469a201aa){target="_blank"} to learn more about how OCR works.
+Now we will use the `image_ocr()` function of the `magick` package to extract the text from the OCS logo image. This function uses the `tesseract` package which has tools for [optical character recognition (OCR)](https://en.wikipedia.org/wiki/Optical_character_recognition){target="_blank"}, hence the `ocr` in the function name. This allows the function to identify text in images. These OCR tools have often been developed using [machine learning](https://en.wikipedia.org/wiki/Machine_learning){target="_blank"} in which an algorithm was trained on images with and without text to "learn" to recognize text. See [here](https://towardsdatascience.com/a-gentle-introduction-to-ocr-ee1469a201aa){target="_blank"} to learn more about how OCR works.
 
 ```{r}
-magick::image_ocr(tidyverse_logo)
+magick::image_ocr(ggplot2_logo)
 ```
 
 Awesome! We were able to extract text from this hex sticker!
 
+One thing to keep in mind is that this doesn't always work. Unusual font, angles text, or particular colors can be difficult for the OCR to recoginize.
+
+Here is an example that does not work with the current version of `magick`:
+
+```{r, out.width="20%"}
+tidyverse_logo <- image_read("https://tidyverse.tidyverse.org/logo.png")
+tidyverse_logo
+magick::image_ocr(tidyverse_logo)
+```
+
+This is likely do to the background on this particular hex sticker.
+
 ## **Data Exploration and Wrangling**
 *** 
-Now let's extract text from our image files.
+Now let's try extracting the text from our image files.
 
 The first image we imported looks like this. 
 
@@ -404,57 +416,55 @@ Now we will extract the text!
 df1 <- magick::image_ocr(image_example)
 df1
 ```
+This looks like it worked fairly well!
 
-Ok so you may notice that there are lots of `\n` values in the text from our image. These are [**newline**](https://en.wikipedia.org/wiki/Newline?oldformat=true) characters, which denote the end of a line of text and the start of a new line of text.  
+You may notice that there are lots of `\n` values in the text from our image. These are [**newline**](https://en.wikipedia.org/wiki/Newline?oldformat=true) characters, which denote the end of a line of text and the start of a new line of text.  
 
-We can use the `str_split()` function of the `stringr` package to split based on the `\n` characters in the output. We will then unlist the output using the base R `unlist()` function. By base, we mean that the function it is loaded automatically in an R session. Finally we will use the `as_tibble()` function of the `tibble` package to convert the data into [tibble](https://tibble.tidyverse.org/){target="_blank"} format, which is the tidyverse version of a data frame.
+We can use the `str_split()` function of the `stringr` package to split based on the `\n` characters in the output. We will then unlist the output using the base R `unlist()` function. By base, we mean that the function it is loaded automatically in an R session. Finally we will use the `as_tibble()` function of the `tibble` package to convert the data into [tibble](https://tibble.tidyverse.org/){target="_blank"} format, which is the tidyverse version of a data frame. This will allow us to see the values in the table much better.
 
+To do all of these sequential steps efficiently we will use a method called piping.
 
+***
+<details> <summary>Click here if you are unfamiliar with piping in R, which uses this `%>%` operator</summary>  
+
+By [piping](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"} we mean using the `%>%` pipe operator which is accessible after loading the `tidyverse` or several of the packages within the tidyverse like `dplyr` because they load the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"}. 
+This allows us to perform multiple sequential steps on one data input.   
+</details>  
+***
+#### {.scrollable }
 ```{r}
-df1<-df1 %>%
+df1 %>%
   stringr::str_split(pattern ="\n") %>%
   unlist() %>%
   tibble::as_tibble()
 
-df1
 ```
-OK, not bad... let's try splitting into columns based on a space:
+####
 
-```{r}
-df1 %>%
-    dplyr::select(value) %>%
+
+OK, not bad, the top looks a bit strange but the rest of the table looks fairly good, but there are some rows that look particularly strange like the row that starts with `LATINO`, or you may notice that the row for Native American females ends with `-B.4`:
+
+
+```{r, echo = FALSE}
+
+df2 <- df1%>%
+  stringr::str_split(pattern ="\n") %>%
+  unlist() %>%
+  tibble::as_tibble()
+
+temp <-df2 %>%
   pull(value) %>%
   str_split(" ")
-
+temp[13]
+temp[21]
 ```
-
-
-OK, so we can see that this isn't what we wanted. 
-
-<!-- This makes it more difficult to wrangle this table. Wrangling the data via regular expressions may be very tedious. It's unlikely that image processing software can handle the newline characters—or any other special characters—correctly. -->
-
-<!-- Using `image_ocr()` by `magick` on the image above will render some errors in the first few lines.  -->
-
-
-If we remove the top 3 lines using the `slice()` function of the the `dplyr packge befoer we split by spaces, here is our output:
-
-```{r}
-df1 %>%
-  dplyr::slice(-(1:3)) %>%
-    dplyr::select(value) %>%
-  pull(value) %>%
-  str_split(" ")
-
-```
-OK, so this did not fix our output issues.
 
 Data wrangling is not an exact science. The approaches we can take are extremely dependent on the data. We can exploit patterns in the data to render the output we desire. 
 
-Now we will now use the cropped version of the image above that doesnt include the first few lines that have special formatting.
+The first few lines of our table have quite a bit of special formatting, there are different font colors and backgrounds.As we saw previously, this can sometimes cause issues. So now we will try use the cropped version of the image.
 
-#### {.scrollable }
+
 ```{r, dpi = 1000}
-rm(df1)
 
 cropped_table_gen_race_eth_2018
 
@@ -467,29 +477,189 @@ df1 <- df1 %>%
 
 df1
 ```
-####
 
-We have several strings. Each cell of data is on a string separated by space. 
+This looks much better!
 
-We separate each string by space. 
+It's important to look very carefully at the text. Now although we no longer have the previous issues. There are some values missing a decimal place. For example the row that starts with `ASIAN`, the first value is missing a decimal place.
+
+Now we will try using separtate images of just the names and the data. We only want data about the percent each year, so we can exclude the last few columns in this image. The larger an image is and the better the resolution, the more likely that the text will be extracted correctly.
 
 ```{r}
 
-df1 <- df1 %>%
-  dplyr::select(value) %>%
-  pull(value) %>%
-  str_split(" ")
+ethnic_groups <-image_read(here::here("img", "first_table_ethnic_groups.png"))
+years <-image_read(here::here("img", "first_table_years.png"))
 
-df1
+ethnic_groups
+years
+
 ```
+Now let's try extracting the text from these images and separating the rows by the  newline character `\n`.
+
+#### {.question_block}
+<b><u> Question Opportunity </u></b>
+
+Can you recall the commands to do this?
+
+####
+
+
+<details> <summary> Click here to reveal the code. </summary>
+
+```{r}
+ethnic_groups <- image_ocr(ethnic_groups)
+years <- image_ocr(years)
+
+ethnic_groups <- ethnic_groups %>%
+  str_split("\n") %>%
+  unlist() %>%
+  as_tibble()
+
+years <-years %>%
+  str_split("\n") %>%
+  unlist() %>%
+  as_tibble()
+
+```
+
+</details>
+
+
+```{r}
+ethnic_groups
+
+years
+
+```
+OK! this looks pretty good! The only issue is we have some extra rows in between each row in the `ethnic_groups` object.
+
+We can remove these extra rows using the `filter()` function of the `dplyr` package to exclude all rows that are just an empty string and thus a set of quotes `""` using the not equals operator `!=`.
+
+We are also going to use a special pipe operator from the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"} called the compound assignment pipe-operator or sometimes the double pipe operator. 
+
+This allows us to use the `ethnic_groups` as our input and reassign it at the end after all the steps have been performed.
+
+```{r}
+library(magrittr)
+
+ethnic_groups %<>%
+  filter(value != "")
+
+ethnic_groups
+```
+
+
+Let's also get rid of the all caps for the major categories. We can convert the words to only capitalize the first letter using the `str_to_title()` function of the `stringr` package.
+
+```{r}
+ethnic_groups %<>%
+  mutate(value = stringr::str_to_title(value))
+ethnic_groups
+```
+Nice! that looks better.
+
+For the year data we would like to try splitting the strings for each row into different columns based on a space. Currently all the data is listed in one column called `value`.
+
+We can use the `separate` function of the `tidyr` pacakge to do this. This will allow us to not only split the rows by spaces, but also to create column names.
+
+There are three important arguments for the `seperate()` function:  
+- `col` - this specifies what column you are separating   
+- `into` - this specifies the names of the new columns you are creating  
+- `sep` - this specifies what character string to look for to separate by  
+
+#### {.scrollable }
+```{r}
+
+years %<>%
+tidyr::separate(col = value, 
+               into = c("2008", "2010",
+                       "2012", "2014", 
+                       "2016", "2017"), 
+                sep = " ")
+
+ years
+ 
+```
+####
+
+Looks pretty good!
+
+We appear to have an empty row at the very end. Since all the values are `NA`, we can use the `drop_na()` function  of the `tidyr` package to remove it.
+
+```{r}
+years %<>%
+  tidyr::drop_na()
+
+years
+```
+
+
+Great! Now we only have 18 rows.
+
+
+Now let's make these values numeric. Currently we can tell that they are character strings based on the `<char>` values listed under each column name.
+
+
+<details> <summary> Click here for an explanation of what a character string is </summary>
+
+There are several classes of data in R programming. 
+Character is one of these classes. 
+A character string is an individual data value made up of characters. 
+This can be a paragraph, like the legend for the table, or it can be a single letter or number like the letter `"a"` or the number `"3"`. 
+If data are of class character, than the numeric values will not be processed like a numeric value in a mathematical sense. 
+If you want your numeric values to be interpreted that way, they need to be converted to a numeric class. 
+The options typically used are integer (which has no decimal place) and double precision (which has a decimal place). 
+
+</details>
+
+
+To convert our values to be numeric we can use the base `as.numeric()` function. To apply this to all the rows in `years` we can use the `map_df()` function of the `purrr` package. The `map()` would also work, however, the special `map_df()` function keeps the output in the same tibble format. A `.` is necessary to tell the `map_df()` function to apply the `as_numeric()` function to the values of the `years` tibble.
+
+```{r}
+ years %<>%
+    map_df(.,as.numeric)
+
+years
+```
+
+
+
+We are now ready to put the `ethnic_groups` and `years` objects together.
+
+We can do so using the `col_bind` function.
+
+```{r}
+disconnection <- bind_cols(ethnic_groups, years)
+```
+
+To rename the column name of the `value` variable of the `disconnection ` tibble we will use the `rename()` function of the `dplyr` package.
+
+The new name needs to be listed first before the old name.
+
+```{r}
+disconnection %<>%
+  rename("Group" = value)
+
+```
+
+From Michael:
 
 We split the dataframe in two: a labels section and a "data" section containing the information we are interested in. 
 
 In the first half, we remove all digits and punctuation to ensure that we are left with character labels.
 
-In the second-half, remove commas and periods, converting the resulting string character class to numeric and selectively multiplying columns to reintroduce the decimal point correctly 
+In the second-half, remove commas and periods, converting the resulting string character class to numeric and selectively multiplying columns to reintroduce the decimal point correctly. 
+
+
+
+
+
 
 ```{r}
+
+df1 <- df1 %>%
+    pull(value) %>%
+  str_split(" ")
+
 df1a <- df1 %>%
   purrr::map(~base::paste(.,collapse = "")) %>%
   purrr::map(~base::gsub("[[:digit:]]+|[[:punct:]]+", "",.)) %>%
@@ -531,6 +701,8 @@ base::colnames(df1) <- column_names
 
 We remove columns with information we don't need and use the commmon pattern in the column names to convert the data into [long/narrow format](https://en.wikipedia.org/wiki/Wide_and_narrow_data?oldformat=true).
 
+
+
 ```{r}
 df1 <- df1 %>%
   dplyr::select(-N_2017,
@@ -549,24 +721,81 @@ We use the `dplyr::case_when()` and `stringr::str_detect()` function to detect p
 The two columns created contain `TRUE/FALSE` statements. These are then used to create a third column that will allow us to separate the data by its summary level. 
 
 ```{r}
+df1
+```
+
+```{r}
+
+disconnection %<>% 
+  mutate(Race = recode(Group, "United States" = "All_races",
+                                     "Female" = "All_races",
+                                       "Male" = "All_races")) %>%
+  mutate(Race = str_remove(Race,  pattern = " Female| Male"))
+
+disconnection %<>% 
+  mutate(Gender = str_extract(Group, "Female|Male")) %>%
+  mutate(Gender = replace_na(Gender, replace = "Gender_Total"))
+
+
+#### this variable seems unneccessary... unless faceting maybe by it later?? Ok it is used for a figure to only get race total groups... thats all - it is also coded this way for the asian subgroups...
+# this could easily be done though using some filter steps like this... 
+# disconnection %>%
+#   filter(Gender == "Gender_Total",
+#          Group != "United States")
+
+# could then do by gender- males of each race
+#disconnection %>%
+#filter(Gender == "Male",
+#        Race != "All_races")
+
+# disconnection %<>%
+#   mutate(Type = case_when(
+#     str_detect(Group, "United States") ~ "US Total",
+#     str_detect(Group, "Female") ~ "Gender Total",
+#      str_detect(Group, "Male") ~ "Gender Total",
+#     str_detect(Group, " Female| Male") ~ "Subgroup Total",
+#                                   TRUE ~ "Race Total"))
+            
+         
+           
+
+```
+
+
+```{r}
+
+dis_long <- disconnection %>%
+  tidyr::pivot_longer(cols = contains("20"),
+                  names_to = "Year",
+                 values_to = "Rate",
+              names_prefix = "Perc_") %>%
+  dplyr::mutate(Year = as.numeric(Year))
+
+```
+
+```{r}
 df1 <- df1 %>%
-  mutate(Gender = dplyr::case_when(stringr::str_detect(Group, "Female") ~ TRUE,
-                            stringr::str_detect(Group, "Male") ~ FALSE,
-                            TRUE ~ NA),
+  mutate(Gender = dplyr::case_when(
+    stringr::str_detect(Group, "Female") ~ TRUE,
+      stringr::str_detect(Group, "Male") ~ FALSE,
+                                    TRUE ~ NA),
          Race = stringr::str_remove_all(Group,
-                               pattern = paste(c("Female","Male","UnitedStates"),
+                pattern = paste(c("Female","Male","UnitedStates"),
                                                collapse = "|"))) %>%
   mutate(Race = dplyr::na_if(Race, ""))
 
 df1 <- df1 %>% 
-  mutate(Type = case_when(base::is.na(Gender) & base::is.na(Race) ~ "US Total",
-                          base::is.na(Gender) & !base::is.na(Race) ~ "Race Total",
-                          !base::is.na(Gender) & base::is.na(Race) ~ "Gender Total",
-                          TRUE ~ "Subgroup Total"))
+  mutate(Type = case_when(base::is.na(Gender) & 
+                            base::is.na(Race) ~ "US Total",
+                          base::is.na(Gender) & 
+                            !base::is.na(Race) ~ "Race Total",
+                          !base::is.na(Gender) &
+                            base::is.na(Race) ~ "Gender Total",
+                                         TRUE ~ "Subgroup Total"))
 
 df1 <- df1 %>%
   mutate(Gender = case_when(str_detect(Group, "Female") ~ "Female",
-                            str_detect(Group, "Male") ~ "Male"))
+                              str_detect(Group, "Male") ~ "Male"))
 ```
 
 The columns of `character` class currently contain upper and lower case characters. We want to ensure that we use a cases consistently to ensure that there are no errors driven by case-sensitive function downstream.
