@@ -418,8 +418,8 @@ Major_racial_ethnic_groups
 Now we will extract the text! 
 
 ```{r}
-df1 <- magick::image_ocr(Major_racial_ethnic_groups)
-df1
+major_groups <- magick::image_ocr(Major_racial_ethnic_groups)
+major_groups
 ```
 This looks like it worked fairly well!
 
@@ -438,7 +438,7 @@ This allows us to perform multiple sequential steps on one data input.
 ***
 #### {.scrollable }
 ```{r}
-df1 %>%
+ major_groups %>%
   stringr::str_split(pattern ="\n") %>%
   unlist() %>%
   tibble::as_tibble()
@@ -452,12 +452,12 @@ OK, not bad, the top looks a bit strange but the rest of the table looks fairly 
 
 ```{r, echo = FALSE}
 
-df2 <- df1 %>%
+df <- major_groups %>%
   stringr::str_split(pattern ="\n") %>%
   unlist() %>%
   tibble::as_tibble()
 
-temp <-df2 %>%
+temp <-df %>%
   pull(value) %>%
   str_split(" ")
 temp[13]
@@ -468,33 +468,41 @@ Data wrangling is not an exact science. The approaches we can take are extremely
 
 The first few lines of our table have quite a bit of special formatting, there are different font colors and backgrounds. As we saw previously, this can sometimes cause issues. So now we will try using the cropped version of the image.
 
+To take a look at how the cropped version of the image does, we will need to again split the single extracted character string from the image based on the newline expression.
+
+One option is to copy and paste code we wrote above. 
+However, this is not very efficient and is error prone.
+Alternatively, we can create a R function to accomplish this succinctly. 
+Functions allow us to perform the same process on multiple data inputs. 
+See [this other case study](https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/){target="_blank"} for more details about how to write a function.
+
+In general, the process of writing functions involves first specifying an input that is used within the function to create an output. In this case, the data input is `text`  which will be replaced by the actual image text that we are working on, and then used in the subsequent steps to wrangle the data. We will call our function `make_rows()`.
+
+```{r}
+
+make_rows <- function(text){
+  text %>%
+  str_split("\n") %>%
+  unlist() %>%
+  as_tibble()
+}
+
+```
+
+Now we will use this function on our cropped version of the image, after we extract the text.
 
 ```{r, dpi = 1000}
 
 cropped_table_gen_race_eth_2018
 
-df1 <- image_ocr(cropped_table_gen_race_eth_2018)
-
-df1 <- df1 %>%
-  str_split("\n") %>%
-  unlist() %>%
-  as_tibble()
-
-df1
-
-
-
 major_groups <- image_ocr(cropped_table_gen_race_eth_2018)
 
-major_groups <- major_groups %>%
-  str_split("\n") %>%
-  unlist() %>%
-  as_tibble()
+major_groups <- make_rows(major_groups)
 
 major_groups
 ```
 
-This looks much better!
+Great! Our function works, and this looks much better!
 
 Now let's spearate the first column about ethnicities with the values in the subsequent columns. We can do so using the `separate()` function of the `tidyr` pacakge based on [regular expressions](https://en.wikipedia.org/wiki/Regular_expression){target="_blank"}. Regular expressions (abbreviated regex) are notation shortcuts that describe patterns in character strings. See [here](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf){target="_blank"} for an RStudio cheetsheat about them.
 
@@ -779,10 +787,7 @@ asian_subgroups <- image_ocr(asian_subgroups)
 
 asian_subgroups
 
-asian_subgroups <- asian_subgroups %>%
-  str_split("\n") %>%
-  unlist() %>%
-  as_tibble()
+asian_subgroups <- make_rows(asian_subgroups) 
 ```
 
 </details>
@@ -812,7 +817,6 @@ Asian_sub_A <- image_read(here("img", "asian_subgroupsA.png"))
 Asian_sub_B <- image_read(here("img", "asian_subgroupsB.png"))
 Asian_sub_C <- image_read(here("img", "asian_subgroupsC.png"))
 
-
 Asian_sub_A
 Asian_sub_B
 Asian_sub_C 
@@ -821,20 +825,9 @@ Asian_sub_A <- image_ocr(Asian_sub_A)
 Asian_sub_B <- image_ocr(Asian_sub_B)
 Asian_sub_C <- image_ocr(Asian_sub_C)
 
-Asian_sub_A %<>%
-  str_split("\n") %>%
-  unlist() %>%
-  as_tibble()
-
-Asian_sub_B %<>%
-  str_split("\n") %>%
-  unlist() %>%
-  as_tibble()
-
-Asian_sub_C %<>%
-  str_split("\n") %>%
-  unlist() %>%
-  as_tibble()
+Asian_sub_A <- make_rows(Asian_sub_A)
+Asian_sub_B <- make_rows(Asian_sub_B)
+Asian_sub_C <- make_rows(Asian_sub_C)
 
 Asian_sub_A 
 Asian_sub_B
@@ -846,24 +839,18 @@ Much better!
 We can now combine the objects with the `bind_rows()` function of the `dplyr` package, which will append each of these tibbles together one after the other.
 
 ```{r}
-asian <-bind_rows(Asian_sub_A, 
-                  Asian_sub_B,
-                  Asian_sub_C)
+asian_sub_2017 <-bind_rows(Asian_sub_A, 
+                            Asian_sub_B,
+                            Asian_sub_C)
 
-asian
+asian_sub_2017
 ```
 
 Looks pretty good! 
 
 Now we have similar wrangling steps to perform as we did previously and we will need to do the same for the Latino subgroups table . 
 
-One option is to copy and paste code we wrote above. 
-However, this is not very efficient and is error prone.
-Alternatively, we can create a R function to accomplish this succinctly. 
-Functions allow us to perform the same process on multiple data inputs. 
-See [this other case study](https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/){target="_blank"} for more details about how to write a function.
 
-In general, the process of writing functions involves first specifying an input that is used within the function to create an output. In this case, the data input is `table`  which will be replaced by the actual table we are working on, and then used in the subsequent steps to wrangle the data.
 
 #### {.question_block}
 <b><u> Question Opportunity </u></b>
@@ -897,8 +884,8 @@ clean_table <- function(table){
 
 
 ```{r}
-asian <- clean_table(table = asian)
-asian
+asian_sub_2017 <- clean_table(table = asian_sub_2017)
+asian_sub_2017
 ```
 
 Great! this looks as we expected. 
@@ -953,13 +940,13 @@ Latino_a_C
 We can combine the strings together using the `str_c()` function (wich stands for string **collapse**) of the `stringr` package.
 
 ```{r}
-latino_a <-stringr::str_c(Latino_a_A, Latino_a_B, Latino_a_C)
+latino_a_sub_2017 <-stringr::str_c(Latino_a_A, Latino_a_B, Latino_a_C)
 ```
 
 #### {.question_block}
 <b><u> Question Opportunity </u></b>
 
-Can you recall the commands to separate the data into rows and create a tibble?
+Can you recall the commands within our `make_rows()` function to separate the data into rows and create a tibble?
 
 ####
 
@@ -967,7 +954,7 @@ Can you recall the commands to separate the data into rows and create a tibble?
 <details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
-latino_a %<>%
+latino_a_sub_2017 %<>%
   str_split("\n") %>%
   unlist() %>%
   as_tibble()
@@ -975,13 +962,13 @@ latino_a %<>%
 </details>
 
 ```{r}
-latino_a
+latino_a_sub_2017
 ```
 Now we can apply our function. 
 
 ```{r}
-latino_a <- clean_table(table = latino_a)
-latino_a
+latino_a_sub_2017 <- clean_table(table = latino_a_sub_2017)
+latino_a_sub_2017
 ```
 
 
@@ -999,7 +986,7 @@ How might you do this?
 We will use another `string_r` function. This function, `str_replace()` allows us to remove and replace a particular pattern. 
 
 ```{r}
-latino_a %<>%
+latino_a_sub_2017 %<>%
   mutate(across(.cols = c(Group, Race), 
                 ~str_replace(string = .,
                      pattern = "Pr, Dr, Cuban",
@@ -1024,7 +1011,7 @@ latino_a %<>%
 
 ```{r, echo = FALSE}
 library(DT)
-DT::datatable(latino_a)
+DT::datatable(latino_a_sub_2017)
 ```
 
 Great!
@@ -1186,9 +1173,9 @@ OK, now we just want to combine the 2018 data and the 2017 data for the asian su
 First let's add a varaible for year to both. Using `mutate()` we can add a variable `Year` where all values are `2017` like so:
 
 ```{r}
-asian %<>%
+asian_sub_2017 %<>%
   mutate(Year = 2017)
-asian
+asian_sub_2017 
 ```
 
 ```{r}
@@ -1216,7 +1203,7 @@ We can combine these two tibbles using the `bind_rows()` function of `dplyr`.
 
 ```{r}
 
-asian_subgroups <- bind_rows(asian, asian_sub_2018)
+asian_subgroups <- bind_rows(asian_sub_2017, asian_sub_2018)
 
 ```
 
@@ -1332,13 +1319,13 @@ Now we just need to combine all the data for the Latino subgroups.
 Again, first we will add a year variable to both the 2017 and 2018 data.
 
 ```{r}
-latino_a %<>%
+latino_a_sub_2017 %<>%
   mutate(Year = 2017)
 
 latino_a_sub_2018 %<>%
   mutate(Year = 2018)
 
-latino_a_subgroups <- bind_rows(latino_a, latino_a_sub_2018)
+latino_a_subgroups <- bind_rows(latino_a_sub_2017, latino_a_sub_2018)
 latino_a_subgroups
 ```
 
@@ -1346,7 +1333,7 @@ latino_a_subgroups
 
 ### All together
 
-OK, now let's make sure that our notations match across our different tables. For example in the first report the terms male and female where used, but in the second report men and women were used. Let's make this consistent now.
+OK, now let's make sure that our notations match across our different tables. For example in the first report the terms male and female where used, but in the second report men and women were used. Let's make sure everything is consistent now.
 
 ```{r}
 major_groups_long
@@ -1354,9 +1341,19 @@ asian_subgroups
 latino_a_subgroups
 ```
 
+```{r, echo= FALSE, eval = FALSE}
+save(major_groups_long, asian_subgroups, latino_a_subgroups,
+     file = here::here("data", "wrangled_data.rda"))
+
+```
 
 ## **Data Analysis**
 *** 
+
+```{r}
+# To allow starting at this section:
+load(here::here("data", "wrangled_data.rda"))
+```
 
 **Repeated Cross-sectional Data**
 
@@ -1442,6 +1439,11 @@ Let's visualize the data!
 
 ## **Data Visualization**
 *** 
+
+```{r}
+# To allow starting at this section:
+load(here::here("data", "wrangled_data.rda"))
+```
 
 Let's reproduce the example below.
 
