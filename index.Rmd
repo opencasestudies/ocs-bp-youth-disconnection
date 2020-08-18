@@ -358,14 +358,14 @@ Now, we will use the `image_read()` function of the `magick` package to import t
 We can then use teh `image_info()` function to make sure that the import worked and to get information about the size, format and color of the image.
 
 ```{r, dpi = 1000}
-image_example <- magick::image_read(here::here("img", "gender_race_ethnicity.png"))
+Major_racial_ethnic_groups <- magick::image_read(here::here("img", "gender_race_ethnicity.png"))
 
-magick::image_info(image_example)
+magick::image_info(Major_racial_ethnic_groups)
 ```
 Now let's take a look at our image in R! Now that we have imported it to see this image, we simply need to type the name of the image.
 
 ```{r}
-image_example
+Major_racial_ethnic_groups
 ```
 
 Nice!
@@ -412,13 +412,13 @@ Now let's try extracting the text from our image files.
 The first image we imported looks like this. 
 
 ```{r}
-image_example
+Major_racial_ethnic_groups
 ```
 
 Now we will extract the text! 
 
 ```{r}
-df1 <- magick::image_ocr(image_example)
+df1 <- magick::image_ocr(Major_racial_ethnic_groups)
 df1
 ```
 This looks like it worked fairly well!
@@ -430,7 +430,7 @@ We can use the `str_split()` function of the `stringr` package to split based on
 To do all of these sequential steps efficiently we will use a method called piping.
 
 ***
-<details> <summary>Click here if you are unfamiliar with piping in R, which uses this `%>%` operator</summary>  
+<details> <summary>Click here if you are unfamiliar with piping in R, which uses this `%>%` operator.</summary>  
 
 By [piping](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"} we mean using the `%>%` pipe operator which is accessible after loading the `tidyverse` or several of the packages within the tidyverse like `dplyr` because they load the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"}. 
 This allows us to perform multiple sequential steps on one data input.   
@@ -484,14 +484,14 @@ df1
 
 
 
-df_dis <- image_ocr(cropped_table_gen_race_eth_2018)
+major_groups <- image_ocr(cropped_table_gen_race_eth_2018)
 
-df_dis <- df_dis %>%
+major_groups <- major_groups %>%
   str_split("\n") %>%
   unlist() %>%
   as_tibble()
 
-df_dis
+major_groups
 ```
 
 This looks much better!
@@ -502,12 +502,12 @@ We want to separate by instances where a letter is followed by a space and then 
 
 We can specify any letter by using the regex `[:alpha:]` notation and any number by using the regex `[:digit]` notation. We could have listed every letter that we saw the first column ending with like so `s|e|E|O|K|N` but this would not be as reproducible (meaning maybe this would not work as well next year if a new group were added that ended in a different letter), and we might make a mistake. This is why the regex are so useful. 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width= "40%"}
 knitr::include_graphics(here::here("img", "alpha.png"))
 ```
 We can indicate that we want a space by using this regex:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width= "40%"}
 knitr::include_graphics(here::here("img", "regex.png"))
 ```
 
@@ -531,10 +531,10 @@ There are three important arguments for the `seperate()` function:
 Thus we will separate the `value` column into `Group` and `years` columns.
 
 ```{r}
-df_dis <-df_dis %>%
+major_groups <-major_groups %>%
   tidyr::separate(col = value, into = c("Group", "Years"), sep = "(?<=[:alpha:])\\s(?=[0-9])")
 
-df_dis
+major_groups
 ```
 
 Looks good!
@@ -543,13 +543,13 @@ Let's also get rid of the all caps for the major categories of the `Group` colum
 
 We are also going to use a special pipe operator from the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"} called the compound assignment pipe-operator or sometimes the double pipe operator. 
 
-This allows us to use the `df_dis` as our input and reassign it at the end after all the subsequent steps have been performed, although in this case it is only one step.
+This allows us to use the `major_groups` as our input and reassign it at the end after all the subsequent steps have been performed, although in this case it is only one step.
 
 ```{r}
-df_dis %<>%
+major_groups %<>%
   mutate(Group = stringr::str_to_title(Group))
 
-df_dis
+major_groups
 ```
 
 Nice! that looks better.
@@ -561,25 +561,28 @@ We can use the `separate` function of the `tidyr` pacakge again to do this. This
 #### {.scrollable }
 ```{r}
 
-df_dis %<>%
+major_groups %<>%
 tidyr::separate(col = Years, 
                into = c("2008", "2010",
                        "2012", "2014", 
                        "2016", "2017"), 
                 sep = " ")
 
-df_dis
+major_groups
  
 ```
+####
+
+
 Looks pretty good!
 
 We appear to have an empty row at the very end. Since all the values are `NA`, we can use the `drop_na()` function  of the `tidyr` package to remove it.
 
 ```{r}
-df_dis %<>%
+major_groups %<>%
   tidyr::drop_na()
 
-df_dis
+major_groups
 ```
 
 Great, now we have 18 rows.
@@ -593,7 +596,7 @@ So, to fix this we will remove all decimals (which is sort of like multiplying a
 
 Finally, we will use the `str_remove()` function of the `stringr` package to find instances of "." and remove them. Since "." is a regex, and indicates any character string, thus we need "\\" to have R interpret a decimal or a period instead, as we can see from the RStudio cheetsheat:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width="60%"}
 knitr::include_graphics(here::here("img", "regex_period.png"))
 
 ```
@@ -602,17 +605,17 @@ To pass the data from all the coulumns except our `Group` variable into our `str
 
 ```{r}
 
- df_dis %<>%
+ major_groups %<>%
     mutate(across(.cols = -Group, ~str_remove(string = ., pattern = "\\.")))
 
-df_dis
+major_groups
 ```
 
 
 Great, now in order to multiply each value by 0.1 we need to first make the values numeric. Currently we can tell that they are character strings based on the `<char>` values listed under each column name.
 
 
-<details> <summary> Click here for an explanation about data types in R and about what a character string is </summary>
+<details> <summary> Click here for an explanation about data types in R and about character strings. </summary>
 
 There are several classes of data in R programming. 
 Character is one of these classes. 
@@ -628,15 +631,15 @@ The options typically used are integer (which has no decimal place) and double p
 To convert our values to be numeric we can use the base `as.numeric()` function. Again we will use `mutate()` and `across()`. Since this function doesn't require any arguments, we don't need to specify it's input like we just did for the `str_remove()` but we could do so as shown below.
 
 ```{r}
-df_dis %<>%
+major_groups %<>%
    mutate(across(.cols = -Group, as.numeric))
 
 #this is equivalent:
 
-#df_dis %<>%
+#major_groups %<>%
 #   mutate(across(.cols = -Group, ~as.numeric(.)))
 
-df_dis
+major_groups
 ```
 
 Great, we can see that the year variables are now numeric as they are now type double as indicated by the `<dbl>` below each column name. See the above section about data types if you are unfamiliar with type double.
@@ -645,10 +648,10 @@ OK, now we can multiply each value by 0.1 to add our decimal points back and get
 
 ```{r}
 
-df_dis %<>%
+major_groups %<>%
     mutate(across(.cols = -Group, ~ . * 0.1))
 
-df_dis
+major_groups
 
 ```
 
@@ -661,20 +664,46 @@ knitr::include_graphics(here::here("img", "gender_race_ethnicity.png"))
 
 Looks good!
 
+We also want to add a couple of variables about `Race` and `Gender` so that we can select across groups later.  We can use the `recode()` function of the `dplyr` package to change specific values, as we create a new `Race` variable from the `Group` variable. For the Data for all of the US we want the `Race` variable values to be `"All_races"`.
 
 ```{r}
-df_dis %<>% 
+major_groups %<>% 
   mutate(Race = recode(Group, "United States" = "All_races",
                                      "Female" = "All_races",
-                                       "Male" = "All_races")) %>%
-  mutate(Race = str_remove(Race,  pattern = " Female| Male"))
+                                       "Male" = "All_races"))
+```
 
-df_dis %<>% 
+
+We also want to remove Male and Female from this "Race" variable, We can do so using the `str_remove()` function of the `stringr` package. Importantly, we are also removing the space beore "Female" and "Male.
+
+```{r}
+major_groups %<>% 
+  mutate(Race = str_remove(Race,  pattern = " Female| Male"))
+```
+
+For the new `Gender` variable we would like to extract just the "Female" and "Male" text from the `Group` variable. The `str_extract()` function of the `stringr` package will do this, and it will give us an `NA` value for any rows whhere "Female" or "Male" were not present. We can then replace the `NA` values with  the text "All" to represent the total value for both male and female using the `replace_na()` function of the `tidyr()` package.
+
+```{r}
+
+major_groups %<>% 
   mutate(Gender = str_extract(Group, "Female|Male")) %>%
   mutate(Gender = replace_na(Gender, replace = "All"))
 
 ```
 
+We would also like to replace Latino and Latina with Latinx:
+
+```{r}
+major_groups %<>%
+  mutate(across(.cols = c(Group, Race), 
+                ~str_replace(string = ., 
+                            pattern = "Latino|Latina",
+                        replacement = "Latinx")))
+```
+
+```{r, echo = FALSE}
+DT::datatable(major_groups)
+```
 Finally, we would like to change the shape of our table so that we have a new column that represents the year and a new column that represents the value for that year.
 
 To do so we will be making our table "longer", meaning that it will have fewer columns and more rows. 
@@ -691,12 +720,14 @@ There are 3 main arguments in this function:
 To specify that we want to collapse all the columns that have year values, we can chose those that contain the string `"20"` using the `contains()` function of `dplyr`. 
 
 ```{r}
-dis_long <- df_dis %>%
+major_groups_long <- major_groups %>%
   tidyr::pivot_longer(cols = contains("20"),
                   names_to = "Year",
                  values_to = "Percent",
               names_prefix = "Perc_") %>%
   dplyr::mutate(Year = as.numeric(Year))
+
+major_groups_long
 ```
 
 
@@ -954,7 +985,7 @@ latino_a
 ```
 
 
-Let's also replace the abbreviations for Puerto Rican and Domincan.
+Let's also replace the abbreviations for Puerto Rican and Domincan and let's replace Latino/Latina with Latinx.
 
 #### {.question_block}
 <b><u> Question Opportunity </u></b>
@@ -969,22 +1000,31 @@ We will use another `string_r` function. This function, `str_replace()` allows u
 
 ```{r}
 latino_a %<>%
-  mutate(Group = 
-           str_replace(string = Group,
-                     pattern = "Pr, Dr, Cuban Female",
-                 replacement = "Puerto Rican, Dominican, Cuban"),
-         Race = 
-           str_replace(string = Race,
-                     pattern = "Pr, Dr, Cuban Female",
-                 replacement = "Puerto Rican, Dominican, Cuban"))
+  mutate(across(.cols = c(Group, Race), 
+                ~str_replace(string = .,
+                     pattern = "Pr, Dr, Cuban",
+                 replacement = "Puerto Rican, Dominican, Cuban")),
+         across(.cols = c(Group, Race),
+                ~str_replace(string = .,
+                     pattern = "Latino|Latina",
+                 replacement = "Latinx")))
+  # mutate(Group = 
+  #          str_replace(string = Group,
+  #                    pattern = "Pr, Dr, Cuban Female",
+  #                replacement = "Puerto Rican, Dominican, Cuban"),
+  #        Race = 
+  #          str_replace(string = Race,
+  #                    pattern = "Pr, Dr, Cuban Female",
+  #                replacement = "Puerto Rican, Dominican, Cuban"))
 
 ```
 
 </details>
 
 
-```{r}
-tail(latino_a)
+```{r, echo = FALSE}
+library(DT)
+DT::datatable(latino_a)
 ```
 
 Great!
@@ -1125,17 +1165,17 @@ We can do this using the `add_row()` function of the `dplyr()` package.
 
 ```{r}
 asian_sub_2018 %<>%
-  add_row(Group = "Asian_Total",
+  add_row(Group = "Asian",
         Percent = 6.2,
-           Race = "Asian Total",
+           Race = "Asian",
           Gender = "All") %>%
-  add_row(Group = "Asian_Total",
+  add_row(Group = "Asian",
         Percent = 6.4,
-           Race = "Asian_Total",
+           Race = "Asian",
           Gender = "Men") %>%
-  add_row(Group = "Asian_Total",
+  add_row(Group = "Asian",
         Percent = 6.1,
-           Race = "Asian_Total",
+           Race = "Asian",
           Gender = "Women")
 
 asian_sub_2018
@@ -1238,6 +1278,37 @@ latino_a_sub_2018 %<>%
 ```
 
 
+
+We also want to add the total Latinx values according to the text:
+
+
+
+```{r}
+knitr::include_graphics(here::here("img", "latino_a_youth_excerpt.png"))
+
+```
+
+
+```{r}
+latino_a_sub_2018 %<>%
+  add_row(Group = "Latinx",
+        Percent = 6.2,
+           Race = "Latinx",
+          Gender = "All") %>%
+  add_row(Group = "Latinx",
+        Percent = 6.4,
+           Race = "Latinx",
+          Gender = "Men") %>%
+  add_row(Group = "Latinx",
+        Percent = 6.1,
+           Race = "Latinx",
+          Gender = "Women")
+
+latino_a_sub_2018
+```
+
+
+
 And now we will recode gender like before to be consistent:
 
 ```{r}
@@ -1272,12 +1343,13 @@ latino_a_subgroups
 ```
 
 
+
 ### All together
 
 OK, now let's make sure that our notations match across our different tables. For example in the first report the terms male and female where used, but in the second report men and women were used. Let's make this consistent now.
 
 ```{r}
-dis_long
+major_groups_long
 asian_subgroups
 latino_a_subgroups
 ```
@@ -1305,7 +1377,7 @@ The Mann-Kendall trend test—a variation of the [Kendall rank correlation coeff
 Recall the youth disconnection rates for Native Americans, some of the highest in the first table we examined. 
 
 ```{r}
-image_example
+Major_racial_ethnic_groups
 ```
 
 Let's conduct a Mann-Kendall test for trend.
@@ -1315,7 +1387,7 @@ We can accomplish this with the `Kendall::MannKendall()` function. The `Kendall:
 
 
 ```{r}
-dis_long %>%
+major_groups_long %>%
   filter(Gender == "All",
          Race == "Native American") %>%
   pull(Percent) %>%
@@ -1325,13 +1397,13 @@ dis_long %>%
 ```
 
 
-There does not appear to be a change in the trend. However, it's important to note that we only have `r length(dis_long %>% filter(Gender == "All", Race == "Native American") %>% pull(Percent))` observations.
+There does not appear to be a change in the trend. However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race == "Native American") %>% pull(Percent))` observations.
 
 We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true). 
 
 
 ```{r}
-dis_long %>%
+major_groups_long %>%
   filter(Gender == "All",
          Race == "Native American") %>%
   lm(Percent ~ Year, data = .) %>%
@@ -1340,14 +1412,14 @@ dis_long %>%
 
 
 For each one year change, the mean increase in disconnection rates is
-`r (dis_long%>% filter(Gender == "All", Race == "Native American") %>% lm(Percent ~ Year, data = .))[["coefficients"]]["Year"]`
+`r (major_groups_long%>% filter(Gender == "All", Race == "Native American") %>% lm(Percent ~ Year, data = .))[["coefficients"]]["Year"]`
 
  This relationship is not statistically significant. Again, we are largely limited by the number of observations in this dataset. 
 
 We can visualize the relationship above.
 
 ```{r}
-dis_long %>%
+major_groups_long %>%
   filter(Gender == "All",
          Race == "Native American") %>%
   ggplot(aes(x = Year, y = Percent)) +
@@ -1396,7 +1468,7 @@ fa_figurine <- image_fill(fa_figurine,
                           point = "+800+1000",
                           fuzz = 0)
 
-plot <-dis_long %>%
+plot <-major_groups_long %>%
    filter(Gender == "All",
           Group != "United States") %>%
   ggplot(aes(x = Year, y = Percent, group=Race)) +
