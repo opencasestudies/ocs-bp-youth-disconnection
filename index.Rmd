@@ -298,7 +298,7 @@ We are particuarlly interesed in the tables on the following pages from the [Mea
 
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img", "latino_2018_overview.png"))
+knitr::include_graphics(here::here("img", "latinx_2018_overview.png"))
 ```
 
 ```{r, echo = FALSE}
@@ -407,7 +407,7 @@ This is likely do to the background on this particular hex sticker.
 *** 
 Now let's try extracting the text from our image files.
 
-### Major Racial and Ethnic Group Table
+### Major Racial and Ethnic Groups
 
 The first image we imported looks like this. 
 
@@ -747,7 +747,7 @@ knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
 ```
 
 
-### Asain Subgroups Table
+### Asain Subgroups 2017
 
 Now let's do the same for the Asian subgroups table.
 
@@ -848,7 +848,7 @@ asian_sub_2017
 
 Looks pretty good! 
 
-Now we have similar wrangling steps to perform as we did previously and we will need to do the same for the Latino subgroups table . 
+Now we have similar wrangling steps to perform as we did previously and we will need to do the same for the Latinx subgroups table. 
 
 
 
@@ -898,9 +898,9 @@ Why do we not need to use `pivot_longer()` with this data?
 ####
 
 
-### Latino/a Subgroups Table
+### Latinx Subgroups 2017
 
-After trial and error, two screenshots were determined best for importing this data. The names of the files for the screenshots are `latino_a_sub_A.png` and `"latino_a_sub_B.png`. They are located in the `img` directory.
+After trial and error, two screenshots were determined best for importing this data. The names of the files for the screenshots are `latinx_sub_A.png` and `"latinx_sub_B.png`. They are located in the `img` directory.
 
 #### {.question_block}
 <b><u> Question Opportunity </u></b>
@@ -913,13 +913,13 @@ Can you recall the commands to import and extract the data?
 <details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
-Latino_a_imageA <- image_read(here::here("img", "latino_a_sub_A.png"))
-Latino_a_imageB <- image_read(here::here("img", "latino_a_sub_B.png"))
-Latino_a_imageC <- image_read(here::here("img", "latino_a_sub_C.png"))
+latinx_imageA <- image_read(here::here("img", "latinx_sub_A.png"))
+latinx_imageB <- image_read(here::here("img", "latinx_sub_B.png"))
+latinx_imageC <- image_read(here::here("img", "latinx_sub_C.png"))
 
-Latino_a_A <- image_ocr(Latino_a_imageA)
-Latino_a_B <- image_ocr(Latino_a_imageB)
-Latino_a_C <- image_ocr(Latino_a_imageC)
+latinx_A <- image_ocr(latinx_imageA)
+latinx_B <- image_ocr(latinx_imageB)
+latinx_C <- image_ocr(latinx_imageC)
 
 ```
 
@@ -928,19 +928,19 @@ Latino_a_C <- image_ocr(Latino_a_imageC)
 
 
 ```{r, out.width="40%"}
-Latino_a_imageA
-Latino_a_A
+latinx_imageA
+latinx_A
 
-Latino_a_imageB
-Latino_a_B
+latinx_imageB
+latinx_B
 
-Latino_a_imageC
-Latino_a_C
+latinx_imageC
+latinx_C
 ```
 We can combine the strings together using the `str_c()` function (wich stands for string **collapse**) of the `stringr` package.
 
 ```{r}
-latino_a_sub_2017 <-stringr::str_c(Latino_a_A, Latino_a_B, Latino_a_C)
+latinx_sub_2017 <-stringr::str_c(latinx_A, latinx_B, latinx_C)
 ```
 
 #### {.question_block}
@@ -954,7 +954,7 @@ Can you recall the commands within our `make_rows()` function to separate the da
 <details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
-latino_a_sub_2017 %<>%
+latinx_sub_2017 %<>%
   str_split("\n") %>%
   unlist() %>%
   as_tibble()
@@ -962,13 +962,13 @@ latino_a_sub_2017 %<>%
 </details>
 
 ```{r}
-latino_a_sub_2017
+latinx_sub_2017
 ```
 Now we can apply our function. 
 
 ```{r}
-latino_a_sub_2017 <- clean_table(table = latino_a_sub_2017)
-latino_a_sub_2017
+latinx_sub_2017 <- clean_table(table = latinx_sub_2017)
+latinx_sub_2017
 ```
 
 
@@ -986,7 +986,7 @@ How might you do this?
 We will use another `string_r` function. This function, `str_replace()` allows us to remove and replace a particular pattern. 
 
 ```{r}
-latino_a_sub_2017 %<>%
+latinx_sub_2017 %<>%
   mutate(across(.cols = c(Group, Race), 
                 ~str_replace(string = .,
                      pattern = "Pr, Dr, Cuban",
@@ -1011,14 +1011,14 @@ latino_a_sub_2017 %<>%
 
 ```{r, echo = FALSE}
 library(DT)
-DT::datatable(latino_a_sub_2017)
+DT::datatable(latinx_sub_2017)
 ```
 
 Great!
 
-### 2018 Asian Subgroups Table
+### Asian Subgroups 2018
 
-Now we are ready to look at the data from 2018 for the asian and latino/latina subgroups from the other [report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf){target="_blank"}.
+Now we are ready to look at the data from 2018 for the Asian and Latinx subgroups from the other [report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf){target="_blank"}.
 
 Recall that this was the page with the table of interest for the asian subgroups with 2018 data:
 
@@ -1207,52 +1207,52 @@ asian_subgroups <- bind_rows(asian_sub_2017, asian_sub_2018)
 
 ```
 
-Now we are ready to peform similar wrangling for the Latino subgroups.
+Now we are ready to peform similar wrangling for the Latinx subgroups.
 
-### Latino/a Subgroups 2018 
+### Latinx Subgroups 2018 
 
-Recall that this was the page with the table of interest for the Latino subgroup 2018 data:
+Recall that this was the page with the table of interest for the Latinx subgroup 2018 data:
 
 ```{r, echo = FALSE, }
-knitr::include_graphics(here::here("img", "latino_2018_overview.png"))
+knitr::include_graphics(here::here("img", "latinx_2018_overview.png"))
 ```
 
 Trial and error indicated that again dividing the table into multiple screenshots improved the text extraction:
 
 ```{r}
-latino_a_sub_2018 <- image_read(here::here("img", "latino_a_subgroups_2018.png"))
-latino_a_sub_2018 <- image_ocr(latino_a_sub_2018)
-latino_a_sub_2018
+latinx_sub_2018 <- image_read(here::here("img", "latinx_subgroups_2018.png"))
+latinx_sub_2018 <- image_ocr(latinx_sub_2018)
+latinx_sub_2018
 ```
 
 Let's first combine the South and Central American labels. Notice that there are multiple new line expressions in between and we dont see repeated `\n` characters elsewhere.
 We can replace the pattern of exactly two `\n` (using `\n{2}` to specify exactly 2) or two newline regex with a space and colon in front with a single space.
 
 ```{r}
-latino_a_sub_2018 <- str_replace_all(latino_a_sub_2018, pattern = "\\s:\n{2}|\n{2}", replacement = " ")
-latino_a_sub_2018 
+latinx_sub_2018 <- str_replace_all(latinx_sub_2018, pattern = "\\s:\n{2}|\n{2}", replacement = " ")
+latinx_sub_2018 
 ```
 
 
 ```{r}
-latino_a_sub_2018 %<>%
+latinx_sub_2018 %<>%
   str_split("\n") %>%
   unlist() %>%
   as_tibble()
 
-latino_a_sub_2018
+latinx_sub_2018
 ```
 
 
 ```{r}
-latino_a_sub_2018 <-clean_table(latino_a_sub_2018)
-latino_a_sub_2018
+latinx_sub_2018 <-clean_table(latinx_sub_2018)
+latinx_sub_2018
 ```
 
 
 Again we will replace `Pr, Dr, Cuban`:
 ```{r}
-latino_a_sub_2018 %<>%
+latinx_sub_2018 %<>%
   mutate(Group = 
            str_replace(string = Group,
                      pattern = "Pr, Dr, Cuban",
@@ -1271,13 +1271,13 @@ We also want to add the total Latinx values according to the text:
 
 
 ```{r}
-knitr::include_graphics(here::here("img", "latino_a_youth_excerpt.png"))
+knitr::include_graphics(here::here("img", "latinx_youth_excerpt.png"))
 
 ```
 
 
 ```{r}
-latino_a_sub_2018 %<>%
+latinx_sub_2018 %<>%
   add_row(Group = "Latinx",
         Percent = 6.2,
            Race = "Latinx",
@@ -1291,7 +1291,7 @@ latino_a_sub_2018 %<>%
            Race = "Latinx",
           Gender = "Women")
 
-latino_a_sub_2018
+latinx_sub_2018
 ```
 
 
@@ -1299,7 +1299,7 @@ latino_a_sub_2018
 And now we will recode gender like before to be consistent:
 
 ```{r}
-latino_a_sub_2018 %>%
+latinx_sub_2018 %>%
   mutate(across(.cols = c(Gender, Group),
                 ~str_replace(string = ., 
                             pattern = "Men", 
@@ -1313,36 +1313,38 @@ latino_a_sub_2018 %>%
 
 
 
-Now we just need to combine all the data for the Latino subgroups.
+Now we just need to combine all the data for the Latinx subgroups.
 
 
 Again, first we will add a year variable to both the 2017 and 2018 data.
 
 ```{r}
-latino_a_sub_2017 %<>%
+latinx_sub_2017 %<>%
   mutate(Year = 2017)
 
-latino_a_sub_2018 %<>%
+latinx_sub_2018 %<>%
   mutate(Year = 2018)
 
-latino_a_subgroups <- bind_rows(latino_a_sub_2017, latino_a_sub_2018)
-latino_a_subgroups
+latinx_subgroups <- bind_rows(latinx_sub_2017, latinx_sub_2018)
+latinx_subgroups
 ```
 
 
 
-### All together
+### Checking the data
 
 OK, now let's make sure that our notations match across our different tables. For example in the first report the terms male and female where used, but in the second report men and women were used. Let's make sure everything is consistent now.
 
 ```{r}
 major_groups_long
 asian_subgroups
-latino_a_subgroups
+latinx_subgroups
 ```
 
+Looks good!
+
 ```{r, echo= FALSE, eval = FALSE}
-save(major_groups_long, asian_subgroups, latino_a_subgroups,
+save(major_groups_long, asian_subgroups, latinx_subgroups,
      file = here::here("data", "wrangled_data.rda"))
 
 ```
@@ -1568,13 +1570,13 @@ This shows the importance of adding small details such as the composite line to 
 Lastly, we can add annotations to add provide even more depth to the visualization. 
 
 ```{r}
-latino_a_total <- latino_a_subgroups %>%
+latinx_total <- latinx_subgroups %>%
   filter(Year == 2017) %>%
   filter(Gender == "All",
-         Race == "Latino") %>%
+         Race == "Latinx") %>%
   pull(Percent)
 
-latino_a_subgroups %>%
+latinx_subgroups %>%
   filter(Year == 2017) %>%
   complete(Gender, Race) %>%
   group_by(Gender) %>%
@@ -1584,7 +1586,7 @@ latino_a_subgroups %>%
   ungroup() %>%
   mutate(Race = fct_reorder(Race, rank_all)) %>%
   ggplot(aes(x = Race, y = Percent, fill = Gender)) +
-  geom_hline(yintercept = latino_a_total, 
+  geom_hline(yintercept = latinx_total, 
              color = "black",
              linetype = 2) + 
   geom_bar(stat = "identity",
@@ -1592,7 +1594,7 @@ latino_a_subgroups %>%
            size = 0.5,
            position = "dodge",
            width = 0.5) +
-  labs(title = "FIGURE X YOUTH DISCONNECTION BY LATINO/A SUBGROUP, 2017",
+  labs(title = "FIGURE X YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017",
        subtitle = "ORDERED BY OVERALL DISCONNECTION",
        y = "YOUTH DISCONNECTION (%)",
        fill = "Gender") +
@@ -1606,11 +1608,11 @@ latino_a_subgroups %>%
                              face = "bold"),
         axis.title.x = element_blank(),
         axis.text.x = element_text(angle = 90, hjust = 1)) +
-  annotate("text", label = 'bold("LATINO TOTAL")',
+  annotate("text", label = 'bold("LATINX TOTAL")',
            color = "#008393", 
            size = 3,
            x = 1.2,
-           y = latino_a_total + 1,
+           y = latinx_total + 1,
            parse = TRUE)
 ```
 
@@ -1680,7 +1682,7 @@ df3 %>%
            size = 0.5,
            position = "dodge",
            width = 0.5) +
-  labs(title = "FIGURE X YOUTH DISCONNECTION BY LATINO/A SUBGROUP, 2017",
+  labs(title = "FIGURE X YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017",
        subtitle = "ORDERED BY OVERALL DISCONNECTION",
        y = "YOUTH DISCONNECTION (%)",
        fill = "Gender") +
