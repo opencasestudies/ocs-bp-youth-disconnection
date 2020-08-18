@@ -403,7 +403,7 @@ magick::image_ocr(tidyverse_logo)
 
 This is likely do to the background on this particular hex sticker.
 
-## **Data Exploration and Wrangling**
+## **Data Wrangling**
 *** 
 Now let's try extracting the text from our image files.
 
@@ -614,7 +614,8 @@ To pass the data from all the coulumns except our `Group` variable into our `str
 ```{r}
 
  major_groups %<>%
-    mutate(across(.cols = -Group, ~str_remove(string = ., pattern = "\\.")))
+    mutate(across(.cols = -Group, ~str_remove(string = .,
+                                             pattern = "\\.")))
 
 major_groups
 ```
@@ -672,21 +673,23 @@ knitr::include_graphics(here::here("img", "gender_race_ethnicity.png"))
 
 Looks good!
 
-We also want to add a couple of variables about `Race` and `Gender` so that we can select across groups later.  We can use the `recode()` function of the `dplyr` package to change specific values, as we create a new `Race` variable from the `Group` variable. For the Data for all of the US we want the `Race` variable values to be `"All_races"`.
+We also want to add a couple of variables about `Race_Ethnicity` and `Gender` so that we can select across groups later.  We can use the `recode()` function of the `dplyr` package to change specific values, as we create a new `Race_Ethnicity` variable from the `Group` variable. For the Data for all of the US we want the `Race_Ethnicity` variable values to be `"All_races"`.
 
 ```{r}
 major_groups %<>% 
-  mutate(Race = recode(Group, "United States" = "All_races",
-                                     "Female" = "All_races",
-                                       "Male" = "All_races"))
+  mutate(Race_Ethnicity = 
+           recode(Group, "United States" = "All_races",
+                                "Female" = "All_races",
+                                  "Male" = "All_races"))
 ```
 
 
-We also want to remove Male and Female from this "Race" variable, We can do so using the `str_remove()` function of the `stringr` package. Importantly, we are also removing the space beore "Female" and "Male.
+We also want to remove Male and Female from this "Race_Ethnicity" variable, We can do so using the `str_remove()` function of the `stringr` package. Importantly, we are also removing the space beore "Female" and "Male.
 
 ```{r}
 major_groups %<>% 
-  mutate(Race = str_remove(Race,  pattern = " Female| Male"))
+  mutate(Race_Ethnicity = str_remove(string = Race_Ethnicity,  
+                                    pattern = " Female| Male"))
 ```
 
 For the new `Gender` variable we would like to extract just the "Female" and "Male" text from the `Group` variable. The `str_extract()` function of the `stringr` package will do this, and it will give us an `NA` value for any rows whhere "Female" or "Male" were not present. We can then replace the `NA` values with  the text "All" to represent the total value for both male and female using the `replace_na()` function of the `tidyr()` package.
@@ -694,7 +697,8 @@ For the new `Gender` variable we would like to extract just the "Female" and "Ma
 ```{r}
 
 major_groups %<>% 
-  mutate(Gender = str_extract(Group, "Female|Male")) %>%
+  mutate(Gender = str_extract(string = Group, 
+                             pattern = "Female|Male")) %>%
   mutate(Gender = replace_na(Gender, replace = "All"))
 
 ```
@@ -703,7 +707,7 @@ We would also like to replace Latino and Latina with Latinx:
 
 ```{r}
 major_groups %<>%
-  mutate(across(.cols = c(Group, Race), 
+  mutate(across(.cols = c(Group, Race_Ethnicity), 
                 ~str_replace(string = ., 
                             pattern = "Latino|Latina",
                         replacement = "Latinx")))
@@ -863,18 +867,26 @@ Can you explain what each of the commands are doing within the function?
 
 clean_table <- function(table){
   table %>%
-    separate(., col = value, into = c("Group", "Percentage"), sep =  "(?<=[:alpha:])\\s(?=[0-9])") %>% 
+    separate(., col = value,
+               into = c("Group", "Percentage"),
+                sep =  "(?<=[:alpha:])\\s(?=[0-9])") %>% 
     drop_na() %>%
     mutate(Group = str_to_title(Group)) %>%
-    mutate(Percentage =str_remove(string = Percentage, pattern = "\\.")) %>%
+    mutate(Percentage = str_remove(string = Percentage,
+                                  pattern = "\\.")) %>%
     separate(Percentage, c("Percent"), sep = " ") %>%
     mutate(Percent = as.numeric(Percent)) %>%
     mutate(Percent = Percent * 0.1) %>%
-    mutate(Race = recode(Group, "United States" = "All_races",
-                                     "Female" = "All_races",
-                                       "Male" = "All_races")) %>%
-    mutate(Race = str_remove(Race,  pattern = " Female| Male"))%>%
-    mutate(Gender = str_extract(Group, "Female|Male")) %>%
+    mutate(Race_Ethnicity = recode(Group, 
+                        "United States" = "All_races",
+                               "Female" = "All_races",
+                                 "Male" = "All_races")) %>%
+    mutate(Race_Ethnicity = 
+             str_remove(string = Race_Ethnicity,  
+                       pattern = " Female| Male"))%>%
+    mutate(Gender = 
+             str_extract(string = Group,
+                        pattern ="Female|Male")) %>%
     mutate(Gender = replace_na(Gender, replace = "All"))
  
 }
@@ -987,23 +999,14 @@ We will use another `string_r` function. This function, `str_replace()` allows u
 
 ```{r}
 latinx_sub_2017 %<>%
-  mutate(across(.cols = c(Group, Race), 
-                ~str_replace(string = .,
-                     pattern = "Pr, Dr, Cuban",
-                 replacement = "Puerto Rican, Dominican, Cuban")),
-         across(.cols = c(Group, Race),
-                ~str_replace(string = .,
-                     pattern = "Latino|Latina",
-                 replacement = "Latinx")))
-  # mutate(Group = 
-  #          str_replace(string = Group,
-  #                    pattern = "Pr, Dr, Cuban Female",
-  #                replacement = "Puerto Rican, Dominican, Cuban"),
-  #        Race = 
-  #          str_replace(string = Race,
-  #                    pattern = "Pr, Dr, Cuban Female",
-  #                replacement = "Puerto Rican, Dominican, Cuban"))
-
+  mutate(across(.cols = c(Group, Race_Ethnicity), 
+           ~str_replace(string = .,
+                       pattern = "Pr, Dr, Cuban",
+                   replacement = "Puerto Rican, Dominican, Cuban")),
+         across(.cols = c(Group,Race_Ethnicity),
+          ~str_replace(string = .,
+                      pattern = "Latino|Latina",
+                  replacement = "Latinx")))
 ```
 
 </details>
@@ -1047,10 +1050,7 @@ asian_sub_2018 <-str_c(asian_sub_2018_A, asian_sub_2018_B)
 ```
 
 ```{r}
-asian_sub_2018 %<>%
-  str_split("\n") %>%
-  unlist() %>%
-  as_tibble()
+asian_sub_2018 <- make_rows(asian_sub_2018)
 
 asian_sub_2018
 ```
@@ -1074,7 +1074,7 @@ asian_sub_2018 %>%
 
 ```
 
-The other difference from the previous function, is that we want to fill in a Race variable with the previous rows. We can do so by first replacing "Men" or "Women" which with the or operator is ("Men|Women"), with "missing". Then we need to convert these to `NA` values using the `na_if()` function of the `dplyr` package, we just need to specify what column to modify and what value to change to `NA`. Finally we will then repace the `NA` values with the previous non-`NA` value using the `fill()` function of the `tidyr` package. Note that this does not work inside of the `mutate()` function. We just need to simply specify what column to modify and then the direction to replace values. In this case we want to replace in the downward direction using the previous values. 
+The other difference from the previous function, is that we want to fill in a new `Race_Ethnicity` variable with the previous rows. We can do so by first replacing "Men" or "Women" which with the or operator is ("Men|Women"), with "missing". Then we need to convert these to `NA` values using the `na_if()` function of the `dplyr` package, we just need to specify what column to modify and what value to change to `NA`. Finally we will then repace the `NA` values with the previous non-`NA` value using the `fill()` function of the `tidyr` package. Note that this does not work inside of the `mutate()` function. We just need to simply specify what column to modify and then the direction to replace values. In this case we want to replace in the downward direction using the previous values. 
 
 This will look like this:
 
@@ -1083,28 +1083,28 @@ This will look like this:
 asian_sub_2018 %>%
 separate(., col = value, into = c("Group", "Percent"), sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
 mutate(Group= str_remove(string = Group, pattern = ":")) %>%
-mutate(Race = str_replace(Group,
-                             pattern = "Men|Women", 
-                         replacement = "missing"))%>%
+mutate( Race_Ethnicity = str_replace(string = Group,
+                                    pattern = "Men|Women", 
+                                replacement = "missing")) %>%
   head()
 
 asian_sub_2018 %>%
 separate(., col = value, into = c("Group", "Percent"), sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
 mutate(Group= str_remove(string = Group, pattern = ":")) %>%
-mutate(Race = str_replace(Group,
-                             pattern = "Men|Women", 
-                         replacement = "missing")) %>%
-    mutate(Race = na_if(Race, "missing")) %>%
+mutate( Race_Ethnicity = str_replace(string = Group,
+                                    pattern = "Men|Women", 
+                                replacement = "missing")) %>%
+    mutate( Race_Ethnicity = na_if( Race_Ethnicity, "missing")) %>%
   head()
 
 asian_sub_2018 %>%
 separate(., col = value, into = c("Group", "Percent"), sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
 mutate(Group= str_remove(string = Group, pattern = ":")) %>%
-mutate(Race = str_replace(Group,
-                             pattern = "Men|Women", 
-                         replacement = "missing")) %>%
-    mutate(Race = na_if(Race, "missing")) %>%
-    fill(Race, .direction = "down") %>%
+mutate( Race_Ethnicity = str_replace(string = Group,
+                                    pattern = "Men|Women", 
+                                replacement = "missing")) %>%
+    mutate(Race_Ethnicity = na_if( Race_Ethnicity, "missing")) %>%
+    fill(Race_Ethnicity, .direction = "down") %>%
   head()
 
 ```
@@ -1118,16 +1118,18 @@ clean_table <- function(table){
     separate(., col = value, into = c("Group", "Percent"), sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>% 
     mutate(Group= str_remove(string = Group, pattern = ":")) %>%
     drop_na() %>%
-    mutate(Group = str_to_title(Group)) %>%
-    mutate(Percent =str_remove(string = Percent, pattern = "\\.")) %>%
+    mutate(Group = str_to_title(string = Group)) %>%
+    mutate(Percent = str_remove(string = Percent, 
+                               pattern = "\\.")) %>%
     mutate(Percent = as.numeric(Percent)) %>%
     mutate(Percent = Percent * 0.1) %>%
-    mutate(Race = str_replace(Group,
-                             pattern = "Men|Women", 
-                         replacement = "missing")) %>%
-    mutate(Race = na_if(Race, "missing")) %>%
-    fill(Race, .direction = "down") %>%
-    mutate(Gender = str_extract(Group, "Men|Women")) %>%
+    mutate(Race_Ethnicity = str_replace(string = Group,
+                                       pattern = "Men|Women", 
+                                   replacement = "missing")) %>%
+    mutate(Race_Ethnicity = na_if(Race_Ethnicity, "missing")) %>%
+    fill(Race_Ethnicity, .direction = "down") %>%
+    mutate(Gender = str_extract(string = Group, 
+                               pattern = "Men|Women")) %>%
     mutate(Gender = replace_na(Gender, replace = "All"))
  
 }
@@ -1154,16 +1156,16 @@ We can do this using the `add_row()` function of the `dplyr()` package.
 asian_sub_2018 %<>%
   add_row(Group = "Asian",
         Percent = 6.2,
-           Race = "Asian",
-          Gender = "All") %>%
+ Race_Ethnicity = "Asian",
+         Gender = "All") %>%
   add_row(Group = "Asian",
         Percent = 6.4,
-           Race = "Asian",
-          Gender = "Men") %>%
+ Race_Ethnicity = "Asian",
+         Gender = "Men") %>%
   add_row(Group = "Asian",
         Percent = 6.1,
-           Race = "Asian",
-          Gender = "Women")
+ Race_Ethnicity = "Asian",
+         Gender = "Women")
 
 asian_sub_2018
 ```
@@ -1187,7 +1189,7 @@ asian_sub_2018
 You may notice that `Gender` is coded differently for the two years. Let's make this consistent now:
 
 ```{r}
-asian_sub_2018 %>%
+asian_sub_2018 %<>%
   mutate(across(.cols = c(Gender, Group),
                 ~str_replace(string = ., 
                             pattern = "Men", 
@@ -1229,16 +1231,14 @@ Let's first combine the South and Central American labels. Notice that there are
 We can replace the pattern of exactly two `\n` (using `\n{2}` to specify exactly 2) or two newline regex with a space and colon in front with a single space.
 
 ```{r}
-latinx_sub_2018 <- str_replace_all(latinx_sub_2018, pattern = "\\s:\n{2}|\n{2}", replacement = " ")
+latinx_sub_2018 <- str_replace_all(string = latinx_sub_2018, 
+                                  pattern = "\\s:\n{2}|\n{2}",                                       replacement = " ")
 latinx_sub_2018 
 ```
 
 
 ```{r}
-latinx_sub_2018 %<>%
-  str_split("\n") %>%
-  unlist() %>%
-  as_tibble()
+latinx_sub_2018 <- make_rows(latinx_sub_2018 )
 
 latinx_sub_2018
 ```
@@ -1255,12 +1255,12 @@ Again we will replace `Pr, Dr, Cuban`:
 latinx_sub_2018 %<>%
   mutate(Group = 
            str_replace(string = Group,
-                     pattern = "Pr, Dr, Cuban",
-                 replacement = "Puerto Rican, Dominican, Cuban"), 
-          Race = 
-           str_replace(string = Race,
-                     pattern = "Pr, Dr, Cuban",
-                 replacement = "Puerto Rican, Dominican, Cuban"))
+                      pattern = "Pr, Dr, Cuban",
+                  replacement = "Puerto Rican, Dominican, Cuban"), 
+          Race_Ethnicity = 
+           str_replace(string = Race_Ethnicity,
+                      pattern = "Pr, Dr, Cuban",
+                  replacement = "Puerto Rican, Dominican, Cuban"))
 
 ```
 
@@ -1280,16 +1280,16 @@ knitr::include_graphics(here::here("img", "latinx_youth_excerpt.png"))
 latinx_sub_2018 %<>%
   add_row(Group = "Latinx",
         Percent = 6.2,
-           Race = "Latinx",
-          Gender = "All") %>%
+ Race_Ethnicity = "Latinx",
+         Gender = "All") %>%
   add_row(Group = "Latinx",
         Percent = 6.4,
-           Race = "Latinx",
-          Gender = "Men") %>%
+ Race_Ethnicity = "Latinx",
+         Gender = "Men") %>%
   add_row(Group = "Latinx",
         Percent = 6.1,
-           Race = "Latinx",
-          Gender = "Women")
+ Race_Ethnicity = "Latinx",
+         Gender = "Women")
 
 latinx_sub_2018
 ```
@@ -1299,7 +1299,7 @@ latinx_sub_2018
 And now we will recode gender like before to be consistent:
 
 ```{r}
-latinx_sub_2018 %>%
+latinx_sub_2018 %<>%
   mutate(across(.cols = c(Gender, Group),
                 ~str_replace(string = ., 
                             pattern = "Men", 
@@ -1343,7 +1343,7 @@ latinx_subgroups
 
 Looks good!
 
-```{r, echo= FALSE, eval = FALSE}
+```{r, echo= FALSE, eval = TRUE}
 save(major_groups_long, asian_subgroups, latinx_subgroups,
      file = here::here("data", "wrangled_data.rda"))
 
@@ -1388,7 +1388,7 @@ We can accomplish this with the `Kendall::MannKendall()` function. The `Kendall:
 ```{r}
 major_groups_long %>%
   filter(Gender == "All",
-         Race == "Native American") %>%
+ Race_Ethnicity == "Native American") %>%
   pull(Percent) %>%
   MannKendall(.) %>%
   summary()
@@ -1396,7 +1396,7 @@ major_groups_long %>%
 ```
 
 
-There does not appear to be a change in the trend. However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race == "Native American") %>% pull(Percent))` observations.
+There does not appear to be a change in the trend. However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations.
 
 We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true). 
 
@@ -1404,14 +1404,14 @@ We can also explore the trend using [simple linear regression](https://en.wikipe
 ```{r}
 major_groups_long %>%
   filter(Gender == "All",
-         Race == "Native American") %>%
+ Race_Ethnicity == "Native American") %>%
   lm(Percent ~ Year, data = .) %>%
   summary()
 ```
 
 
 For each one year change, the mean increase in disconnection rates is
-`r (major_groups_long%>% filter(Gender == "All", Race == "Native American") %>% lm(Percent ~ Year, data = .))[["coefficients"]]["Year"]`
+`r (major_groups_long%>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% lm(Percent ~ Year, data = .))[["coefficients"]]["Year"]`
 
  This relationship is not statistically significant. Again, we are largely limited by the number of observations in this dataset. 
 
@@ -1420,7 +1420,7 @@ We can visualize the relationship above.
 ```{r}
 major_groups_long %>%
   filter(Gender == "All",
-         Race == "Native American") %>%
+ Race_Ethnicity == "Native American") %>%
   ggplot(aes(x = Year, y = Percent)) +
   geom_smooth(method = "lm", color = "red") + 
   geom_point() + 
@@ -1460,6 +1460,7 @@ There are color identifying websites only such as [this](https://imagecolorpicke
 Using one of these websites, we identify the [hex triplet](https://en.wikipedia.org/wiki/Web_colors?oldformat=true) for the color used in the visualization included in the PDF: `#008393`. 
 
 ```{r}
+library(directlabels)
 fa_figurine <- image_read("https://upload.wikimedia.org/wikipedia/commons/7/7c/User_font_awesome.svg")
 
 fa_figurine <- image_fill(fa_figurine,
@@ -1475,11 +1476,11 @@ fa_figurine <- image_fill(fa_figurine,
 plot <-major_groups_long %>%
    filter(Gender == "All",
           Group != "United States") %>%
-  ggplot(aes(x = Year, y = Percent, group=Race)) +
-  geom_line(color = "#008393", size = 0.5) +
-  geom_point(color = "#008393", size = 3) +
+  ggplot(aes(x = Year, y = Percent, color = Race_Ethnicity)) +
+  geom_line( size = 0.5) +
+  geom_point( size = 3) +
   scale_x_continuous(breaks = seq(2008,2018, by=1),
-                     limits = c(2008,2018)) +
+                     limits = c(2008,2020)) +
   scale_y_continuous(breaks = seq(5,30, by =5),
                      limits = c(5,30)) +
   draw_image(fa_figurine, x = 2017, y = 23.5, scale = 2) +
@@ -1495,7 +1496,14 @@ plot <-major_groups_long %>%
                              face = "bold"),
         axis.title.x = element_blank())
 
+
 plot
+
+plot <- directlabels::direct.label(plot, list(dl.trans(x = x+2, y = y +.2), "last.points"))
+
+plot + scale_color_manual(values = c(rep( "#008393", 5)))
+ # geom_line(color = "#008393", size = 0.5) +
+  #geom_point(color = "#008393", size = 3) +
 ```
 
 
@@ -1507,21 +1515,21 @@ custom_pal <- colorRampPalette(c("white", "#008393"))
 gender_n <- 3
 
 asian_total <- asian_subgroups%>%
-  filter(Year == 2017,
-       Gender == "All",
-         Race == "Asian") %>%
+   filter(Year == 2017,
+        Gender == "All",
+Race_Ethnicity == "Asian") %>%
   pull(Percent)
 
 asian_subgroups %>%
   filter(Year == 2017) %>%
-  complete(Gender, Race) %>%
+  complete(Gender, Race_Ethnicity) %>%
   group_by(Gender) %>%
   mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
-  group_by(Race) %>%
+  group_by(Race_Ethnicity) %>%
   mutate(rank_all = sub_rank[Gender == "All"]) %>%
   ungroup() %>%
-  mutate(Race = fct_reorder(Race, rank_all)) %>%
-  ggplot(aes(x = Race, y = Percent, fill = Gender)) +
+  mutate(Race_Ethnicity = fct_reorder(Race_Ethnicity, rank_all)) %>%
+  ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Gender)) +
   geom_hline(yintercept = asian_total, 
              color = "black",
              linetype = 2) + 
@@ -1573,19 +1581,19 @@ Lastly, we can add annotations to add provide even more depth to the visualizati
 latinx_total <- latinx_subgroups %>%
   filter(Year == 2017) %>%
   filter(Gender == "All",
-         Race == "Latinx") %>%
+ Race_Ethnicity == "Latinx") %>%
   pull(Percent)
 
 latinx_subgroups %>%
   filter(Year == 2017) %>%
-  complete(Gender, Race) %>%
+  complete(Gender, Race_Ethnicity) %>%
   group_by(Gender) %>%
   mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
-  group_by(Race) %>%
+  group_by(Race_Ethnicity) %>%
   mutate(rank_all = sub_rank[Gender == "All"]) %>%
   ungroup() %>%
-  mutate(Race = fct_reorder(Race, rank_all)) %>%
-  ggplot(aes(x = Race, y = Percent, fill = Gender)) +
+  mutate(Race_Ethnicity = fct_reorder(Race_Ethnicity, rank_all)) %>%
+  ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Gender)) +
   geom_hline(yintercept = latinx_total, 
              color = "black",
              linetype = 2) + 
@@ -1616,24 +1624,140 @@ latinx_subgroups %>%
            parse = TRUE)
 ```
 
-```{r, eval = FALSE}
+the idea is to drop groups where there is only one year worth of values...
+```{r}
 asian_subgroups %>%
-  complete(Gender, Subgroup, Year) %>%
-  group_by(Subgroup) %>%
+  dplyr::select(-Group) %>%
+pivot_wider(names_from = Gender:Year, values_from = Percent) %>%
+drop_na() %>%
+arrange(All_2017) %>%
+pivot_longer(cols = -Race_Ethnicity, 
+names_to=c("Gender", "Year"), 
+names_sep = "_",
+values_to="Percent")%>%
+ggplot(aes(x = Year, y = Percent, fill = Gender)) +
+ # geom_hline(aes(yintercept = threshold), linetype = 2) +
+  geom_bar(stat = "identity",
+           color = "transparent",
+           size = 0.5,
+           position = "dodge",
+           width = 0.5) +
+    facet_wrap(~Race_Ethnicity, nrow = 1) +
+  labs(title = "FIGURE X YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
+       subtitle = "ORDERED BY OVERALL DISCONNECTION",
+       y = "YOUTH DISCONNECTION (%)",
+       fill = "Gender") +
+  scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
+  scale_y_continuous(breaks = seq(0,10,2),
+                     labels = seq(0,10,2),
+                     limits = c(0,10)) +
+  theme_classic() +
+  theme(title = element_text(size = 10,
+                             color = "#008393",
+                             face = "bold"),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+```{r}
+
+Thresholds <-major_groups_long%>% filter(Group %in% c("United States","Asian"), Year == "2017")
+
+asian_subgroups %>%
+  dplyr::select(-Group) %>%
+pivot_wider(names_from = Gender:Year, values_from = Percent) %>%
+drop_na() %>%
+arrange(All_2017) %>%
+pivot_longer(cols = -Race_Ethnicity, 
+names_to=c("Gender", "Year"), 
+names_sep = "_",
+values_to="Percent")%>%
+ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
+geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "Asian"), Percent))), linetype = 2) +
+  geom_bar(stat = "identity",
+           color = "transparent",
+           size = 0.5,
+           position = "dodge") +
+    facet_wrap( ~Gender, ncol = 1) +
+  labs(title = "FIGURE X YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
+       subtitle = "ORDERED BY OVERALL DISCONNECTION",
+       y = "YOUTH DISCONNECTION (%)",
+       fill = "Gender") +
+  scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
+  scale_y_continuous(breaks = seq(0,10,2),
+                     labels = seq(0,10,2),
+                     limits = c(0,10)) +
+  theme_classic() +
+  theme(title = element_text(size = 10,
+                             color = "#008393",
+                             face = "bold"),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+```{r}
+
+Thresholds <-major_groups_long%>% filter(Group %in% c("United States","Asian"), Year == "2017")
+
+asian_subgroups %>%
+  dplyr::select(-Group) %>%
+  filter(Gender == "All") %>%
+pivot_wider(names_from = Year, values_from = Percent) %>%
+drop_na() %>%
+pivot_longer(cols = -c(Race_Ethnicity, Gender), 
+names_to ="Year" , 
+values_to="Percent")%>%
+ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
+geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "Asian"), Percent))), linetype = 2) +
+geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "United States"), Percent))), linetype = 3)+
+  geom_bar(stat = "identity",
+           color = "transparent",
+           size = 0.5,
+           position = "dodge") +
+   # facet_wrap( ~Gender, ncol = 1) +
+  labs(title = "FIGURE X YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
+       subtitle = "ORDERED BY OVERALL DISCONNECTION",
+       y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
+  theme_classic() +
+  theme(title = element_text(size = 10,
+                             color = "#008393",
+                             face = "bold"),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1))+
+    annotate("text", label = 'bold("ASIAN 2017 RATE")',
+           color = "#008393", 
+           size = 4,
+           x = 1.4,
+           y = (pull(Thresholds %>%filter(Group == "Asian"), Percent)) +1,
+           parse = TRUE)+
+    annotate("text", label = 'bold("US 2017 RATE")',
+           color = "#008393", 
+           size = 4,
+           x = 1.4,
+           y = (pull(Thresholds %>%filter(Group == "United States"), Percent)) +1,
+           parse = TRUE)
+```
+
+```{r,eval=FALSE}
+asian_subgroups %>%
+  dplyr::select(-Group) %>%
+  complete(Gender, Race_Ethnicity, Year) %>%
+  group_by(Race_Ethnicity) %>%
   mutate(missing = sum(is.na(Percent))) %>%
-  filter(missing == 0) %>%
-  dplyr::select(-missing) %>%
-  ungroup() %>%
+  #filter(missing == 0) %>% #hmmm not quite right now
+  #dplyr::select(-missing) %>%
+  #ungroup() %>%
   group_by(Gender) %>%
   mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
-  group_by(Subgroup, Year) %>%
+  group_by(Race_Ethnicity, Year) %>%
   mutate(rank_all = sub_rank[Gender == "ALL"]) %>%
   ungroup() %>%
   group_by(Year) %>%
-  mutate(threshold = Percent[Gender == "ALL" & Subgroup == "ALL"]) %>%
+  mutate(threshold = Percent[Gender == "ALL" & Race_Ethnicity == "ALL"]) %>%
   ungroup() %>%
-  mutate(Subgroup = fct_reorder(Subgroup, rank_all)) %>%
-  ggplot(aes(x = Subgroup, y = Percent, fill = Gender)) +
+  mutate(Race_Ethnicity = fct_reorder(Race_Ethnicity, rank_all)) %>%
+  ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Gender)) +
   facet_wrap(Year ~., ncol = 1) +
   geom_hline(aes(yintercept = threshold), linetype = 2) +
   geom_bar(stat = "identity",
@@ -1658,23 +1782,23 @@ asian_subgroups %>%
 ```
 
 ```{r, eval = FALSE}
-df3 %>%
-  complete(Gender, Subgroup, Year) %>%
-  group_by(Subgroup) %>%
+latinx_subgroups %>%
+  complete(Gender, Race_Ethnicity, Year) %>%
+  group_by(Race_Ethnicity) %>%
   mutate(missing = sum(is.na(Percent))) %>%
   filter(missing == 0) %>%
   dplyr::select(-missing) %>%
   ungroup() %>%
   group_by(Gender) %>%
   mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
-  group_by(Subgroup, Year) %>%
+  group_by(Race_Ethnicity, Year) %>%
   mutate(rank_all = sub_rank[Gender == "ALL"]) %>%
   ungroup() %>%
   group_by(Year) %>%
-  mutate(threshold = Percent[Gender == "ALL" & Subgroup == "ALL"]) %>%
+  mutate(threshold = Percent[Gender == "ALL" & Race_Ethnicity == "ALL"]) %>%
   ungroup() %>%
-  mutate(Subgroup = fct_reorder(Subgroup, rank_all)) %>%
-  ggplot(aes(x = Subgroup, y = Percent, fill = Gender)) +
+  mutate(Race_Ethnicity = fct_reorder(Race_Ethnicity, rank_all)) %>%
+  ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Gender)) +
   facet_wrap(Year ~., ncol = 1) +
   geom_hline(aes(yintercept = threshold), linetype = 2) +
   geom_bar(stat = "identity",
@@ -1696,6 +1820,50 @@ df3 %>%
                              face = "bold"),
         axis.title.x = element_blank(),
         axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+```{r, out.height="600px"}
+Thresholds <-major_groups_long%>% filter(Group %in% c("United States","Latinx"), Year == "2017")
+
+latinx_subgroups %>%
+  dplyr::select(-Group) %>%
+  filter(Gender == "All") %>%
+pivot_wider(names_from = Year, values_from = Percent) %>%
+drop_na() %>%
+pivot_longer(cols = -c(Race_Ethnicity, Gender), 
+names_to ="Year" , 
+values_to="Percent")%>%
+ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
+geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "Latinx"), Percent))), linetype = 2) +
+geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "United States"), Percent))), linetype = 3)+
+  geom_bar(stat = "identity",
+           color = "transparent",
+           size = 0.5,
+           position = "dodge") +
+    #facet_wrap( ~Gender, ncol = 1) +
+  labs(title = "FIGURE X YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017-2018",
+       subtitle = "ORDERED BY OVERALL DISCONNECTION",
+       y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
+  theme_classic() +
+  theme(title = element_text(size = 10,
+                             color = "#008393",
+                             face = "bold"),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1))+
+    annotate("text", label = 'bold("LATINX 2017 RATE")',
+           color = "#008393", 
+           size = 3.7,
+           x = 5,
+           y = (pull(Thresholds %>%filter(Group == "Latinx"), Percent)) +1,
+           parse = TRUE)+
+    annotate("text", label = 'bold("US 2017 RATE")',
+           color = "#008393", 
+           size = 4,
+           x = 5,
+           y = (pull(Thresholds %>%filter(Group == "United States"), Percent)) +1,
+           parse = TRUE)
 ```
 
 ## **Summary**
