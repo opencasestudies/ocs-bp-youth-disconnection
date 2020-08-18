@@ -694,7 +694,7 @@ To specify that we want to collapse all the columns that have year values, we ca
 dis_long <- df_dis %>%
   tidyr::pivot_longer(cols = contains("20"),
                   names_to = "Year",
-                 values_to = "Rate",
+                 values_to = "Percent",
               names_prefix = "Perc_") %>%
   dplyr::mutate(Year = as.numeric(Year))
 ```
@@ -1318,14 +1318,14 @@ We can accomplish this with the `Kendall::MannKendall()` function. The `Kendall:
 dis_long %>%
   filter(Gender == "All",
          Race == "Native American") %>%
-  pull(Rate) %>%
+  pull(Percent) %>%
   MannKendall(.) %>%
   summary()
 
 ```
 
 
-There does not appear to be a change in the trend. However, it's important to note that we only have `r length(dis_long %>% filter(Gender == "All", Race == "Native American") %>% pull(Rate))` observations.
+There does not appear to be a change in the trend. However, it's important to note that we only have `r length(dis_long %>% filter(Gender == "All", Race == "Native American") %>% pull(Percent))` observations.
 
 We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true). 
 
@@ -1334,13 +1334,13 @@ We can also explore the trend using [simple linear regression](https://en.wikipe
 dis_long %>%
   filter(Gender == "All",
          Race == "Native American") %>%
-  lm(Rate ~ Year, data = .) %>%
+  lm(Percent ~ Year, data = .) %>%
   summary()
 ```
 
 
 For each one year change, the mean increase in disconnection rates is
-`r (dis_long%>% filter(Gender == "All", Race == "Native American") %>% lm(Rate ~ Year, data = .))[["coefficients"]]["Year"]`
+`r (dis_long%>% filter(Gender == "All", Race == "Native American") %>% lm(Percent ~ Year, data = .))[["coefficients"]]["Year"]`
 
  This relationship is not statistically significant. Again, we are largely limited by the number of observations in this dataset. 
 
@@ -1350,7 +1350,7 @@ We can visualize the relationship above.
 dis_long %>%
   filter(Gender == "All",
          Race == "Native American") %>%
-  ggplot(aes(x = Year, y = Rate)) +
+  ggplot(aes(x = Year, y = Percent)) +
   geom_smooth(method = "lm", color = "red") + 
   geom_point() + 
   scale_x_continuous(breaks = seq(2008, 2018, by = 1),
@@ -1399,7 +1399,7 @@ fa_figurine <- image_fill(fa_figurine,
 plot <-dis_long %>%
    filter(Gender == "All",
           Group != "United States") %>%
-  ggplot(aes(x = Year, y = Rate, group=Race)) +
+  ggplot(aes(x = Year, y = Percent, group=Race)) +
   geom_line(color = "#008393", size = 0.5) +
   geom_point(color = "#008393", size = 3) +
   scale_x_continuous(breaks = seq(2008,2018, by=1),
@@ -1544,20 +1544,20 @@ latino_a_subgroups %>%
 asian_subgroups %>%
   complete(Gender, Subgroup, Year) %>%
   group_by(Subgroup) %>%
-  mutate(missing = sum(is.na(Rate))) %>%
+  mutate(missing = sum(is.na(Percent))) %>%
   filter(missing == 0) %>%
   dplyr::select(-missing) %>%
   ungroup() %>%
   group_by(Gender) %>%
-  mutate(sub_rank = rank(Rate, ties.method = "min")) %>%
+  mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
   group_by(Subgroup, Year) %>%
   mutate(rank_all = sub_rank[Gender == "ALL"]) %>%
   ungroup() %>%
   group_by(Year) %>%
-  mutate(threshold = Rate[Gender == "ALL" & Subgroup == "ALL"]) %>%
+  mutate(threshold = Percent[Gender == "ALL" & Subgroup == "ALL"]) %>%
   ungroup() %>%
   mutate(Subgroup = fct_reorder(Subgroup, rank_all)) %>%
-  ggplot(aes(x = Subgroup, y = Rate, fill = Gender)) +
+  ggplot(aes(x = Subgroup, y = Percent, fill = Gender)) +
   facet_wrap(Year ~., ncol = 1) +
   geom_hline(aes(yintercept = threshold), linetype = 2) +
   geom_bar(stat = "identity",
@@ -1585,20 +1585,20 @@ asian_subgroups %>%
 df3 %>%
   complete(Gender, Subgroup, Year) %>%
   group_by(Subgroup) %>%
-  mutate(missing = sum(is.na(Rate))) %>%
+  mutate(missing = sum(is.na(Percent))) %>%
   filter(missing == 0) %>%
   dplyr::select(-missing) %>%
   ungroup() %>%
   group_by(Gender) %>%
-  mutate(sub_rank = rank(Rate, ties.method = "min")) %>%
+  mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
   group_by(Subgroup, Year) %>%
   mutate(rank_all = sub_rank[Gender == "ALL"]) %>%
   ungroup() %>%
   group_by(Year) %>%
-  mutate(threshold = Rate[Gender == "ALL" & Subgroup == "ALL"]) %>%
+  mutate(threshold = Percent[Gender == "ALL" & Subgroup == "ALL"]) %>%
   ungroup() %>%
   mutate(Subgroup = fct_reorder(Subgroup, rank_all)) %>%
-  ggplot(aes(x = Subgroup, y = Rate, fill = Gender)) +
+  ggplot(aes(x = Subgroup, y = Percent, fill = Gender)) +
   facet_wrap(Year ~., ncol = 1) +
   geom_hline(aes(yintercept = threshold), linetype = 2) +
   geom_bar(stat = "identity",
