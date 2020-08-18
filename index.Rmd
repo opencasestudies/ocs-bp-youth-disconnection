@@ -671,7 +671,7 @@ df_dis %<>%
 
 df_dis %<>% 
   mutate(Gender = str_extract(Group, "Female|Male")) %>%
-  mutate(Gender = replace_na(Gender, replace = "Gender_Total"))
+  mutate(Gender = replace_na(Gender, replace = "All"))
 
 ```
 
@@ -857,7 +857,7 @@ clean_table <- function(table){
                                        "Male" = "All_races")) %>%
     mutate(Race = str_remove(Race,  pattern = " Female| Male"))%>%
     mutate(Gender = str_extract(Group, "Female|Male")) %>%
-    mutate(Gender = replace_na(Gender, replace = "Gender_Total"))
+    mutate(Gender = replace_na(Gender, replace = "All"))
  
 }
 
@@ -1101,7 +1101,7 @@ clean_table <- function(table){
     mutate(Race = na_if(Race, "missing")) %>%
     fill(Race, .direction = "down") %>%
     mutate(Gender = str_extract(Group, "Men|Women")) %>%
-    mutate(Gender = replace_na(Gender, replace = "Gender_Total"))
+    mutate(Gender = replace_na(Gender, replace = "All"))
  
 }
 ```
@@ -1128,7 +1128,7 @@ asian_sub_2018 %<>%
   add_row(Group = "Asian_Total",
         Percent = 6.2,
            Race = "Asian Total",
-          Gender = "Gender_Total") %>%
+          Gender = "All") %>%
   add_row(Group = "Asian_Total",
         Percent = 6.4,
            Race = "Asian_Total",
@@ -1155,6 +1155,21 @@ asian
 asian_sub_2018 %<>%
   mutate(Year = 2018)
 asian_sub_2018
+```
+
+You may notice that `Gender` is coded differently for the two years. Let's make this consistent now:
+
+```{r}
+asian_sub_2018 %>%
+  mutate(across(.cols = c(Gender, Group),
+                ~str_replace(string = ., 
+                            pattern = "Men", 
+                        replacement = "Male")),
+         across(.cols = c(Gender, Group),
+                ~str_replace(string = ., 
+                            pattern = "Women", 
+                        replacement = "Female")))
+
 ```
 
 We can combine these two tibbles using the `bind_rows()` function of `dplyr`.
@@ -1222,6 +1237,24 @@ latino_a_sub_2018 %<>%
 
 ```
 
+
+And now we will recode gender like before to be consistent:
+
+```{r}
+latino_a_sub_2018 %>%
+  mutate(across(.cols = c(Gender, Group),
+                ~str_replace(string = ., 
+                            pattern = "Men", 
+                        replacement = "Male")),
+         across(.cols = c(Gender, Group),
+                ~str_replace(string = ., 
+                            pattern = "Women", 
+                        replacement = "Female")))
+
+```
+
+
+
 Now we just need to combine all the data for the Latino subgroups.
 
 
@@ -1237,6 +1270,18 @@ latino_a_sub_2018 %<>%
 latino_a_subgroups <- bind_rows(latino_a, latino_a_sub_2018)
 latino_a_subgroups
 ```
+
+
+### All together
+
+OK, now let's make sure that our notations match across our different tables. For example in the first report the terms male and female where used, but in the second report men and women were used. Let's make this consistent now.
+
+```{r}
+dis_long
+asian_subgroups
+latino_a_subgroups
+```
+
 
 ## **Data Analysis**
 *** 
@@ -1271,7 +1316,7 @@ We can accomplish this with the `Kendall::MannKendall()` function. The `Kendall:
 
 ```{r}
 dis_long %>%
-  filter(Gender == "Gender_Total",
+  filter(Gender == "All",
          Race == "Native American") %>%
   pull(Rate) %>%
   MannKendall(.) %>%
@@ -1280,14 +1325,14 @@ dis_long %>%
 ```
 
 
-There does not appear to be a change in the trend. However, it's important to note that we only have `r length(dis_long %>% filter(Gender == "Gender_Total", Race == "Native American") %>% pull(Rate))` observations.
+There does not appear to be a change in the trend. However, it's important to note that we only have `r length(dis_long %>% filter(Gender == "All", Race == "Native American") %>% pull(Rate))` observations.
 
 We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true). 
 
 
 ```{r}
 dis_long %>%
-  filter(Gender == "Gender_Total",
+  filter(Gender == "All",
          Race == "Native American") %>%
   lm(Rate ~ Year, data = .) %>%
   summary()
@@ -1295,7 +1340,7 @@ dis_long %>%
 
 
 For each one year change, the mean increase in disconnection rates is
-`r (dis_long%>% filter(Gender == "Gender_Total", Race == "Native American") %>% lm(Rate ~ Year, data = .))[["coefficients"]]["Year"]`
+`r (dis_long%>% filter(Gender == "All", Race == "Native American") %>% lm(Rate ~ Year, data = .))[["coefficients"]]["Year"]`
 
  This relationship is not statistically significant. Again, we are largely limited by the number of observations in this dataset. 
 
@@ -1303,7 +1348,7 @@ We can visualize the relationship above.
 
 ```{r}
 dis_long %>%
-  filter(Gender == "Gender_Total",
+  filter(Gender == "All",
          Race == "Native American") %>%
   ggplot(aes(x = Year, y = Rate)) +
   geom_smooth(method = "lm", color = "red") + 
@@ -1352,7 +1397,7 @@ fa_figurine <- image_fill(fa_figurine,
                           fuzz = 0)
 
 plot <-dis_long %>%
-   filter(Gender == "Gender_Total",
+   filter(Gender == "All",
           Group != "United States") %>%
   ggplot(aes(x = Year, y = Rate, group=Race)) +
   geom_line(color = "#008393", size = 0.5) +
@@ -1387,7 +1432,7 @@ gender_n <- 3
 
 asian_total <- asian_subgroups%>%
   filter(Year == 2017,
-       Gender == "Gender_Total",
+       Gender == "All",
          Race == "Asian") %>%
   pull(Percent)
 
@@ -1397,7 +1442,7 @@ asian_subgroups %>%
   group_by(Gender) %>%
   mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
   group_by(Race) %>%
-  mutate(rank_all = sub_rank[Gender == "Gender_Total"]) %>%
+  mutate(rank_all = sub_rank[Gender == "All"]) %>%
   ungroup() %>%
   mutate(Race = fct_reorder(Race, rank_all)) %>%
   ggplot(aes(x = Race, y = Percent, fill = Gender)) +
@@ -1451,7 +1496,7 @@ Lastly, we can add annotations to add provide even more depth to the visualizati
 ```{r}
 latino_a_total <- latino_a_subgroups %>%
   filter(Year == 2017) %>%
-  filter(Gender == "Gender_Total",
+  filter(Gender == "All",
          Race == "Latino") %>%
   pull(Percent)
 
@@ -1461,7 +1506,7 @@ latino_a_subgroups %>%
   group_by(Gender) %>%
   mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
   group_by(Race) %>%
-  mutate(rank_all = sub_rank[Gender == "Gender_Total"]) %>%
+  mutate(rank_all = sub_rank[Gender == "All"]) %>%
   ungroup() %>%
   mutate(Race = fct_reorder(Race, rank_all)) %>%
   ggplot(aes(x = Race, y = Percent, fill = Gender)) +
