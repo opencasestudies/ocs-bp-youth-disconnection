@@ -154,7 +154,9 @@ library(tidyr)
 library(magrittr)
 library(pdftools)
 library(magick)
+library(directlabels)
 library(cowplot)
+library(forcats)
 library(Kendall)
 ```
 
@@ -162,10 +164,15 @@ library(Kendall)
 
  Package   | Use                                                                         
 ---------- |-------------
-[**here**](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data
-[**tidyverse**](https://readr.tidyverse.org/){target="_blank"}      | for data science operations
-[**pdftools**](https://readr.tidyverse.org/){target="_blank"}      | to manage PDF documents
-[**magick**](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution){target="_blank"}      | for image processing 
+[here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data
+[tidyverse](https://readr.tidyverse.org/){target="_blank"}      | for data science operations
+[pdftools](https://readr.tidyverse.org/){target="_blank"}      | to manage PDF documents
+[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution){target="_blank"}      | for image processing 
+[here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data
+[tidyverse](https://readr.tidyverse.org/){target="_blank"}      | for data science operations
+[pdftools](https://readr.tidyverse.org/){target="_blank"}      | to manage PDF documents
+[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution){target="_blank"}      | for image processing 
+
 
 The first time we use a function, we will use the `::` to indicate which package we are using. Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
 
@@ -345,12 +352,12 @@ For demonstrative purposes, we will import two sets of data. The first set of da
 
 We will now import the data using the `magick` package which allows for the improtation of images. 
 
-First we will take a screenshot of the top part of the gender, race, and ethnicity table on the last page of the [2019 Measure of America Report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"}.
+First we will take a screenshot of the top part of the gender, race, and ethnicity table on the last page of the [2019 Measure of America Report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"}. We are only interested in the percentage of disconnection across the years, so we dont need our screenshot to include the last couple of columns.
 
 We can show what this file looks like in this rendered rmarkdown website by using the `include_graphics()` function of the `knitr` package.
 
 ```{r}
-knitr::include_graphics(here::here("img", "gender_race_ethnicity.png"))
+knitr::include_graphics(here::here("img", "Major_ethnic_groups_screenshot.png"))
 ```
 
 Now, we will use the `image_read()` function of the `magick` package to import this image.
@@ -358,7 +365,7 @@ Now, we will use the `image_read()` function of the `magick` package to import t
 We can then use teh `image_info()` function to make sure that the import worked and to get information about the size, format and color of the image.
 
 ```{r, dpi = 1000}
-Major_racial_ethnic_groups <- magick::image_read(here::here("img", "gender_race_ethnicity.png"))
+Major_racial_ethnic_groups <- magick::image_read(here::here("img", "Major_ethnic_groups_screenshot.png"))
 
 magick::image_info(Major_racial_ethnic_groups)
 ```
@@ -370,13 +377,8 @@ Major_racial_ethnic_groups
 
 Nice!
 
-We will demonstrate in a bit that the top part of the table causes issues when extracting the text from this image.  So now we will take a screen shot without the top part of the table and do the same process.
 
-```{r, dpi = 1000}
-cropped_table_gen_race_eth_2018 <- image_read(here("img", "gender_race_ethnicity2.png"))
-cropped_table_gen_race_eth_2018
-```
-Let's import one more image just for fun. Here we will import an image directly from a URL.
+Let's a couple more images just for fun. Here we will import an image directly from a URL.
 
 ```{r, out.width="20%"}
 ggplot2_logo <- image_read("https://d33wubrfki0l68.cloudfront.net/2c6239d311be6d037c251c71c3902792f8c4ddd2/12f67/css/images/hex/ggplot2.png")
@@ -401,7 +403,7 @@ tidyverse_logo
 magick::image_ocr(tidyverse_logo)
 ```
 
-This is likely do to the background on this particular hex sticker.
+This is likely do to the background on this particular hex sticker. So sometimes this process requires a bit of trial and error.
 
 ## **Data Wrangling**
 *** 
@@ -423,6 +425,8 @@ major_groups
 ```
 This looks like it worked fairly well!
 
+We appear to have lost the column names but the values look pretty good.
+
 You may notice that there are lots of `\n` values in the text from our image. These are [**newline**](https://en.wikipedia.org/wiki/Newline?oldformat=true) characters, which denote the end of a line of text and the start of a new line of text.  
 
 We can use the `str_split()` function of the `stringr` package to split based on the `\n` characters in the output. We will then unlist the output using the base R `unlist()` function. By base, we mean that the function it is loaded automatically in an R session. Finally we will use the `as_tibble()` function of the `tibble` package to convert the data into [tibble](https://tibble.tidyverse.org/){target="_blank"} format, which is the tidyverse version of a data frame. This will allow us to see the values in the table much better.
@@ -436,75 +440,31 @@ By [piping](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.
 This allows us to perform multiple sequential steps on one data input.   
 </details>  
 ***
-#### {.scrollable }
+
 ```{r}
- major_groups %>%
+ major_groups <- major_groups %>%
   stringr::str_split(pattern ="\n") %>%
   unlist() %>%
   tibble::as_tibble()
+```
+
+
+#### {.scrollable }
+```{r}
+  
+  major_groups %>%print(n = 20)
 
 ```
 ####
 
 
-OK, not bad, the top looks a bit strange but the rest of the table looks fairly good, but there are some rows that look particularly strange like the row that starts with `LATINO`, or you may notice that the row for Native American females ends with `-B.4`:
+OK, this looks pretty good!
 
+The only issue is that some values appear to be missing a decimal point. 
 
-```{r, echo = FALSE}
+No worries though, we can modify the entire table in a reproducbile way to get those decimal places back. However, first we need to do some other wrangling steps first.
 
-df <- major_groups %>%
-  stringr::str_split(pattern ="\n") %>%
-  unlist() %>%
-  tibble::as_tibble()
-
-temp <-df %>%
-  pull(value) %>%
-  str_split(" ")
-temp[13]
-temp[21]
-```
-
-Data wrangling is not an exact science. The approaches we can take are extremely dependent on the data. We can exploit patterns in the data to render the output we desire. 
-
-The first few lines of our table have quite a bit of special formatting, there are different font colors and backgrounds. As we saw previously, this can sometimes cause issues. So now we will try using the cropped version of the image.
-
-To take a look at how the cropped version of the image does, we will need to again split the single extracted character string from the image based on the newline expression.
-
-One option is to copy and paste code we wrote above. 
-However, this is not very efficient and is error prone.
-Alternatively, we can create a R function to accomplish this succinctly. 
-Functions allow us to perform the same process on multiple data inputs. 
-See [this other case study](https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/){target="_blank"} for more details about how to write a function.
-
-In general, the process of writing functions involves first specifying an input that is used within the function to create an output. In this case, the data input is `text`  which will be replaced by the actual image text that we are working on, and then used in the subsequent steps to wrangle the data. We will call our function `make_rows()`.
-
-```{r}
-
-make_rows <- function(text){
-  text %>%
-  str_split("\n") %>%
-  unlist() %>%
-  as_tibble()
-}
-
-```
-
-Now we will use this function on our cropped version of the image, after we extract the text.
-
-```{r, dpi = 1000}
-
-cropped_table_gen_race_eth_2018
-
-major_groups <- image_ocr(cropped_table_gen_race_eth_2018)
-
-major_groups <- make_rows(major_groups)
-
-major_groups
-```
-
-Great! Our function works, and this looks much better!
-
-Now let's spearate the first column about ethnicities with the values in the subsequent columns. We can do so using the `separate()` function of the `tidyr` pacakge based on [regular expressions](https://en.wikipedia.org/wiki/Regular_expression){target="_blank"}. Regular expressions (abbreviated regex) are notation shortcuts that describe patterns in character strings. See [here](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf){target="_blank"} for an RStudio cheetsheat about them.
+First, let's spearate the first column about ethnicities with the values in the subsequent columns. We can do so using the `separate()` function of the `tidyr` pacakge based on [regular expressions](https://en.wikipedia.org/wiki/Regular_expression){target="_blank"}. Regular expressions (abbreviated regex) are notation shortcuts that describe patterns in character strings. See [here](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf){target="_blank"} for an RStudio cheetsheat about them.
 
 We want to separate by instances where a letter is followed by a space and then a number. 
 
@@ -560,13 +520,13 @@ major_groups %<>%
 major_groups
 ```
 
-Nice! that looks better.
+Nice! That looks better.
 
 For the year data we would like to try splitting the strings for each row into different columns based on a space. Currently all the data is listed in one column called `Years`.
 
-We can use the `separate` function of the `tidyr` pacakge again to do this. This will allow us to not only split the rows by spaces and will also allow us to remove the last two columns, as we will not provide names for these. 
+We can use the `separate` function of the `tidyr` pacakge again to do this. This will allow us to split the rows by spaces, as well as provide names for the new columns. 
 
-#### {.scrollable }
+
 ```{r}
 
 major_groups %<>%
@@ -579,7 +539,7 @@ tidyr::separate(col = Years,
 major_groups
  
 ```
-####
+
 
 
 Looks pretty good!
@@ -595,7 +555,7 @@ major_groups
 
 Great, now we have 18 rows.
 
-It's important to look very carefully at the text. There are some values missing a decimal place. For example the row where the `Group` vlaue is `Asian`, the first value is missing a decimal place.
+It's important to look very carefully at the text. Again, there are some values missing a decimal place. For example the row where the `Group` vlaue is `Asian`, the third and fourth values are missing a decimal place.
 
 Looking at the orginal table we see that even values like 10 are represented as 10.0. 
 
@@ -681,6 +641,8 @@ major_groups %<>%
            recode(Group, "United States" = "All_races",
                                 "Female" = "All_races",
                                   "Male" = "All_races"))
+
+head(major_groups)
 ```
 
 
@@ -690,6 +652,8 @@ We also want to remove Male and Female from this "Race_Ethnicity" variable, We c
 major_groups %<>% 
   mutate(Race_Ethnicity = str_remove(string = Race_Ethnicity,  
                                     pattern = " Female| Male"))
+
+head(major_groups)
 ```
 
 For the new `Gender` variable we would like to extract just the "Female" and "Male" text from the `Group` variable. The `str_extract()` function of the `stringr` package will do this, and it will give us an `NA` value for any rows whhere "Female" or "Male" were not present. We can then replace the `NA` values with  the text "All" to represent the total value for both male and female using the `replace_na()` function of the `tidyr()` package.
@@ -701,9 +665,11 @@ major_groups %<>%
                              pattern = "Female|Male")) %>%
   mutate(Gender = replace_na(Gender, replace = "All"))
 
+head(major_groups)
 ```
 
-We would also like to replace Latino and Latina with Latinx:
+We would also like to replace Latino and Latina with Latinx. 
+We can  use another `string_r` function for this. This function, `str_replace()` allows us to remove and replace a particular pattern. 
 
 ```{r}
 major_groups %<>%
@@ -713,8 +679,15 @@ major_groups %<>%
                         replacement = "Latinx")))
 ```
 
-```{r, echo = FALSE}
-DT::datatable(major_groups)
+#### {.think_question_block}
+<b><u> Question Opportunity </u></b>
+
+Why is the `str_replace()` function in this case a better option than using the `recode()` function?
+
+####
+
+```{r}
+major_groups
 ```
 Finally, we would like to change the shape of our table so that we have a new column that represents the year and a new column that represents the value for that year.
 
@@ -743,7 +716,7 @@ major_groups_long
 ```
 
 
-Now we just need to do the same for the other two tables:
+Excellent, now we need to do the same for the other two tables on this page:
 
 ```{r, echo  = FALSE}
 
@@ -757,7 +730,7 @@ Now let's do the same for the Asian subgroups table.
 
 First we will start by importing a screenshot for this table without the header, as we did before. The name of the file for the screenshot is `asian_subgroups.png` and it is located in the `img` directory.
 
-#### {.question_block}
+#### {.recall_code_question_block}
 <b><u> Question Opportunity </u></b>
 
 Can you recall the command to import an image into R using the `magick` package?
@@ -768,30 +741,28 @@ Can you recall the command to import an image into R using the `magick` package?
 <details> <summary> Click here to reveal the code. </summary>
 
 
-```{r, out.width="40%"}
-asian_subgroups <- image_read(here("img", "asian_subgroups.png"))
-asian_subgroups
+```{r, out.width}
+asian_subgroups <- image_read(here::here("img", "asian_subgroups_2017.png"))
 ```
+
 </details>
 
 
-#### {.question_block}
+```{r, out.width="40%"}
+asian_subgroups
+```
+
+#### {.recall_code_question_block}
 <b><u> Question Opportunity </u></b>
 
-Can you recall the command to extract the text from an image into R using the `magick` package? What about the commands to split the data into rows based on the newline regex ?
+Can you recall the command to extract the text from an image using the `magick` package? 
 
 ####
 
-
 <details> <summary> Click here to reveal the code. </summary>
-
 
 ```{r}
 asian_subgroups <- image_ocr(asian_subgroups)
-
-asian_subgroups
-
-asian_subgroups <- make_rows(asian_subgroups) 
 ```
 
 </details>
@@ -801,7 +772,39 @@ asian_subgroups
 ```
 
 
-As you can see, there are some strange values for some of the rows. For example the row that starts with `PAKISTANI` has a `bh` percentage of disconnected youth, and the row that should say `FILIPINO` says `UNO`.
+Now we again want to split the data into rows based on the newline regex. This is something we will continue to do for all the tables.
+
+One option is to copy and paste code we wrote above each time. 
+However, this is not very efficient and is error prone.
+Alternatively, we can create a R function to accomplish this succinctly. 
+Functions allow us to perform the same process on multiple data inputs. 
+See [this other case study](https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/){target="_blank"} for more details about how to write a function.
+
+In general, the process of writing functions involves first specifying an input that is used within the function to create an output. In this case, the data input is `text`  which will be replaced by the actual image text that we are working on, and then used in the subsequent steps to wrangle the data. We will call our function `make_rows()`.
+
+```{r}
+
+make_rows <- function(text){
+  text %>%
+  str_split("\n") %>%
+  unlist() %>%
+  as_tibble()
+}
+
+```
+
+
+Great! Now let's apply our function to the `asian_subgroups` data!
+
+```{r}
+asian_subgroups <- make_rows(asian_subgroups) 
+
+asian_subgroups
+```
+
+
+As you can see, there are some strange values for some of the rows. For example the row that starts with `CHINESE MAle` has `AT` percentage of disconnected youth, and the row that should say `FILIPINO` says `S™S™~SS`.
+
 
 
 ```{r, echo = FALSE}
@@ -809,22 +812,27 @@ As you can see, there are some strange values for some of the rows. For example 
 temp <-asian_subgroups %>%
   pull(value) %>%
   str_split(" ")
-temp[16]
-temp[27]
+temp[8]
+temp[28]
 ```
-The rows with no values are possibly cuasing this issue.  According to the PDF, these spaces are empty to denote that the estimates are unreliable.
+
+The rows with no values are possibly causing this issue.  According to the PDF, these spaces are empty to denote that the estimates were unreliable for these groups.
 
 So we will now import and extract text from three screenshots of this table where we stop just after the row that starts with `PAKISTANI` in the first image, and then an image of the Korean rows up to the next row with no values, and finally an image starting at the row that starts with `FILIPNO`.
 
 ```{r}
-Asian_sub_A <- image_read(here("img", "asian_subgroupsA.png"))
-Asian_sub_B <- image_read(here("img", "asian_subgroupsB.png"))
-Asian_sub_C <- image_read(here("img", "asian_subgroupsC.png"))
+Asian_sub_A <- image_read(here("img", "asian_sub_A.png"))
+Asian_sub_B <- image_read(here("img", "asian_sub_B.png"))
+Asian_sub_C <- image_read(here("img", "asian_sub_C.png"))
 
 Asian_sub_A
 Asian_sub_B
 Asian_sub_C 
 
+```
+
+
+```{r}
 Asian_sub_A <- image_ocr(Asian_sub_A)
 Asian_sub_B <- image_ocr(Asian_sub_B)
 Asian_sub_C <- image_ocr(Asian_sub_C)
@@ -844,19 +852,20 @@ We can now combine the objects with the `bind_rows()` function of the `dplyr` pa
 
 ```{r}
 asian_sub_2017 <-bind_rows(Asian_sub_A, 
-                            Asian_sub_B,
-                            Asian_sub_C)
+                           Asian_sub_B,
+                           Asian_sub_C)
 
 asian_sub_2017
 ```
 
 Looks pretty good! 
 
-Now we have similar wrangling steps to perform as we did previously and we will need to do the same for the Latinx subgroups table. 
+Now we have similar wrangling steps to perform as we did previously and we will need to do the same for the Latinx subgroups table. So it is a good idea to make another function.
+
+Even though we appear to have all of the decimal places for the values, we will include this in our function, just to make sure the data is correct.
 
 
-
-#### {.question_block}
+#### {.explain_block}
 <b><u> Question Opportunity </u></b>
 
 Can you explain what each of the commands are doing within the function?
@@ -900,9 +909,9 @@ asian_sub_2017 <- clean_table(table = asian_sub_2017)
 asian_sub_2017
 ```
 
-Great! this looks as we expected. 
+Great! This looks as we expected. 
 
-#### {.question_block}
+#### {.think_question_block}
 <b><u> Question Opportunity </u></b>
 
 Why do we not need to use `pivot_longer()` with this data?
@@ -914,7 +923,7 @@ Why do we not need to use `pivot_longer()` with this data?
 
 After trial and error, two screenshots were determined best for importing this data. The names of the files for the screenshots are `latinx_sub_A.png` and `"latinx_sub_B.png`. They are located in the `img` directory.
 
-#### {.question_block}
+#### {.recall_code_question_block}
 <b><u> Question Opportunity </u></b>
 
 Can you recall the commands to import and extract the data?
@@ -955,7 +964,7 @@ We can combine the strings together using the `str_c()` function (wich stands fo
 latinx_sub_2017 <-stringr::str_c(latinx_A, latinx_B, latinx_C)
 ```
 
-#### {.question_block}
+#### {.recall_code_question_block}
 <b><u> Question Opportunity </u></b>
 
 Can you recall the commands within our `make_rows()` function to separate the data into rows and create a tibble?
@@ -986,7 +995,7 @@ latinx_sub_2017
 
 Let's also replace the abbreviations for Puerto Rican and Domincan and let's replace Latino/Latina with Latinx.
 
-#### {.question_block}
+#### {.think_question_block}
 <b><u> Question Opportunity </u></b>
 
 How might you do this?
@@ -995,7 +1004,7 @@ How might you do this?
 
 <details> <summary> Click here to reveal the code. </summary>
 
-We will use another `string_r` function. This function, `str_replace()` allows us to remove and replace a particular pattern. 
+
 
 ```{r}
 latinx_sub_2017 %<>%
@@ -1012,16 +1021,17 @@ latinx_sub_2017 %<>%
 </details>
 
 
-```{r, echo = FALSE}
-library(DT)
-DT::datatable(latinx_sub_2017)
+```{r}
+latinx_sub_2017
 ```
 
 Great!
 
-### Asian Subgroups 2018
 
 Now we are ready to look at the data from 2018 for the Asian and Latinx subgroups from the other [report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf){target="_blank"}.
+
+
+### Asian Subgroups 2018
 
 Recall that this was the page with the table of interest for the asian subgroups with 2018 data:
 
@@ -1031,12 +1041,13 @@ knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
 
 As you can see, the data for the subgroups is shown in the table but the overall data for Asians is located in the text.
 
-We will use a screen shot of each to extract the data for this year.
+We will use a screenshot of each to extract the data for this year.
 
-```{r, echo = FALSE, out.width="60%"}
+```{r, echo = FALSE, out.width="30%"}
 knitr::include_graphics(here::here("img/asian_subgroups_2018.png"))
 ```
-```{r, echo = FALSE, out.width="60%"}
+
+```{r, echo = FALSE, out.width="80%"}
 knitr::include_graphics(here::here("img", "asian_youth_excerpt.png"))
 ```
 Trial and error indicated that again dividing the table into multiple screenshots improved the text extraction:
@@ -1056,20 +1067,24 @@ asian_sub_2018
 ```
 Now we need to modify our function a bit for this new data. 
 
-Firstly, we now have colons `:` in our table that we will want to separate by. Unfortunately, eachthe text in each row ins't extracted in the same way by the OCR.  Thus some rows have only a space, while others have a spaces around a colon; or for the row with `VIETNAM` we see a colon followed by a space. Thus we will modify our `seperate()` function with this change. We can specify  that the separator between any letter and any digit should be either a space (`\\s`) or a colon with a space before and after it (`\\s:\\s`) using the or (`|`)opperator. 
+Firstly, we now have colons `:` in our table that we will want to separate by. Unfortunately, the text in each row isn't extracted in the same way by the OCR.Thus some rows have only a space, while others have spaces around a colon; or for the row with `VIETNAM` we see a colon directly after the word followed by a space. Thus we will modify our `seperate()` function with this change. We can specify  that the separator between any letter and any digit should be either a space (`\\s`) or a colon with a space before and after it (`\\s:\\s`) using the or (`|`)opperator. 
 
 So this will look like this:
 
 ```{r}
 asian_sub_2018 %>%
-    separate(., col = value, into = c("Group", "Percent"), sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])")
+    separate(., col = value,
+               into = c("Group", "Percent"), 
+                sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])")
 
 ```
 Then because of the row with `VIETNAM`, we will want to remove this colon using the `str_remove()` function like this:
 
 ```{r, eval = FALSE}
 asian_sub_2018 %>%
-    separate(., col = value, into = c("Group", "Percent"), sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])")%>% 
+    separate(., col = value, 
+               into = c("Group", "Percent"), 
+                sep = "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>% 
     mutate(Group= str_remove(string = Group, pattern = ":"))
 
 ```
@@ -1081,31 +1096,37 @@ This will look like this:
 ```{r}
 
 asian_sub_2018 %>%
-separate(., col = value, into = c("Group", "Percent"), sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
-mutate(Group= str_remove(string = Group, pattern = ":")) %>%
-mutate( Race_Ethnicity = str_replace(string = Group,
-                                    pattern = "Men|Women", 
-                                replacement = "missing")) %>%
-  head()
+separate(., col = value, 
+           into = c("Group", "Percent"), 
+            sep = "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
+mutate(Group = str_remove(string = Group, pattern = ":")) %>%
+mutate(Race_Ethnicity = str_replace(string = Group,
+                                   pattern = "Men|Women", 
+                               replacement = "missing")) %>%
+head()
 
 asian_sub_2018 %>%
-separate(., col = value, into = c("Group", "Percent"), sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
-mutate(Group= str_remove(string = Group, pattern = ":")) %>%
-mutate( Race_Ethnicity = str_replace(string = Group,
-                                    pattern = "Men|Women", 
-                                replacement = "missing")) %>%
-    mutate( Race_Ethnicity = na_if( Race_Ethnicity, "missing")) %>%
-  head()
+separate(., col = value, 
+           into = c("Group", "Percent"), 
+            sep = "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
+mutate(Group = str_remove(string = Group, pattern = ":")) %>%
+mutate(Race_Ethnicity = str_replace(string = Group,
+                                   pattern = "Men|Women", 
+                               replacement = "missing")) %>%
+mutate(Race_Ethnicity = na_if(Race_Ethnicity, "missing")) %>%
+head()
 
 asian_sub_2018 %>%
-separate(., col = value, into = c("Group", "Percent"), sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
-mutate(Group= str_remove(string = Group, pattern = ":")) %>%
-mutate( Race_Ethnicity = str_replace(string = Group,
-                                    pattern = "Men|Women", 
-                                replacement = "missing")) %>%
-    mutate(Race_Ethnicity = na_if( Race_Ethnicity, "missing")) %>%
-    fill(Race_Ethnicity, .direction = "down") %>%
-  head()
+separate(., col = value, 
+           into = c("Group", "Percent"), 
+            sep = "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
+mutate(Group = str_remove(string = Group, pattern = ":")) %>%
+mutate(Race_Ethnicity = str_replace(string = Group,
+                                   pattern = "Men|Women", 
+                               replacement = "missing")) %>%
+mutate(Race_Ethnicity = na_if(Race_Ethnicity, "missing")) %>%
+fill(Race_Ethnicity, .direction = "down") %>%
+head()
 
 ```
 
@@ -1115,8 +1136,11 @@ OK! Now, let's combine these pieces of our new function with the old pieces:
 
 clean_table <- function(table){
   table %>%
-    separate(., col = value, into = c("Group", "Percent"), sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>% 
-    mutate(Group= str_remove(string = Group, pattern = ":")) %>%
+    separate(., col = value, 
+               into = c("Group", "Percent"), 
+                sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>% 
+    mutate(Group= str_remove(string = Group, 
+                            pattern = ":")) %>%
     drop_na() %>%
     mutate(Group = str_to_title(string = Group)) %>%
     mutate(Percent = str_remove(string = Percent, 
@@ -1131,8 +1155,8 @@ clean_table <- function(table){
     mutate(Gender = str_extract(string = Group, 
                                pattern = "Men|Women")) %>%
     mutate(Gender = replace_na(Gender, replace = "All"))
- 
 }
+
 ```
 
 
@@ -1191,22 +1215,26 @@ You may notice that `Gender` is coded differently for the two years. Let's make 
 ```{r}
 asian_sub_2018 %<>%
   mutate(across(.cols = c(Gender, Group),
-                ~str_replace(string = ., 
+               ~ str_replace(string = ., 
                             pattern = "Men", 
                         replacement = "Male")),
          across(.cols = c(Gender, Group),
-                ~str_replace(string = ., 
+               ~ str_replace(string = ., 
                             pattern = "Women", 
                         replacement = "Female")))
 
 ```
 
-We can combine these two tibbles using the `bind_rows()` function of `dplyr`.
+We can combine these two tibbles using the `bind_rows()` function of `dplyr`. We can use the `glimpse()` function to get
 
 ```{r}
 
 asian_subgroups <- bind_rows(asian_sub_2017, asian_sub_2018)
+```
 
+
+```{r}
+DT::datatable(asian_subgroups)
 ```
 
 Now we are ready to peform similar wrangling for the Latinx subgroups.
@@ -1219,7 +1247,7 @@ Recall that this was the page with the table of interest for the Latinx subgroup
 knitr::include_graphics(here::here("img", "latinx_2018_overview.png"))
 ```
 
-Trial and error indicated that again dividing the table into multiple screenshots improved the text extraction:
+In this case only a single image was needed:
 
 ```{r}
 latinx_sub_2018 <- image_read(here::here("img", "latinx_subgroups_2018.png"))
@@ -1232,7 +1260,7 @@ We can replace the pattern of exactly two `\n` (using `\n{2}` to specify exactly
 
 ```{r}
 latinx_sub_2018 <- str_replace_all(string = latinx_sub_2018, 
-                                  pattern = "\\s:\n{2}|\n{2}",                                       replacement = " ")
+                                  pattern = "\\s:\n{2}|\n{2}",                                               replacement = " ")
 latinx_sub_2018 
 ```
 
@@ -1276,39 +1304,54 @@ knitr::include_graphics(here::here("img", "latinx_youth_excerpt.png"))
 ```
 
 
+#### {.recall_code_question_block}
+<b><u> Question Opportunity </u></b>
+
+Can you recall how to add additional rows?
+
+####
+
+
+<details> <summary> Click here to reveal the code. </summary>
+
+
 ```{r}
 latinx_sub_2018 %<>%
   add_row(Group = "Latinx",
-        Percent = 6.2,
+        Percent = 12.8,
  Race_Ethnicity = "Latinx",
          Gender = "All") %>%
   add_row(Group = "Latinx",
-        Percent = 6.4,
+        Percent = 12.3,
  Race_Ethnicity = "Latinx",
          Gender = "Men") %>%
   add_row(Group = "Latinx",
-        Percent = 6.1,
+        Percent = 13.3,
  Race_Ethnicity = "Latinx",
          Gender = "Women")
-
-latinx_sub_2018
 ```
 
+</details>
 
+
+```{r}
+tail(latinx_sub_2018)
+```
 
 And now we will recode gender like before to be consistent:
 
 ```{r}
 latinx_sub_2018 %<>%
   mutate(across(.cols = c(Gender, Group),
-                ~str_replace(string = ., 
-                            pattern = "Men", 
-                        replacement = "Male")),
+                ~ str_replace(string = ., 
+                             pattern = "Men", 
+                         replacement = "Male")),
          across(.cols = c(Gender, Group),
-                ~str_replace(string = ., 
-                            pattern = "Women", 
-                        replacement = "Female")))
+                ~ str_replace(string = ., 
+                             pattern = "Women", 
+                         replacement = "Female")))
 
+head(latinx_sub_2018)
 ```
 
 
@@ -1349,131 +1392,140 @@ save(major_groups_long, asian_subgroups, latinx_subgroups,
 
 ```
 
-## **Data Analysis**
-*** 
-
-```{r}
-# To allow starting at this section:
-load(here::here("data", "wrangled_data.rda"))
-```
-
-**Repeated Cross-sectional Data**
-
-We have pooled (repeated) [cross-sectional](https://en.wikipedia.org/wiki/Cross-sectional_data?oldformat=true) data.
-
-This is data produced from repeated measurement of a [population](https://en.wikipedia.org/wiki/Population?oldformat=true) over time.
-
-It is often infeasible to collect data for an entire population at once. However, we can still obtain meaningful measures using a random [sample](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true) of the population. 
-
-At specific time-points, data is collected from a sample of the population. The individuals in each sample are not necessarily the same individuals. This separates pooled cross-sectional data from panel data, which is longitudinal data from repeated measurement of the same people.   
-
-By sampling from a population at multiple time points, we can generate population level statistics. Although these statistics have some random error, they can provide insight into how the measure variable is changing in a population over time.
-
-We can accomplish this by plotting the measured values over time. Sometimes, however, the trend isn't exactly clear. Fortunately, there are statistical methods to resolve this issue.
-
-The Mann-Kendall trend test—a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)—tests whether there is a monotonic association, an association that does not increase or decrease but remains static across a dimension.
-
-Recall the youth disconnection rates for Native Americans, some of the highest in the first table we examined. 
-
-```{r}
-Major_racial_ethnic_groups
-```
-
-Let's conduct a Mann-Kendall test for trend.
-
-We can accomplish this with the `Kendall::MannKendall()` function. The `Kendall::MannKendall()` accepts a vector of data for which a trend may be observed. [Consulting the documentation for the `Kendall::MannKendall()` function available on CRAN](https://rdrr.io/cran/Kendall/man/MannKendall.html), we can "test for a a monotonic trend in a time series".
-
-
-
-```{r}
-major_groups_long %>%
-  filter(Gender == "All",
- Race_Ethnicity == "Native American") %>%
-  pull(Percent) %>%
-  MannKendall(.) %>%
-  summary()
-
-```
-
-
-There does not appear to be a change in the trend. However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations.
-
-We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true). 
-
-
-```{r}
-major_groups_long %>%
-  filter(Gender == "All",
- Race_Ethnicity == "Native American") %>%
-  lm(Percent ~ Year, data = .) %>%
-  summary()
-```
-
-
-For each one year change, the mean increase in disconnection rates is
-`r (major_groups_long%>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% lm(Percent ~ Year, data = .))[["coefficients"]]["Year"]`
-
- This relationship is not statistically significant. Again, we are largely limited by the number of observations in this dataset. 
-
-We can visualize the relationship above.
-
-```{r}
-major_groups_long %>%
-  filter(Gender == "All",
- Race_Ethnicity == "Native American") %>%
-  ggplot(aes(x = Year, y = Percent)) +
-  geom_smooth(method = "lm", color = "red") + 
-  geom_point() + 
-  scale_x_continuous(breaks = seq(2008, 2018, by = 1),
-                     labels = seq(2008, 2018, by = 1),
-                     limits = c(2008, 2018)) +
-  theme_minimal() +
-  labs(title = "Youth Disconnection Rates of Native American Youth",
-       subtitle = "2008 - 2017",
-       x = "Year",
-       y = "Disconnection Rate")
-```
-
-
-As we can see, there is a large amount of uncertainty around the fitted line. 
-
-Let's visualize the data! 
-
 ## **Data Visualization**
 *** 
 
-```{r}
+Recall what our main questions were?
+
+
+#### {.main_question_block}
+<b><u> Our main questions: </u></b>
+
+1) How have youth disconnection rates in American youth changed since 2008?   
+2) In particular, how has this changed for different gender and ethnic groups? Are any groups particularly disconnected? 
+
+####
+
+Now that we have wrangled our data and made it easy to work with, let's create some visualizations to explore these questions.
+
+```{r, echo = FALSE}
 # To allow starting at this section:
 load(here::here("data", "wrangled_data.rda"))
 ```
 
-Let's reproduce the example below.
+We are particularly interested in being able to reproduce the plot below, as we would like to make similar plots but include gender subgroups.
 
 ```{r, out.width = "100%", echo = FALSE, fig.align ="center"}
 include_graphics(here::here("img", "Making_the_Connection_plot.png"))
 ```
 
-We can create a version of the above example with `ggplot` from `tidyverse`.
+In general, it is very useful to learn how to reproduce the style of a plot.
 
-There are color identifying websites only such as [this](https://imagecolorpicker.com/en/).
 
-Using one of these websites, we identify the [hex triplet](https://en.wikipedia.org/wiki/Web_colors?oldformat=true) for the color used in the visualization included in the PDF: `#008393`. 
+There are color identifying websites such as [this](https://imagecolorpicker.com/en/).
+
+Using one of these websites, we identify the [hex triplet](https://en.wikipedia.org/wiki/Web_colors?oldformat=true) code for the color used in the visualization included in the PDF : `#008393`.  Thus we will use this color our plot.
+
+
+We can create a version of the above plot using the `ggplot2` package of the _tidyverse_ to create our plots.
+
+***
+<details><summary> Click here for an introduction about this package if you are  new to using `ggplot2` </summary>
+
+The [ggplot2 package](http://ggplot2.tidyverse.org) is generally intuitive for beginners because it is based on a  [grammar of graphics](http://vita.had.co.nz/papers/layered-grammar.html) or the `gg` in `ggplot2`. 
+The idea is that you can construct many sentences by learning just a few nouns, adjectives, and verbs. There are specific “words” that we will need to learn and once we do, you will be able to create (or “write”) hundreds of different plots.
+
+The critical part to making graphics using `ggplot2` is the data needs to be in a _tidy_ format. 
+Given that we have just spent time putting our data in _tidy_ format, we are primed to take advantage of all that `ggplot2` has to offer! 
+
+We will show how it is easy to pipe _tidy_ data (output) as input to other functions that create plots. 
+This all works because we are working 
+within the _tidyverse_. 
+
+**What is the `ggplot()` function?** 
+As explained by Hadley Wickham:
+
+> The grammar tells us that a statistical graphic is a mapping from data to aesthetic attributes (colour, shape, size) of geometric objects (points, lines, bars). The plot may also contain statistical transformations of the data and is drawn on a specific coordinates system.
+
+`ggplot2` Terminology: 
+
+- **ggplot** - the main function where you specify the dataset and variables to plot (this is where we define the `x` and
+`y` variable names)
+- **geoms** - geometric objects
+    - e.g. `geom_point()`, `geom_bar()`, `geom_line()`, `geom_histogram()`
+- **aes** - aesthetics
+    - shape, transparency, color, fill, line types
+- **scales** - define how your data will be plotted
+    - continuous, discrete, log, etc
+
+The function `aes()` is an aesthetic mapping function inside the `ggplot()` object. 
+We use this function to specify plot attributes (e.g. `x` and `y` variable names) that will not change as we add more layers.  
+
+Anything that goes in the `ggplot()` object becomes a global setting. 
+From there, we use the `geom` objects to add more layers to the base `ggplot()` object. 
+These will define what we are interested in illustrating using the data.
+
+</details>
+
+***
+
+So for this first plot we just want to recreate the plot in the PDF. Thus we will use the `major_groups_long` tibble and we will filter for the `"All"` values of the `Gender` package. We also want to exclude the data for the United states. 
+We can exclude the data from the US using the not equals `!=` opperator like so:
 
 ```{r}
-library(directlabels)
-fa_figurine <- image_read("https://upload.wikimedia.org/wikipedia/commons/7/7c/User_font_awesome.svg")
+major_groups_long %>%
+   filter(Gender == "All",
+          Group != "United States")
+```
 
-fa_figurine <- image_fill(fa_figurine,
-                          color = "#008393", 
-                          point = "+800+800",
-                          fuzz = 0)
+The data from the tables only included up to 2017, but this will still allow us to create a similar plot.
 
-fa_figurine <- image_fill(fa_figurine,
-                          color = "#008393", 
-                          point = "+800+1000",
-                          fuzz = 0)
+Now we have the data ready to make the plot... but how do we actually start making the plot?
 
-plot <-major_groups_long %>%
+First, we start with the `ggplot()` function of the `ggplot2` package.
+
+This function requires that the aesthetics `aes()` be specified. This involves choosing what variable will be plotted on the x-axis and the y axis. It also involves choosing variables to color or group our plot by. 
+
+In our case, we want to plot the percent of disconnection on the y-axis (thus the `Percent` varaible of the `major_groups_long` data) and the Year on the x-axis. We would like to separate each racial or ethnic group to have their own points/lines. Thus we will use the `color` argument for this variable to do this, as we intend to color our plot something other than black.
+
+If we run the following code, we get an empty plot.
+
+```{r, eval = FALSE}
+major_groups_long %>%
+   filter(Gender == "All",
+          Group != "United States") %>%
+ggplot(aes(x = Year, y = Percent, color = Race_Ethnicity))
+
+```
+
+
+The next thing we need to do is add `ggplot2` layers using the `+` to specify how we want the data to be displayed on our plot.
+
+We would like both points and lines. We will use the `geom_point()` and `geom_line()` functions of the `ggplot2` package to do this. Which ever layer we add first will be plotted first and therefore below the next layer. We will also specify the size of these elements using the `size` argument.
+
+```{r}
+
+major_groups_long %>%
+   filter(Gender == "All",
+          Group != "United States") %>%
+ggplot(aes(x = Year, y = Percent, color = Race_Ethnicity)) +
+  geom_line(size = 0.5) +
+  geom_point(size = 3) 
+
+```
+
+
+OK, not bad, but we have quite a bit to work on to make the style match.
+
+First, we will update the x-axis and y-axis, to look more similar to the plot from the report. We can specify where the tick marks should be for each using `breaks` argument of the `scale_x_continuous()` and `scale_y_continuous()` functions (also of the `ggplot2` package). These functions also allow for specification of the range or limits of the axis using the `limits` argument. We can use the base `seq()` function to create a sequence of numbers for each tick mark.
+We will make the x-axis upper limit a bit larger to allow for the image of the figure and the label for each group.
+
+Next, we will change the color to match the one that we identified, by using the `scale_color_manual()` function of the `ggplot2` package. This requires color values for each group. In our case, we have 5 groups, so we repeate this value 5 times using the base `rep()` function.
+
+We will also change the overall look of the plot using the `theme_classic()` function. See [here](https://ggplot2.tidyverse.org/reference/ggtheme.html){target="_blank"} for a list of options.
+
+```{r}
+ major_groups_long %>%
    filter(Gender == "All",
           Group != "United States") %>%
   ggplot(aes(x = Year, y = Percent, color = Race_Ethnicity)) +
@@ -1483,45 +1535,231 @@ plot <-major_groups_long %>%
                      limits = c(2008,2020)) +
   scale_y_continuous(breaks = seq(5,30, by =5),
                      limits = c(5,30)) +
-  draw_image(fa_figurine, x = 2017, y = 23.5, scale = 2) +
-  draw_image(fa_figurine, x = 2017, y = 17.5, scale = 2) +
-  draw_image(fa_figurine, x = 2017, y = 13, scale = 2) +
-  draw_image(fa_figurine, x = 2017, y = 9, scale = 2) +
-  draw_image(fa_figurine, x = 2017, y = 6.5, scale = 2) +
-  labs(title = "FIGURE 1 YOUTH DISCONNECTION BY RACE AND ETHNICITY, 2008 - 2017",
+  theme_classic() +
+  scale_color_manual(values = c(rep( "#008393", 5)))
+
+```
+
+Now let's add some labels. We can add a title using the `title` argument and a y-axis title using the `y` argument of the `labs()` function.
+```{r}
+ plot <-major_groups_long %>%
+   filter(Gender == "All",
+          Group != "United States") %>%
+  ggplot(aes(x = Year, y = Percent, color = Race_Ethnicity)) +
+  geom_line( size = 0.5) +
+  geom_point( size = 3) +
+  scale_x_continuous(breaks = seq(2008,2018, by=1),
+                     limits = c(2008,2020)) +
+  scale_y_continuous(breaks = seq(5,30, by =5),
+                     limits = c(5,30)) +
+  theme_classic() +
+  labs(title = "YOUTH DISCONNECTION BY RACE AND ETHNICITY, 2008 - 2017",
        y = "YOUTH DISCONNECTION (%)") +
   theme_classic() +
   theme(title = element_text(size = 10,
                              color = "#008393",
                              face = "bold"),
-        axis.title.x = element_blank())
+        axis.title.x = element_blank())+
+  scale_color_manual(values = c(rep( "#008393", 5)))
 
+plot <- directlabels::direct.label(plot, list(dl.trans(x = x+1.2, y = y +0), "last.points"))
 
 plot
-
-plot <- directlabels::direct.label(plot, list(dl.trans(x = x+2, y = y +.2), "last.points"))
-
-plot + scale_color_manual(values = c(rep( "#008393", 5)))
- # geom_line(color = "#008393", size = 0.5) +
-  #geom_point(color = "#008393", size = 3) +
 ```
 
+Getting close!
 
-We can build off of this idea, using a custom color palette to create a gradient based off the color used. 
+
+Now we need to add figurine icons to the plot.  
+
+To add the figurines we can use icons from free resources like [font awesome](https://fontawesome.com/){target="_blank"}. See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons){target="_blank"} for a link to `svg` options. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the orginal plot to work with. 
+
+##### Using font awesome:
+```{r, out.width="10%"}
+
+fa_figurine <- image_read("https://upload.wikimedia.org/wikipedia/commons/7/7c/User_font_awesome.svg")
+
+fa_figurine
+
+fa_figurine <- image_fill(fa_figurine,
+                          color = "#008393", 
+                          point = "+800+800",
+                          fuzz = 0)
+fa_figurine
+fa_figurine <- image_fill(fa_figurine,
+                          color = "#008393", 
+                          point = "+800+1000",
+                          fuzz = 0)
+
+fa_figurine
+```
+
+#### Using a screenshot:
+```{r, out.width= "10%"}
+
+figurine <-image_read(here::here("img", "figurine.png"))
+figurine
+```
+
+Now to add the image of the figurine to the plot we can use the `draw_image()` function of the `cowplot` package. We simply need to specify the name of the image, and then where we would like it to go according to the x- and y-axis and finaly the scaled size of the image. This `scale` argument takes a bit of trial and error. 
+
+Here we will add both images of the figurines to a couple of groups:
+
+```{r}
+
+plot +
+  cowplot::draw_image(figurine, x = 2017, y = 23.5, scale = 4) +
+  cowplot::draw_image(fa_figurine, x = 2017, y = 17.5, scale = 2)
+
+
+```
+
+Nice!
+
+Now we just need to add this for all of the groups and we also will want to replace our `Native American` label with a two line version so that we look as similar to the report plot as possible.
+
+#### {.think_question_block}
+<b><u> Question Opportunity </u></b>
+
+How might we change the Native American label to have two lines? (hint: think about how we separated the rows of our tables)
+
+####
+
+<details> <summary>Click here to reveal the code.</summary>
 
 
 ```{r}
-custom_pal <- colorRampPalette(c("white", "#008393"))
-gender_n <- 3
+plot <- major_groups_long %>%
+   filter(Gender == "All",
+          Group != "United States") %>%
+   mutate(Race_Ethnicity = str_replace(string = Race_Ethnicity, 
+                                      pattern = "Native American",
+                                  replacement = "Native\nAmerican"))  %>% ggplot(aes(x = Year, y = Percent, color = Race_Ethnicity)) +
+  geom_line( size = 0.5) +
+  geom_point( size = 3) +
+  scale_x_continuous(breaks = seq(2008,2018, by=1),
+                     limits = c(2008,2020)) +
+  scale_y_continuous(breaks = seq(5,30, by =5),
+                     limits = c(5,30)) +
+  theme_classic() +
+  labs(title = "YOUTH DISCONNECTION BY RACE AND ETHNICITY, 2008 - 2017",
+       y = "YOUTH DISCONNECTION (%)") +
+  theme_classic() +
+  theme(title = element_text(size = 10,
+                             color = "#008393",
+                             face = "bold"),
+        axis.title.x = element_blank())+
+  scale_color_manual(values = c(rep( "#008393", 5)))+
+  draw_image(figurine, x = 2017, y = 23.5, scale = 4) +
+  draw_image(figurine, x = 2017, y = 17.5, scale = 4) +
+  draw_image(figurine, x = 2017, y = 13.5, scale = 4) +
+  draw_image(figurine, x = 2017, y = 9, scale = 4) +
+  draw_image(figurine, x = 2017, y = 5.5, scale = 4)
 
+plot <- directlabels::direct.label(plot, list(dl.trans(x = x+1.2, y = y +0), "last.points"))
+```
+
+</details>
+
+```{r}
+plot
+```
+
+
+Now let's create a similar plot for females:
+
+```{r}
+plot_gender <-major_groups_long %>%
+   filter(Race_Ethnicity != "All_races",
+          Gender != "All") %>%
+   mutate(Race_Ethnicity = str_replace(string = Race_Ethnicity, 
+                                      pattern = "Native American",
+                                  replacement = "Native\nAmerican"))  %>% ggplot(aes(x = Year, y = Percent, color = Race_Ethnicity)) +
+  geom_line( size = 0.5) +
+  geom_point( size = 3) +
+  facet_grid(~Gender) +
+  scale_x_continuous(breaks = seq(2008,2018, by=1),
+                     limits = c(2008,2020)) +
+  scale_y_continuous(breaks = seq(5,30, by =5),
+                     limits = c(5,33)) +
+  theme_classic() +
+  labs(title = "YOUTH DISCONNECTION BY RACE AND ETHNICITY, 2008 - 2017",
+       y = "YOUTH DISCONNECTION (%)") +
+  theme_classic() +
+  theme(title = element_text(size = 10,
+                             color = "#008393",
+                             face = "bold"),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 90))+
+  scale_color_manual(values = c(rep( "#008393", 6)))
+
+plot_gender <- directlabels::direct.label(plot_gender, list(dl.trans(x = x+0.3, y = y +0), "last.points"))
+```
+
+
+```{r}
+plot_gender
+
+```
+
+
+It's a bit difficult to tell the Black and Latinx female lines apart. 
+
+Maybe we can add another color for every other line. 
+```{r}
+plot_gender <- plot_gender  +
+ scale_color_manual(values =c("#008393","black","#008393", "#008393", "black"))
+```
+#### {.explain_block}
+<b><u> Question Opportunity </u></b>
+
+Can you explain why we didn't use a pipe in the previous code chunk?
+
+####
+
+```{r}
+plot_gender
+```
+
+We also want to make plots of the Asain and Latinx subgroups. 
+We can make our plots look like they match the report by using a custom color palette to create a gradient based off the color  we just used. 
+
+
+This color can be based on the current color. We can use the `colorRampPalette()` function of the `grDevices` package, which is loaded automatically in an RStudio session. We can specify that we want the colors to range from white to the color that we have been using to black.
+Then we just need to figure out how many groups we have. In this case we have 3 gender groups.
+
+```{r}
+custom_pal <- colorRampPalette(c("#008393", "gray"))
+gender_n <- 3
+custom_pal(gender_n)
+```
+
+Then when we use the palette we will do this to specify how many groups we have. The `rev()` function revereses the order.
+```{r, eval = FALSE}
+scale_color_manual(values = rev(custom_pal(major_group_n + 1)))
+```
+
+
+
+We will first use this to create a plot for the asain subgroups of the 2017 data.
+
+```{r}
 asian_total <- asian_subgroups%>%
    filter(Year == 2017,
         Gender == "All",
 Race_Ethnicity == "Asian") %>%
   pull(Percent)
 
+US_total <- asian_subgroups%>%
+   filter(Year == 2017,
+         Group == "United States") %>%
+  pull(Percent)
+
+
 asian_subgroups %>%
-  filter(Year == 2017) %>%
+  filter(Year == 2017,
+         Race_Ethnicity != "Asian",
+         Race_Ethnicity != "All_races") %>%
   complete(Gender, Race_Ethnicity) %>%
   group_by(Gender) %>%
   mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
@@ -1533,14 +1771,15 @@ asian_subgroups %>%
   geom_hline(yintercept = asian_total, 
              color = "black",
              linetype = 2) + 
+    geom_hline(yintercept = US_total, 
+             color = "black",
+             linetype = 3) + 
   geom_bar(stat = "identity",
            color = "transparent",
            size = 0.5,
            position = "dodge",
            width = 0.5) +
-  labs(title = "FIGURE X YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017",
-       subtitle = "ORDERED BY OVERALL DISCONNECTION",
-       y = "YOUTH DISCONNECTION (%)",
+  labs(title = "ASIAN SUBGROUP YOUTH DISCONNECTION, 2017",
        fill = "Gender") +
   scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
   scale_y_continuous(breaks = seq(0,20,2),
@@ -1552,30 +1791,39 @@ asian_subgroups %>%
                              face = "bold"),
         axis.title.x = element_blank(),
         axis.text.x = element_text(angle = 90, hjust = 1)) +
-  annotate("text", label = 'bold("ASIAN TOTAL")',
+  annotate("text", label = 'bold("ASIAN AVG. RATE")',
            color = "#008393", 
            size = 3,
            x = 1.2,
            y = asian_total + 1,
+           parse = TRUE)+
+  annotate("text", label = 'bold("US AVG. RATE")',
+           color = "#008393", 
+           size = 3,
+           x = 1.2,
+           y = US_total + 1,
            parse = TRUE)
+
 ```
 
+This shows the importance of adding small details such as the US and Asian rate lines. This helps provide a simple yet nuanced picture of what is going on. 
 
-From the above plot, it becomes apparent that the Hmong subgroup produces a small proportion of the total number of asian disconnected youth. The Asian total youth disconnection rate is more alike the youth disconnection rates for all other subgroups than the Hmong youth disconnection rate.
+From the above plot, it becomes readily apparent that the Hmong subgroup has much higher disconnection rates than the other Asian subgroups, as well as all races/ethnicities in the US combined. 
+
 
 We can confirm this by revisiting the table.
 
-avocado - update:
+```{r, eval = FALSE, out.width="50%"}
+knitr::include_graphics(here("img", "asian_2017_overview.png"))
 
-```{r, eval = FALSE}
-image2
 ```
 
-The Hmong group represents `r round((8300*100)/145600)`% of all Asian disconnected youth. 
+From the table, we can caluculate that the Hmong group represents `r round((8300*100)/145600)`% of all Asian disconnected youth. 
 
-This shows the importance of adding small details such as the composite line to plots. It helps provide a simple yet nuanced picture of what is going on. 
-
-Lastly, we can add annotations to add provide even more depth to the visualization. 
+```{r}
+latinx_subgroups
+```
+Now let's take a look at the Latinx subgroups.
 
 ```{r}
 latinx_total <- latinx_subgroups %>%
@@ -1584,8 +1832,17 @@ latinx_total <- latinx_subgroups %>%
  Race_Ethnicity == "Latinx") %>%
   pull(Percent)
 
-latinx_subgroups %>%
-  filter(Year == 2017) %>%
+latinxp <- latinx_subgroups %>%
+      filter(Year == 2017,
+   Race_Ethnicity != "Latinx") %>%
+  mutate(Race_Ethnicity = str_replace(
+                 string = Race_Ethnicity, 
+                pattern = "Other Latinx",
+            replacement = "Other"),
+         Race_Ethnicity = str_replace(
+                 string = Race_Ethnicity, 
+                pattern = "Puerto Rican, Dominican, Cuban",
+            replacement = "Puerto Rican,\nDominican,\nCuban")) %>%
   complete(Gender, Race_Ethnicity) %>%
   group_by(Gender) %>%
   mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
@@ -1597,12 +1854,15 @@ latinx_subgroups %>%
   geom_hline(yintercept = latinx_total, 
              color = "black",
              linetype = 2) + 
+  geom_hline(yintercept = US_total, 
+             color = "black",
+             linetype = 3) +
   geom_bar(stat = "identity",
            color = "transparent",
            size = 0.5,
            position = "dodge",
            width = 0.5) +
-  labs(title = "FIGURE X YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017",
+  labs(title = "LATINX SUBGROUP YOUTH DISCONNECTION, 2017",
        subtitle = "ORDERED BY OVERALL DISCONNECTION",
        y = "YOUTH DISCONNECTION (%)",
        fill = "Gender") +
@@ -1616,15 +1876,25 @@ latinx_subgroups %>%
                              face = "bold"),
         axis.title.x = element_blank(),
         axis.text.x = element_text(angle = 90, hjust = 1)) +
-  annotate("text", label = 'bold("LATINX TOTAL")',
+  annotate("text", label = 'bold("LATINX AVG. RATE")',
            color = "#008393", 
            size = 3,
            x = 1.2,
            y = latinx_total + 1,
+           parse = TRUE)+
+      annotate("text", label = 'bold("US AVG. RATE")',
+           color = "#008393", 
+           size = 3,
+           x = 1.2,
+           y = US_total + 1,
            parse = TRUE)
+
+latinxp
 ```
 
-the idea is to drop groups where there is only one year worth of values...
+Now we want to show data for both 2017 and 2018 for the subgroups. We want to drop groups where there is only one year worth of values.
+
+
 ```{r}
 asian_subgroups %>%
   dplyr::select(-Group) %>%
@@ -1643,8 +1913,7 @@ ggplot(aes(x = Year, y = Percent, fill = Gender)) +
            position = "dodge",
            width = 0.5) +
     facet_wrap(~Race_Ethnicity, nrow = 1) +
-  labs(title = "FIGURE X YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
-       subtitle = "ORDERED BY OVERALL DISCONNECTION",
+  labs(title = "ASIAN SUBGROUP YOUTH DISCONNECTION, 2017-2018",
        y = "YOUTH DISCONNECTION (%)",
        fill = "Gender") +
   scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
@@ -1781,69 +2050,40 @@ asian_subgroups %>%
         axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
-```{r, eval = FALSE}
-latinx_subgroups %>%
-  complete(Gender, Race_Ethnicity, Year) %>%
-  group_by(Race_Ethnicity) %>%
-  mutate(missing = sum(is.na(Percent))) %>%
-  filter(missing == 0) %>%
-  dplyr::select(-missing) %>%
-  ungroup() %>%
-  group_by(Gender) %>%
-  mutate(sub_rank = rank(Percent, ties.method = "min")) %>%
-  group_by(Race_Ethnicity, Year) %>%
-  mutate(rank_all = sub_rank[Gender == "ALL"]) %>%
-  ungroup() %>%
-  group_by(Year) %>%
-  mutate(threshold = Percent[Gender == "ALL" & Race_Ethnicity == "ALL"]) %>%
-  ungroup() %>%
-  mutate(Race_Ethnicity = fct_reorder(Race_Ethnicity, rank_all)) %>%
-  ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Gender)) +
-  facet_wrap(Year ~., ncol = 1) +
-  geom_hline(aes(yintercept = threshold), linetype = 2) +
-  geom_bar(stat = "identity",
-           color = "transparent",
-           size = 0.5,
-           position = "dodge",
-           width = 0.5) +
-  labs(title = "FIGURE X YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017",
-       subtitle = "ORDERED BY OVERALL DISCONNECTION",
-       y = "YOUTH DISCONNECTION (%)",
-       fill = "Gender") +
-  scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
-  scale_y_continuous(breaks = seq(0,20,2),
-                     labels = seq(0,20,2),
-                     limits = c(0,20)) +
-  theme_classic() +
-  theme(title = element_text(size = 10,
-                             color = "#008393",
-                             face = "bold"),
-        axis.title.x = element_blank(),
-        axis.text.x = element_text(angle = 90, hjust = 1))
-```
 
+How to add space betwen barplots
+https://stackoverflow.com/questions/51502797/how-to-add-space-between-groups-of-bars-in-barplot-ggplot
 
-```{r, out.height="600px"}
-Thresholds <-major_groups_long%>% filter(Group %in% c("United States","Latinx"), Year == "2017")
+```{r}
 
 latinx_subgroups %>%
   dplyr::select(-Group) %>%
   filter(Gender == "All") %>%
+  mutate(Race_Ethnicity = str_replace(
+                 string = Race_Ethnicity, 
+                pattern = "Puerto Rican, Dominican, Cuban",
+            replacement = "Puerto Rican,\nDominican,\nCuban")) %>%
+  #this orders by percent in 2017 (as it appears first in the tibble)
+  mutate(Race_Ethnicity = 
+           fct_reorder(Race_Ethnicity, Percent)) %>% 
+  #this makes latinx first
+  mutate(Race_Ethnicity =
+           fct_relevel(Race_Ethnicity, "Latinx")) %>% 
 pivot_wider(names_from = Year, values_from = Percent) %>%
 drop_na() %>%
 pivot_longer(cols = -c(Race_Ethnicity, Gender), 
 names_to ="Year" , 
 values_to="Percent")%>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
-geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "Latinx"), Percent))), linetype = 2) +
-geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "United States"), Percent))), linetype = 3)+
+geom_hline(aes(yintercept = latinx_total), linetype = 2) +
+geom_hline(aes(yintercept = US_total), linetype = 3)+
   geom_bar(stat = "identity",
            color = "transparent",
            size = 0.5,
            position = "dodge") +
     #facet_wrap( ~Gender, ncol = 1) +
-  labs(title = "FIGURE X YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017-2018",
-       subtitle = "ORDERED BY OVERALL DISCONNECTION",
+  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017-2018",
+       subtitle = "ORDERED BY 2017 DISCONNECTION LEVEL",
        y = "YOUTH DISCONNECTION (%)") +
   scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
   theme_classic() +
@@ -1851,20 +2091,195 @@ geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "United States")
                              color = "#008393",
                              face = "bold"),
         axis.title.x = element_blank(),
-        axis.text.x = element_text(angle = 90, hjust = 1))+
+        axis.text.x = element_text(angle = 90, hjust = 1),
+  #this add the legend to the plot area!:
+        legend.justification=c(0.1,0.1), legend.position=c(0.1,0.1))+
+  #this expands 30% to the left:
+  scale_x_discrete(expand = expand_scale(mult = c(.8, 0)))+
     annotate("text", label = 'bold("LATINX 2017 RATE")',
            color = "#008393", 
            size = 3.7,
-           x = 5,
-           y = (pull(Thresholds %>%filter(Group == "Latinx"), Percent)) +1,
-           parse = TRUE)+
+           x = -.6,
+           y = latinx_total+1,
+           parse = TRUE) +
     annotate("text", label = 'bold("US 2017 RATE")',
            color = "#008393", 
            size = 4,
-           x = 5,
-           y = (pull(Thresholds %>%filter(Group == "United States"), Percent)) +1,
+           x = -.6,
+           y = US_total +1, 
            parse = TRUE)
 ```
+Now let's move the Latinx group to the left side of the plot:
+
+```{r}
+
+latinx_for_plot<-latinx_subgroups %>%
+  dplyr::select(-Group) %>%
+  filter(Gender == "All") %>%
+  filter(Race_Ethnicity != "Other Latinx") %>%
+  mutate(Race_Ethnicity = str_replace(
+                 string = Race_Ethnicity, 
+                pattern = "Puerto Rican, Dominican, Cuban",
+            replacement = "Puerto Rican,\nDominican,\nCuban")) %>%
+  #this orders by percent in 2017 (as it appears first in the tibble)
+  mutate(Race_Ethnicity = 
+           fct_reorder(Race_Ethnicity, Percent)) %>% 
+  #this makes latinx first
+  mutate(Race_Ethnicity =
+           fct_relevel(Race_Ethnicity, "Latinx")) %>%
+pivot_wider(names_from = Year, values_from = Percent) %>%
+drop_na() %>%
+pivot_longer(cols = -c(Race_Ethnicity, Gender), 
+names_to ="Year" , 
+values_to="Percent") %>%
+mutate(Race_Ethnicity =
+           fct_drop(Race_Ethnicity))
+
+```
+
+```{r}
+latinx_for_plot %>%
+ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
+  geom_bar(stat = "identity",
+           color = "transparent",
+           size = 0.5,
+           position = "dodge") +
+    #facet_wrap( ~Gender, ncol = 1) +
+  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017-2018",
+       subtitle = "ORDERED BY 2017 DISCONNECTION LEVEL",
+       y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = rev(custom_pal(gender_n + 1))) +
+  theme_classic() +
+  theme(title = element_text(size = 10,
+                             color = "#008393",
+                             face = "bold"),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1),
+  #this add the legend to the plot area!:
+        legend.justification=c(0.2,0.1), legend.position=c(0.2,0.1))+
+    scale_x_discrete(limits = c(levels(pull(latinx_for_plot,Race_Ethnicity))[1],
+                              "Total", "NEXT_blank",
+  levels(pull(latinx_for_plot,Race_Ethnicity))[2:5]),
+                   labels = c("Total" = "",
+                              "NEXT_blank"= ""))+
+    annotate("text", label = 'bold("LATINX 2017 AVG RATE")',
+           color = "#008393", 
+           size = 3.7,
+           x = 2.5,
+           y = latinx_total+.5,
+           parse = TRUE) +
+    annotate("text", label = 'bold("US 2017 AVG RATE")',
+           color = "#008393", 
+           size = 4,
+           x = 2.5,
+           y = US_total +.5, 
+           parse = TRUE)+
+geom_hline(aes(yintercept = latinx_total), linetype = 2) +
+geom_hline(aes(yintercept = US_total), linetype = 3)
+
+
+
+
+```
+
+
+
+
+
+
+## **Data Analysis**
+*** 
+
+```{r, echo = FALSE}
+# To allow starting at this section:
+load(here::here("data", "wrangled_data.rda"))
+```
+
+**Repeated Cross-sectional Data**
+
+We have pooled (repeated) [cross-sectional](https://en.wikipedia.org/wiki/Cross-sectional_data?oldformat=true) data.
+
+This is data produced from repeated measurement of a [population](https://en.wikipedia.org/wiki/Population?oldformat=true) over time.
+
+It is often infeasible to collect data for an entire population at once. However, we can still obtain meaningful measures using a random [sample](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true) of the population. 
+
+At specific time-points, data is collected from a sample of the population. The individuals in each sample are not necessarily the same individuals. This separates pooled cross-sectional data from panel data, which is longitudinal data from repeated measurement of the same people.   
+
+By sampling from a population at multiple time points, we can generate population level statistics. Although these statistics have some random error, they can provide insight into how the measure variable is changing in a population over time.
+
+We can accomplish this by plotting the measured values over time. Sometimes, however, the trend isn't exactly clear. Fortunately, there are statistical methods to resolve this issue.
+
+The Mann-Kendall trend test—a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)—tests whether there is a monotonic association, an association that does not increase or decrease but remains static across a dimension.
+
+Recall the youth disconnection rates for Native Americans, some of the highest in the first table we examined. 
+
+```{r}
+Major_racial_ethnic_groups
+```
+
+Let's conduct a Mann-Kendall test for trend.
+
+We can accomplish this with the `Kendall::MannKendall()` function. The `Kendall::MannKendall()` accepts a vector of data for which a trend may be observed. [Consulting the documentation for the `Kendall::MannKendall()` function available on CRAN](https://rdrr.io/cran/Kendall/man/MannKendall.html), we can "test for a a monotonic trend in a time series".
+
+
+
+```{r}
+major_groups_long %>%
+  filter(Gender == "All",
+ Race_Ethnicity == "Native American") %>%
+  pull(Percent) %>%
+  MannKendall(.) %>%
+  summary()
+
+```
+
+
+There does not appear to be a change in the trend. However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations.
+
+We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true). 
+
+
+```{r}
+major_groups_long %>%
+  filter(Gender == "All",
+ Race_Ethnicity == "Native American") %>%
+  lm(Percent ~ Year, data = .) %>%
+  summary()
+```
+
+
+For each one year change, the mean increase in disconnection rates is
+`r (major_groups_long%>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% lm(Percent ~ Year, data = .))[["coefficients"]]["Year"]`
+
+ This relationship is not statistically significant. Again, we are largely limited by the number of observations in this dataset. 
+
+We can visualize the relationship above.
+
+```{r}
+major_groups_long %>%
+  filter(Gender == "All",
+ Race_Ethnicity == "Native American") %>%
+  ggplot(aes(x = Year, y = Percent)) +
+  geom_smooth(method = "lm", color = "red") + 
+  geom_point() + 
+  scale_x_continuous(breaks = seq(2008, 2018, by = 1),
+                     labels = seq(2008, 2018, by = 1),
+                     limits = c(2008, 2018)) +
+  theme_minimal() +
+  labs(title = "Youth Disconnection Rates of Native American Youth",
+       subtitle = "2008 - 2017",
+       x = "Year",
+       y = "Disconnection Rate")
+```
+
+
+As we can see, there is a large amount of uncertainty around the fitted line. 
+
+
+
+
+
+
 
 ## **Summary**
 *** 

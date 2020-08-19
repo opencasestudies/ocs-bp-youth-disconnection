@@ -23,12 +23,32 @@ li.toctree-l2:first-child {
     font-weight: bold;
 }
 
-.question_block {
+.think_question_block {
+    margin: .2em;
+    padding: .2em;
+    border: 1px solid black;
+    border-radius: 5px;
+    background: #808080;
+    color: white;
+    font-weight: bold;
+}
+
+.recall_code_question_block {
     margin: .2em;
     padding: .2em;
     border: 1px solid black;
     border-radius: 5px;
     background: #1E90FF;
+    color: white;
+    font-weight: bold;
+}
+
+.explain_block {
+    margin: .2em;
+    padding: .2em;
+    border: 1px solid black;
+    border-radius: 5px;
+    background: #8FBC8F;
     color: white;
     font-weight: bold;
 }
