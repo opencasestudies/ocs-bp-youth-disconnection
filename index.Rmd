@@ -1268,7 +1268,7 @@ asian_sub_2018 %<>%
 
 ```
 
-We can combine these two tibbles using the `bind_rows()` function of `dplyr`. We can use the `glimpse()` function to get
+We can combine these two tibbles using the `bind_rows()` function of `dplyr`. 
 
 ```{r}
 
@@ -1276,11 +1276,33 @@ asian_subgroups <- bind_rows(asian_sub_2017, asian_sub_2018)
 ```
 
 
-```{r}
+```{r, echo = FALSE}
 DT::datatable(asian_subgroups)
 ```
 
-Now we are ready to peform similar wrangling for the Latinx subgroups.
+
+
+Notice that there are some cases where we only have one value for a praticular group. For example, there are no male or female values for the Pakistani data.
+
+We would like to have `NA` values for the comprable years/genders that are possible. We can fill out the rest of the table with `NA` values by performing the `pivot_wider()` and `pivot_longer()` functions sequentially like so:
+
+```{r, eval=FALSE}
+
+asian_subgroups %<>% 
+select(-Group) %>%
+pivot_wider(names_from = Year, values_from = Percent) %>%
+pivot_longer(cols = -c(Race_Ethnicity, Gender), 
+names_to ="Year" , 
+values_to="Percent")
+```
+
+
+```{r, echo = FALSE}
+DT::datatable(asian_subgroups)
+```
+
+
+Great, now we are ready to peform similar wrangling for the Latinx subgroups.
 
 ### Latinx Subgroups 2018 
 
@@ -1416,6 +1438,22 @@ latinx_subgroups
 ```
 
 
+Again, we would like to have `NA` values for the comprable years/genders that are possible. We will fill out the rest of the table with `NA` values by performing the `pivot_wider()` and `pivot_longer()` functions sequentially like so:
+
+```{r, eval = FALSE}
+
+latinx_subgroups %<>% 
+select(-Group) %>%
+pivot_wider(names_from = Year, values_from = Percent) %>%
+pivot_longer(cols = -c(Race_Ethnicity, Gender), 
+names_to ="Year" , 
+values_to="Percent")
+```
+
+
+```{r, echo = FALSE}
+DT::datatable(asian_subgroups)
+```
 
 ### Checking the data
 
@@ -1824,7 +1862,6 @@ It's hard to tell yet what the major group differences will be in our data, so f
 We will use the colors of our custom pallate to create a plot of the asain subgroups.
 
 ```{r}
-
 asian_total <- asian_subgroups%>%
    filter(Year == 2017,
         Gender == "All",
@@ -1833,10 +1870,13 @@ Race_Ethnicity == "Asian") %>%
 
 US_total <- asian_subgroups%>%
    filter(Year == 2017,
-         Group == "United States") %>%
+        Gender == "All",
+Race_Ethnicity == "All_races") %>%
   pull(Percent)
 
+```
 
+```{r, eval = FALSE}
 asian_subgroups %>%
   filter(Year == 2017,
          Race_Ethnicity != "Asian",
@@ -1852,7 +1892,7 @@ asian_subgroups %>%
   geom_hline(yintercept = asian_total, 
              color = "black",
              linetype = 2) + 
-    geom_hline(yintercept = US_total, 
+    geom_hline(yintercept = US_total,
              color = "black",
              linetype = 3) + 
   geom_bar(stat = "identity",
@@ -1876,19 +1916,7 @@ asian_subgroups %>%
 ```
 
 
-```{r}
-asian_total <- asian_subgroups%>%
-   filter(Year == 2017,
-        Gender == "All",
-Race_Ethnicity == "Asian") %>%
-  pull(Percent)
-
-US_total <- asian_subgroups%>%
-   filter(Year == 2017,
-         Group == "United States") %>%
-  pull(Percent)
-
-
+```{r, eval = FALSE}
 asian_subgroups %>%
   filter(Year == 2017,
          Race_Ethnicity != "Asian",
@@ -1964,7 +1992,9 @@ latinx_total <- latinx_subgroups %>%
   filter(Gender == "All",
  Race_Ethnicity == "Latinx") %>%
   pull(Percent)
+```
 
+```{r, eval = FALSE}
 latinxp <- latinx_subgroups %>%
       filter(Year == 2017,
    Race_Ethnicity != "Latinx") %>%
@@ -2063,8 +2093,6 @@ ggplot(aes(x = Year, y = Percent, fill = Gender)) +
 
 ```{r}
 
-Thresholds <-major_groups_long%>% filter(Group %in% c("United States","Asian"), Year == "2017")
-
 asian_subgroups %>%
   dplyr::select(-Group) %>%
 pivot_wider(names_from = Gender:Year, values_from = Percent) %>%
@@ -2075,7 +2103,7 @@ names_to=c("Gender", "Year"),
 names_sep = "_",
 values_to="Percent")%>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
-geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "Asian"), Percent))), linetype = 2) +
+geom_hline(aes(yintercept = asian_total), linetype = 2) +
   geom_bar(stat = "identity",
            color = "transparent",
            size = 0.5,
@@ -2101,10 +2129,6 @@ geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "Asian"), Percen
 
 
 
-How to add space betwen barplots
-https://stackoverflow.com/questions/51502797/how-to-add-space-between-groups-of-bars-in-barplot-ggplot
-
-
 To make our plot, we need to first wrangle our data so that it is ready to create our plot. We will start with just the `"All"` `Gender` group and we want to drop any groups that dont have values for both years.
 
 ```{r}
@@ -2119,6 +2143,9 @@ values_to="Percent")
 
 ```
 
+(pull(Thresholds %>%filter(Race_Ethnicity == "Asian"), Percent)))
+
+
 ```{r}
 asian_subgroups %>%
   dplyr::select(-Group) %>%
@@ -2129,8 +2156,8 @@ pivot_longer(cols = -c(Race_Ethnicity, Gender),
 names_to ="Year" , 
 values_to="Percent")%>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
-geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "Asian"), Percent))), linetype = 2) +
-geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "United States"), Percent))), linetype = 3)+
+geom_hline(aes(yintercept = asian_total), linetype = 2) +
+geom_hline(aes(yintercept = US_total), linetype = 3)+
   geom_bar(stat = "identity",
            color = "transparent",
            size = 0.5,
@@ -2150,20 +2177,20 @@ geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "United States")
            color = "#008393", 
            size = 4,
            x = 1.4,
-           y = (pull(Thresholds %>%filter(Group == "Asian"), Percent)) +1,
+           y = asian_total +1,
            parse = TRUE)+
     annotate("text", label = 'bold("US 2017 RATE")',
            color = "#008393", 
            size = 4,
            x = 1.4,
-           y = (pull(Thresholds %>%filter(Group == "United States"), Percent)) +1,
+           y = US_total +1,
            parse = TRUE)
 ```
 
 
 ```{r}
 
-Thresholds <-major_groups_long%>% filter(Group %in% c("United States","Asian"), Year == "2017")
+
 
 asian_subgroups %>%
   dplyr::select(-Group) %>%
@@ -2174,8 +2201,8 @@ pivot_longer(cols = -c(Race_Ethnicity, Gender),
 names_to ="Year" , 
 values_to="Percent")%>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
-geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "Asian"), Percent))), linetype = 2) +
-geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "United States"), Percent))), linetype = 3)+
+geom_hline(aes(yintercept = asian_total), linetype = 2) +
+geom_hline(aes(yintercept = US_total), linetype = 3)+
   geom_bar(stat = "identity",
            color = "transparent",
            size = 0.5,
@@ -2195,13 +2222,13 @@ geom_hline(aes(yintercept = (pull(Thresholds %>%filter(Group == "United States")
            color = "#008393", 
            size = 4,
            x = 1.4,
-           y = (pull(Thresholds %>%filter(Group == "Asian"), Percent)) +1,
+           y = asian_total +1,
            parse = TRUE)+
     annotate("text", label = 'bold("US 2017 RATE")',
            color = "#008393", 
            size = 4,
            x = 1.4,
-           y = (pull(Thresholds %>%filter(Group == "United States"), Percent)) +1,
+           y = US_total +1,
            parse = TRUE)
 ```
 
