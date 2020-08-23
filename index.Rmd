@@ -2067,7 +2067,7 @@ asian_subgroup_plot <-asian_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
  geom_col(aes(fill = Year), position = "dodge")+
   labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
-       subtitle = "ORDERED BY 2017 DISCONNECTION LEVEL",
+       subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
        y = "YOUTH DISCONNECTION (%)") +
   scale_fill_manual(values = (custom_pal(4))) +
   scale_x_discrete(
@@ -2189,14 +2189,14 @@ From the above plot, it becomes readily apparent that the Hmong and Cambodian su
 
 We can confirm this by revisiting the tables.
 
-```{r, eval = FALSE, out.width="50%"}
+```{r, echo = FALSE, out.width="50%"}
 knitr::include_graphics(here("img", "asian_2017_overview.png"))
 
 ```
 
 
 
-```{r, eval = FALSE, out.width="50%"}
+```{r, echo = FALSE}
 knitr::include_graphics(here("img", "asian_2018_overview.png"))
 
 ```
@@ -2224,7 +2224,7 @@ asian_subgroup_plot_simp <-asian_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
  geom_col(aes(fill = Year), position = "dodge")+
   labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
-       subtitle = "ORDERED BY 2017 DISCONNECTION LEVEL",
+       subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
        y = "YOUTH DISCONNECTION (%)") +
   scale_fill_manual(values = (custom_pal(4))) +
   scale_x_discrete(
@@ -2378,6 +2378,8 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
            color = "#008393", 
             size = 3) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
+
+
 ```
 
 
@@ -2391,60 +2393,134 @@ latinx_subgroup_plot_simp
 
 ### Subgroup by Gender Plots
 
-Now that we have made plots for the ethnic subgroups, let's take a look at gender differences amoung the subgroups.
+Now that we have made plots for the ethnic subgroups, let's take a look at gender differences among the subgroups.
 
 ```{r}
-asian_for_plot<-asian_subgroups %>%
-  dplyr::select(-Group) %>%
-  filter(Gender != "All") %>%
-  filter(Race_Ethnicity != "All_races") %>%
-   add_row(Year = 2017,
-          Gender = "Female",
-          Percent = NA,
-          Race_Ethnicity = "Hmong") %>%
-  #this orders by percent in males in 2017 (as they appear first in the tibble) %>%
-  mutate(Race_Ethnicity = 
-           fct_reorder(Race_Ethnicity, Percent)) %>% 
-  #this makes Asian first
-  mutate(Race_Ethnicity =
-           fct_relevel(Race_Ethnicity, "Asian")) %>%
-pivot_wider(names_from = Year, values_from = Percent) %>%
-pivot_longer(cols = -c(Race_Ethnicity, Gender), 
-names_to ="Year" , 
-values_to="Percent") %>%
-mutate(Race_Ethnicity =
-           fct_drop(Race_Ethnicity))
-
+asian_total
+US_total
+asian_total["Gender"]<-c("Female")
+US_total["Gender"]<-c("Female")
 ```
 
 
 
 ```{r}
-plot <-asian_for_plot %>%
+asian_for_plot <-asian_subgroups %>%
+  filter(Gender != "All") %>%
+  filter(Race_Ethnicity != "All_races") %>%
+  mutate(Race_Ethnicity =  fct_reorder(Race_Ethnicity, Percent)) %>% 
+  mutate(Race_Ethnicity = fct_relevel(Race_Ethnicity, "Asian")) %>%
+  select(-Group) %>%
+  pivot_wider(names_from = Year, values_from = Percent) %>%
+  pivot_longer(cols = -c(Race_Ethnicity, Gender), 
+  names_to = "Year" , 
+  values_to = "Percent")
+
+asian_gender_subgroup_plot<-asian_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
-  geom_bar(stat = "identity",
-           color = "transparent",
-           size = 0.5,
-           position = "dodge") +
+ geom_col(aes(fill = Year), position = "dodge")+
   facet_wrap(~Gender, scales = "free") +
   labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
-       subtitle = "ORDERED BY 2017 DISCONNECTION LEVEL",
        y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = rev(custom_pal(3 + 1))) +
-  scale_x_discrete(limits = c(levels(pull(asian_for_plot, Race_Ethnicity))[1],
-                   "blank",
-    levels(pull(asian_for_plot, Race_Ethnicity))[2:length( levels(pull(asian_for_plot, Race_Ethnicity)))]), 
-    labels = c("Asian" = "Asian Average", "blank" = ""))+
-  scale_y_continuous(limits = c(0,max(pull(asian_for_plot,Percent), na.rm = TRUE)))+
-  theme_classic() +
-  theme(title = element_text(size = 10,
-                             color = "#008393",
-                             face = "bold"),
-        axis.title.x = element_blank(),
-        axis.text.x = element_text(angle = 90, hjust = 1))+
+  scale_fill_manual(values = (custom_pal(4))) +
+  scale_x_discrete(
+  limits = c(levels(pull(asian_for_plot,Race_Ethnicity))[1],
+             "Blank",
+             levels(pull(asian_for_plot,Race_Ethnicity))[2:
+             length(levels(pull(asian_for_plot,Race_Ethnicity)))]),
+  labels = c("Asian" = "Asian Avg.",
+             "Blank" = ""))+
+   scale_y_continuous(limits = c(0,max(pull(asian_for_plot,Percent), 
+                                       na.rm = TRUE)))+
+  bar_theme()+
+   geom_text(data = asian_total,
+         mapping = aes(x = 3, y = Percent +.5, label = label),
+           parse = TRUE,
+           color = "#008393", 
+            size = 3) +
+  geom_hline(aes(yintercept = pull(asian_total, Percent)), linetype = 2) +
+  geom_text(data = US_total,
+         mapping = aes(x = 3, y = Percent +.5, label = label),
+           parse = TRUE,
+           color = "#008393", 
+            size = 3) +
+  geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
+
+```
+
+```{r}
+asian_gender_subgroup_plot
+
+```
+
+
+```{r}
+
+latinx_total
+US_total 
+
+latinx_total["Gender"]<-c("Male")
+US_total["Gender"]<-c("Male")
+```
+
+```{r}
+latinx_for_plot <-latinx_subgroups %>%
+
+  filter(Gender != "All") %>%
+  filter(Race_Ethnicity != "All_races") %>%
+  mutate(Race_Ethnicity = str_replace(
+                 string = Race_Ethnicity, 
+                pattern = "Puerto Rican, Dominican, Cuban",
+            replacement = "Puerto Rican,\nDominican,\nCuban")) %>%
+  mutate(Race_Ethnicity =  fct_reorder(Race_Ethnicity, Percent)) %>% 
+  mutate(Race_Ethnicity = fct_relevel(Race_Ethnicity, "Latinx")) %>%
+  select(-Group) %>%
+  pivot_wider(names_from = Year, values_from = Percent) %>%
+  pivot_longer(cols = -c(Race_Ethnicity, Gender), 
+  names_to = "Year" , 
+  values_to = "Percent")
+
+latinx_gender_subgroup_plot<-latinx_for_plot %>%
+ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
+ geom_col(aes(fill = Year), position = "dodge")+
+  facet_wrap(~Gender, scales = "free") +
+  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017-2018",
+       y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = (custom_pal(4))) +
+  scale_x_discrete(
+  limits = c(levels(pull(latinx_for_plot,Race_Ethnicity))[1],
+             "Blank",
+             levels(pull(latinx_for_plot,Race_Ethnicity))[2:
+             length(levels(pull(latinx_for_plot,Race_Ethnicity)))]),
+  labels = c("Latinx" = "Latinx Avg.",
+             "Blank" = ""))+
+  bar_theme()+
+  geom_text(data = latinx_total,
+         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+           parse = TRUE,
+           color = "#008393", 
+            size = 3) +
+  geom_hline(aes(yintercept = pull(latinx_total, Percent)), linetype = 2) +
+  geom_text(data = US_total,
+         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+           parse = TRUE,
+           color = "#008393", 
+            size = 3) +
+  geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
+```
+
+
+```{r}
+latinx_gender_subgroup_plot
+```
+
+
+
+
+
+```{r, eval = FALSE}
 geom_hline(aes(yintercept = asian_total), linetype = 2) +
 geom_hline(aes(yintercept = US_total), linetype = 3)
-
 
 dat_text <- data.frame(
   label = c( 'bold("US 2017 AVG RATE")'),
@@ -2469,179 +2545,7 @@ plot + geom_text(
 ```
 
 
-```{r}
-asian_for_plot<-asian_subgroups %>%
-  dplyr::select(-Group) %>%
-  filter(Race_Ethnicity != "All_races",
-         Race_Ethnicity != "Asian") %>%
-  #this orders by percent in 2017 (as it appears first in the tibble)
-  mutate(Race_Ethnicity = 
-           fct_reorder(Race_Ethnicity, Percent)) %>% 
-  #this makes latinx first
-  mutate(Race_Ethnicity =
-           fct_relevel(Race_Ethnicity, "Asian")) %>%
-pivot_wider(names_from = Year, values_from = Percent) %>%
-pivot_longer(cols = -c(Race_Ethnicity, Gender), 
-names_to ="Year" , 
-values_to="Percent") %>%
-mutate(Race_Ethnicity =
-           fct_drop(Race_Ethnicity))
-```
 
-```{r}
-asian_for_plot %>%
-ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
-  geom_bar(stat = "identity",
-           color = "transparent",
-           size = 0.5,
-           position = "dodge") +
-  facet_grid(~Gender)+
-  labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
-       subtitle = "ORDERED BY 2017 DISCONNECTION LEVEL",
-       y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = rev(custom_pal(3 + 1))) +
-  theme_classic() +
-  theme(title = element_text(size = 10,
-                             color = "#008393",
-                             face = "bold"),
-        axis.title.x = element_blank(),
-        axis.text.x = element_text(angle = 90, hjust = 1))+
-  #this add the legend to the plot area!:
-        #legend.justification=c(0.2,0.1), legend.position=c(0.2,0.1))+
-   
-    annotate("text", label = 'bold("ASIAN 2017 AVG RATE")',
-           color = "#008393", 
-           size = 2,
-           x = 5,
-           y = asian_total+.5,
-           parse = TRUE) +
-    annotate("text", label = 'bold("US 2017 AVG RATE")',
-           color = "#008393", 
-           size = 2,
-           x = 3,
-           y = US_total +.5, 
-           parse = TRUE)+
-geom_hline(aes(yintercept = asian_total), linetype = 2) +
-geom_hline(aes(yintercept = US_total), linetype = 3)
-
-```
-
-```{r}
-
-latinx_subgroups
-```
-
-
-```{r}
-# latinx_for_plot<-latinx_subgroups %>%
-#   dplyr::select(-Group) %>%
-#   filter(Gender != "All") %>%
-#   filter(Race_Ethnicity != "All_races") %>%
-#   mutate(Race_Ethnicity = str_replace(
-#                  string = Race_Ethnicity, 
-#                 pattern = "Other Latinx",
-#             replacement = "Other"),
-#          Race_Ethnicity = str_replace(
-#                  string = Race_Ethnicity, 
-#                 pattern = "Puerto Rican, Dominican, Cuban",
-#             replacement = "Puerto Rican,\nDominican,\nCuban")) %>%
-#   #this orders by percent in males in 2017 (as they appear first in the tibble) %>%
-#   mutate(Race_Ethnicity = 
-#            fct_reorder(Race_Ethnicity, Percent)) %>% 
-#   #this makes Asian first
-#   mutate(Race_Ethnicity =
-#            fct_relevel(Race_Ethnicity, "Latinx")) %>%
-#   mutate(Race_Ethnicity =
-#            fct_drop(Race_Ethnicity)) %>%
-#   mutate(Year = as.character(Year))
-
-
-latinx_for_plot<-latinx_subgroups %>%
-  dplyr::select(-Group) %>%
-  filter(Gender != "All") %>%
-  filter(Race_Ethnicity != "All_races") %>%
-  #this orders by percent in males in 2017 (as they appear first in the tibble) %>%
-  mutate(Race_Ethnicity = str_replace(
-                 string = Race_Ethnicity, 
-                pattern = "Other Latinx",
-            replacement = "Other"),
-         Race_Ethnicity = str_replace(
-                 string = Race_Ethnicity, 
-                pattern = "Puerto Rican, Dominican, Cuban",
-            replacement = "Puerto Rican,\nDominican,\nCuban")) %>%
-  #this orders by percent in males in 2017 (as they appear first in the tibble) %>%
-  mutate(Race_Ethnicity = 
-           fct_reorder(Race_Ethnicity, Percent)) %>% 
-  #this makes Asian first
-  mutate(Race_Ethnicity =
-           fct_relevel(Race_Ethnicity, "Latinx")) %>%
-pivot_wider(names_from = Year, values_from = Percent) %>%
-pivot_longer(cols = -c(Race_Ethnicity, Gender), 
-names_to ="Year" , 
-values_to="Percent") %>%
-mutate(Race_Ethnicity =
-           fct_drop(Race_Ethnicity))
-
-
-```
-
-
-
-```{r}
-plot <-latinx_for_plot %>%
-ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
-  geom_bar(stat = "identity",
-           color = "transparent",
-           size = 0.5,
-           position = "dodge") +
-  facet_wrap(~Gender, scales = "free") +
-  labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
-       subtitle = "ORDERED BY 2017 DISCONNECTION LEVEL",
-       y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = rev(custom_pal(3 + 1))) +
-  scale_x_discrete(limits = c(levels(pull(latinx_for_plot, Race_Ethnicity))[1],
-                   "blank",
-    levels(pull(latinx_for_plot, Race_Ethnicity))[2:length( levels(pull(latinx_for_plot, Race_Ethnicity)))]), 
-    labels = c("blank" = ""))+
-  scale_y_continuous(limits = c(0,max(pull(latinx_for_plot,Percent), na.rm = TRUE)))+
-  theme_classic() +
-  theme(title = element_text(size = 10,
-                             color = "#008393",
-                             face = "bold"),
-        axis.title.x = element_blank(),
-        axis.text.x = element_text(angle = 90, hjust = 1))+
-geom_hline(aes(yintercept = latinx_total), linetype = 2) +
-geom_hline(aes(yintercept = US_total), linetype = 3)
-
-
-dat_text <- data.frame(
-  label = c( 'bold("US 2017 AVG RATE")'),
-  Gender = c("Female"),
-  Year = c("2017"))
-plot <-plot + geom_text(
-  data    = dat_text,
-  mapping = aes(x = 2.5, y = US_total +.5, label = label),
-  parse = TRUE,
-  color = "#008393", size = 3)
-
-dat_text <- data.frame(
-  label = c( 'bold("LATINX 2017 RATE")'),
-  Gender = c("Female"),
-  Year = c("2017"))
-plot + geom_text(
-  data    = dat_text,
-  mapping = aes(x = 2.5, y = latinx_total +.5, label = label),
-  parse = TRUE,
-  color = "#008393", size = 3)
-
-```
-
-
-```{r}
-
-asian_for_plot
-
-```
 ## **Data Analysis**
 *** 
 
