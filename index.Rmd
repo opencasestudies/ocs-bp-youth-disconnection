@@ -42,7 +42,7 @@ library(knitr)
 
 
 #### {.outline }
-```{r, echo = FALSE, out.width = "800 px"}
+```{r, echo = FALSE, out.width = "600 px"}
 knitr::include_graphics(here::here("img", "mainplot.png"))
 ```
 
@@ -2823,6 +2823,22 @@ We can accomplish this by plotting the measured values over time. Sometimes, how
 
 The Mann-Kendall trend test—a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)—tests whether there is a monotonic association, an association that does not increase or decrease but remains static across a dimension.
 
+This test is a non-parametric test, which means that it does not require as many assumptions as some parametric tests, like the linear regression. It also provides us with different information than a linera regression.
+
+According to [this report](https://www.statisticshowto.com/wp-content/uploads/2016/08/Mann-Kendall-Analysis-1.pdf), the Mann-Kendall $S$ is calculated as follows:
+
+> The data values are evaluated as an ordered time series. Each data value is compared to all subsequent data values. The initial value of the Mann-Kendall statistic, $S$, is assumed to be 0 (e.g., no trend). If a data value from a later time period is higher than a data value from an earlier time period, $S$ is incremented by 1. On the other hand, if the data value from a later time period is lower than a data value sampled earlier, $S$ is decremented by 1. The net result of all such increments and decrements yields the final value of $S$. 
+
+
+$$S =\sum_{k=1}^{n-1}\sum_{j = k+1}^{n} sign(x_{j} - x_{k}) $$
+
+where:
+
+$ sign(x_{j}-x_{k}) = 1$ if $x_{j}-x_{k} >0$
+                     $= 0$ if $x_{j}-x_{k} = 0$
+                     $= -1$ if $x_{j}-x_{k} <0 $
+                     
+
 Recall the youth disconnection rates for Native Americans, some of the highest in the first table we examined. 
 
 ```{r}
@@ -2842,6 +2858,18 @@ major_groups_long %>%
   pull(Percent) %>%
   MannKendall(.) %>%
   summary()
+
+```
+
+
+avocado:Not sure if we want to include this...
+```{r}
+## to look for autocorrelation
+major_groups_long %>%
+  filter(Gender == "All",
+ Race_Ethnicity == "Native American") %>%
+acf()
+
 
 ```
 
@@ -2902,13 +2930,26 @@ As we can see, there is a large amount of uncertainty around the fitted line.
 library(patchwork)
 png(filename = here::here("img", "mainplot.png"),
     res = 300, width = 13.5, height = 14, units = "in")
-(plot_spacer() + plot_gender+ plot_spacer()  + plot_layout(widths = c(0.3,3,0.3))) / (asian_subgroup_plot_simp + asian_gender_subgroup_plot) /(latinx_subgroup_plot_simp + latinx_gender_subgroup_plot) + 
+(plot_spacer() + plot_gender+ plot_spacer()  + plot_layout(widths = c(0.3,3,0.3))) / (asian_subgroup_plot_simp + asian_gender_subgroup_plot) /(latinx_subgroup_plot + latinx_gender_subgroup_plot) + 
   plot_layout(heights =c(2, 1.3, 1.3), widths = c(1.5, 2.5, 2.5)) &  theme(axis.title = element_text(size =14),                                           text = element_text(size = 14, face = "bold"))&
  plot_annotation(title = "Deeper Insepection Reveals Differences for Youth Disconnection\n Among Races, Ethnic Subgroups, and Genders", theme = theme(plot.title = element_text(size = 22, face = "bold")))
 dev.off()
 
-#& theme = theme(axis.title = element_text(size =14), axis.text = element_text(size = 14, face = "bold"))+
 ```
+### Synopsis
+
+In this case study we evaluated rates of youth disconnection in the United States between 2008 and 2018, which was defined as individuals between age **16 - 24** who are **neither working nor in school**". In particular, we focused on evaluating specific subgroups to identify populations that may experience particularly high levels of disconnection. 
+
+It was identified in the 2019 [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) that Native American populations particularly experience high rates of youth disconnection. Indeed roughly a quarter of this population appears to experience youth disconnection, which is much higher than the other major racial groups. By performing the [Mann-Kendall trend test](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf)(https://www.statisticshowto.com/mann-kendall-trend-test/)
+
+
+among youths age 12-17 in the United States, as well as the rate of youths receiving treatment for depression. We learned how to scrape data directly from the web using the rvest package and we learned how to perform and interpret a chi-square test using the chisq.test() function of the stats package.
+
+By analyzing and plotting our data, it is clear that depression rates appear to be increasing, particularly since 2011. However, it is possible that respondents had similar rates in previous years, but now feel less stigma about responding about depression symptoms when filling out the survey. The survey has always been anonymous, but reporting bias can sometimes cause individuals to exaggerate or minimize their symptoms because of what they think researchers want their response to be or out of shame or embarrassment, among other reasons. However, the data suggests that youths may be experiencing more symptoms of depression and that the rate of increase is quite high.
+
+Nearly a quarter of all individuals that were female and of age 12-17 reported experiencing symptoms of depression. This warrants further investigation to see if this is a product of more reporting or if indeed American females are truly more depressed. Furthermore, if they are indeed more depressed, investigation about why young females are more depressed is also of critical importance. One important limitation is that the data does not include subgroup intersections, such as rates of major depressive episodes among females of various ethnic backgrounds.
+
+Considering the very steep increase in females, this warrants further investigation about which females are particularly vulnerable and why.
 
 ## **Suggested Homework**
 *** 
