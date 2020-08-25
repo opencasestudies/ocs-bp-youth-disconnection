@@ -50,12 +50,12 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 ## {.disclaimer_block}
 
-**Disclaimer**: The purpose of the [Open Case Studies](https://opencasestudies.github.io){target="_blank"} project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most appropriate way to analyze a given data set, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
+**Disclaimer**: The purpose of the [Open Case Studies](https://opencasestudies.github.io) project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most appropriate way to analyze a given data set, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
 
 
 ## {.license_block}
 
-This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 [(CC BY-NC 3.0)](https://creativecommons.org/licenses/by-nc/3.0/us/){target="_blank"}  United States License.
+This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 [(CC BY-NC 3.0)](https://creativecommons.org/licenses/by-nc/3.0/us/)  United States License.
 
 
 ## {.reference_block}
@@ -71,7 +71,7 @@ According to this [report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the
 
 So what does the term **"youth disconnection"** mean?
 
-According to [Measure of America](https://www.ssrc.org/programs/view/moa/){target="_blank"} (a nonpartisan project of the nonprofit [Social Science Research Council](https://www.ssrc.org/){target="_blank"} that is focused on opportunity in the United States) disconnected youth are:
+According to [Measure of America](https://www.ssrc.org/programs/view/moa/) (a nonpartisan project of the nonprofit [Social Science Research Council](https://www.ssrc.org/) that is focused on opportunity in the United States) disconnected youth are:
 
 > "young people between the ages of **16 and 24** who are **neither working nor in school**"
 
@@ -83,9 +83,9 @@ They state that:
 
 Disconnected youth are also referred to as **opportunity youth**, which has the added positive connotation that promoting such individuals can be beneficial not only for these individuals but also for their communties and for society. 
 
-We will expand beyond the [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"} to take a deeper look at differences of specific groups of youths. Identifying youths particularly at risk or disconnected, can help inform the design of targeted prevention and rengagement strategies.
+We will expand beyond the [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) to take a deeper look at differences of specific groups of youths. Identifying youths particularly at risk or disconnected, can help inform the design of targeted prevention and rengagement strategies.
 
-This case study is motivated by this [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/){target="_blank"}: 
+This case study is motivated by this [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/): 
 
 #### {.reference_block}
 
@@ -93,7 +93,7 @@ Mendelson, T., Mmari, K., Blum, R. W., Catalano, R. F. & Brindis, C. D. Opportun
 
 ####
  
-This [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/){target="_blank"} describes strategies for prevention of disconnection and reengagement of discconnected youth and how such interventions could greatly positively impact opportunity youth for the entire trajectory of their lives and for future generations. It also points out that indeed their are disparities among different racial/ethnic groups.
+This [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/) describes strategies for prevention of disconnection and reengagement of discconnected youth and how such interventions could greatly positively impact opportunity youth for the entire trajectory of their lives and for future generations. It also points out that indeed their are disparities among different racial/ethnic groups.
 
 
 ## **Main Questions**
@@ -110,7 +110,7 @@ This [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/){target="_b
 ## **Learning Objectives** 
 *** 
 
-In this case study, we will demonstrate how to import and wrangle data available in the <u>**P**</u>ortable <u>**D**</u>ocument <u>**F**</u>ormat (**PDF**). We will especially focus on using packages and functions from the [`Tidyverse`](https://www.tidyverse.org/){target="_blank"}, such as `dplyr`, `ggplot2`. The tidyverse is a library of packages created by RStudio. While some students may be familiar with previous R programming packages, these packages make data science in R more legible and intuitive.
+In this case study, we will demonstrate how to import and wrangle data available in the <u>**P**</u>ortable <u>**D**</u>ocument <u>**F**</u>ormat (**PDF**). We will especially focus on using packages and functions from the [`Tidyverse`](https://www.tidyverse.org/), such as `dplyr`, `ggplot2`. The tidyverse is a library of packages created by RStudio. While some students may be familiar with previous R programming packages, these packages make data science in R more legible and intuitive.
 
 The skills, methods, and concepts that students will be familiar with by the end of this case study are:
 
@@ -154,14 +154,14 @@ library(Kendall)
 
  Package   | Use                                                                         
 ---------- |-------------
-[here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data
-[tidyverse](https://readr.tidyverse.org/){target="_blank"}      | for data science operations
-[pdftools](https://readr.tidyverse.org/){target="_blank"}      | to manage PDF documents
-[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution){target="_blank"}      | for image processing 
-[here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data
-[tidyverse](https://readr.tidyverse.org/){target="_blank"}      | for data science operations
-[pdftools](https://readr.tidyverse.org/){target="_blank"}      | to manage PDF documents
-[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution){target="_blank"}      | for image processing 
+[here](https://github.com/jennybc/here_here)       | to easily load and save data
+[tidyverse](https://readr.tidyverse.org/)      | for data science operations
+[pdftools](https://readr.tidyverse.org/)      | to manage PDF documents
+[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for image processing 
+[here](https://github.com/jennybc/here_here)       | to easily load and save data
+[tidyverse](https://readr.tidyverse.org/)      | for data science operations
+[pdftools](https://readr.tidyverse.org/)      | to manage PDF documents
+[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for image processing 
 
 
 The first time we use a function, we will use the `::` to indicate which package we are using. Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
@@ -211,7 +211,7 @@ Here is an illustration of risk factors, protective factors and the continuum of
 ```{r, echo = FALSE, out.width = "800 px"}
 knitr::include_graphics(here::here("img", "risk_factors.png"))
 ```
-##### [[source]](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/pdf/10.1177_0033354918799344.pdf){target="_blank"} 
+##### [[source]](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/pdf/10.1177_0033354918799344.pdf) 
 
 
 ### Strategies to mitigate youth disconnection
@@ -227,30 +227,30 @@ In fact, the quality of parental caregiving of infants age 6-24 months has actua
 Prevention strategies include:  
 
 - Preschool  
-- [The Good Behavior Game](https://www.goodbehaviorgame.org/good-behavior-game-what-is-it){target="_blank"}  
+- [The Good Behavior Game](https://www.goodbehaviorgame.org/good-behavior-game-what-is-it)  
 - Strengthening family and community connections  
 - Promoting academic and career engagement  
 - Life skills training for youths and families  
 - Education about substance abuse  
-- [Cognitive behavioral therapy](https://www.apa.org/ptsd-guideline/patients-and-families/cognitive-behavioral){target="_blank"}    
+- [Cognitive behavioral therapy](https://www.apa.org/ptsd-guideline/patients-and-families/cognitive-behavioral)    
 
 
-See [here](https://youth.gov/evidence-innovation/program-directory?keywords=&field_pd_factors_risks_tid=413&field_pd_factors_protective_tid=All){target="_blank"} and [here](https://goc.maryland.gov/wp-content/uploads/sites/8/2015/10/Program-Models-for-Serving-Opportunity-Youth.pdf){target="_blank"} for listings of programs dedicated to rengaging disconnected youth or preventing disconnection.
+See [here](https://youth.gov/evidence-innovation/program-directory?keywords=&field_pd_factors_risks_tid=413&field_pd_factors_protective_tid=All) and [here](https://goc.maryland.gov/wp-content/uploads/sites/8/2015/10/Program-Models-for-Serving-Opportunity-Youth.pdf) for listings of programs dedicated to rengaging disconnected youth or preventing disconnection.
 
-See [here](https://www.communitiesthatcare.net/){target="_blank"} and 
-[here](https://extension.psu.edu/promoting-school-community-university-partnerships-to-enhance-resilience){target="_blank"} for particular examples.
+See [here](https://www.communitiesthatcare.net/) and 
+[here](https://extension.psu.edu/promoting-school-community-university-partnerships-to-enhance-resilience) for particular examples.
 
 
-The statistics used in this section came from this [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/){target="_blank"}.
+The statistics used in this section came from this [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/).
 
 ## **Limitations**
 *** 
 
 There are some important considerations regarding this data analysis to keep in mind: 
 
-1) This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/){target="_blank"}  project reports from the is derived from [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs){target="_blank"} which excludes or underrepresents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused is not available in this dataset. Thus, this data likely underestimates youth disconnection rates. 
+1) This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/)  project reports from the is derived from [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs) which excludes or underrepresents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused is not available in this dataset. Thus, this data likely underestimates youth disconnection rates. 
 
-2) Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination){target="_blank"} (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as LGBT (lesbian/gay/bisexual/transgender/queer and questioning) or nonbinary gender populations is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs){target="_blank"} has more detailed infromation about a greater number of racial and ethnic groups and racial/ethnic intersections.
+2) Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination) (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as LGBT (lesbian/gay/bisexual/transgender/queer and questioning) or nonbinary gender populations is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs) has more detailed infromation about a greater number of racial and ethnic groups and racial/ethnic intersections.
 
 3) The statistical procedures we are using may be overly simplistic. *In all data analysis, we need to be wary about deriving meaning from the statistical procedures we use*.
 
@@ -260,38 +260,38 @@ There are some important considerations regarding this data analysis to keep in 
 ## **What are the data?**
 *** 
 
-In this case study we will be using data related to youth disconnection from the two following reports from the [Measure of America](https://www.ssrc.org/programs/view/moa/){target="_blank"}  project:
+In this case study we will be using data related to youth disconnection from the two following reports from the [Measure of America](https://www.ssrc.org/programs/view/moa/)  project:
 
-> Measure of America is a nonpartisan project of the nonprofit [Social Science Research Council](https://www.ssrc.org/){target="_blank"}  founded in 2007 to create easy-to-use yet methodologically sound tools for understanding well-being and opportunity in America. Through reports, interactive apps, and custom-built dashboards, Measure of America works with partners to breathe life into numbers, using data to identify areas of highest need, pinpoint levers for change, and track progress over time.
+> Measure of America is a nonpartisan project of the nonprofit [Social Science Research Council](https://www.ssrc.org/)  founded in 2007 to create easy-to-use yet methodologically sound tools for understanding well-being and opportunity in America. Through reports, interactive apps, and custom-built dashboards, Measure of America works with partners to breathe life into numbers, using data to identify areas of highest need, pinpoint levers for change, and track progress over time.
 
-1. Lewis, Kristen. [Making the Connection: Transportation and Youth Disconnection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"} . New York: Measure of America, Social Science Research Council, 2019.  (Data up to 2017)
+1. Lewis, Kristen. [Making the Connection: Transportation and Youth Disconnection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) . New York: Measure of America, Social Science Research Council, 2019.  (Data up to 2017)
 
 ```{r, out.width="400px", echo = FALSE}
 knitr::include_graphics(here::here("img", "Making_the_Connection.png"))
 ```
 
-2. : Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf){target="_blank"}. New York: Measure of America, Social Science Research Council, 2020. (Data up to 2018)
+2. : Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf). New York: Measure of America, Social Science Research Council, 2020. (Data up to 2018)
 
 ```{r, out.width="400px", echo = FALSE}
 knitr::include_graphics(here::here("img", "A_Decade_Undone.png"))
 ```
 
-The data used in these reports comes from the [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs){target="_blank"}, which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizehsip, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey){target="_blank"} for more detailed information about the survey.
+The data used in these reports comes from the [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs), which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizehsip, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey.
 
-According to Wikipedia (https://en.wikipedia.org/wiki/American_Community_Survey){target="_blank"}:
+According to Wikipedia (https://en.wikipedia.org/wiki/American_Community_Survey):
 
 > Data is collected by internet, mail, telephone interviews and in-person interviews...About 95 percent of households across all response modes ultimately respond... ACS responses are confidential... and "immune from legal process"
 
 > It is a mandatory survey, it is governed by federal laws that could impose a fine of as much as $5,000 for refusing to participate.
 
 
-We are particularlly interesed in the following tables on the last page of the [Measure of America 2019 report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"}:
+We are particularlly interesed in the following tables on the last page of the [Measure of America 2019 report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf):
 
 ```{r, echo = FALSE, gender_race_eth_2019}
 knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
 ```
 
-We are particularlly interesed in the tables on the following pages from the [Measure of America 2020 report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf){target="_blank"}:
+We are particularlly interesed in the tables on the following pages from the [Measure of America 2020 report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf):
 
 
 ```{r, echo = FALSE}
@@ -325,7 +325,7 @@ pdf_tools_example[44]
 ```
 ####
 
-From the output, it's clear that a relatively large amount of manipulation will be required to wrangle this data. If you are interested in learning more about this method, please see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/){target="_blank"} and this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/){target="_blank"}.
+From the output, it's clear that a relatively large amount of manipulation will be required to wrangle this data. If you are interested in learning more about this method, please see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) and this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
 
 While not impossible, using the `pdftools` package in this scenario will be a bit challenging becuase of how the multiple tables are displayed on this page.
 
@@ -342,7 +342,7 @@ For demonstrative purposes, we will import two sets of data. The first set of da
 
 We will now import the data using the `magick` package which allows for the improtation of images. 
 
-First we will take a screenshot of the top part of the gender, race, and ethnicity table on the last page of the [2019 Measure of America Report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf){target="_blank"}. We are only interested in the percentage of disconnection across the years, so we dont need our screenshot to include the last couple of columns.
+First we will take a screenshot of the top part of the gender, race, and ethnicity table on the last page of the [2019 Measure of America Report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf). We are only interested in the percentage of disconnection across the years, so we dont need our screenshot to include the last couple of columns.
 
 We can show what this file looks like in this rendered rmarkdown website by using the `include_graphics()` function of the `knitr` package.
 
@@ -375,7 +375,7 @@ ggplot2_logo <- image_read("https://d33wubrfki0l68.cloudfront.net/2c6239d311be6d
 ggplot2_logo
 ```
 
-Now we will use the `image_ocr()` function of the `magick` package to extract the text from the OCS logo image. This function uses the `tesseract` package which has tools for [optical character recognition (OCR)](https://en.wikipedia.org/wiki/Optical_character_recognition){target="_blank"}, hence the `ocr` in the function name. This allows the function to identify text in images. These OCR tools have often been developed using [machine learning](https://en.wikipedia.org/wiki/Machine_learning){target="_blank"} in which an algorithm was trained on images with and without text to "learn" to recognize text. See [here](https://towardsdatascience.com/a-gentle-introduction-to-ocr-ee1469a201aa){target="_blank"} to learn more about how OCR works.
+Now we will use the `image_ocr()` function of the `magick` package to extract the text from the OCS logo image. This function uses the `tesseract` package which has tools for [optical character recognition (OCR)](https://en.wikipedia.org/wiki/Optical_character_recognition), hence the `ocr` in the function name. This allows the function to identify text in images. These OCR tools have often been developed using [machine learning](https://en.wikipedia.org/wiki/Machine_learning) in which an algorithm was trained on images with and without text to "learn" to recognize text. See [here](https://towardsdatascience.com/a-gentle-introduction-to-ocr-ee1469a201aa) to learn more about how OCR works.
 
 ```{r}
 magick::image_ocr(ggplot2_logo)
@@ -419,14 +419,14 @@ We appear to have lost the column names but the values look pretty good.
 
 You may notice that there are lots of `\n` values in the text from our image. These are [**newline**](https://en.wikipedia.org/wiki/Newline?oldformat=true) characters, which denote the end of a line of text and the start of a new line of text.  
 
-We can use the `str_split()` function of the `stringr` package to split based on the `\n` characters in the output. We will then unlist the output using the base R `unlist()` function. By base, we mean that the function it is loaded automatically in an R session. Finally we will use the `as_tibble()` function of the `tibble` package to convert the data into [tibble](https://tibble.tidyverse.org/){target="_blank"} format, which is the tidyverse version of a data frame. This will allow us to see the values in the table much better.
+We can use the `str_split()` function of the `stringr` package to split based on the `\n` characters in the output. We will then unlist the output using the base R `unlist()` function. By base, we mean that the function it is loaded automatically in an R session. Finally we will use the `as_tibble()` function of the `tibble` package to convert the data into [tibble](https://tibble.tidyverse.org/) format, which is the tidyverse version of a data frame. This will allow us to see the values in the table much better.
 
 To do all of these sequential steps efficiently we will use a method called piping.
 
 ***
 <details> <summary>Click here if you are unfamiliar with piping in R, which uses this `%>%` operator.</summary>  
 
-By [piping](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"} we mean using the `%>%` pipe operator which is accessible after loading the `tidyverse` or several of the packages within the tidyverse like `dplyr` because they load the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"}. 
+By [piping](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html) we mean using the `%>%` pipe operator which is accessible after loading the `tidyverse` or several of the packages within the tidyverse like `dplyr` because they load the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html). 
 This allows us to perform multiple sequential steps on one data input.   
 </details>  
 ***
@@ -454,7 +454,7 @@ The only issue is that some values appear to be missing a decimal point.
 
 No worries though, we can modify the entire table in a reproducbile way to get those decimal places back. However, first we need to do some other wrangling steps first.
 
-First, let's spearate the first column about ethnicities with the values in the subsequent columns. We can do so using the `separate()` function of the `tidyr` pacakge based on [regular expressions](https://en.wikipedia.org/wiki/Regular_expression){target="_blank"}. Regular expressions (abbreviated regex) are notation shortcuts that describe patterns in character strings. See [here](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf){target="_blank"} for an RStudio cheetsheat about them.
+First, let's spearate the first column about ethnicities with the values in the subsequent columns. We can do so using the `separate()` function of the `tidyr` pacakge based on [regular expressions](https://en.wikipedia.org/wiki/Regular_expression). Regular expressions (abbreviated regex) are notation shortcuts that describe patterns in character strings. See [here](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf) for an RStudio cheetsheat about them.
 
 We want to separate by instances where a letter is followed by a space and then a number. 
 
@@ -499,7 +499,7 @@ Looks good!
 
 Let's also get rid of the all caps for the major categories of the `Group` column. We can convert the words to only capitalize the first letter using the `str_to_title()` function of the `stringr` package. To specifically modify the `Group` column we can use the `mutate` function of the `dplyr` package. 
 
-We are also going to use a special pipe operator from the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"} called the compound assignment pipe-operator or sometimes the double pipe operator. 
+We are also going to use a special pipe operator from the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html) called the compound assignment pipe-operator or sometimes the double pipe operator. 
 
 This allows us to use the `major_groups` as our input and reassign it at the end after all the subsequent steps have been performed, although in this case it is only one step.
 
@@ -682,7 +682,7 @@ major_groups
 Finally, we would like to change the shape of our table so that we have a new column that represents the year and a new column that represents the value for that year.
 
 To do so we will be making our table "longer", meaning that it will have fewer columns and more rows. 
-See [here](https://en.wikipedia.org/wiki/Wide_and_narrow_data){target="_blank"} for more information about different table formats, typically referred to as wide and long or sometimes narrow.
+See [here](https://en.wikipedia.org/wiki/Wide_and_narrow_data) for more information about different table formats, typically referred to as wide and long or sometimes narrow.
 
 We will use the `pivot_longer()` function of the `tidyr` package to change the shape of our table. 
 
@@ -768,7 +768,7 @@ One option is to copy and paste code we wrote above each time.
 However, this is not very efficient and is error prone.
 Alternatively, we can create a R function to accomplish this succinctly. 
 Functions allow us to perform the same process on multiple data inputs. 
-See [this other case study](https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/){target="_blank"} for more details about how to write a function.
+See [this other case study](https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/) for more details about how to write a function.
 
 In general, the process of writing functions involves first specifying an input that is used within the function to create an output. In this case, the data input is `text`  which will be replaced by the actual image text that we are working on, and then used in the subsequent steps to wrangle the data. We will call our function `make_rows()`.
 
@@ -1069,7 +1069,7 @@ latinx_sub_2017
 Great!
 
 
-Now we are ready to look at the data from 2018 for the Asian and Latinx subgroups from the other [report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf){target="_blank"}.
+Now we are ready to look at the data from 2018 for the Asian and Latinx subgroups from the other [report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf).
 
 
 ### Asian Subgroups 2018
@@ -1605,7 +1605,7 @@ We will make the x-axis upper limit a bit larger to allow for the image of the f
 
 Next, we will change the color to match the one that we identified, by using the `scale_color_manual()` function of the `ggplot2` package. This requires color values for each group. In our case, we have 5 groups, so we repeate this value 5 times using the base `rep()` function.
 
-We will also change the overall look of the plot using the `theme_classic()` function. See [here](https://ggplot2.tidyverse.org/reference/ggtheme.html){target="_blank"} for a list of options.
+We will also change the overall look of the plot using the `theme_classic()` function. See [here](https://ggplot2.tidyverse.org/reference/ggtheme.html) for a list of options.
 
 ```{r}
  major_groups_long %>%
@@ -1637,7 +1637,7 @@ Now let's add some labels. We can add a title using the `title` argument and a y
                      limits = c(5,30)) +
   theme_classic() +
   labs(title = "YOUTH DISCONNECTION BY RACE AND ETHNICITY, 2008 - 2017",
-       y = "YOUTH DISCONNECTION (%)") +
+           y = "YOUTH DISCONNECTION (%)") +
   theme_classic() +
   theme(title = element_text(size = 10,
                              color = "#008393",
@@ -1655,7 +1655,7 @@ Getting close!
 
 Now we need to add figurine icons to the plot.  
 
-To add the figurines we can use icons from free resources like [font awesome](https://fontawesome.com/){target="_blank"}. See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons){target="_blank"} for a link to `svg` options. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the orginal plot to work with. 
+To add the figurines we can use icons from free resources like [font awesome](https://fontawesome.com/). See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons) for a link to `svg` options. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the orginal plot to work with. 
 
 ##### Using font awesome:
 ```{r, out.width="10%"}
@@ -1726,7 +1726,7 @@ plot <- major_groups_long %>%
                      limits = c(5,30)) +
   theme_classic() +
   labs(title = "YOUTH DISCONNECTION BY RACE AND ETHNICITY, 2008 - 2017",
-       y = "YOUTH DISCONNECTION (%)") +
+           y = "YOUTH DISCONNECTION (%)") +
   theme_classic() +
   theme(title = element_text(size = 10,
                              color = "#008393",
@@ -1753,7 +1753,7 @@ We can see from this plot that Native Americans have a very high rate of youth d
 
 ### Major Race and Ethnic Groups and Gender Plot
 
-Now let's create a similar plot for females and males. To do this we can simply use the `facet_wrap()` function. We need to specify what variable we want to facet by, in this case the `Gender` variable, by using the `~` symbol. We also want to set the `scales` argument to `"free"`, so that we have a y-axis for both the female and male plots. See this [case study](https://opencasestudies.github.io/ocs-bp-co2-emissions/#Faceted_plots){target="_blank"} for more information about faceting plots.
+Now let's create a similar plot for females and males. To do this we can simply use the `facet_wrap()` function. We need to specify what variable we want to facet by, in this case the `Gender` variable, by using the `~` symbol. We also want to set the `scales` argument to `"free"`, so that we have a y-axis for both the female and male plots. See this [case study](https://opencasestudies.github.io/ocs-bp-co2-emissions/#Faceted_plots) for more information about faceting plots.
 
 We also dont want to plot the `"All"` values for the `Gender` variable as we have already shown that in the previous plot, so we again exclude it. 
 
@@ -1772,7 +1772,14 @@ plot_gender <-major_groups_long %>%
           Gender != "All") %>%
    mutate(Race_Ethnicity = str_replace(string = Race_Ethnicity, 
                                       pattern = "Native American",
-                                  replacement = "Native\nAmerican"))  %>% ggplot(aes(x = Year, y = Percent, color = Race_Ethnicity)) +
+                                  replacement = "Native\nAmerican"),
+                  Gender = str_replace(string = Gender, 
+                                      pattern = "Female",
+                                  replacement = "FEMALE"),
+                  Gender = str_replace(string = Gender, 
+                                      pattern = "Male",
+                                  replacement = "MALE")) %>%
+  ggplot(aes(x = Year, y = Percent, color = Race_Ethnicity)) +
   geom_line(size = 0.5) +
   geom_point(size = 3) +
   facet_wrap(~Gender, scales = "free") +
@@ -1782,14 +1789,14 @@ plot_gender <-major_groups_long %>%
                      limits = c(5,31)) +
   theme_classic() +
   labs(title = "YOUTH DISCONNECTION BY GENDER AND RACIAL/ETHNIC GROUP, 2008 - 2017",
-       y = "YOUTH DISCONNECTION (%)") +
+           y = "YOUTH DISCONNECTION (%)") +
   theme_classic() +
   theme(title = element_text(size = 10,
                              color = "#008393",
                              face = "bold"),
         axis.title.x = element_blank(),
         axis.text.x = element_text(angle = 90),
-      strip.background =element_rect(fill="#008393"),
+      strip.background =element_rect(fill="#003661"),
  strip.text = element_text(colour = 'white', face = "bold", size = 12))+
   scale_color_manual(values = c(rep( "#008393", 6)))
  
@@ -1845,7 +1852,8 @@ Then we just need to specify how many colors we want in our gradient when we cho
 
 ```{r}
 custom_pal <- colorRampPalette(c("gray", "#008393"))
-custom_pal(3)
+custom_pal <-custom_pal(4)
+custom_pal <-c("#008393","#BEBEBE")
 ```
 
 Here we can see the [hex triplet](https://en.wikipedia.org/wiki/Web_colors?oldformat=true) codes for gray and the shade in between.
@@ -1888,8 +1896,8 @@ asian_subgroups %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent)) +
   geom_col(aes(fill = Year), position = "dodge")+
   labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
-       y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = (custom_pal(4))) +
+           y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = custom_pal) +
   theme_classic() +
   theme(title = element_text(size = 10,
                              color = "#008393",
@@ -1956,7 +1964,7 @@ ggplot(aes(x = Race_Ethnicity, y = Percent)) +
   geom_col(aes(fill = Year), position = "dodge")+
   labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
            y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = (custom_pal(4))) +
+  scale_fill_manual(values = custom_pal) +
   bar_theme()
 
 ```
@@ -1970,8 +1978,8 @@ The `fct_reorder()` function can be used to order the `Race_Ethnicity` variable 
 asian_subgroups %>%
   filter(Gender == "All") %>%
   filter(Race_Ethnicity != "All_races") %>%
-  mutate(Race_Ethnicity = fct_reorder(Race_Ethnicity, Percent)) %>% #<<
-  mutate(Race_Ethnicity = fct_relevel(Race_Ethnicity, "Asian")) %>% #<<
+  mutate(Race_Ethnicity = fct_reorder(Race_Ethnicity, Percent)) %>%
+  mutate(Race_Ethnicity = fct_relevel(Race_Ethnicity, "Asian")) %>% 
   select(-Group) %>%
   pivot_wider(names_from = Year, values_from = Percent) %>%
   pivot_longer(cols = -c(Race_Ethnicity, Gender), 
@@ -1979,10 +1987,10 @@ asian_subgroups %>%
   values_to="Percent")%>%
   ggplot(aes(x = Race_Ethnicity, y = Percent)) +
     geom_col(aes(fill = Year), position = "dodge")+
-    labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
-       y = "YOUTH DISCONNECTION (%)") +
-    scale_fill_manual(values = (custom_pal(4))) +
-    bar_theme()
+    labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP",
+      subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
+             y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = custom_pal) +    bar_theme()
 
 ```
 This is looking very good! Now, let's make a gap between the Asian average group and the subgroups to more easily differentiate between the two and let's use that space to add the figure legend to the plot itself.
@@ -2064,10 +2072,10 @@ asian_for_plot <-asian_subgroups %>%
 asian_subgroup_plot <-asian_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
  geom_col(aes(fill = Year), position = "dodge")+
-  labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
+  labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP AND YEAR",
        subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
        y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = (custom_pal(4))) +
+  scale_fill_manual(values = custom_pal) +
   scale_x_discrete(
   limits = c(levels(pull(asian_for_plot,Race_Ethnicity))[1],
              "Blank",
@@ -2143,26 +2151,26 @@ Now we can use these to create labels again with the `geom_text()` function and 
 
 The `geom_text()` function requires that the x and y axis location for the text be specified, and we want this to be located near the actual percent dissoncation rate, thus we use the `Percent +.5` to grab the `Percent` value from `asian_total` and add 0.5 to it to be slightly above where the line will be. 
 
-The `geom_hline()` function requires, just the yintercept as this function always creates a horizontal line. The `linetype` argument specifies what style of line we would like. See [here](http://sape.inf.usi.ch/quick-reference/ggplot2/linetype){target="_blank"} for a list of options.
+The `geom_hline()` function requires, just the yintercept as this function always creates a horizontal line. The `linetype` argument specifies what style of line we would like. See [here](http://sape.inf.usi.ch/quick-reference/ggplot2/linetype) for a list of options.
 
 ```{r}
 asian_subgroup_plot<- asian_subgroup_plot+ 
   geom_text(data = asian_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 2.5, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(asian_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 2.5, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
 
 asian_subgroup_plot
 ```
-Awesome! Now it is much easier to tell how the disconnection rates for various subgroups compare to the national average and the Asian average. From our plot, we can see that the [Hmong](https://en.wikipedia.org/wiki/Hmong_people){target="_blank"} and Cambodian subgroup rates are very high. If we only had the plot of major racial and ethnic groups to rely on, we might not realize that these two groups have such high rates. 
+Awesome! Now it is much easier to tell how the disconnection rates for various subgroups compare to the national average and the Asian average. From our plot, we can see that the [Hmong](https://en.wikipedia.org/wiki/Hmong_people) and Cambodian subgroup rates are very high. If we only had the plot of major racial and ethnic groups to rely on, we might not realize that these two groups have such high rates. 
 
 ```{r, eval = FALSE}
     annotate("text", label = 'bold("ASIAN 2017 AVG RATE")',
@@ -2223,10 +2231,10 @@ asian_for_plot <-asian_subgroups %>%
 asian_subgroup_plot_simp <-asian_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
  geom_col(aes(fill = Year), position = "dodge")+
-  labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP, 2017-2018",
+  labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP AND YEAR",
        subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
        y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = (custom_pal(4))) +
+  scale_fill_manual(values = custom_pal) +
   scale_x_discrete(
   limits = c(levels(pull(asian_for_plot,Race_Ethnicity))[1],
              "Blank",
@@ -2241,16 +2249,16 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
   bar_theme()+
   #this add the legend to the plot area!:
   theme(legend.justification = c(0.16,0.01),legend.position = c(0.16,.01))+  geom_text(data = asian_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 2.5, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(asian_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 2.5, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
 ```
 
@@ -2295,9 +2303,10 @@ latinx_for_plot <-latinx_subgroups %>%
 latinx_subgroup_plot<-latinx_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
  geom_col(aes(fill = Year), position = "dodge")+
-  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017-2018",
-       y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = (custom_pal(4))) +
+  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP AND YEAR",
+    subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
+           y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = custom_pal) +
   scale_x_discrete(
   limits = c(levels(pull(latinx_for_plot,Race_Ethnicity))[1],
              "Blank",
@@ -2311,16 +2320,16 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
   #this add the legend to the plot area!:
   theme(legend.justification = c(0.23,0.1),legend.position = c(0.23,.1))+
   geom_text(data = latinx_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(latinx_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
 ```
 
@@ -2352,9 +2361,10 @@ latinx_for_plot <-latinx_subgroups %>%
 latinx_subgroup_plot_simp <-latinx_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
  geom_col(aes(fill = Year), position = "dodge")+
-  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP, 2017-2018",
-       y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = (custom_pal(4))) +
+  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP AND YEAR",
+    subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
+           y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = custom_pal) +
   scale_x_discrete(
   limits = c(levels(pull(latinx_for_plot,Race_Ethnicity))[1],
              "Blank",
@@ -2368,18 +2378,18 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
                                        na.rm = TRUE)))+
   bar_theme()+
   #this add the legend to the plot area!:
-  theme(legend.justification = c(0.23,0.1),legend.position = c(0.23,.1))+
+  theme(legend.justification = c(0.23,0.01),legend.position = c(0.23,.01))+
   geom_text(data = latinx_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(latinx_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
 
 
@@ -2401,8 +2411,8 @@ Now that we have made plots for the ethnic subgroups, let's take a look at gende
 ```{r}
 asian_total
 US_total
-asian_total["Gender"]<-c("Female")
-US_total["Gender"]<-c("Female")
+asian_total["Gender"]<-c("Male")
+US_total["Gender"]<-c("Male")
 ```
 
 ```{r}
@@ -2412,7 +2422,12 @@ US_total["Gender"]<-c("Female")
 # custom_pal <- colorRampPalette(c("lightblue", "white"))
 # custom_pal(3)
 
+
 gender_pal <- c("gold", "#003661")
+
+gender_pal <- colorRampPalette(c("gray", "#003661"))
+
+gender_pal <- c("#003661","gray")
 ```
 
 
@@ -2436,9 +2451,9 @@ asian_for_plot <-asian_subgroups %>%
 asian_gender_subgroup_plot<-asian_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent)) +
 geom_col(aes(fill = Gender), position = "dodge")+
-# geom_point(aes(fill = Gender), size = 2, position = position_jitterdodge(jitter.width = 0), shape = 4 )+
-  labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP AND GENDER, 2017-2018",
-       y = "YOUTH DISCONNECTION (%)") +
+  labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP AND GENDER",
+    subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF FEMALES & MALES (2017-2018)",
+           y = "YOUTH DISCONNECTION (%)") +
   scale_fill_manual(values =(gender_pal)) +
   scale_x_discrete(
   limits = c(levels(pull(asian_for_plot,Race_Ethnicity))[1],
@@ -2452,18 +2467,18 @@ geom_col(aes(fill = Gender), position = "dodge")+
    scale_y_continuous(limits = c(0,max(pull(asian_subgroups,Percent), 
                                        na.rm = TRUE)))+
   bar_theme()+
-  theme(legend.justification = c(0.18,0.05), legend.position = c(0.18,.05))+
+  theme(legend.justification = c(0.18,0.01), legend.position = c(0.18,.01))+
    geom_text(data = asian_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393",
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(asian_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
 
   asian_gender_subgroup_plot
@@ -2490,8 +2505,9 @@ latinx_for_plot <-latinx_subgroups %>%
 latinx_gender_subgroup_plot<-latinx_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent)) +
 geom_col(aes(fill = Gender), position = "dodge")+
-  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP AND GENDER, 2017-2018",
-       y = "YOUTH DISCONNECTION (%)") +
+  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP AND GENDER",
+    subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF FEMALES & MALES (2017-2018)",
+           y = "YOUTH DISCONNECTION (%)") +
   scale_fill_manual(values = gender_pal) +
   scale_x_discrete(
   limits = c(levels(pull(latinx_for_plot,Race_Ethnicity))[1],
@@ -2506,23 +2522,30 @@ geom_col(aes(fill = Gender), position = "dodge")+
                                        na.rm = TRUE)))+
   
   bar_theme()+
-    theme(legend.justification = c(0.18,0.05), legend.position = c(0.18,.05))+
+    theme(legend.justification = c(0.18,0.01), legend.position = c(0.18,.01))+
    geom_text(data = latinx_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393",
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(latinx_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
-            size = 3) +
+            size = 4) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
 
   latinx_gender_subgroup_plot
 ```
 
+### Faceted Year and Gender Plots
+
+```{r}
+asian_total["Year"]<-c("2018")
+US_total["Year"]<-c("2018")
+
+```
 
 ```{r}
 asian_for_plot <-asian_subgroups %>%
@@ -2545,8 +2568,9 @@ asian_gender_subgroup_plot_facet_year<-asian_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent)) +
  geom_col(aes(fill = Gender), position = "dodge")+
   facet_wrap(~Year, scales = "free") +
-  labs(title = "ASIAN SUBGROUP YOUTH DISCONNECTION BY GENDER, 2017-2018",
-       y = "YOUTH DISCONNECTION (%)") +
+  labs(title = "ASIAN SUBGROUP YOUTH DISCONNECTION BY GENDER",
+    subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF FEMALES & MALES (, 2017-2018)",
+           y = "YOUTH DISCONNECTION (%)") +
   scale_fill_manual(values = gender_pal) +
   scale_x_discrete(
   limits = c(levels(pull(asian_for_plot,Race_Ethnicity))[1],
@@ -2559,13 +2583,13 @@ ggplot(aes(x = Race_Ethnicity, y = Percent)) +
                                        na.rm = TRUE)))+
   bar_theme()+
    geom_text(data = asian_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3.3, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393",
             size = 3) +
   geom_hline(aes(yintercept = pull(asian_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
            color = "#008393", 
             size = 3) +
@@ -2593,9 +2617,10 @@ asian_gender_subgroup_plot_facet_sex<-asian_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
  geom_col(aes(fill = Year), position = "dodge")+
   facet_wrap(~Gender, scales = "free") +
-  labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP AND GENDER, 2017-2018",
-       y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = (custom_pal(4))) +
+  labs(title = "ASIAN SUBGROUP YOUTH DISCONNECTION BY GENDER",
+    subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
+           y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = custom_pal) +
   scale_x_discrete(
   limits = c(levels(pull(asian_for_plot,Race_Ethnicity))[1],
              "Blank",
@@ -2607,15 +2632,15 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
                                        na.rm = TRUE)))+
   bar_theme()+
    geom_text(data = asian_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3.3, y = Percent +.7, label = label),
            parse = TRUE,
-           color = "#008393", 
+           color = "black", 
             size = 3) +
   geom_hline(aes(yintercept = pull(asian_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 3, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
-           color = "#008393", 
+           color = "black", 
             size = 3) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
 
@@ -2633,7 +2658,61 @@ latinx_total
 US_total 
 
 latinx_total["Gender"]<-c("Male")
-US_total["Gender"]<-c("Male")
+latinx_total["Year"]<-c("2018")
+```
+
+```{r}
+latinx_for_plot <-latinx_subgroups %>%
+  filter(Gender != "All") %>%
+  filter(Race_Ethnicity != "All_races") %>%
+  mutate(Race_Ethnicity = str_replace(
+                 string = Race_Ethnicity, 
+                pattern = "Puerto Rican, Dominican, Cuban",
+            replacement = "Puerto Rican,\nDominican,\nCuban")) %>%
+  mutate(Race_Ethnicity =  fct_reorder(Race_Ethnicity, Percent)) %>% 
+  mutate(Race_Ethnicity = fct_relevel(Race_Ethnicity, "Latinx")) %>%
+  select(-Group) %>%
+  pivot_wider(names_from = Year, values_from = Percent) %>%
+  pivot_longer(cols = -c(Race_Ethnicity, Gender), 
+  names_to = "Year" , 
+  values_to = "Percent")
+
+
+latinx_gender_subgroup_plot_facet_year<-latinx_for_plot %>%
+ggplot(aes(x = Race_Ethnicity, y = Percent)) +
+ geom_col(aes(fill = Gender), position = "dodge")+
+  facet_wrap(~Year, scales = "free") +
+  labs(title = "LATINX SUBGROUP YOUTH DISCONNECTION BY GENDER",
+    subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF FEMALES & MALES (, 2017-2018)",
+           y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = gender_pal) +
+  scale_x_discrete(
+  limits = c(levels(pull(latinx_for_plot,Race_Ethnicity))[1],
+             "Blank",
+             levels(pull(latinx_for_plot,Race_Ethnicity))[2:
+             length(levels(pull(latinx_for_plot,Race_Ethnicity)))]),
+  labels = c("Latinx" = "Latinx Avg.",
+             "Blank" = ""))+
+   scale_y_continuous(limits = c(0,max(pull(latinx_subgroups,Percent), 
+                                       na.rm = TRUE)))+
+  bar_theme()+
+   geom_text(data = latinx_total,
+         mapping = aes(x = 3.3, y = Percent +.7, label = label),
+           parse = TRUE,
+           color = "#008393",
+            size = 3) +
+  geom_hline(aes(yintercept = pull(latinx_total, Percent)), linetype = 2) +
+  geom_text(data = US_total,
+         mapping = aes(x = 3, y = Percent +.7, label = label),
+           parse = TRUE,
+           color = "#008393", 
+            size = 3) +
+  geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
+
+```
+
+```{r}
+latinx_gender_subgroup_plot_facet_year
 ```
 
 ```{r}
@@ -2657,9 +2736,10 @@ latinx_gender_subgroup_plot_facet_sex<-latinx_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
  geom_col(aes(fill = Year), position = "dodge")+
   facet_wrap(~Gender, scales = "free") +
-  labs(title = " LATINX SUBGROUP YOUTH DISCONNECTION BY GENDER, 2017-2018",
-       y = "YOUTH DISCONNECTION (%)") +
-  scale_fill_manual(values = (custom_pal(4))) +
+  labs(title = " LATINX SUBGROUP YOUTH DISCONNECTION BY GENDER",
+    subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
+           y = "YOUTH DISCONNECTION (%)") +
+  scale_fill_manual(values = custom_pal) +
   scale_x_discrete(
   limits = c(levels(pull(latinx_for_plot,Race_Ethnicity))[1],
              "Blank",
@@ -2669,15 +2749,15 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
              "Blank" = ""))+
   bar_theme()+
   geom_text(data = latinx_total,
-         mapping = aes(x = 2.7, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
-           color = "#008393", 
+           color = "black", 
             size = 3) +
   geom_hline(aes(yintercept = pull(latinx_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 2.7, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.7, label = label),
            parse = TRUE,
-           color = "#008393", 
+           color = "black", 
             size = 3) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
 ```
@@ -2701,9 +2781,9 @@ dat_text <- data.frame(
   Year = c("2017"))
 plot <-plot + geom_text(
   data    = dat_text,
-  mapping = aes(x = 2.5, y = US_total +.5, label = label),
+  mapping = aes(x = 2.5, y = US_total +.7, label = label),
   parse = TRUE,
-  color = "#008393", size = 3)
+  color = "#008393", size = 4)
 
 dat_text <- data.frame(
   label = c( 'bold("ASIAN 2017 RATE")'),
@@ -2711,9 +2791,9 @@ dat_text <- data.frame(
   Year = c("2017"))
 plot + geom_text(
   data    = dat_text,
-  mapping = aes(x = 2.5, y = asian_total +.5, label = label),
+  mapping = aes(x = 2.5, y = asian_total +.7, label = label),
   parse = TRUE,
-  color = "#008393", size = 3)
+  color = "#008393", size = 4)
 
 ```
 
@@ -2821,9 +2901,13 @@ As we can see, there is a large amount of uncertainty around the fitted line.
 ```{r}
 library(patchwork)
 png(filename = here::here("img", "mainplot.png"),
-    res = 300, width = 12, height = 12, units = "in")
-plot_gender / (asian_subgroup_plot_simp + asian_gender_subgroup_plot) /(latinx_subgroup_plot_simp + latinx_gender_subgroup_plot)
+    res = 300, width = 13.5, height = 14, units = "in")
+(plot_spacer() + plot_gender+ plot_spacer()  + plot_layout(widths = c(0.3,3,0.3))) / (asian_subgroup_plot_simp + asian_gender_subgroup_plot) /(latinx_subgroup_plot_simp + latinx_gender_subgroup_plot) + 
+  plot_layout(heights =c(2, 1.3, 1.3), widths = c(1.5, 2.5, 2.5)) &  theme(axis.title = element_text(size =14),                                           text = element_text(size = 14, face = "bold"))&
+ plot_annotation(title = "Deeper Insepection Reveals Differences for Youth Disconnection\n Among Races, Ethnic Subgroups, and Genders", theme = theme(plot.title = element_text(size = 22, face = "bold")))
 dev.off()
+
+#& theme = theme(axis.title = element_text(size =14), axis.text = element_text(size = 14, face = "bold"))+
 ```
 
 ## **Suggested Homework**
@@ -2840,22 +2924,22 @@ avocado*This concepts listed here must be revisited.*
 
 <u>Terms and concepts covered:</u>  
 
-[Tidyverse](https://www.tidyverse.org/){target="_blank"}  
-[RStudio cheatsheets](https://rstudio.com/resources/cheatsheets/){target="_blank"}  
-[Inference](https://www.britannica.com/science/inference-statistics){target="_blank"}  
-[Regression](https://lindeloev.github.io/tests-as-linear/){target="_blank"}  
-[Different types of regression](https://www.analyticsvidhya.com/blog/2015/08/comprehensive-guide-regression/){target="_blank"}  
-[Ordinary least squares method](http://setosa.io/ev/ordinary-least-squares-regression/){target="_blank"}  
-[Residual](https://www.statisticshowto.datasciencecentral.com/residual/){target="_blank"}  
+[Tidyverse](https://www.tidyverse.org/)  
+[RStudio cheatsheets](https://rstudio.com/resources/cheatsheets/)  
+[Inference](https://www.britannica.com/science/inference-statistics)  
+[Regression](https://lindeloev.github.io/tests-as-linear/)  
+[Different types of regression](https://www.analyticsvidhya.com/blog/2015/08/comprehensive-guide-regression/)  
+[Ordinary least squares method](http://setosa.io/ev/ordinary-least-squares-regression/)  
+[Residual](https://www.statisticshowto.datasciencecentral.com/residual/)  
 
 <u>Packages used in this case study: </u>
 
  Package   | Use                                                                         
 ---------- |-------------
-[**here**](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data
-[**tidyverse**](https://readr.tidyverse.org/){target="_blank"}      | for data science operations
-[**pdftools**](https://readr.tidyverse.org/){target="_blank"}      | to manage PDF documents
-[**magick**](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution){target="_blank"}      | for image processing 
+[**here**](https://github.com/jennybc/here_here)       | to easily load and save data
+[**tidyverse**](https://readr.tidyverse.org/)      | for data science operations
+[**pdftools**](https://readr.tidyverse.org/)      | to manage PDF documents
+[**magick**](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for image processing 
 
 ## Acknowledgements
 
