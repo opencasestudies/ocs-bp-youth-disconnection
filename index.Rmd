@@ -27,10 +27,8 @@ output:
 </style>
 
 
-
-
-
-
+<!-- Open all links in new tab-->  
+<base target="_blank"/>  
 
 
 
