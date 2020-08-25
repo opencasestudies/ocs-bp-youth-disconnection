@@ -2079,6 +2079,8 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
   labels = c("Asian" = "Asian Avg.",
              "Blank" = "",
              "NEXT_blank"= ""))+
+  scale_y_continuous(limits = c(0,max(pull(asian_subgroups,Percent), 
+                                       na.rm = TRUE)))+
   bar_theme()+
   #this add the legend to the plot area!:
         theme(legend.justification = c(0.12,0.1),
@@ -2236,10 +2238,11 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
   labels = c("Asian" = "Asian Avg.",
              "Blank" = "",
              "NEXT_blank"= ""))+
+  scale_y_continuous(limits = c(0,max(pull(asian_subgroups,Percent), 
+                                       na.rm = TRUE)))+
   bar_theme()+
   #this add the legend to the plot area!:
-  theme(legend.justification = c(0.16,0.1),legend.position = c(0.16,.1))+
-  geom_text(data = asian_total,
+  theme(legend.justification = c(0.16,0.01),legend.position = c(0.16,.01))+  geom_text(data = asian_total,
          mapping = aes(x = 2.5, y = Percent +.5, label = label),
            parse = TRUE,
            color = "#008393", 
@@ -2310,13 +2313,13 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
   #this add the legend to the plot area!:
   theme(legend.justification = c(0.23,0.1),legend.position = c(0.23,.1))+
   geom_text(data = latinx_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.5, label = label),
            parse = TRUE,
            color = "#008393", 
             size = 3) +
   geom_hline(aes(yintercept = pull(latinx_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.5, label = label),
            parse = TRUE,
            color = "#008393", 
             size = 3) +
@@ -2363,17 +2366,19 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
   labels = c("Latinx" = "Latinx Avg.",
              "Blank" = "",
              "NEXT_blank"= ""))+
+  scale_y_continuous(limits = c(0,max(pull(latinx_subgroups,Percent), 
+                                       na.rm = TRUE)))+
   bar_theme()+
   #this add the legend to the plot area!:
   theme(legend.justification = c(0.23,0.1),legend.position = c(0.23,.1))+
   geom_text(data = latinx_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.5, label = label),
            parse = TRUE,
            color = "#008393", 
             size = 3) +
   geom_hline(aes(yintercept = pull(latinx_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.5, label = label),
            parse = TRUE,
            color = "#008393", 
             size = 3) +
@@ -2446,7 +2451,7 @@ geom_col(aes(fill = Gender), position = "dodge")+
   labels = c("Asian" = "Asian Avg.",
              "Blank" = "",
              "Next_Blank" = ""))+
-   scale_y_continuous(limits = c(0,max(pull(asian_for_plot,Percent), 
+   scale_y_continuous(limits = c(0,max(pull(asian_subgroups,Percent), 
                                        na.rm = TRUE)))+
   bar_theme()+
   theme(legend.justification = c(0.18,0.05), legend.position = c(0.18,.05))+
@@ -2499,19 +2504,19 @@ geom_col(aes(fill = Gender), position = "dodge")+
   labels = c("Latinx" = "Latinx Avg.",
              "Blank" = "",
              "Next_Blank" = ""))+
-   scale_y_continuous(limits = c(0,max(pull(latinx_for_plot,Percent), 
+   scale_y_continuous(limits = c(0,max(pull(latinx_subgroups,Percent), 
                                        na.rm = TRUE)))+
   
   bar_theme()+
     theme(legend.justification = c(0.18,0.05), legend.position = c(0.18,.05))+
    geom_text(data = latinx_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.5, label = label),
            parse = TRUE,
            color = "#008393",
             size = 3) +
   geom_hline(aes(yintercept = pull(latinx_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 3, y = Percent +.5, label = label),
            parse = TRUE,
            color = "#008393", 
             size = 3) +
@@ -2666,13 +2671,13 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
              "Blank" = ""))+
   bar_theme()+
   geom_text(data = latinx_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 2.7, y = Percent +.5, label = label),
            parse = TRUE,
            color = "#008393", 
             size = 3) +
   geom_hline(aes(yintercept = pull(latinx_total, Percent)), linetype = 2) +
   geom_text(data = US_total,
-         mapping = aes(x = 2.5, y = Percent +.5, label = label),
+         mapping = aes(x = 2.7, y = Percent +.5, label = label),
            parse = TRUE,
            color = "#008393", 
             size = 3) +
@@ -2818,7 +2823,7 @@ As we can see, there is a large amount of uncertainty around the fitted line.
 ```{r}
 library(patchwork)
 png(filename = here::here("img", "mainplot.png"),
-    res = 300, width = 8, height = 10, units = "in")
+    res = 300, width = 12, height = 12, units = "in")
 plot_gender / (asian_subgroup_plot_simp + asian_gender_subgroup_plot) /(latinx_subgroup_plot_simp + latinx_gender_subgroup_plot)
 dev.off()
 ```
