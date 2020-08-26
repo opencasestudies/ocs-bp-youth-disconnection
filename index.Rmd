@@ -116,16 +116,19 @@ The skills, methods, and concepts that students will be familiar with by the end
 
 Data science skills:  
 
-1. Importing data from PDF files using the `magick` package  
+1. Importing text from PDF files using images and the `magick` package  
 2. Apply action verbs in `dplyr` for data wrangling  
-3. How to pivot between "long" and "wide" datasets (`tidyr`)  
-4. Joining together multiple datasets using `dplyr`  
-5. How to create data visualizations with `ggplot2` that are in a similar style to an existing image  
+3. How to reshape data by pivoting between "long" and "wide" formats and separating columns into additional columns (`tidyr`)  
+4. How to fill in data based on previous values (`tidyr`)
+5. How to create data visualizations with `ggplot2` that are in a similar style to an existing image    
+6. How to add images to plots using `cowplot`
+7. How to create effective bar plots to for multiple comparisons, including adding gaps between bars in bar plots, adding figure legends to the plot area, and adding comparison lines (`ggplot2`)
 
 Statistical concepts and methods:  
 
 1. Implementation of the Mann-Kendall trend test  
-2. Interpretation of the Mann-Kendall trend test  
+2. Interpretation of the Mann-Kendall trend test 
+3. Difference between linear regression and Mann-Kendall trend test
 
 
 ```{r, out.width = "20%", echo = FALSE, fig.align ="center"}
@@ -138,30 +141,42 @@ We will begin by loading the packages that we will need:
 
 ```{r}
 library(here)
-library(tidyverse)
-library(dplyr)
-library(tidyr)
-library(magrittr)
 library(pdftools)
 library(magick)
+library(knitr)
+library(dplyr)
+library(stringr)
+library(magrittr)
+library(tidyr)
+library(tibble)
+library(ggplot2)
 library(directlabels)
 library(cowplot)
 library(forcats)
 library(Kendall)
+library(patchwork)
 ```
 
 
 
- Package   | Use                                                                         
+ Package   | Use in this case study                                                                      
 ---------- |-------------
-[here](https://github.com/jennybc/here_here)       | to easily load and save data
-[tidyverse](https://readr.tidyverse.org/)      | for data science operations
-[pdftools](https://readr.tidyverse.org/)      | to manage PDF documents
-[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for image processing 
-[here](https://github.com/jennybc/here_here)       | to easily load and save data
-[tidyverse](https://readr.tidyverse.org/)      | for data science operations
-[pdftools](https://readr.tidyverse.org/)      | to manage PDF documents
-[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for image processing 
+[here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data  
+[pdftools](https://readr.tidyverse.org/)      | to import PDF documents  
+[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for importing images and extracting text from images   
+[knitr](https://yihui.org/knitr/) |  for showing images in reports    
+[dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to filter, subset, join, add rows to, and modify the data   
+[stringr](https://stringr.tidyverse.org/){target="_blank"}      | to manipulate strings  
+[magrittr](https://magrittr.tidyverse.org/){target="_blank"}      | to pipe sequential commands 
+[tidyr](https://tidyr.tidyverse.org/){target="_blank"}      | to change the shape or format of tibbles to wide and long, to drop rows with `NA` values, to separate a column into additional columns, and to fill out values based on previous values   
+[tibble](https://tibble.tidyverse.org/){target="_blank"}      | to create tibbles    
+[ggplot2](https://ggplot2.tidyverse.org/){target="_blank"}      | to create plots  
+[directlabels](http://directlabels.r-forge.r-project.org/docs/index.html){target="_blank"}      | to add labels directly to lines in plots  
+[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html){target="_blank"}      | to add images to plots 
+[forcats](https://forcats.tidyverse.org/){target="_blank"}      | to reorder factor for plot
+[kendall](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf) | to implement the Mann-Kendall trend test in R   
+[patchwork](https://github.com/thomasp85/patchwork) | to combine plots
+
 
 
 The first time we use a function, we will use the `::` to indicate which package we are using. Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
@@ -211,6 +226,7 @@ Here is an illustration of risk factors, protective factors and the continuum of
 ```{r, echo = FALSE, out.width = "800 px"}
 knitr::include_graphics(here::here("img", "risk_factors.png"))
 ```
+
 ##### [[source]](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/pdf/10.1177_0033354918799344.pdf) 
 
 
@@ -235,10 +251,17 @@ Prevention strategies include:
 - [Cognitive behavioral therapy](https://www.apa.org/ptsd-guideline/patients-and-families/cognitive-behavioral)    
 
 
-See [here](https://youth.gov/evidence-innovation/program-directory?keywords=&field_pd_factors_risks_tid=413&field_pd_factors_protective_tid=All) and [here](https://goc.maryland.gov/wp-content/uploads/sites/8/2015/10/Program-Models-for-Serving-Opportunity-Youth.pdf) for listings of programs dedicated to rengaging disconnected youth or preventing disconnection.
+#### {.emphasis_block}
 
-See [here](https://www.communitiesthatcare.net/) and 
-[here](https://extension.psu.edu/promoting-school-community-university-partnerships-to-enhance-resilience) for particular examples.
+Want to learn more about how to prevent and mitigate youth disconnection?  
+Or do you know youths who are disonnected?  
+
+See [the program directory at youth.gov](https://youth.gov/evidence-innovation/program-directory?keywords=&field_pd_factors_risks_tid=413&field_pd_factors_protective_tid=All) and [this program listing](https://goc.maryland.gov/wp-content/uploads/sites/8/2015/10/Program-Models-for-Serving-Opportunity-Youth.pdf) focused on Maryland but including other locations for listings of programs dedicated to rengaging disconnected youth or preventing disconnection.
+
+Also, see [The Center for Communities That Care](https://www.communitiesthatcare.net/) and the
+[PROSPER program](https://extension.psu.edu/promoting-school-community-university-partnerships-to-enhance-resilience) for particular examples.
+
+####
 
 
 The statistics used in this section came from this [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/).
@@ -248,9 +271,9 @@ The statistics used in this section came from this [article](https://www.ncbi.nl
 
 There are some important considerations regarding this data analysis to keep in mind: 
 
-1) This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/)  project reports from the is derived from [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs) which excludes or underrepresents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused is not available in this dataset. Thus, this data likely underestimates youth disconnection rates. 
+1) This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/)  project reports from the is derived from [American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs) which excludes or underrepresents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused is not available in this dataset. Thus, this data likely underestimates youth disconnection rates. Furthermore, the data used in these reports are collected from human participants; this presents the *potential* for [response bias](https://en.wikipedia.org/wiki/Response_bias), as there is the *potential* that participants in the [sampling frame](https://en.wikipedia.org/wiki/Sampling_frame?oldformat=true){target="_blank"} may for a variety of reasons report inaccurate information. 
 
-2) Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination) (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as LGBT (lesbian/gay/bisexual/transgender/queer and questioning) or nonbinary gender populations is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs) has more detailed infromation about a greater number of racial and ethnic groups and racial/ethnic intersections.
+2) Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination) (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as [LGBTQIA+](https://www.uis.edu/gendersexualitystudentservices/about/lgbtqaterminology/) (lesbian/gay/bisexual/pansexual/transgender/genderqueer/queer,questioning/intersexed/agender/asexual) is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs) has more detailed infromation about a greater number of racial and ethnic groups and racial/ethnic intersections.
 
 3) The statistical procedures we are using may be overly simplistic. *In all data analysis, we need to be wary about deriving meaning from the statistical procedures we use*.
 
@@ -278,7 +301,7 @@ knitr::include_graphics(here::here("img", "A_Decade_Undone.png"))
 
 The data used in these reports comes from the [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs), which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizehsip, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey.
 
-According to Wikipedia (https://en.wikipedia.org/wiki/American_Community_Survey):
+According to [Wikipedia](https://en.wikipedia.org/wiki/American_Community_Survey):
 
 > Data is collected by internet, mail, telephone interviews and in-person interviews...About 95 percent of households across all response modes ultimately respond... ACS responses are confidential... and "immune from legal process"
 
@@ -333,9 +356,7 @@ While our output may be reproducible, this process may be too time consuming.
 
 Fortunately, there is another way we can proceed to wrangle the data. 
 
-We will demonstrate how to produce reproducible tables with image processing software in `R` using  a package called `magick` which allows for the extraction of text from images. The advantage of this option, is that we can take a screenshot of just a piece of the page to wrangle. 
-
-For demonstrative purposes, we will import two sets of data. The first set of data will be used to highlight common errors that the image processing software may produce. The second set of data will be used to demonstrate how to circumvent these errors and produce reproducible datasets efficiently.
+We will demonstrate how to produce reproducible tables with image processing software in `R` using  a package called `magick` which allows for the extraction of text from images. The **advantage** of this option, is that we can take a screenshot of just a piece of the page to wrangle. 
 
 
 ### Importing with `magick`
@@ -368,7 +389,7 @@ Major_racial_ethnic_groups
 Nice!
 
 
-Let's a couple more images just for fun. Here we will import an image directly from a URL.
+Let's import a couple more images just for fun. Here we will import an image directly from a URL.
 
 ```{r, out.width="20%"}
 ggplot2_logo <- image_read("https://d33wubrfki0l68.cloudfront.net/2c6239d311be6d037c251c71c3902792f8c4ddd2/12f67/css/images/hex/ggplot2.png")
@@ -415,7 +436,7 @@ major_groups
 ```
 This looks like it worked fairly well!
 
-We appear to have lost the column names but the values look pretty good.
+We appear to have lost the column names (likely because of the different background color) but the values look pretty good.
 
 You may notice that there are lots of `\n` values in the text from our image. These are [**newline**](https://en.wikipedia.org/wiki/Newline?oldformat=true) characters, which denote the end of a line of text and the start of a new line of text.  
 
@@ -810,7 +831,7 @@ The rows with no values are possibly causing this issue.  According to the PDF, 
 
 So we will now import and extract text from three screenshots of this table where we stop just after the row that starts with `PAKISTANI` in the first image, and then an image of the Korean rows up to the next row with no values, and finally an image starting at the row that starts with `FILIPNO`.
 
-```{r}
+```{r, out.width= "60%"}
 Asian_sub_A <- image_read(here("img", "asian_sub_A.png"))
 Asian_sub_B <- image_read(here("img", "asian_sub_B.png"))
 Asian_sub_C <- image_read(here("img", "asian_sub_C.png"))
@@ -914,7 +935,7 @@ Why do we not need to use `pivot_longer()` with this data?
 
 Recall that this is the table we want to wrangle:
 
-```{r}
+```{r, out.width = "80%"}
 knitr::include_graphics(here::here("img", "latinx2017.png"))
 ```
 
@@ -1073,7 +1094,7 @@ Now we are ready to look at the data from 2018 for the Asian and Latinx subgroup
 
 
 ### Asian Subgroups 2018
-
+***
 Recall that this was the page with the table of interest for the asian subgroups with 2018 data:
 
 ```{r, echo = FALSE, }
@@ -1303,7 +1324,7 @@ DT::datatable(asian_subgroups)
 Great, now we are ready to peform similar wrangling for the Latinx subgroups.
 
 ### Latinx Subgroups 2018 
-
+***
 Recall that this was the page with the table of interest for the Latinx subgroup 2018 data:
 
 ```{r, echo = FALSE, }
@@ -1454,6 +1475,7 @@ DT::datatable(asian_subgroups)
 ```
 
 ### Checking the data
+***
 
 OK, now let's make sure that our notations match across our different tables. For example in the first report the terms male and female where used, but in the second report men and women were used. Let's make sure everything is consistent now.
 
@@ -1495,6 +1517,7 @@ load(here::here("data", "wrangled_data.rda"))
 
 
 ### Major Race and Ethnic Groups Plot
+***
 
 We are particularly interested in being able to reproduce the plot below, as we would like to make similar looking plots.
 
@@ -1752,7 +1775,7 @@ Nice! Our plot looks very similar stylistically to the plot in the report.
 We can see from this plot that Native Americans have a very high rate of youth disconnection, with roughly still a quarter of the population experiencing youth disconnection in this survey. Altough some groups show a downward trend, like the Latinx group, the level has been fairly stable since 2008, as we see that the slope of each line is fairly flat. We will investigate this further in our analysis. 
 
 ### Major Race and Ethnic Groups and Gender Plot
-
+***
 Now let's create a similar plot for females and males. To do this we can simply use the `facet_wrap()` function. We need to specify what variable we want to facet by, in this case the `Gender` variable, by using the `~` symbol. We also want to set the `scales` argument to `"free"`, so that we have a y-axis for both the female and male plots. See this [case study](https://opencasestudies.github.io/ocs-bp-co2-emissions/#Faceted_plots) for more information about faceting plots.
 
 We also dont want to plot the `"All"` values for the `Gender` variable as we have already shown that in the previous plot, so we again exclude it. 
@@ -1839,7 +1862,7 @@ Very interesting! By parsing the groups further into intersections of racial and
 
 
 ### Subgroup plots
-
+***
 It is clear from the previous plot that observing more specific subgroups in our data can be very informative!
 
 Thus, we also want to make plots of the Asain and Latinx subgroups, to see if there are particular ethnic groups that have higher levels of youth disconnection. If so, these groups may particuarly benefit for prevention and rengagement efforts.
@@ -1848,17 +1871,16 @@ We will also attempt to continue to plot the genders separately, as we have lear
 
 We can continue to make our plots look like they match the report by using a color palette based off the color used in the report. We can use the `colorRampPalette()` function of the `grDevices` package, which is loaded automatically in an RStudio session. We can specify that we want the colors to range from gray to the color that we have been using.
 
-Then we just need to specify how many colors we want in our gradient when we choose to use the color pallette. Say we wanted 3 colors, we just need to type `custom_pal(3)` to get a list of 3 colors within the palette. Thus we will have gray, the teal color we have been using, and a shade in between.
+Then we just need to specify how many colors we want in our gradient when we choose to use the color pallette. Say we wanted 4 colors, we just need to type `custom_pal(4)` to get a list of 4 colors within the palette. Thus we will have gray, the teal color we have been using, and two shades in between. After doing this we chose to use one of the colors in between and to use just two colors for our palette.
 
 ```{r}
 custom_pal <- colorRampPalette(c("gray", "#008393"))
 custom_pal <-custom_pal(4)
+custom_pal
 custom_pal <-c("#008393","#BEBEBE")
 ```
 
 Here we can see the [hex triplet](https://en.wikipedia.org/wiki/Web_colors?oldformat=true) codes for gray and the shade in between.
-
-
 
 OK, now let's start with the Asian subgroups. Since we only have two time points of data for each group, we will create a bar graph this time where the two years are displayed next to each other for each year. Thus, we want the `Year` variable to be a discrete variable. To ensure that it is interpreted as a discrete variable, we need to convert it to be a character type variable rather than numeric using the base `as.character()` function. 
 
@@ -2268,9 +2290,10 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
 asian_subgroup_plot_simp
 ```
 
+***
+
 Now let's do the same for the Latinx subgroups.
 
-### Latinx Subgroups
 
 First let's make the small tibble of the 2017 Latinx average rate like we did for the US and for Asians to create the lines and text on our plot.
 
@@ -2284,6 +2307,9 @@ Race_Ethnicity == "Latinx") %>%
 ```
 
 
+Now we will use similar code for the latinx sugroups. The only difference is that we will also change the `"Puerto Rican, Dominican, Cuban"` values to have new line breaks between the groups. First let's plot all subgroups.
+
+<details> <summary> Click here to reveal the code. </summary> 
 ```{r}
 latinx_for_plot <-latinx_subgroups %>%
   dplyr::select(-Group) %>%
@@ -2332,13 +2358,16 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
             size = 4) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
 ```
+</details> 
 
 ```{r}
 latinx_subgroup_plot
-
 ```
 
+Now let's drop the subgroups that dont have values for both years.
 
+
+<details> <summary> Click here to reveal the code. </summary> 
 
 ```{r}
 latinx_for_plot <-latinx_subgroups %>%
@@ -2391,10 +2420,9 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
            color = "#008393", 
             size = 4) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
-
-
 ```
 
+</details> 
 
 ```{r}
 
@@ -2405,30 +2433,21 @@ latinx_subgroup_plot_simp
 
 
 ### Subgroup by Gender Plots
+***
 
 Now that we have made plots for the ethnic subgroups, let's take a look at gender differences among the subgroups.
 
-```{r}
-asian_total
-US_total
-asian_total["Gender"]<-c("Male")
-US_total["Gender"]<-c("Male")
-```
+
+
+Let's create a new palette for gender based on another color in the report:
 
 ```{r}
-# custom_pal <- colorRampPalette(c("navy", "white"))
-# custom_pal(3)
-# 
-# custom_pal <- colorRampPalette(c("lightblue", "white"))
-# custom_pal(3)
-
-
-gender_pal <- c("gold", "#003661")
-
-gender_pal <- colorRampPalette(c("gray", "#003661"))
-
 gender_pal <- c("#003661","gray")
 ```
+
+This time we will color by gender, rather than by year.
+
+<details> <summary> Click here to reveal the code. </summary>
 
 
 ```{r}
@@ -2480,9 +2499,17 @@ geom_col(aes(fill = Gender), position = "dodge")+
            color = "#008393", 
             size = 4) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
+```
 
+</details>
+
+```{r}
   asian_gender_subgroup_plot
 ```
+
+And let's do the same for the Latinx subgroups.
+
+<details> <summary> Click here to reveal the code. </summary>
 
 
 ```{r}
@@ -2535,17 +2562,40 @@ geom_col(aes(fill = Gender), position = "dodge")+
            color = "#008393", 
             size = 4) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
+```
+</details>
 
+
+```{r}
   latinx_gender_subgroup_plot
 ```
 
 ### Faceted Year and Gender Plots
+***
+
+Now let's facet by year and gender to get more detailed information.
+
+Thus to have our labels only on a specific year and gender facet we will change these for our total tibbles for the average rate lines.
 
 ```{r}
+
+asian_total
+US_total
+latinx_total
+
 asian_total["Year"]<-c("2018")
 US_total["Year"]<-c("2018")
+latinx_total["Year"]<-c("2018")
 
+
+asian_total["Gender"]<-c("Male")
+US_total["Gender"]<-c("Male")
+latinx_total["Gender"]<-c("Male")
 ```
+
+First let's facet by year.
+
+<details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
 asian_for_plot <-asian_subgroups %>%
@@ -2597,9 +2647,15 @@ ggplot(aes(x = Race_Ethnicity, y = Percent)) +
 
 ```
 
+</details> 
+
 ```{r}
 asian_gender_subgroup_plot_facet_year
 ```
+
+Now let's facet by `Gender`.
+
+<details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
 asian_for_plot <-asian_subgroups %>%
@@ -2646,20 +2702,16 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
 
 ```
 
+</details>
+
 ```{r}
 asian_gender_subgroup_plot_facet_sex
 
 ```
 
+Now for the Latinx Subgroups, first again faceting by `Year`.
 
-```{r}
-
-latinx_total
-US_total 
-
-latinx_total["Gender"]<-c("Male")
-latinx_total["Year"]<-c("2018")
-```
+<details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
 latinx_for_plot <-latinx_subgroups %>%
@@ -2711,9 +2763,15 @@ ggplot(aes(x = Race_Ethnicity, y = Percent)) +
 
 ```
 
+</details>
+
 ```{r}
 latinx_gender_subgroup_plot_facet_year
 ```
+
+Now faceting by `Gender`.
+
+<details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
 latinx_for_plot <-latinx_subgroups %>%
@@ -2762,39 +2820,10 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
   geom_hline(aes(yintercept = pull(US_total, Percent)), linetype = 3)
 ```
 
+</details> 
 
 ```{r}
 latinx_gender_subgroup_plot_facet_sex
-```
-
-
-
-
-
-```{r, eval = FALSE}
-geom_hline(aes(yintercept = asian_total), linetype = 2) +
-geom_hline(aes(yintercept = US_total), linetype = 3)
-
-dat_text <- data.frame(
-  label = c( 'bold("US 2017 AVG RATE")'),
-  Gender = c("Female"),
-  Year = c("2017"))
-plot <-plot + geom_text(
-  data    = dat_text,
-  mapping = aes(x = 2.5, y = US_total +.7, label = label),
-  parse = TRUE,
-  color = "#008393", size = 4)
-
-dat_text <- data.frame(
-  label = c( 'bold("ASIAN 2017 RATE")'),
-  Gender = c("Female"),
-  Year = c("2017"))
-plot + geom_text(
-  data    = dat_text,
-  mapping = aes(x = 2.5, y = asian_total +.7, label = label),
-  parse = TRUE,
-  color = "#008393", size = 4)
-
 ```
 
 
@@ -2807,8 +2836,8 @@ plot + geom_text(
 load(here::here("data", "wrangled_data.rda"))
 ```
 
-**Repeated Cross-sectional Data**
-
+### Sampling methods
+***
 We have pooled (repeated) [cross-sectional](https://en.wikipedia.org/wiki/Cross-sectional_data?oldformat=true) data.
 
 This is data produced from repeated measurement of a [population](https://en.wikipedia.org/wiki/Population?oldformat=true) over time.
@@ -2817,30 +2846,45 @@ It is often infeasible to collect data for an entire population at once. However
 
 At specific time-points, data is collected from a sample of the population. The individuals in each sample are not necessarily the same individuals. This separates pooled cross-sectional data from panel data, which is longitudinal data from repeated measurement of the same people.   
 
-By sampling from a population at multiple time points, we can generate population level statistics. Although these statistics have some random error, they can provide insight into how the measure variable is changing in a population over time.
-
-We can accomplish this by plotting the measured values over time. Sometimes, however, the trend isn't exactly clear. Fortunately, there are statistical methods to resolve this issue.
-
-The Mann-Kendall trend test, (which is a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)), tests whether there is a [monotonic association](https://www.statisticshowto.com/monotonic-relationship/), or a relationship with consistent direction between a variable and time.
+By sampling from a population at multiple time points, we can generate estimates of population level statistics. Although these statistics have some random error, they can provide insight into how the measure variable is changing in a population over time. This is the concept of using [sampling methods](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true){target="_blank"} to make [statistical inference](https://www.britannica.com/science/inference-statistics) about actual populations based on a smaller sample of the population.
 
 
+As we have measured values over time, we can plot the data to see if there is a trend. Sometimes, however, the trend isn't exactly clear. Fortunately, there are statistical methods to resolve this issue.
+
+### Mann-Kendall trend test
+***
+The Mann-Kendall trend test, (which is a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)), tests whether there is a [monotonic association](https://www.statisticshowto.com/monotonic-relationship/) between two variables, or a relationship with consistent direction between two variables, where one variable (typically time) determines the order of the other variable. Thus this test is most often used to see if there is a consistent change in direction (or [mathematical sign](https://en.wikipedia.org/wiki/Sign_(mathematics))) for a variable across time. 
+
+#### Monotonic relationships
+***
 As you can see in the image below, a monotonic relationship does not need to be linear, it simply needs to show a consistent direction of change. A linear relationship on the otherhand shows consistent direction and rate of change.
 
-```{r, out.width="600px"}
+```{r, out.width="400px", echo=FALSE}
 knitr::include_graphics("https://www.statisticshowto.com/wp-content/uploads/2017/03/monotonic-relationship.png")
 ```
-#### [[source]](https://www.statisticshowto.com/monotonic-relationship/) Stephanie Glen. "Monotonic Relationship: Definition" From StatisticsHowTo.com: Elementary Statistics for the rest of us! https://www.statisticshowto.com/monotonic-relationship/
+
+
+##### [[source](https://www.statisticshowto.com/monotonic-relationship/) - Stephanie Glen. "Monotonic Relationship: Definition" From StatisticsHowTo.com: Elementary Statistics for the rest of us! https://www.statisticshowto.com/monotonic-relationship/]
+
 
 So in other words, we are interested to see if there is a consistent direction in the relationship of disconnection rates with time, as we want to know if rates have been consistently increasing or decreasing or if they have been staying roughly the same. 
 
 So agian, this test does not test if the rate of change has been consistent over time, just the direction.
 
-[Simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) tests if there is a consitent change in both rate and direction in the dependent variable as a single independent variable changes. The coefficients tell us how much the dependent variable changes with one unit change of the independent variable.
+#### Mann-Kendal trend test vs simple linear regression
+***
 
+[Simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) in contrast tests if there is a consitent change in both rate and direction in the dependent variable as a single independent variable changes. The coefficients tell us how much the dependent variable changes with one unit change of the independent variable. 
 
-The Mann-Kendall trend test is a non-parametric test, which means that it does not require as many assumptions as some parametric tests, like the [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression).
+<!-- See this [case study](https://opencasestudies.github.io/ocs-bp-co2-emissions/) for more discussion about the difference between simple linear regression and correlation. -->
 
-The null hypothesis $H_{0}$ of the test is that there is no monotonic trend, while the alternative hypothesis $H_{a}$ is that there is a trend.
+avocado: I had this in here as well.. as it is relevant and maybe we need discussion about the difference between the trend test and correlation but I thought this might complicate this section... what do you think?
+
+The Mann-Kendall trend test is a [nonparametric](https://en.wikipedia.org/wiki/Nonparametric_statistics) test, which means that it does not require as many assumptions as some [parametric](https://en.wikipedia.org/wiki/Parametric_statistics) tests, like the [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression).
+
+### Mann-Kendall trend test calculations
+***
+The [null hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) $H_{0}$ of the test is that there is no monotonic trend, while the [alternative hypothesis](https://en.wikipedia.org/wiki/Alternative_hypothesis) $H_{a}$ is that there is a trend.
 
 According to [this report](https://www.statisticshowto.com/wp-content/uploads/2016/08/Mann-Kendall-Analysis-1.pdf), the Mann-Kendall $S$ score is calculated as follows:
 
@@ -2851,26 +2895,25 @@ $$S =\sum_{k=1}^{n-1}\sum_{j = k+1}^{n} sign(x_{j} - x_{k}) $$
 
 where:
 
-$ sign(x_{j}-x_{k}) = 1$ if $x_{j}-x_{k} >0$
-                   $= 0$ if $x_{j}-x_{k} = 0$
-                   $= -1$ if $x_{j}-x_{k} <0 $
+$$sign(x_{j}-x_{k}) = 1 \text{, if } x_{j}-x_{k}>0$$
+ $$sign(x_{j}-x_{k}) = 0 \text{, if } x_{j}-x_{k}=0$$
+ $$sign(x_{j}-x_{k}) = -1 \text{, if } x_{j}-x_{k}<0$$
                    
                    
-Thus all possible cases where a value occured later in time must be compared with values that occured earlier in time, giving $n(n – 1) / 2$ comparisons.
+Thus all possible cases where a value occured later in time must be compared with values that occured earlier in time, giving $n(n – 1) / 2$ comparisons, like so if there were four time points ($n = 4$):
 
-like so if there were three time points (n = 4):
-
-$ S = sign(x2−x1) + sign(x3−x1) + sign(x4-x1) + sign(x3−x2) + sign(x4-x2) + sign(x4-x3)$
+$$S = sign(x2−x1) + sign(x3−x1) + sign(x4-x1) + sign(x3−x2) + sign(x4-x2) + sign(x4-x3)$$
 
 Which is consistent with $4(4-1)/2 = 4(3)/2 = 12/2 = 6$ comparisons.
 
 
-Then the variance of S is calculated like so:
+Then the variance of $S$ ($VAR(S)$ or $\sigma^2$) is calculated like so:
 
 $$ VAR(S)=\frac{1}{18}(n(n−1)(2n+5)−\sum_{p-1}^{g}t_{p}(t_{p}−1)(2t_{p}+5))$$
 Where: 
-$g = $ number of tied groups
-$t_{p} = $ number of observations in the $p$th group for a given tie
+
+$$g =  \text{number of tied groups}$$
+$$t_{p} =  \text{number of observations in the }p\text{th group for a given tie}$$
 
 Thus if there were 3 observations in our example were 35, then there would be 1 $g$ tied group and 3 $t_{p}$ observations. 
 
@@ -2878,13 +2921,13 @@ Note that according to this [source](https://www.statisticshowto.com/mann-kendal
 
 Finally the test statistic $Z_{MK}$ is calculated as follows:
 
- if $S > 0$ then $Z_{MK} = \frac{S-1}{\sqrt{VAR(S)}}$
- if $S < 0$ then $Z_{MK} = \frac{S+1}{\sqrt{VAR(S)}}$
- if $S < 0$ then $Z_{MK} = 0$
+ if $S > 0$ then $Z_{MK} = \frac{S-1}{\sqrt{VAR(S)}}$  
+ if $S < 0$ then $Z_{MK} = \frac{S+1}{\sqrt{VAR(S)}}$  
+ if $S < 0$ then $Z_{MK} = 0$  
 
 Recall that the youth disconnection rates for Native Americans were some of the highest in the first table we examined. 
 
-```{r}
+```{r, echo = FALSE}
 Major_racial_ethnic_groups
 ```
 
@@ -2897,11 +2940,14 @@ If we were to caclulate the Mann-Kendall statistic mannually we could do the fol
 $$  S = sign(x2−x1) + sign(x3-x1) + sign(x4-x1) + sign(x5-x1) + sign(x6-x1) +$$
 
 $$ sign(x3-x2) + sign(x4-x2) + sign(x5-x2) + sign(x6-x2) +$$  
+
 $$sign(x4-x3) + sign(x5-x3) + sign(x6-x3) +$$  
+
 $$sign(x5-x4) + sign(x6-x4) +$$   
+
 $$sign(x6-x5)$$  
 
-Thus to calculate $S$  in R we would do the following:
+Thus to calculate $S$ manually in R we could do like so:
 
 ```{r}
 x1 = 24.4
@@ -2917,34 +2963,58 @@ sign(x3-x2) + sign(x4-x2) + sign(x5-x2) + sign(x6-x2) +sign(x4-x3) + sign(x5-x3)
 
 The result is -7. 
 
-The $VAR(S)$ or $\sigma^2$ would be calculated as (since we have n = 6 observations and no ties)
+The $VAR(S)$ or $\sigma^2$ would be calculated like so (since we have n = 6 observations and no ties):
 
 $$ VAR(S)=\frac{1}{18}(6(6−1)(2(6)+5)−\sum_{p-1}^{g}0(0−1)(2(0)+5))$$
 $$ VAR(S)=\frac{1}{18}(30)(17)−0 =1.666667(17) = 28.33333$$
 
-Finally the $Z_{MK}$ statistic would be calculated as (since $S$ < 0):
+Finally we can standardize our $S$ score using the variance of $S$. Thus the standardized score $Z_{MK}$ would be calculated as (since $S$ < 0):
+
  $Z_{MK} = \frac{S+1}{\sqrt{VAR(S)}}$
  $Z_{MK} = \frac{-7+1}{\sqrt{28.33333}} = \frac{-6}{5.322906} = -1.127$
  
-We would then use this value in a $Z$ table to determine what the p value for either a one-sided or two-sided hypothesis. 
+The $Z_{MK}$ is the specific Mann-Kendall version of the [Z score](https://en.wikipedia.org/wiki/Standard_score), which is also called a standard or standardized score. This allows us to use a variety of data (which maybe normally distributed or not) and create a standard statistic about the data that is noramlly distributed. We can inturn then use this to better understand our data and how it compares to the actual population of youths in America. 
+
+We can then look up our calculated $Z_{MK}$ in a standard $Z$ table to determine the p-value (the p stands for [probability](https://en.wikipedia.org/wiki/Probability)). In other words, we can get a sense of the probability that the observed $S$  and $Z_{mk}$ values for our sample is due to just sampling chance alone. See this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) for more information about probability and hypothesis testing. 
+
+The p-value tells us the probability of observing a test statistic as or more extreme than the one we observed if the null hypothesis (that there is no trend) is true. If the p-value is small, say less than 0.05, then our observed $Z$ statistic is pretty rare if the null hypothesis is true. This would lead us to reject the null hypothesis and conclude that there is indeed a trend in the data. We will talk more about p-values, and in particular our choice of 0.05 as a comparison for the p-value, a little later.
+
+First let's figure out what our p-value is using the standarnd $Z$ score table.
+
+Using the $Z$ column on the far left we find a row that says -1.1 and because our $Z$ value is -1.127 we round this to -1.13 and then find the column for 0.03 to account for the value that is second after decimal place for our $Z$ score. We see that the value where this row and this column intersect is 0.1292. This is the p-value, that indicates the probablity of having a $Z$ score that is more extreme (on the negative side) of the [$Z$ score normal distribution](https://en.wikipedia.org/wiki/Standard_score) or the colored portion of the distribution in the figure below. In other words, there is a 13% chance of observing data with a more negative $Z$ score (and also a downward trend as the sign of the $Z_{MK}$ is determined by the $S$ score) simply by chance alone.
  
-```{r,echo=FALSE, out.width="60%"}
+```{r,echo=FALSE, out.width="80%"}
  include_graphics(here::here("img", "zscore.png"))
 ```
-####[[source]](https://socratic.org/questions/5986a3e1b72cff6fd48a5408)
 
-Assuming we dont know what type of trend we are looking for (and thus using a two-sided hypothesis - with the $H_{a}$ being that either a positive or negative trend exists), we can use  this table to determine that the p-value is ~.125 for a one-sided hypthesis and 2 times this is ~ 0.25 for a two-sided hypothesis.
+##### [[source]](https://socratic.org/questions/5986a3e1b72cff6fd48a5408)
 
+Since we dont know what type of trend we are looking for (thus we are using what is called a [two-sided hypothesis](https://en.wikipedia.org/wiki/One-_and_two-tailed_tests) - with the $H_{a}$ being that either a positive or negative trend exists), we can use this table to determine that the p-value is ~.1292 for a one-sided hypthesis (specifically testing that a negative trend exists or testing that a postive trend exists) and multiply this by 2 to get a p-value of approximately ~ 0.26 for a two-sided hypothesis.
 
- Alternatively, we can use this [calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx), which gives us a more precise  p-value of 0.26 for the two-sided hypothesis.
+See this [article](https://www.onesided.org/articles/the-paradox-of-one-sided-v-two-sided-tests-of-significance.php) for more information about one-sided and two-sided tests.
+
+Thus in other words, there is a 26% chance of observing a more positive or more negative z score by chance alone. This is a pretty high chance!
+
+Thus visualize this, our two-sided test looks for the areas on the probaility distribution of the Z score that are more positive or more negative for both signs of the Z value:
+
+```{r, out.width="30%", echo=FALSE}
+knitr::include_graphics(here::here("img", "twosided.png"))
+```
+
+Alternatively, we can use this [calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx), which gives us a more precise p-value of 0.26 for the two-sided hypothesis.
  
-Either way our  p value of ~ 0.25 suggests that we do not have a trend as our p value is much larger than 0.05.
+Either way, our  p-value of ~ 0.26 suggests that we do not have a trend as our p-value is much larger than the typical [significance threshold](https://en.wikipedia.org/wiki/Statistical_significance) of 0.05. The idea here is that it is acceptable that there is a 5% [probability](https://en.wikipedia.org/wiki/Probability) that our observation occured simply due to chance. 
 
 
 In our case there is not enough evidence to reject the null hypothesis. Thus we conclude that there is likely no trend.
  
+### Mann-Kendall trend test implementation in R
+***
+We can also accomplish this with the `MannKendall()` function of the `Kendall` package. This function requires a vector of data for which a trend may be observed. See the [documentation](https://rdrr.io/cran/Kendall/man/MannKendall.html) for this function of the `kendall` package for more details.
 
-We can also accomplish this with the `Kendall::MannKendall()` function. The `Kendall::MannKendall()` accepts a vector of data for which a trend may be observed. [Consulting the documentation for the `Kendall::MannKendall()` function available on CRAN](https://rdrr.io/cran/Kendall/man/MannKendall.html), we can "test for a a monotonic trend in a time series".
+#### Native Americans
+***
+First we filter for just the data for the Native American group and then we need to use the `pull()` function of the `dplyr` package to get just the vector of this data. We then need to use the base `summary()` function to get more information for the results of our Mann-Kendall trend test.
 
 ```{r}
 major_groups_long %>%
@@ -2955,47 +3025,39 @@ major_groups_long %>%
   summary()
 
 ```
-Again, we see that the score $S$ is -7. The larger the score, the more indication that there is an increasing or decreasing monotonic relationship. We also again see that the pvalue is roughly = 0.26 and is much greater than 0.05, suggesting that we don't see a trend in our data.  
+
+Again, just like when we calculated this manually, we see that the score $S$ is -7. The larger the score, the more indication that there is an increasing or decreasing monotonic relationship. We also again see that the p-value is roughly = 0.26 and is much greater than 0.05, suggesting that we don't see a trend in our data.  
 
 avocado... need to make sure it is ok that we dont have the exact same number of years in between each time point...
 
-avocado:Not sure if we want to include this...
-```{r}
-## to look for autocorrelation
-major_groups_long %>%
-  filter(Gender == "All",
- Race_Ethnicity == "Native American") %>%
-acf()
 
+However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations. Thus we may not have enough observations to observe a trend.
 
-```
+We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true) by using the `lm()` function of the `stats` package which is automatically loaded in R sessions.
 
-
-However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations.
-
-We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true). 
+We are interested in modeling how the percent disconnection changes with time, thus we will use the formula `Percent ~ Year` which uses the `Percent` and `Year` variables. See this [case study](https://opencasestudies.github.io/ocs-bp-diet/) for more information about linear regression. 
 
 
 ```{r}
 major_groups_long %>%
   filter(Gender == "All",
- Race_Ethnicity == "Native American") %>%
+  Race_Ethnicity == "Native American") %>%
   lm(Percent ~ Year, data = .) %>%
   summary()
 ```
 
 
-For each one year change, the mean increase in disconnection rates is
+Based on the coefficients in the output, for each one year change, the mean increase in disconnection rates is
 `r (major_groups_long%>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% lm(Percent ~ Year, data = .))[["coefficients"]]["Year"]`
 
- This relationship is not statistically significant. Again, we are however largely limited by the number of observations in this dataset. 
+We can also see from the p-value (`Pr(>|t|)`), that this relationship is not statistically significant, as it is much larger than 0.05. Again, we are however largely limited by the number of observations in this dataset. 
 
-We can visualize the relationship above.
+We can visualize the relationship above like so using the `geom_smooth()` functin of the `ggplot2` package with the `method = "lm"` argument to show the linear model.
 
 ```{r}
 major_groups_long %>%
   filter(Gender == "All",
- Race_Ethnicity == "Native American") %>%
+  Race_Ethnicity == "Native American") %>%
   ggplot(aes(x = Year, y = Percent)) +
   geom_smooth(method = "lm", color = "red") + 
   geom_point() + 
@@ -3010,12 +3072,16 @@ major_groups_long %>%
 ```
 
 
-As we can see, there is a large amount of uncertainty around the fitted line. 
+As we can see, that although the line appears to have a negative slope, there is a large amount of uncertainty around the fitted line. 
 
+***
+
+#### Female Latinx 
+***
 
 What about if we look at data that we think we might see a trend according to our data visualizations. The female Latinx data looks as though it may be decreasing:
 
-```{r}
+```{r, echo = FALSE}
 
 plot_gender
 ```
@@ -3031,19 +3097,48 @@ major_groups_long %>%
 
 ```
 
-Indeed this data does show a trend toward declining rates of youth disconnection as the score is again negative and the p value is now  much less than 0.5 for even the 2-sided hypothesis. 
+Indeed this data does shows a trend of declining rates of youth disconnection as the score is again negative and larger and the p-value is now  much less than 0.5 for even the 2-sided hypothesis. 
+
+The Z score can be calculated like so:
 
  $Z_{MK} = \frac{-13+1}{\sqrt{28.33333}} = \frac{-12}{5.322906} = -2.254408$
 
-The one tailed p value is roughly 0.012. This suggests that indeed there is a decreasing trend  for youth disconnection among the Female Latinx population. That is positive news!
+The one tailed p-value is half of the 2-sided p-value and is thus roughly 0.012. We just tested two hypotheses, one for the Native Americans and one for the Latinx female population. So we should use the [Bonferroni multiple testing correction](https://en.wikipedia.org/wiki/Bonferroni_correction) to adjust our signifcance threshold $\alpha$ to be $.05/n\text{ tests} = 0.5/2 = .025$. Our p-value for the one sided test was 0.012 which is less than .025.  This suggests that indeed there is a decreasing trend for youth disconnection among the Female Latinx population. That is positive news!
+
+***
 
 ## **Summary**
 *** 
 
 ### Summary Plot
 
-```{r}
-library(patchwork)
+Now we will create a plot that summarize our findings. We will use the `patchwork` package to do so.
+
+This package allows us to create formulas for our plot layouts. Thus we can use `+` to add plots and plot elements like `plot_spacer()` to add an empty space` and we can use `/` to place plots in different rows on top of one another like a fraction. 
+
+Thus we can combine our plots that we previously named and saved as objects.
+
+```{r, eval = FALSE}
+(plot_spacer() + plot_gender)/ (asian_subgroup_plot_simp)
+
+```
+
+The `plot_layout()` function allows for specification of the relative heights and widths of the various plot elements. We  will first use this function to specify the relative widths of  blanck spaces on either side of the `plot_gender` plot. Then, since we will create three rows (distinguised by the `/` symbols, we need to specify widths and heights for all 3 rows.)
+
+
+```{r, eval = FALSE}
+(plot_spacer() + plot_gender+ plot_spacer()  + plot_layout(widths = c(0.3,3,0.3))) / (asian_subgroup_plot_simp + asian_gender_subgroup_plot) /(latinx_subgroup_plot + latinx_gender_subgroup_plot) + 
+  plot_layout(heights =c(2, 1.3, 1.3), widths = c(1.5, 2.5, 2.5)) 
+
+```
+
+Finally we can change aspects about all of the plots using the `&` symbol and the `theme()` function as we have previously used it. Thus we will change the size of the fonts to be larger in all plots. We will also add an overall title using the `plot_annotation()` function.
+
+Finally, we will use the `png()` function of the `grDevices` package which is automatically loaded in RStudio sessions to save the plot. 
+We will use the `here()` function of the `here` package, to specify that we want to save it in the `img` directory and call it `mainplot.png`.
+We can also use this function to specify the resolution with `res` and in doing so, we need to save the image with size specifications to make it larger. 
+
+```{r, message = FALSE}
 png(filename = here::here("img", "mainplot.png"),
     res = 300, width = 13.5, height = 14, units = "in")
 (plot_spacer() + plot_gender+ plot_spacer()  + plot_layout(widths = c(0.3,3,0.3))) / (asian_subgroup_plot_simp + asian_gender_subgroup_plot) /(latinx_subgroup_plot + latinx_gender_subgroup_plot) + 
@@ -3052,12 +3147,18 @@ png(filename = here::here("img", "mainplot.png"),
 dev.off()
 
 ```
+
+```{r, echo = FALSE}
+knitr::include_graphics(here::here("img", "mainplot.png"))
+```
+
+
 ### Synopsis
 
-In this case study we evaluated rates of youth disconnection in the United States between 2008 and 2018, which was defined as individuals between age **16 - 24** who are **neither working nor in school**". In particular, we focused on evaluating specific subgroups to identify populations that may experience particularly high levels of disconnection. We used data from two [Measure of America](https://measureofamerica.org/) reports:
+In this case study we evaluated rates of youth disconnection in the United States between 2008 and 2018, which was defined as individuals between age **16 - 24** who are **neither working nor in school**". In particular, we focused on evaluating specific subgroups to identify populations that may experience particularly high levels of disconnection. We used data from two [Measure of America](https://measureofamerica.org/) reports:  
 
-1) The 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)
-2) The 2020 report called [A Decade Undone](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf)
+1) The 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)  
+2) The 2020 report called [A Decade Undone](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf)  
 
 The data in these reports comes from the [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs).
 
@@ -3075,35 +3176,109 @@ avocado talk about statistical limitations more?
 ## **Suggested Homework**
 *** 
 
-1) Find another table in the document. Find differences between groups with the process described above. 
+Find another table in one of the reports to import using the `magick` package (for example perhaps the data about different states over time in the 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)) Look for differences between groups by plotting the data and evaluating with the Mann-Kendall test. 
 
-## **Helpful Links**
+## **Additional Information**
 *** 
 
 
-avocado*This concepts listed here must be revisited.*
+
+### Helpful Links
+
+[RStudio](https://rstudio.com/products/rstudio/features/){target="_blank"}  
+[Cheatsheet on RStuido IDE](https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf){target="_blank"}  
+[Other RStudio cheatsheets](https://rstudio.com/resources/cheatsheets/){target="_blank"}   
+[Tidyverse](https://www.tidyverse.org/){target="_blank"}   
+
+[Response bias](https://en.wikipedia.org/wiki/Response_bias)  
+[Cross-Sectional data](https://en.wikipedia.org/wiki/Cross-sectional_data?oldformat=true)
+[Population](https://en.wikipedia.org/wiki/Population?oldformat=true)
+[Sample](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true)
+[Sampling methods](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true){target="_blank"} 
+[Inference](https://www.britannica.com/science/inference-statistics) 
+
+[American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs)  
+
+See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey  
+[Measure of America](https://www.ssrc.org/programs/view/moa/)   
+[Social Science Research Council](https://www.ssrc.org/) 
+   
+
+[Piping in R](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"}   
+[Writing functions](https://r4ds.had.co.nz/functions.html)   
+Also see [this case study](https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/){target="_blank"}  for more information on writing functions.   
+[String manipulation cheatsheet](https://rstudio.com/resources/cheatsheets/){target="_blank"}  
+[Table formats](https://en.wikipedia.org/wiki/Wide_and_narrow_data){target="_blank"}
+
+[Regression](https://lindeloev.github.io/tests-as-linear/)    
+[simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression)   
+[monotonic association](https://www.statisticshowto.com/monotonic-relationship/)   
+[Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)   
+[Null hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis)   
+[Alternative hypothesis](https://en.wikipedia.org/wiki/Alternative_hypothesis)   
+[Probability](https://en.wikipedia.org/wiki/Probability)   
+[one-sided and two-sided hypotheses](https://en.wikipedia.org/wiki/One-_and_two-tailed_tests)   
+[Nonparametric](https://en.wikipedia.org/wiki/Nonparametric_statistics)     [Parametric](https://en.wikipedia.org/wiki/Parametric_statistics) 
+[significance threshold](https://en.wikipedia.org/wiki/Statistical_significance)  
+[Z score](https://en.wikipedia.org/wiki/Standard_score)   
+[Z score table](https://socratic.org/questions/5986a3e1b72cff6fd48a5408)  
+[Z score to p-value calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx)   
 
 
-<u>Terms and concepts covered:</u>  
+[`ggplot2` package](http://ggplot2.tidyverse.org){target="_blank"}    
+Please see [this case study](https://opencasestudies.github.io/ocs-bp-co2-emissions/)  for more details on using `ggplot2`    
+[grammar of graphics](http://vita.had.co.nz/papers/layered-grammar.html){target="_blank"}   
+[`ggplot2` themes](https://ggplot2.tidyverse.org/reference/ggtheme.html){target="_blank"}   
+[`directlabels` package methods](http://directlabels.r-forge.r-project.org/docs/index.html){target="_blank"}    
+[Hmong people](https://en.wikipedia.org/wiki/Hmong_people)   
+[Intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination)   
 
-[Tidyverse](https://www.tidyverse.org/)  
-[RStudio cheatsheets](https://rstudio.com/resources/cheatsheets/)  
-[Inference](https://www.britannica.com/science/inference-statistics)  
-[Regression](https://lindeloev.github.io/tests-as-linear/)  
-[Different types of regression](https://www.analyticsvidhya.com/blog/2015/08/comprehensive-guide-regression/)  
-[Ordinary least squares method](http://setosa.io/ev/ordinary-least-squares-regression/)  
-[Residual](https://www.statisticshowto.datasciencecentral.com/residual/)  
+[Motivating article for this case study about youth disconnection/opportunity youth](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/)
 
-<u>Packages used in this case study: </u>
 
- Package   | Use                                                                         
+To learn more about importing and wrangling PDFs using the `pdftools` package see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) and this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/). 
+
+To learn more about what you can do with the `magick` package see this [vingette](https://cran.r-project.org/web/packages/magick/vignettes/intro.html).   
+
+To learn more about the **Mann-Kendall trend test** see
+[here](https://www.statisticshowto.com/mann-kendall-trend-test/) and [here](https://www.statisticshowto.com/wp-content/uploads/2016/08/Mann-Kendall-Analysis-1.pdf).  
+
+To learn more about hypothesis testing, see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).    
+
+
+<u>**Packages used in this case study:** </u>
+
+Package   | Use in this case study                                                                      
 ---------- |-------------
-[**here**](https://github.com/jennybc/here_here)       | to easily load and save data
-[**tidyverse**](https://readr.tidyverse.org/)      | for data science operations
-[**pdftools**](https://readr.tidyverse.org/)      | to manage PDF documents
-[**magick**](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for image processing 
+[here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data  
+[pdftools](https://readr.tidyverse.org/)      | to import PDF documents  
+[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for importing images and extracting text from images   
+[knitr](https://yihui.org/knitr/) |  for showing images in reports    
+[dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to filter, subset, join, add rows to, and modify the data   
+[stringr](https://stringr.tidyverse.org/){target="_blank"}      | to manipulate strings  
+[magrittr](https://magrittr.tidyverse.org/){target="_blank"}      | to pipe sequential commands 
+[tidyr](https://tidyr.tidyverse.org/){target="_blank"}      | to change the shape or format of tibbles to wide and long, to drop rows with `NA` values, to separate a column into additional columns, and to fill out values based on previous values   
+[tibble](https://tibble.tidyverse.org/){target="_blank"}      | to create tibbles    
+[ggplot2](https://ggplot2.tidyverse.org/){target="_blank"}      | to create plots  
+[directlabels](http://directlabels.r-forge.r-project.org/docs/index.html){target="_blank"}      | to add labels directly to lines in plots  
+[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html){target="_blank"}      | to add images to plots 
+[forcats](https://forcats.tidyverse.org/){target="_blank"}      | to reorder factor for plot
+[kendall](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf) | to implement the Mann-Kendall trend test in R   
+[patchwork](https://github.com/thomasp85/patchwork) | to combine plots
 
-## Acknowledgements
+#### {.emphasis_block}
+
+Want to learn more about how to prevent and mitigate youth disconnection?  
+Or do you know youths who are disonnected?  
+
+See [the program directory at youth.gov](https://youth.gov/evidence-innovation/program-directory?keywords=&field_pd_factors_risks_tid=413&field_pd_factors_protective_tid=All) and [this program listing](https://goc.maryland.gov/wp-content/uploads/sites/8/2015/10/Program-Models-for-Serving-Opportunity-Youth.pdf) focused on Maryland but including other locations for listings of programs dedicated to rengaging disconnected youth or preventing disconnection.
+
+Also, see [The Center for Communities That Care](https://www.communitiesthatcare.net/) and the
+[PROSPER program](https://extension.psu.edu/promoting-school-community-university-partnerships-to-enhance-resilience) for particular examples.
+
+####
+
+### Acknowledgements
 
 We would like to acknowledge [Tamar Mendelson](https://www.jhsph.edu/faculty/directory/profile/1770/tamar-mendelson) for assisting in framing the major direction of the case study.
 

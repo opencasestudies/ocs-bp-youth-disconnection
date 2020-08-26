@@ -2,6 +2,11 @@
 OpenCaseStudies
 ===============
 
+<!-- badges: start -->
+[![R build
+status](https://github.com/opencasestudies/ocs-youth-disconnection-case-study/workflows/R-CMD-check/badge.svg)](https://github.com/opencasestudies/ocs-youth-disconnection-case-study/actions)
+<!-- badges: end -->
+
 ### Disclaimer
 
 The purpose of the [Open Case
@@ -28,7 +33,7 @@ To cite this case study:
 Wright, Carrie, and Ontiveros, Michael and Jager, Leah and Taub,
 Margaret and Hicks, Stephanie. (2020).
 <a href="https://github.com/opencasestudies/ocs-youth-disconnection-case-study" class="uri">https://github.com/opencasestudies/ocs-youth-disconnection-case-study</a>.
-Exploring CO2 emissions across time (Version v1.0.0).
+Disparities in Youth Disconnection (Version v1.0.0).
 
 ### Acknowledgements
 
@@ -41,17 +46,29 @@ Initiative](https://americanhealth.jhu.edu/) for funding this work.
 
 ### Title
 
-Youth Disconnection
+Disparities in Youth Disconnection
 
 ### Motivation
 
+According to this
+[report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)
+youth disconnection (defined as “young people between the ages of **16
+and 24** who are **neither working nor in school**” according to the
+[Measure of America](https://www.ssrc.org/programs/view/moa/) (a
+nonpartisan project) although generally showing decreasing trends for
+the past 7 years, shows **racial and ethnic disparities**, where some
+groups are showing increased rates of disconnection.
+
+Thus in this case study we aim to look further at youth disconnection
+rates among gender and racial and ethnic subgroups to identify groups
+that may be particularly vulnerable.
+
 ### Motivating questions
 
-1.  What differences in youth disconnection rates exist in 2017?
-
-How have youth disconnection rates in American youth changed since 2008?
-In particular, how has this changed for different states, gender, and
-ethnic groups? Are any groups particularly disconnected?
+1.  How have youth disconnection rates in American youth changed since
+    2008?  
+2.  In particular, how has this changed for different gender and ethnic
+    groups? Are any groups particularly disconnected?
 
 ### Data
 
@@ -59,13 +76,14 @@ In this case study we will be using data related to youth disconnection
 from the two following reports from the [Measure of
 America](https://www.ssrc.org/programs/view/moa/) project:
 
-> Measure of America is a nonpartisan project of the nonprofit Social
-> Science Research Council founded in 2007 to create easy-to-use yet
-> methodologically sound tools for understanding well-being and
-> opportunity in America. Through reports, interactive apps, and
-> custom-built dashboards, Measure of America works with partners to
-> breathe life into numbers, using data to identify areas of highest
-> need, pinpoint levers for change, and track progress over time.
+> Measure of America is a nonpartisan project of the nonprofit [Social
+> Science Research Council](https://www.ssrc.org/) founded in 2007 to
+> create easy-to-use yet methodologically sound tools for understanding
+> well-being and opportunity in America. Through reports, interactive
+> apps, and custom-built dashboards, Measure of America works with
+> partners to breathe life into numbers, using data to identify areas of
+> highest need, pinpoint levers for change, and track progress over
+> time.
 
 1.  Lewis, Kristen. [Making the Connection: Transportation and Youth
     Disconnection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf).
@@ -77,18 +95,31 @@ America](https://www.ssrc.org/programs/view/moa/) project:
     New York: Measure of America, Social Science Research Council, 2020.
     (Data up to 2018)
 
+These reports use data from the [American Community Survey
+(ASC)](https://www.census.gov/programs-surveys/acs).
+
 #### Learning Objectives
 
 Data science skills:
 
-1.  Importing data from PDF files using the `magick` package
-2.  Apply action verbs in `dplyr` for data wrangling
-3.  Wrangling character strings with the `stringr` package
-4.  Joining together multiple datasets using `dplyr`
+1.  Importing text from PDF files using images and the `magick`
+    package  
+2.  Apply action verbs in `dplyr` for data wrangling  
+3.  How to reshape data by pivoting between “long” and “wide” formats
+    and separating columns into additional columns (`tidyr`)  
+4.  How to fill in data based on previous values (`tidyr`)
 5.  How to create data visualizations with `ggplot2` that are in a
-    similar style to an existing image
+    similar style to an existing image  
+6.  How to add images to plots using `cowplot`
+7.  How to create effective bar plots to for multiple comparisons,
+    including adding gaps between bars in bar plots, adding figure
+    legends to the plot area, and adding comparison lines (`ggplot2`)
 
 Statistical concepts and methods:
+
+1.  Implementation of the Mann-Kendall trend test  
+2.  Interpretation of the Mann-Kendall trend test
+3.  Difference between linear regression and Mann-Kendall trend test
 
 #### Data import
 
@@ -100,30 +131,201 @@ import the text from the screenshots.
 
 This case study particularly focuses on renaming variables, modifying
 variables, creating new variables, and modifying the shape of the data
-using fuctions from the `dplyr` package such as: `rename()`, `mutate()`,
-`pivot_longer()`, and `pivot_wider()`.
-
+using fuctions such as as: `pivot_longer()`, and `pivot_wider()`, as
+well as modifying specific variables using the `mutate()` and `across()`
+functions of the `dplyr` package.  
 This case study also covers combining data with `bind_rows()` and
-`full_join()` of the `dplyr` package, including a comparison of the two
-functions.
+`add_rows()` functions of the `dplyr` package.
 
-We also cover filtering with the`filter()` function of the `dplyr`
-package, removing NA values with the `drop_na()` function of the `tidyr`
-package, arrange data with the `arrange()` function of the `dplyr`
-package, as well as grouping and summarizing data with the `group_by()`
-and `summarize()` functions of the `dplyr` package.
+We also cover removing NA values with the `drop_na()` function of the
+`tidyr` package, separating one column into multiple columns using the
+`separate()` function of the `tidyr` pakcage, filling in `NA` values
+based on previous values using the `fill()` and replacing `NA` values
+with the `replace_na()` function, both of the `tidyr` package, as well
+as arranging levels of factors using the `forcats` pacakge.
+
+Finally, this case study also covers many of the `stringr` functions to
+manipulate character strings, including `str_extract()`,
+`str_to_title()`, `str_replace()`, `str_remove()`.
 
 #### Data Visualization
 
 We include an example of creating a plot to match the style of a plot in
-an existing report.
+an existing report. We also demonstrate how to make effective bar plots,
+by demonstrating details such as creating gaps between groups, taking
+advantage of these gaps to move the legend to within the plot area, and
+to use horizontal lines to allow for additional comparisons among
+groups. We also demonstrate how to add images to plots and combine plots
+uising the `patchwork` package.
 
 ### Analysis
 
+The analaysis in this case study covers some basics about probablity and
+hypothesis testing, as well as the Mann-Kendall trend test and the
+difference between this test and simple linear regression. In this
+analysis we use the Mann-Kendall to test if there has been a trend
+within the disconnection rates of particular groups of youths over time.
+
 ### Other notes and resources
 
-<a href="https://www.tidyverse.org/" target="_blank">Tidyverse</a>  
-<a href="https://rstudio.com/resources/cheatsheets/" target="_blank">RStudio cheatsheets</a>
+<a href="https://rstudio.com/products/rstudio/features/" target="_blank">RStudio</a>  
+<a href="https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf" target="_blank">Cheatsheet on RStuido IDE</a>  
+<a href="https://rstudio.com/resources/cheatsheets/" target="_blank">Other RStudio cheatsheets</a>  
+<a href="https://www.tidyverse.org/" target="_blank">Tidyverse</a>
+
+[Response bias](https://en.wikipedia.org/wiki/Response_bias)  
+[Cross-Sectional
+data](https://en.wikipedia.org/wiki/Cross-sectional_data?oldformat=true)
+[Population](https://en.wikipedia.org/wiki/Population?oldformat=true)
+[Sample](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true)
+<a href="https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true" target="_blank">Sampling methods</a>
+[Inference](https://www.britannica.com/science/inference-statistics)
+
+[American Community Survey
+(ASC)](https://www.census.gov/programs-surveys/acs)
+
+See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for
+more detailed information about the survey  
+[Measure of America](https://www.ssrc.org/programs/view/moa/)  
+[Social Science Research Council](https://www.ssrc.org/)
+
+<a href="https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html" target="_blank">Piping in R</a>  
+[Writing functions](https://r4ds.had.co.nz/functions.html)  
+Also see
+<a href="https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/" target="_blank">this case study</a>
+for more information on writing functions.  
+<a href="https://rstudio.com/resources/cheatsheets/" target="_blank">String manipulation cheatsheet</a>  
+<a href="https://en.wikipedia.org/wiki/Wide_and_narrow_data" target="_blank">Table formats</a>
+
+[Regression](https://lindeloev.github.io/tests-as-linear/)  
+[simple linear
+regression](https://en.wikipedia.org/wiki/Simple_linear_regression)  
+[monotonic
+association](https://www.statisticshowto.com/monotonic-relationship/)  
+[Kendall rank correlation
+coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)  
+[Null hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis)  
+[Alternative
+hypothesis](https://en.wikipedia.org/wiki/Alternative_hypothesis)  
+[Probability](https://en.wikipedia.org/wiki/Probability)  
+[one-sided and two-sided
+hypotheses](https://en.wikipedia.org/wiki/One-_and_two-tailed_tests)  
+[Nonparametric](https://en.wikipedia.org/wiki/Nonparametric_statistics)
+[Parametric](https://en.wikipedia.org/wiki/Parametric_statistics)
+[significance
+threshold](https://en.wikipedia.org/wiki/Statistical_significance)  
+[Z score](https://en.wikipedia.org/wiki/Standard_score)  
+[Z score
+table](https://socratic.org/questions/5986a3e1b72cff6fd48a5408)  
+[Z score to p-value
+calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx)
+
+<a href="http://ggplot2.tidyverse.org" target="_blank"><code>ggplot2</code> package</a>  
+Please see [this case
+study](https://opencasestudies.github.io/ocs-bp-co2-emissions/) for more
+details on using `ggplot2`  
+<a href="http://vita.had.co.nz/papers/layered-grammar.html" target="_blank">grammar of graphics</a>  
+<a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" target="_blank"><code>ggplot2</code> themes</a>  
+<a href="http://directlabels.r-forge.r-project.org/docs/index.html" target="_blank"><code>directlabels</code> package methods</a>  
+[Hmong people](https://en.wikipedia.org/wiki/Hmong_people)  
+[Intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination)
+
+[Motivating article for this case study about youth
+disconnection/opportunity
+youth](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/)
+
+To learn more about importing and wrangling PDFs using the `pdftools`
+package see this [case
+study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/)
+and this [case
+study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
+
+To learn more about what you can do with the `magick` package see this
+[vingette](https://cran.r-project.org/web/packages/magick/vignettes/intro.html).
+
+To learn more about the **Mann-Kendall trend test** see
+[here](https://www.statisticshowto.com/mann-kendall-trend-test/) and
+[here](https://www.statisticshowto.com/wp-content/uploads/2016/08/Mann-Kendall-Analysis-1.pdf).
+
+To learn more about hypothesis testing, see this [case
+study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
+
+<u>**Packages used in this case study:** </u>
+
+<table>
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 56%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Use in this case study</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://github.com/jennybc/here_here" target="_blank">here</a></td>
+<td>to easily load and save data</td>
+</tr>
+<tr class="even">
+<td><a href="https://readr.tidyverse.org/">pdftools</a></td>
+<td>to import PDF documents</td>
+</tr>
+<tr class="odd">
+<td><a href="https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution">magick</a></td>
+<td>for importing images and extracting text from images</td>
+</tr>
+<tr class="even">
+<td><a href="https://yihui.org/knitr/">knitr</a></td>
+<td>for showing images in reports</td>
+</tr>
+<tr class="odd">
+<td><a href="https://dplyr.tidyverse.org/" target="_blank">dplyr</a></td>
+<td>to filter, subset, join, add rows to, and modify the data</td>
+</tr>
+<tr class="even">
+<td><a href="https://stringr.tidyverse.org/" target="_blank">stringr</a></td>
+<td>to manipulate strings</td>
+</tr>
+<tr class="odd">
+<td><a href="https://magrittr.tidyverse.org/" target="_blank">magrittr</a></td>
+<td>to pipe sequential commands</td>
+</tr>
+<tr class="even">
+<td><a href="https://tidyr.tidyverse.org/" target="_blank">tidyr</a></td>
+<td>to change the shape or format of tibbles to wide and long, to drop rows with <code>NA</code> values, to separate a column into additional columns, and to fill out values based on previous values</td>
+</tr>
+<tr class="odd">
+<td><a href="https://tibble.tidyverse.org/" target="_blank">tibble</a></td>
+<td>to create tibbles</td>
+</tr>
+<tr class="even">
+<td><a href="https://ggplot2.tidyverse.org/" target="_blank">ggplot2</a></td>
+<td>to create plots</td>
+</tr>
+<tr class="odd">
+<td><a href="http://directlabels.r-forge.r-project.org/docs/index.html" target="_blank">directlabels</a></td>
+<td>to add labels directly to lines in plots</td>
+</tr>
+<tr class="even">
+<td><a href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html" target="_blank">cowplot</a></td>
+<td>to add images to plots</td>
+</tr>
+<tr class="odd">
+<td><a href="https://forcats.tidyverse.org/" target="_blank">forcats</a></td>
+<td>to reorder factor for plot</td>
+</tr>
+<tr class="even">
+<td><a href="https://cran.r-project.org/web/packages/Kendall/Kendall.pdf">kendall</a></td>
+<td>to implement the Mann-Kendall trend test in R</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/thomasp85/patchwork">patchwork</a></td>
+<td>to combine plots</td>
+</tr>
+</tbody>
+</table>
 
 #### For users
 
@@ -134,10 +336,21 @@ markdown file (`README.md`).
 
 #### For instructors
 
+Instructors can start at the Data Visualization or Data Analysis
+sections.
+
 #### Target audience
 
 This case study is appropriate for those new to R programming and new to
 statistics. It is also appropriate for more advanced R users who are new
-to the Tidyverse.
+to the Tidyverse. This particular case study may require some
+fundamental knowlege of statistics.
 
 #### Suggested homework
+
+Find another table in one of the reports to import using the `magick`
+package (for example perhaps the data about different states over time
+in the 2019 report called [Making the
+Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf))
+Look for differences between groups by plotting the data and evaluating
+with the Mann-Kendall test.

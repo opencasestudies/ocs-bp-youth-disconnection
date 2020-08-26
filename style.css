@@ -93,3 +93,9 @@ li.toctree-l2:first-child {
    display: inline-block;
 }
 
+.emphasis_block {
+    border-radius: 5px; 
+    padding: 20px;
+    background: #FFE6E6;
+    color: black;
+}
