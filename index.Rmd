@@ -2821,11 +2821,28 @@ By sampling from a population at multiple time points, we can generate populatio
 
 We can accomplish this by plotting the measured values over time. Sometimes, however, the trend isn't exactly clear. Fortunately, there are statistical methods to resolve this issue.
 
-The Mann-Kendall trend test—a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)—tests whether there is a monotonic association, an association that does not increase or decrease but remains static across a dimension.
+The Mann-Kendall trend test, (which is a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)), tests whether there is a [monotonic association](https://www.statisticshowto.com/monotonic-relationship/), or a relationship with consistent direction between a variable and time.
 
-This test is a non-parametric test, which means that it does not require as many assumptions as some parametric tests, like the linear regression. It also provides us with different information than a linera regression.
 
-According to [this report](https://www.statisticshowto.com/wp-content/uploads/2016/08/Mann-Kendall-Analysis-1.pdf), the Mann-Kendall $S$ is calculated as follows:
+As you can see in the image below, a monotonic relationship does not need to be linear, it simply needs to show a consistent direction of change. A linear relationship on the otherhand shows consistent direction and rate of change.
+
+```{r, out.width="600px"}
+knitr::include_graphics("https://www.statisticshowto.com/wp-content/uploads/2017/03/monotonic-relationship.png")
+```
+#### [[source]](https://www.statisticshowto.com/monotonic-relationship/) Stephanie Glen. "Monotonic Relationship: Definition" From StatisticsHowTo.com: Elementary Statistics for the rest of us! https://www.statisticshowto.com/monotonic-relationship/
+
+So in other words, we are interested to see if there is a consistent direction in the relationship of disconnection rates with time, as we want to know if rates have been consistently increasing or decreasing or if they have been staying roughly the same. 
+
+So agian, this test does not test if the rate of change has been consistent over time, just the direction.
+
+[Simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) tests if there is a consitent change in both rate and direction in the dependent variable as a single independent variable changes. The coefficients tell us how much the dependent variable changes with one unit change of the independent variable.
+
+
+The Mann-Kendall trend test is a non-parametric test, which means that it does not require as many assumptions as some parametric tests, like the [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression).
+
+The null hypothesis $H_{0}$ of the test is that there is no monotonic trend, while the alternative hypothesis $H_{a}$ is that there is a trend.
+
+According to [this report](https://www.statisticshowto.com/wp-content/uploads/2016/08/Mann-Kendall-Analysis-1.pdf), the Mann-Kendall $S$ score is calculated as follows:
 
 > The data values are evaluated as an ordered time series. Each data value is compared to all subsequent data values. The initial value of the Mann-Kendall statistic, $S$, is assumed to be 0 (e.g., no trend). If a data value from a later time period is higher than a data value from an earlier time period, $S$ is incremented by 1. On the other hand, if the data value from a later time period is lower than a data value sampled earlier, $S$ is decremented by 1. The net result of all such increments and decrements yields the final value of $S$. 
 
@@ -2835,21 +2852,99 @@ $$S =\sum_{k=1}^{n-1}\sum_{j = k+1}^{n} sign(x_{j} - x_{k}) $$
 where:
 
 $ sign(x_{j}-x_{k}) = 1$ if $x_{j}-x_{k} >0$
-                     $= 0$ if $x_{j}-x_{k} = 0$
-                     $= -1$ if $x_{j}-x_{k} <0 $
-                     
+                   $= 0$ if $x_{j}-x_{k} = 0$
+                   $= -1$ if $x_{j}-x_{k} <0 $
+                   
+                   
+Thus all possible cases where a value occured later in time must be compared with values that occured earlier in time, giving $n(n – 1) / 2$ comparisons.
 
-Recall the youth disconnection rates for Native Americans, some of the highest in the first table we examined. 
+like so if there were three time points (n = 4):
+
+$ S = sign(x2−x1) + sign(x3−x1) + sign(x4-x1) + sign(x3−x2) + sign(x4-x2) + sign(x4-x3)$
+
+Which is consistent with $4(4-1)/2 = 4(3)/2 = 12/2 = 6$ comparisons.
+
+
+Then the variance of S is calculated like so:
+
+$$ VAR(S)=\frac{1}{18}(n(n−1)(2n+5)−\sum_{p-1}^{g}t_{p}(t_{p}−1)(2t_{p}+5))$$
+Where: 
+$g = $ number of tied groups
+$t_{p} = $ number of observations in the $p$th group for a given tie
+
+Thus if there were 3 observations in our example were 35, then there would be 1 $g$ tied group and 3 $t_{p}$ observations. 
+
+Note that according to this [source](https://www.statisticshowto.com/mann-kendall-trend-test/), a minimum 4 observations should be used for this test and it is recommended to have 8 or more. 
+
+Finally the test statistic $Z_{MK}$ is calculated as follows:
+
+ if $S > 0$ then $Z_{MK} = \frac{S-1}{\sqrt{VAR(S)}}$
+ if $S < 0$ then $Z_{MK} = \frac{S+1}{\sqrt{VAR(S)}}$
+ if $S < 0$ then $Z_{MK} = 0$
+
+Recall that the youth disconnection rates for Native Americans were some of the highest in the first table we examined. 
 
 ```{r}
 Major_racial_ethnic_groups
 ```
 
-Let's conduct a Mann-Kendall test for trend.
+Let's conduct a Mann-Kendall trend test for this data.
 
-We can accomplish this with the `Kendall::MannKendall()` function. The `Kendall::MannKendall()` accepts a vector of data for which a trend may be observed. [Consulting the documentation for the `Kendall::MannKendall()` function available on CRAN](https://rdrr.io/cran/Kendall/man/MannKendall.html), we can "test for a a monotonic trend in a time series".
+So the first value in time was ($x1$ = timepoint 1) 24.4, then ($x2$) 28.8 at the next time point, then ($x3$) 27.0, then ($x4$) 26.3, then ($x5$) 25.8, and finally ($x6$) 23.9.
+
+If we were to caclulate the Mann-Kendall statistic mannually we could do the following:
+
+$$  S = sign(x2−x1) + sign(x3-x1) + sign(x4-x1) + sign(x5-x1) + sign(x6-x1) +$$
+
+$$ sign(x3-x2) + sign(x4-x2) + sign(x5-x2) + sign(x6-x2) +$$  
+$$sign(x4-x3) + sign(x5-x3) + sign(x6-x3) +$$  
+$$sign(x5-x4) + sign(x6-x4) +$$   
+$$sign(x6-x5)$$  
+
+Thus to calculate $S$  in R we would do the following:
+
+```{r}
+x1 = 24.4
+x2 = 28.8
+x3 = 27
+x4 = 26.3
+x5 = 25.8
+x6 = 23.9
+
+sign(x2-x1) + sign(x3-x1) + sign(x4-x1) + sign(x5-x1) + sign(x6-x1) +
+sign(x3-x2) + sign(x4-x2) + sign(x5-x2) + sign(x6-x2) +sign(x4-x3) + sign(x5-x3) + sign(x6-x3) +sign(x5-x4) + sign(x6-x4) +sign(x6-x5)
+```
+
+The result is -7. 
+
+The $VAR(S)$ or $\sigma^2$ would be calculated as (since we have n = 6 observations and no ties)
+
+$$ VAR(S)=\frac{1}{18}(6(6−1)(2(6)+5)−\sum_{p-1}^{g}0(0−1)(2(0)+5))$$
+$$ VAR(S)=\frac{1}{18}(30)(17)−0 =1.666667(17) = 28.33333$$
+
+Finally the $Z_{MK}$ statistic would be calculated as (since $S$ < 0):
+ $Z_{MK} = \frac{S+1}{\sqrt{VAR(S)}}$
+ $Z_{MK} = \frac{-7+1}{\sqrt{28.33333}} = \frac{-6}{5.322906} = -1.127$
+ 
+We would then use this value in a $Z$ table to determine what the p value for either a one-sided or two-sided hypothesis. 
+ 
+```{r,echo=FALSE, out.width="60%"}
+ include_graphics(here::here("img", "zscore.png"))
+```
+####[[source]](https://socratic.org/questions/5986a3e1b72cff6fd48a5408)
+
+Assuming we dont know what type of trend we are looking for (and thus using a two-sided hypothesis - with the $H_{a}$ being that either a positive or negative trend exists), we can use  this table to determine that the p-value is ~.125 for a one-sided hypthesis and 2 times this is ~ 0.25 for a two-sided hypothesis.
 
 
+ Alternatively, we can use this [calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx), which gives us a more precise  p-value of 0.26 for the two-sided hypothesis.
+ 
+Either way our  p value of ~ 0.25 suggests that we do not have a trend as our p value is much larger than 0.05.
+
+
+In our case there is not enough evidence to reject the null hypothesis. Thus we conclude that there is likely no trend.
+ 
+
+We can also accomplish this with the `Kendall::MannKendall()` function. The `Kendall::MannKendall()` accepts a vector of data for which a trend may be observed. [Consulting the documentation for the `Kendall::MannKendall()` function available on CRAN](https://rdrr.io/cran/Kendall/man/MannKendall.html), we can "test for a a monotonic trend in a time series".
 
 ```{r}
 major_groups_long %>%
@@ -2860,7 +2955,9 @@ major_groups_long %>%
   summary()
 
 ```
+Again, we see that the score $S$ is -7. The larger the score, the more indication that there is an increasing or decreasing monotonic relationship. We also again see that the pvalue is roughly = 0.26 and is much greater than 0.05, suggesting that we don't see a trend in our data.  
 
+avocado... need to make sure it is ok that we dont have the exact same number of years in between each time point...
 
 avocado:Not sure if we want to include this...
 ```{r}
@@ -2874,7 +2971,7 @@ acf()
 ```
 
 
-There does not appear to be a change in the trend. However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations.
+However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations.
 
 We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true). 
 
@@ -2891,7 +2988,7 @@ major_groups_long %>%
 For each one year change, the mean increase in disconnection rates is
 `r (major_groups_long%>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% lm(Percent ~ Year, data = .))[["coefficients"]]["Year"]`
 
- This relationship is not statistically significant. Again, we are largely limited by the number of observations in this dataset. 
+ This relationship is not statistically significant. Again, we are however largely limited by the number of observations in this dataset. 
 
 We can visualize the relationship above.
 
@@ -2916,10 +3013,29 @@ major_groups_long %>%
 As we can see, there is a large amount of uncertainty around the fitted line. 
 
 
+What about if we look at data that we think we might see a trend according to our data visualizations. The female Latinx data looks as though it may be decreasing:
+
+```{r}
+
+plot_gender
+```
 
 
+```{r}
+major_groups_long %>%
+  filter(Gender == "Female",
+ Race_Ethnicity == "Latinx") %>%
+  pull(Percent) %>%
+  MannKendall(.) %>%
+  summary()
 
+```
 
+Indeed this data does show a trend toward declining rates of youth disconnection as the score is again negative and the p value is now  much less than 0.5 for even the 2-sided hypothesis. 
+
+ $Z_{MK} = \frac{-13+1}{\sqrt{28.33333}} = \frac{-12}{5.322906} = -2.254408$
+
+The one tailed p value is roughly 0.012. This suggests that indeed there is a decreasing trend  for youth disconnection among the Female Latinx population. That is positive news!
 
 ## **Summary**
 *** 
@@ -2938,18 +3054,23 @@ dev.off()
 ```
 ### Synopsis
 
-In this case study we evaluated rates of youth disconnection in the United States between 2008 and 2018, which was defined as individuals between age **16 - 24** who are **neither working nor in school**". In particular, we focused on evaluating specific subgroups to identify populations that may experience particularly high levels of disconnection. 
+In this case study we evaluated rates of youth disconnection in the United States between 2008 and 2018, which was defined as individuals between age **16 - 24** who are **neither working nor in school**". In particular, we focused on evaluating specific subgroups to identify populations that may experience particularly high levels of disconnection. We used data from two [Measure of America](https://measureofamerica.org/) reports:
 
-It was identified in the 2019 [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) that Native American populations particularly experience high rates of youth disconnection. Indeed roughly a quarter of this population appears to experience youth disconnection, which is much higher than the other major racial groups. By performing the [Mann-Kendall trend test](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf)(https://www.statisticshowto.com/mann-kendall-trend-test/)
+1) The 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)
+2) The 2020 report called [A Decade Undone](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf)
 
+The data in these reports comes from the [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs).
 
-among youths age 12-17 in the United States, as well as the rate of youths receiving treatment for depression. We learned how to scrape data directly from the web using the rvest package and we learned how to perform and interpret a chi-square test using the chisq.test() function of the stats package.
+We demonstrated how to import data from these PDFs by extracting the text from screen shot images of the tables were were particularly interested in. 
 
-By analyzing and plotting our data, it is clear that depression rates appear to be increasing, particularly since 2011. However, it is possible that respondents had similar rates in previous years, but now feel less stigma about responding about depression symptoms when filling out the survey. The survey has always been anonymous, but reporting bias can sometimes cause individuals to exaggerate or minimize their symptoms because of what they think researchers want their response to be or out of shame or embarrassment, among other reasons. However, the data suggests that youths may be experiencing more symptoms of depression and that the rate of increase is quite high.
+It was identified in the 2019 [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) that Native American populations particularly experience high rates of youth disconnection. Indeed roughly a quarter of this population appears to experience youth disconnection, which is much higher than the other major racial groups. By performing the [Mann-Kendall trend test](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf)(https://www.statisticshowto.com/mann-kendall-trend-test/) both manually and using the `MannKendall()` function of the `Kendall` package, we demonstrated that the rate does not appear to be changing. This suggests that more prevention and rengagement strategies should especially focus on this population.
 
-Nearly a quarter of all individuals that were female and of age 12-17 reported experiencing symptoms of depression. This warrants further investigation to see if this is a product of more reporting or if indeed American females are truly more depressed. Furthermore, if they are indeed more depressed, investigation about why young females are more depressed is also of critical importance. One important limitation is that the data does not include subgroup intersections, such as rates of major depressive episodes among females of various ethnic backgrounds.
+By plotting subgroups within our data, it is clear that there are differences among particular populations. We see that there are much higher levels of disconnection among youths who are male and black as compared to black females. 
+We also see that youth disconnection rates among [Hmong](https://en.wikipedia.org/wiki/Hmong_people) and Cambodian populations are very high, despite rates being quite low for the Asian population in general.
 
-Considering the very steep increase in females, this warrants further investigation about which females are particularly vulnerable and why.
+Overall, this case study demonstrates the importance of looking at populations at deeper levels. This is something of great importance facing the field of public health. Where possible data should be collected on a variety of demographic groups to better characterize vulnerable populations.
+
+avocado talk about statistical limitations more?
 
 ## **Suggested Homework**
 *** 
