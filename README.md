@@ -131,7 +131,7 @@ import the text from the screenshots.
 
 This case study particularly focuses on renaming variables, modifying
 variables, creating new variables, and modifying the shape of the data
-using fuctions such as as: `pivot_longer()`, and `pivot_wider()`, as
+using functions such as as: `pivot_longer()`, and `pivot_wider()`, as
 well as modifying specific variables using the `mutate()` and `across()`
 functions of the `dplyr` package.  
 This case study also covers combining data with `bind_rows()` and
@@ -139,10 +139,10 @@ This case study also covers combining data with `bind_rows()` and
 
 We also cover removing NA values with the `drop_na()` function of the
 `tidyr` package, separating one column into multiple columns using the
-`separate()` function of the `tidyr` pakcage, filling in `NA` values
+`separate()` function of the `tidyr` package, filling in `NA` values
 based on previous values using the `fill()` and replacing `NA` values
 with the `replace_na()` function, both of the `tidyr` package, as well
-as arranging levels of factors using the `forcats` pacakge.
+as arranging levels of factors using the `forcats` package.
 
 Finally, this case study also covers many of the `stringr` functions to
 manipulate character strings, including `str_extract()`,
@@ -156,11 +156,11 @@ by demonstrating details such as creating gaps between groups, taking
 advantage of these gaps to move the legend to within the plot area, and
 to use horizontal lines to allow for additional comparisons among
 groups. We also demonstrate how to add images to plots and combine plots
-uising the `patchwork` package.
+using the `patchwork` package.
 
 ### Analysis
 
-The analaysis in this case study covers some basics about probablity and
+The analysis in this case study covers some basics about probability and
 hypothesis testing, as well as the Mann-Kendall trend test and the
 difference between this test and simple linear regression. In this
 analysis we use the Mann-Kendall to test if there has been a trend
@@ -344,7 +344,7 @@ sections.
 This case study is appropriate for those new to R programming and new to
 statistics. It is also appropriate for more advanced R users who are new
 to the Tidyverse. This particular case study may require some
-fundamental knowlege of statistics.
+fundamental knowledge of statistics.
 
 #### Suggested homework
 

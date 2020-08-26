@@ -75,13 +75,13 @@ According to [Measure of America](https://www.ssrc.org/programs/view/moa/) (a no
 
 > "young people between the ages of **16 and 24** who are **neither working nor in school**"
 
-They state that such disconnection hinders these individuals to aquire skills and create relationships necessary to have a sucessful adulthood. 
+They state that such disconnection hinders these individuals to acquire skills and create relationships necessary to have a successful adulthood. 
 
 They state that:
 
 > "people who experience a period of disconnection as young adults go on to **earn less** and are **less likely** to be **employed, own a home, or report good health** by the time they reach their thirties"
 
-Disconnected youth are also referred to as **opportunity youth**, which has the added positive connotation that promoting such individuals can be beneficial not only for these individuals but also for their communties and for society. 
+Disconnected youth are also referred to as **opportunity youth**, which has the added positive connotation that promoting such individuals can be beneficial not only for these individuals but also for their communities and for society. 
 
 We will expand beyond the [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) to take a deeper look at differences of specific groups of youths. Identifying youths particularly at risk or disconnected, can help inform the design of targeted prevention and rengagement strategies.
 
@@ -93,7 +93,7 @@ Mendelson, T., Mmari, K., Blum, R. W., Catalano, R. F. & Brindis, C. D. Opportun
 
 ####
  
-This [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/) describes strategies for prevention of disconnection and reengagement of discconnected youth and how such interventions could greatly positively impact opportunity youth for the entire trajectory of their lives and for future generations. It also points out that indeed their are disparities among different racial/ethnic groups.
+This [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/) describes strategies for prevention of disconnection and re-engagement of disconnected youth and how such interventions could greatly positively impact opportunity youth for the entire trajectory of their lives and for future generations. It also points out that indeed their are disparities among different racial/ethnic groups.
 
 
 ## **Main Questions**
@@ -200,14 +200,14 @@ There are many known **risk factors**, which have been identified in a variety o
  - association with socially deviant peers 
  - school policies such as "one strike and you're out" - which is a zero tolerance school expulsion policy and shown to increase dropouts and incarceration rates
  
- These risk factors make it more likely for young people to miss out on education, training, and networking that can act as a foundation for a sucessful career.
+ These risk factors make it more likely for young people to miss out on education, training, and networking that can act as a foundation for a successful career.
  
 There are also many known **negative consequences** associated with youth disconnection including but not limited to:
 
 - chronic unemployment
 - poverty
-- poor menthal health and poor general health (in a 2002 study - youths discoonected for 6 or more months were 3 times more likely to develop depression or other mental health disorder)
-- crimial behavior (in a 2002 study - youths discoonected for 6 or more months were 5 times more likely to have a criminal record)
+- poor mental health and poor general health (in a 2002 study - youths disconnected for 6 or more months were 3 times more likely to develop depression or other mental health disorder)
+- criminal behavior (in a 2002 study - youths disconnected for 6 or more months were 5 times more likely to have a criminal record)
 - incarceration
 - early mortality 
 
@@ -217,9 +217,9 @@ knitr::include_graphics(here::here("img", "jon-tyson-ajzN2AYNi1U-unsplash.jpg"))
 ```
 <span>Photo by <a href="https://unsplash.com/@jontyson?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jon Tyson</a> on <a href="https://unsplash.com/s/photos/unemployment?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
 
-Furthermore, in 2012 it was estimated that each disconnected youth costs taxpayers $250000 during a life time due to lost tax revenue and costs for social sercices, heath care and criminal justice.
+Furthermore, in 2012 it was estimated that each disconnected youth costs taxpayers $250000 during a life time due to lost tax revenue and costs for social services, heath care and criminal justice.
 
-Youth disconnection can be described as a continuum, as some youths will be disconnected for a brief time, while others are chronically disconnected. Additionally, while an individual who is out of school and work and also has poor support from the realtionships of others may be further disconnected than an individual who has social support.
+Youth disconnection can be described as a continuum, as some youths will be disconnected for a brief time, while others are chronically disconnected. Additionally, while an individual who is out of school and work and also has poor support from the relationships of others may be further disconnected than an individual who has social support.
 
 Here is an illustration of risk factors, protective factors and the continuum of disconnection:
 
@@ -232,13 +232,13 @@ knitr::include_graphics(here::here("img", "risk_factors.png"))
 
 ### Strategies to mitigate youth disconnection
 
-Many programs have identified useful strategies in rengaging disconnected youth or preventing discconection of youth. 
+Many programs have identified useful strategies in re-engaging disconnected youth or preventing disconnection of youth. 
 
-generally speaking, most programs focus on reengagement strategies, however, prevention strategies are likely to be just as important. 
+generally speaking, most programs focus on re-engagement strategies, however, prevention strategies are likely to be just as important. 
 
-Reserach suggests that active involvement with at risk youth from infancy and across multiple developmental stages through young adulthood whould be the most beneficial.
+Research suggests that active involvement with at risk youth from infancy and across multiple developmental stages through young adulthood would be the most beneficial.
 
-In fact, the quality of parental caregiving of infants age 6-24 months has actually been shown to be a predictor of high school dropout rates! Thus early interventions may be very important and consistent continual engagement may prevent further disconnection of youths.
+In fact, the quality of parental care-giving of infants age 6-24 months has actually been shown to be a predictor of high school dropout rates! Thus early interventions may be very important and consistent continual engagement may prevent further disconnection of youths.
 
 Prevention strategies include:  
 
@@ -254,9 +254,9 @@ Prevention strategies include:
 #### {.emphasis_block}
 
 Want to learn more about how to prevent and mitigate youth disconnection?  
-Or do you know youths who are disonnected?  
+Or do you know youths who are disconnected?  
 
-See [the program directory at youth.gov](https://youth.gov/evidence-innovation/program-directory?keywords=&field_pd_factors_risks_tid=413&field_pd_factors_protective_tid=All) and [this program listing](https://goc.maryland.gov/wp-content/uploads/sites/8/2015/10/Program-Models-for-Serving-Opportunity-Youth.pdf) focused on Maryland but including other locations for listings of programs dedicated to rengaging disconnected youth or preventing disconnection.
+See [the program directory at youth.gov](https://youth.gov/evidence-innovation/program-directory?keywords=&field_pd_factors_risks_tid=413&field_pd_factors_protective_tid=All) and [this program listing](https://goc.maryland.gov/wp-content/uploads/sites/8/2015/10/Program-Models-for-Serving-Opportunity-Youth.pdf) focused on Maryland but including other locations for listings of programs dedicated to re-engaging disconnected youth or preventing disconnection.
 
 Also, see [The Center for Communities That Care](https://www.communitiesthatcare.net/) and the
 [PROSPER program](https://extension.psu.edu/promoting-school-community-university-partnerships-to-enhance-resilience) for particular examples.
@@ -271,9 +271,9 @@ The statistics used in this section came from this [article](https://www.ncbi.nl
 
 There are some important considerations regarding this data analysis to keep in mind: 
 
-1) This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/)  project reports from the is derived from [American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs) which excludes or underrepresents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused is not available in this dataset. Thus, this data likely underestimates youth disconnection rates. Furthermore, the data used in these reports are collected from human participants; this presents the *potential* for [response bias](https://en.wikipedia.org/wiki/Response_bias), as there is the *potential* that participants in the [sampling frame](https://en.wikipedia.org/wiki/Sampling_frame?oldformat=true){target="_blank"} may for a variety of reasons report inaccurate information. 
+1) This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/)  project reports from the is derived from [American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs) which excludes or under-represents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused is not available in this dataset. Thus, this data likely underestimates youth disconnection rates. Furthermore, the data used in these reports are collected from human participants; this presents the *potential* for [response bias](https://en.wikipedia.org/wiki/Response_bias), as there is the *potential* that participants in the [sampling frame](https://en.wikipedia.org/wiki/Sampling_frame?oldformat=true){target="_blank"} may for a variety of reasons report inaccurate information. 
 
-2) Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination) (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as [LGBTQIA+](https://www.uis.edu/gendersexualitystudentservices/about/lgbtqaterminology/) (lesbian/gay/bisexual/pansexual/transgender/genderqueer/queer,questioning/intersexed/agender/asexual) is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs) has more detailed infromation about a greater number of racial and ethnic groups and racial/ethnic intersections.
+2) Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination) (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as [LGBTQIA+](https://www.uis.edu/gendersexualitystudentservices/about/lgbtqaterminology/) (lesbian/gay/bisexual/pansexual/transgender/genderqueer/queer,questioning/intersexed/agender/asexual) is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs) has more detailed information about a greater number of racial and ethnic groups and racial/ethnic intersections.
 
 3) The statistical procedures we are using may be overly simplistic. *In all data analysis, we need to be wary about deriving meaning from the statistical procedures we use*.
 
@@ -299,7 +299,7 @@ knitr::include_graphics(here::here("img", "Making_the_Connection.png"))
 knitr::include_graphics(here::here("img", "A_Decade_Undone.png"))
 ```
 
-The data used in these reports comes from the [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs), which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizehsip, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey.
+The data used in these reports comes from the [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs), which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizenship, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey.
 
 According to [Wikipedia](https://en.wikipedia.org/wiki/American_Community_Survey):
 
@@ -308,13 +308,13 @@ According to [Wikipedia](https://en.wikipedia.org/wiki/American_Community_Survey
 > It is a mandatory survey, it is governed by federal laws that could impose a fine of as much as $5,000 for refusing to participate.
 
 
-We are particularlly interesed in the following tables on the last page of the [Measure of America 2019 report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf):
+We are particularly interested in the following tables on the last page of the [Measure of America 2019 report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf):
 
 ```{r, echo = FALSE, gender_race_eth_2019}
 knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
 ```
 
-We are particularlly interesed in the tables on the following pages from the [Measure of America 2020 report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf):
+We are particularly interested in the tables on the following pages from the [Measure of America 2020 report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf):
 
 
 ```{r, echo = FALSE}
@@ -336,7 +336,7 @@ One way to import data from a pdf is to use the `pdf_text()` function of the `pd
 pdf_tools_example <- pdftools::pdf_text(here::here("docs","Making_the_Connection.pdf"))
 ```
 
-We can take a look at the output for the page with our table of interests by simpy using brackets `[]` around the page number. The page we are interested in (athough called 39 in the report) is the 44th page, which looks like this:
+We can take a look at the output for the page with our table of interests by simply using brackets `[]` around the page number. The page we are interested in (although called 39 in the report) is the 44th page, which looks like this:
 
 ```{r, gender_race_eth_2019, echo=FALSE}
 ```
@@ -350,7 +350,7 @@ pdf_tools_example[44]
 
 From the output, it's clear that a relatively large amount of manipulation will be required to wrangle this data. If you are interested in learning more about this method, please see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) and this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
 
-While not impossible, using the `pdftools` package in this scenario will be a bit challenging becuase of how the multiple tables are displayed on this page.
+While not impossible, using the `pdftools` package in this scenario will be a bit challenging because of how the multiple tables are displayed on this page.
 
 While our output may be reproducible, this process may be too time consuming.
 
@@ -361,9 +361,9 @@ We will demonstrate how to produce reproducible tables with image processing sof
 
 ### Importing with `magick`
 
-We will now import the data using the `magick` package which allows for the improtation of images. 
+We will now import the data using the `magick` package which allows for the importation of images. 
 
-First we will take a screenshot of the top part of the gender, race, and ethnicity table on the last page of the [2019 Measure of America Report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf). We are only interested in the percentage of disconnection across the years, so we dont need our screenshot to include the last couple of columns.
+First we will take a screenshot of the top part of the gender, race, and ethnicity table on the last page of the [2019 Measure of America Report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf). We are only interested in the percentage of disconnection across the years, so we don't need our screenshot to include the last couple of columns.
 
 We can show what this file looks like in this rendered rmarkdown website by using the `include_graphics()` function of the `knitr` package.
 
@@ -373,7 +373,7 @@ knitr::include_graphics(here::here("img", "Major_ethnic_groups_screenshot.png"))
 
 Now, we will use the `image_read()` function of the `magick` package to import this image.
 
-We can then use teh `image_info()` function to make sure that the import worked and to get information about the size, format and color of the image.
+We can then use the `image_info()` function to make sure that the import worked and to get information about the size, format and color of the image.
 
 ```{r, dpi = 1000}
 Major_racial_ethnic_groups <- magick::image_read(here::here("img", "Major_ethnic_groups_screenshot.png"))
@@ -404,7 +404,7 @@ magick::image_ocr(ggplot2_logo)
 
 Awesome! We were able to extract text from this hex sticker!
 
-One thing to keep in mind is that this doesn't always work. Unusual font, angles text, or particular colors can be difficult for the OCR to recoginize.
+One thing to keep in mind is that this doesn't always work. Unusual font, angles text, or particular colors can be difficult for the OCR to recognize.
 
 Here is an example that does not work with the current version of `magick`:
 
@@ -473,9 +473,9 @@ OK, this looks pretty good!
 
 The only issue is that some values appear to be missing a decimal point. 
 
-No worries though, we can modify the entire table in a reproducbile way to get those decimal places back. However, first we need to do some other wrangling steps first.
+No worries though, we can modify the entire table in a reproducible way to get those decimal places back. However, first we need to do some other wrangling steps first.
 
-First, let's spearate the first column about ethnicities with the values in the subsequent columns. We can do so using the `separate()` function of the `tidyr` pacakge based on [regular expressions](https://en.wikipedia.org/wiki/Regular_expression). Regular expressions (abbreviated regex) are notation shortcuts that describe patterns in character strings. See [here](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf) for an RStudio cheetsheat about them.
+First, let's separate the first column about ethnicities with the values in the subsequent columns. We can do so using the `separate()` function of the `tidyr` package based on [regular expressions](https://en.wikipedia.org/wiki/Regular_expression). Regular expressions (abbreviated regex) are notation shortcuts that describe patterns in character strings. See [here](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf) for an RStudio cheetsheat about them.
 
 We want to separate by instances where a letter is followed by a space and then a number. 
 
@@ -500,7 +500,7 @@ knitr::include_graphics(here::here("img", "look_around.png"))
 We will use the "preceded by" and "followed by" look arounds. Thus `(?<=[:alpha:])` stands for any letter that appears before a space `\\s` that is followed by any digit `(?=[0-9])`. Altogether the pattern we want to separate by looks like this: `"(?<=[:alpha:])\\s(?=[0-9])"`.
 
 
-Now to separate the value column into two cloumns, we can use the `separate` function of the `tidyr` pacakge to do this. This will allow us to not only split the rows by our regex expression, but also to create column names.
+Now to separate the value column into two columns, we can use the `separate` function of the `tidyr` package to do this. This will allow us to not only split the rows by our regex expression, but also to create column names.
 
 There are three important arguments for the `seperate()` function:  
 - `col` - this specifies what column you are separating   
@@ -535,7 +535,7 @@ Nice! That looks better.
 
 For the year data we would like to try splitting the strings for each row into different columns based on a space. Currently all the data is listed in one column called `Years`.
 
-We can use the `separate` function of the `tidyr` pacakge again to do this. This will allow us to split the rows by spaces, as well as provide names for the new columns. 
+We can use the `separate` function of the `tidyr` package again to do this. This will allow us to split the rows by spaces, as well as provide names for the new columns. 
 
 
 ```{r}
@@ -566,21 +566,21 @@ major_groups
 
 Great, now we have 18 rows.
 
-It's important to look very carefully at the text. Again, there are some values missing a decimal place. For example the row where the `Group` vlaue is `Asian`, the third and fourth values are missing a decimal place.
+It's important to look very carefully at the text. Again, there are some values missing a decimal place. For example the row where the `Group` value is `Asian`, the third and fourth values are missing a decimal place.
 
-Looking at the orginal table we see that even values like 10 are represented as 10.0. 
+Looking at the original table we see that even values like 10 are represented as 10.0. 
 
 So, to fix this we will remove all decimals (which is sort of like multiplying all values that do have a decimal by 10) and then we will multiply all values by .01 to add the decimals back. We will use the `mutate()` function combined with the `across()` function which allows us to specify which columns we want to perform a function on. We want to do this to all the year columns, so we can exclude the `Group` column by using a minus sign `-` in the `.cols` argument of the `across()` function like so: `mutate(across(.cols = -Group))`
 
 
-Finally, we will use the `str_remove()` function of the `stringr` package to find instances of "." and remove them. Since "." is a regex, and indicates any character string, thus we need "\\" to have R interpret a decimal or a period instead, as we can see from the RStudio cheetsheat:
+Finally, we will use the `str_remove()` function of the `stringr` package to find instances of "." and remove them. Since "." is a regex, and indicates any character string, thus we need "\\" to have R interpret a decimal or a period instead, as we can see from the RStudio cheatsheets:
 
 ```{r, echo = FALSE, out.width="60%"}
 knitr::include_graphics(here::here("img", "regex_period.png"))
 
 ```
 
-To pass the data from all the coulumns except our `Group` variable into our `str_remove()` function, we need to use the `.` notation as a replacement for the data that we specified by the `.cols`argument and we need to use `~` in front of the function name. 
+To pass the data from all the columns except our `Group` variable into our `str_remove()` function, we need to use the `.` notation as a replacement for the data that we specified by the `.cols`argument and we need to use `~` in front of the function name. 
 
 ```{r}
 
@@ -624,7 +624,7 @@ major_groups
 
 Great, we can see that the year variables are now numeric as they are now type double as indicated by the `<dbl>` below each column name. See the above section about data types if you are unfamiliar with type double.
 
-OK, now we can multiply each value by 0.1 to add our decimal points back and get back to the orginal values.
+OK, now we can multiply each value by 0.1 to add our decimal points back and get back to the original values.
 
 ```{r}
 
@@ -657,7 +657,7 @@ head(major_groups)
 ```
 
 
-We also want to remove Male and Female from this "Race_Ethnicity" variable, We can do so using the `str_remove()` function of the `stringr` package. Importantly, we are also removing the space beore "Female" and "Male.
+We also want to remove Male and Female from this "Race_Ethnicity" variable, We can do so using the `str_remove()` function of the `stringr` package. Importantly, we are also removing the space before "Female" and "Male.
 
 ```{r}
 major_groups %<>% 
@@ -667,7 +667,7 @@ major_groups %<>%
 head(major_groups)
 ```
 
-For the new `Gender` variable we would like to extract just the "Female" and "Male" text from the `Group` variable. The `str_extract()` function of the `stringr` package will do this, and it will give us an `NA` value for any rows whhere "Female" or "Male" were not present. We can then replace the `NA` values with  the text "All" to represent the total value for both male and female using the `replace_na()` function of the `tidyr()` package.
+For the new `Gender` variable we would like to extract just the "Female" and "Male" text from the `Group` variable. The `str_extract()` function of the `stringr` package will do this, and it will give us an `NA` value for any rows where "Female" or "Male" were not present. We can then replace the `NA` values with  the text "All" to represent the total value for both male and female using the `replace_na()` function of the `tidyr()` package.
 
 ```{r}
 
@@ -990,7 +990,7 @@ latinx_B
 latinx_imageC
 latinx_C
 ```
-We can combine the strings together using the `str_c()` function (wich stands for string **collapse**) of the `stringr` package.
+We can combine the strings together using the `str_c()` function (which stands for string **collapse**) of the `stringr` package.
 
 ```{r}
 latinx_sub_2017 <-stringr::str_c(latinx_A, latinx_B, latinx_C)
@@ -1052,10 +1052,10 @@ latinx_sub_2017
 ```
 
 
-It looks like we've succesfully corrected the typo!
+It looks like we've successfully corrected the typo!
 
 
-Let's also replace the abbreviations for Puerto Rican and Domincan and let's replace Latino/Latina with Latinx.
+Let's also replace the abbreviations for Puerto Rican and Dominican and let's replace Latino/Latina with Latinx.
 
 #### {.think_question_block}
 <b><u> Question Opportunity </u></b>
@@ -1095,7 +1095,7 @@ Now we are ready to look at the data from 2018 for the Asian and Latinx subgroup
 
 ### Asian Subgroups 2018
 ***
-Recall that this was the page with the table of interest for the asian subgroups with 2018 data:
+Recall that this was the page with the table of interest for the Asian subgroups with 2018 data:
 
 ```{r, echo = FALSE, }
 knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
@@ -1129,7 +1129,7 @@ asian_sub_2018
 ```
 Now we need to modify our function a bit for this new data. 
 
-Firstly, we now have colons `:` in our table that we will want to separate by. Unfortunately, the text in each row isn't extracted in the same way by the OCR.Thus some rows have only a space, while others have spaces around a colon; or for the row with `VIETNAM` we see a colon directly after the word followed by a space. Thus we will modify our `seperate()` function with this change. We can specify  that the separator between any letter and any digit should be either a space (`\\s`) or a colon with a space before and after it (`\\s:\\s`) using the or (`|`)opperator. 
+Firstly, we now have colons `:` in our table that we will want to separate by. Unfortunately, the text in each row isn't extracted in the same way by the OCR.Thus some rows have only a space, while others have spaces around a colon; or for the row with `VIETNAM` we see a colon directly after the word followed by a space. Thus we will modify our `seperate()` function with this change. We can specify  that the separator between any letter and any digit should be either a space (`\\s`) or a colon with a space before and after it (`\\s:\\s`) using the or (`|`)operator. 
 
 So this will look like this:
 
@@ -1151,7 +1151,7 @@ asian_sub_2018 %>%
 
 ```
 
-The other difference from the previous function, is that we want to fill in a new `Race_Ethnicity` variable with the previous rows. We can do so by first replacing "Men" or "Women" which with the or operator is ("Men|Women"), with "missing". Then we need to convert these to `NA` values using the `na_if()` function of the `dplyr` package, we just need to specify what column to modify and what value to change to `NA`. Finally we will then repace the `NA` values with the previous non-`NA` value using the `fill()` function of the `tidyr` package. Note that this does not work inside of the `mutate()` function. We just need to simply specify what column to modify and then the direction to replace values. In this case we want to replace in the downward direction using the previous values. 
+The other difference from the previous function, is that we want to fill in a new `Race_Ethnicity` variable with the previous rows. We can do so by first replacing "Men" or "Women" which with the or operator is ("Men|Women"), with "missing". Then we need to convert these to `NA` values using the `na_if()` function of the `dplyr` package, we just need to specify what column to modify and what value to change to `NA`. Finally we will then replace the `NA` values with the previous non-`NA` value using the `fill()` function of the `tidyr` package. Note that this does not work inside of the `mutate()` function. We just need to simply specify what column to modify and then the direction to replace values. In this case we want to replace in the downward direction using the previous values. 
 
 This will look like this:
 
@@ -1256,9 +1256,9 @@ asian_sub_2018 %<>%
 asian_sub_2018
 ```
 
-OK, now we just want to combine the 2018 data and the 2017 data for the asian subgroups.
+OK, now we just want to combine the 2018 data and the 2017 data for the Asian subgroups.
 
-First let's add a varaible for year to both. Using `mutate()` we can add a variable `Year` where all values are `2017` like so:
+First let's add a variable for year to both. Using `mutate()` we can add a variable `Year` where all values are `2017` like so:
 
 ```{r}
 asian_sub_2017 %<>%
@@ -1301,9 +1301,9 @@ DT::datatable(asian_subgroups)
 
 
 
-Notice that there are some cases where we only have one value for a praticular group. For example, there are no male or female values for the Pakistani data.
+Notice that there are some cases where we only have one value for a particular group. For example, there are no male or female values for the Pakistani data.
 
-We would like to have `NA` values for the comprable years/genders that are possible. We can fill out the rest of the table with `NA` values by performing the `pivot_wider()` and `pivot_longer()` functions sequentially like so:
+We would like to have `NA` values for the comparable years/genders that are possible. We can fill out the rest of the table with `NA` values by performing the `pivot_wider()` and `pivot_longer()` functions sequentially like so:
 
 ```{r, eval=FALSE}
 
@@ -1321,7 +1321,7 @@ DT::datatable(asian_subgroups)
 ```
 
 
-Great, now we are ready to peform similar wrangling for the Latinx subgroups.
+Great, now we are ready to perform similar wrangling for the Latinx subgroups.
 
 ### Latinx Subgroups 2018 
 ***
@@ -1339,7 +1339,7 @@ latinx_sub_2018 <- image_ocr(latinx_sub_2018)
 latinx_sub_2018
 ```
 
-Let's first combine the South and Central American labels. Notice that there are multiple new line expressions in between and we dont see repeated `\n` characters elsewhere.
+Let's first combine the South and Central American labels. Notice that there are multiple new line expressions in between and we don't see repeated `\n` characters elsewhere.
 We can replace the pattern of exactly two `\n` (using `\n{2}` to specify exactly 2) or two newline regex with a space and colon in front with a single space.
 
 ```{r}
@@ -1457,7 +1457,7 @@ latinx_subgroups
 ```
 
 
-Again, we would like to have `NA` values for the comprable years/genders that are possible. We will fill out the rest of the table with `NA` values by performing the `pivot_wider()` and `pivot_longer()` functions sequentially like so:
+Again, we would like to have `NA` values for the comparable years/genders that are possible. We will fill out the rest of the table with `NA` values by performing the `pivot_wider()` and `pivot_longer()` functions sequentially like so:
 
 ```{r, eval = FALSE}
 
@@ -1576,7 +1576,7 @@ These will define what we are interested in illustrating using the data.
 ***
 
 So for this first plot we just want to recreate the plot in the PDF. Thus we will use the `major_groups_long` tibble and we will filter for the `"All"` values of the `Gender` package. We also want to exclude the data for the United states. 
-We can exclude the data from the US using the not equals `!=` opperator like so:
+We can exclude the data from the US using the not equals `!=` operator like so:
 
 ```{r}
 major_groups_long %>%
@@ -1592,7 +1592,7 @@ First, we start with the `ggplot()` function of the `ggplot2` package.
 
 This function requires that the aesthetics `aes()` be specified. This involves choosing what variable will be plotted on the x-axis and the y axis. It also involves choosing variables to color or group our plot by. 
 
-In our case, we want to plot the percent of disconnection on the y-axis (thus the `Percent` varaible of the `major_groups_long` data) and the Year on the x-axis. We would like to separate each racial or ethnic group to have their own points/lines. Thus we will use the `color` argument for this variable to do this, as we intend to color our plot something other than black.
+In our case, we want to plot the percent of disconnection on the y-axis (thus the `Percent` variable of the `major_groups_long` data) and the Year on the x-axis. We would like to separate each racial or ethnic group to have their own points/lines. Thus we will use the `color` argument for this variable to do this, as we intend to color our plot something other than black.
 
 If we run the following code, we get an empty plot.
 
@@ -1626,7 +1626,7 @@ OK, not bad, but we have quite a bit to work on to make the style match.
 First, we will update the x-axis and y-axis, to look more similar to the plot from the report. We can specify where the tick marks should be for each using `breaks` argument of the `scale_x_continuous()` and `scale_y_continuous()` functions (also of the `ggplot2` package). These functions also allow for specification of the range or limits of the axis using the `limits` argument. We can use the base `seq()` function to create a sequence of numbers for each tick mark.
 We will make the x-axis upper limit a bit larger to allow for the image of the figure and the label for each group.
 
-Next, we will change the color to match the one that we identified, by using the `scale_color_manual()` function of the `ggplot2` package. This requires color values for each group. In our case, we have 5 groups, so we repeate this value 5 times using the base `rep()` function.
+Next, we will change the color to match the one that we identified, by using the `scale_color_manual()` function of the `ggplot2` package. This requires color values for each group. In our case, we have 5 groups, so we repeat this value 5 times using the base `rep()` function.
 
 We will also change the overall look of the plot using the `theme_classic()` function. See [here](https://ggplot2.tidyverse.org/reference/ggtheme.html) for a list of options.
 
@@ -1678,7 +1678,7 @@ Getting close!
 
 Now we need to add figurine icons to the plot.  
 
-To add the figurines we can use icons from free resources like [font awesome](https://fontawesome.com/). See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons) for a link to `svg` options. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the orginal plot to work with. 
+To add the figurines we can use icons from free resources like [font awesome](https://fontawesome.com/). See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons) for a link to `svg` options. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the original plot to work with. 
 
 ##### Using font awesome:
 ```{r, out.width="10%"}
@@ -1707,7 +1707,7 @@ figurine <-image_read(here::here("img", "figurine.png"))
 figurine
 ```
 
-Now to add the image of the figurine to the plot we can use the `draw_image()` function of the `cowplot` package. We simply need to specify the name of the image, and then where we would like it to go according to the x- and y-axis and finaly the scaled size of the image. This `scale` argument takes a bit of trial and error. 
+Now to add the image of the figurine to the plot we can use the `draw_image()` function of the `cowplot` package. We simply need to specify the name of the image, and then where we would like it to go according to the x- and y-axis and finally the scaled size of the image. This `scale` argument takes a bit of trial and error. 
 
 Here we will add both images of the figurines to a couple of groups:
 
@@ -1772,13 +1772,13 @@ plot
 ```
 Nice! Our plot looks very similar stylistically to the plot in the report. 
 
-We can see from this plot that Native Americans have a very high rate of youth disconnection, with roughly still a quarter of the population experiencing youth disconnection in this survey. Altough some groups show a downward trend, like the Latinx group, the level has been fairly stable since 2008, as we see that the slope of each line is fairly flat. We will investigate this further in our analysis. 
+We can see from this plot that Native Americans have a very high rate of youth disconnection, with roughly still a quarter of the population experiencing youth disconnection in this survey. Although some groups show a downward trend, like the Latinx group, the level has been fairly stable since 2008, as we see that the slope of each line is fairly flat. We will investigate this further in our analysis. 
 
 ### Major Race and Ethnic Groups and Gender Plot
 ***
 Now let's create a similar plot for females and males. To do this we can simply use the `facet_wrap()` function. We need to specify what variable we want to facet by, in this case the `Gender` variable, by using the `~` symbol. We also want to set the `scales` argument to `"free"`, so that we have a y-axis for both the female and male plots. See this [case study](https://opencasestudies.github.io/ocs-bp-co2-emissions/#Faceted_plots) for more information about faceting plots.
 
-We also dont want to plot the `"All"` values for the `Gender` variable as we have already shown that in the previous plot, so we again exclude it. 
+We also don't want to plot the `"All"` values for the `Gender` variable as we have already shown that in the previous plot, so we again exclude it. 
 
 #### {.recall_code_question_block}
 <b><u> Question Opportunity </u></b>
@@ -1858,20 +1858,20 @@ Can you explain why we didn't use a pipe in the previous code chunk?
 ```{r}
 plot_gender
 ```
-Very interesting! By parsing the groups further into intersections of racial and ethnic groups with gender, we see that there are some very dramatic differences for the Black and Latinx groups. One postive thing that we cans see, is that there has been a steep decline in youth disconnection for Latinx females. Unfortunately the level of disconnection for females in 2008 was quite high, so now Latinx females have similar rates to Latinx males. In contrast, we see that Black males have had and continue to have much higher rates of disconnection than Black females. Both Black females and males show an increased rate since 2016. Native American females also show an increased rate since 2016. 
+Very interesting! By parsing the groups further into intersections of racial and ethnic groups with gender, we see that there are some very dramatic differences for the Black and Latinx groups. One positive thing that we cans see, is that there has been a steep decline in youth disconnection for Latinx females. Unfortunately the level of disconnection for females in 2008 was quite high, so now Latinx females have similar rates to Latinx males. In contrast, we see that Black males have had and continue to have much higher rates of disconnection than Black females. Both Black females and males show an increased rate since 2016. Native American females also show an increased rate since 2016. 
 
 
 ### Subgroup plots
 ***
 It is clear from the previous plot that observing more specific subgroups in our data can be very informative!
 
-Thus, we also want to make plots of the Asain and Latinx subgroups, to see if there are particular ethnic groups that have higher levels of youth disconnection. If so, these groups may particuarly benefit for prevention and rengagement efforts.
+Thus, we also want to make plots of the Asian and Latinx subgroups, to see if there are particular ethnic groups that have higher levels of youth disconnection. If so, these groups may particularly benefit for prevention and re-engagement efforts.
 
 We will also attempt to continue to plot the genders separately, as we have learned that there may be important gender group differences among the racial and ethnic groups. However, the data is incomplete for some of the ethnic groups. Recall that we also only have two years of data for both our Asian and Latinx subgroup data. First we will start by plotting just the subgroups over the two years.
 
 We can continue to make our plots look like they match the report by using a color palette based off the color used in the report. We can use the `colorRampPalette()` function of the `grDevices` package, which is loaded automatically in an RStudio session. We can specify that we want the colors to range from gray to the color that we have been using.
 
-Then we just need to specify how many colors we want in our gradient when we choose to use the color pallette. Say we wanted 4 colors, we just need to type `custom_pal(4)` to get a list of 4 colors within the palette. Thus we will have gray, the teal color we have been using, and two shades in between. After doing this we chose to use one of the colors in between and to use just two colors for our palette.
+Then we just need to specify how many colors we want in our gradient when we choose to use the color palette. Say we wanted 4 colors, we just need to type `custom_pal(4)` to get a list of 4 colors within the palette. Thus we will have gray, the teal color we have been using, and two shades in between. After doing this we chose to use one of the colors in between and to use just two colors for our palette.
 
 ```{r}
 custom_pal <- colorRampPalette(c("gray", "#008393"))
@@ -1894,7 +1894,7 @@ asian_subgroups %>%
   mutate(Year = as.character(Year))
 ```
 
-Now that we have wrangled the data we can make our plot. To make a bar plot there ae two many `ggplot2` functions,  `geom_col()` and `geom_bar()`. The `geom_col()` function plots the actual values of the data, while the `geom_bar()`function plots counts (however you can override this with the `stat = identity` argument). We are interested in plotting the actual values, so we will use the `goem_col()` function.
+Now that we have wrangled the data we can make our plot. To make a bar plot there are two main `ggplot2` functions,  `geom_col()` and `geom_bar()`. The `geom_col()` function plots the actual values of the data, while the `geom_bar()`function plots counts (however you can override this with the `stat = identity` argument). We are interested in plotting the actual values, so we will use the `goem_col()` function.
 
 This time we will specify that the `Year` variable be used to specify the fill color of the bars of the bar plot by using `aes(fill = Year)`.
 
@@ -1993,7 +1993,7 @@ ggplot(aes(x = Race_Ethnicity, y = Percent)) +
 
 Great! that is looking better! However, currently the subgroups are plotted on the x-axis by alphabetically order and we want to instead order the subgroups based on the percentage of youth disconnection. We can use the `forcats` package to do this. 
 
-The `fct_reorder()` function can be used to order the `Race_Ethnicity` variable based on the average of the `Percent` variable for the two years, while the `fct_relevel()` function can be used to make the `Asian` level appear first for comparison sake. Imporantly, we need to do this before we reshape the data, because subgroups with `NA` values will be placed at the end.
+The `fct_reorder()` function can be used to order the `Race_Ethnicity` variable based on the average of the `Percent` variable for the two years, while the `fct_relevel()` function can be used to make the `Asian` level appear first for comparison sake. Importantly, we need to do this before we reshape the data, because subgroups with `NA` values will be placed at the end.
 
 
 ```{r}
@@ -2052,9 +2052,9 @@ scale_x_discrete(
 
 The `levels(pull(asian_for_plot,Race_Ethnicity))[2:10])` code gets all 9 other levels but the `Asian` level of the `Race_Ethnicity` variable. The `labels` argument specifies what the x-axis should say for the spaces in between. We would like them to say nothing, so we use nothing within quotes `""` as the label. 
 
-We can also use this as an opportunity to change the label on the plot for the `Asian` level of the `Race_Ethnicity` variable to be `"Asian avg."`. We dont wan't to change the other subgroup level labels so we will not list anything.
+We can also use this as an opportunity to change the label on the plot for the `Asian` level of the `Race_Ethnicity` variable to be `"Asian avg."`. We don't want to change the other subgroup level labels so we will not list anything.
 
-We can make this more repreducible by using the `length()` function istead of the number 10 and replacing `Asian` with the first level:
+We can make this more reproducible by using the `length()` function instead of the number 10 and replacing `Asian` with the first level:
 
 ```{r, eval = FALSE}
 scale_x_discrete(
@@ -2072,11 +2072,11 @@ scale_x_discrete(
 
 Then we can use `legend.justification` and `legend.position` of the `theme()` function to move our legend to the plot area. 
 
-According to the documentaation for the `theme()` function of the `ggplot2` package, the `legend.justification` argument specifies the:
+According to the documentation for the `theme()` function of the `ggplot2` package, the `legend.justification` argument specifies the:
 
 > anchor point for positioning legend inside plot ("center" or two-element numeric vector) or the justification according to the plot area when positioned outside the plot
 
-By setting the mapping for the positioning and justifacation as `c(0.12,0.1)` we specify that we want the legend to be 12 percent of the plot area from the y -axis and 10 percent of the plot area from the x-axis.
+By setting the mapping for the positioning and justification as `c(0.12,0.1)` we specify that we want the legend to be 12 percent of the plot area from the y -axis and 10 percent of the plot area from the x-axis.
 
 
 ```{r}
@@ -2117,37 +2117,14 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
 asian_subgroup_plot
 ```
 
-Nice! But, this is still missing something. Perhaps if we add lines that show the average dissconection rate for the US and for Asians in general, then it will make it easier to see differences in our plot.
+Nice! But, this is still missing something. Perhaps if we add lines that show the average disconnection rate for the US and for Asians in general, then it will make it easier to see differences in our plot.
 
-In the previous code we saved our plot to a onject called `asian_subgroup_plot`.
+In the previous code we saved our plot to a object called `asian_subgroup_plot`.
 
 We can modify it by adding layers to add the lines that we want.
 
-First we want to create objects for the US average and asian average disconnection rates. 
 
-```{r, eval = FALSE}
-asian_total <- asian_subgroups%>%
-   filter(Year == 2017,
-        Gender == "All",
-Race_Ethnicity == "Asian") %>%
-  mutate(Year = as.character(Year))
-  pull(Percent)
-
-US_total <- asian_subgroups%>%
-   filter(Year == 2017,
-        Gender == "All",
-Race_Ethnicity == "All_races") %>%
-  pull(Percent)
-
-latinx_total <- latinx_subgroups %>%
-  filter(Year == 2017) %>%
-  filter(Gender == "All",
- Race_Ethnicity == "Latinx") %>%
-  pull(Percent)
-
-```
-
-First we want to create tibbles for the US Asian average disconnection rates. We want to add labels to each of these. We can use the `parse = TRUE` argument later with the `geom_text()` function of the `ggplot2` package to make these labels appear as bold font as it will be evaluated as an expression istead of a simple character string.
+First we want to create tibbles for the US Asian average disconnection rates. We want to add labels to each of these. We can use the `parse = TRUE` argument later with the `geom_text()` function of the `ggplot2` package to make these labels appear as bold font as it will be evaluated as an expression instead of a simple character string.
 
 ```{r}
 
@@ -2171,9 +2148,9 @@ US_total
 
 Now we can use these to create labels again with the `geom_text()` function and lines with the `geom_hline()` function on our plot. 
 
-The `geom_text()` function requires that the x and y axis location for the text be specified, and we want this to be located near the actual percent dissoncation rate, thus we use the `Percent +.5` to grab the `Percent` value from `asian_total` and add 0.5 to it to be slightly above where the line will be. 
+The `geom_text()` function requires that the x and y axis location for the text be specified, and we want this to be located near the actual percent disconnection rate, thus we use the `Percent +.5` to grab the `Percent` value from `asian_total` and add 0.5 to it to be slightly above where the line will be. 
 
-The `geom_hline()` function requires, just the yintercept as this function always creates a horizontal line. The `linetype` argument specifies what style of line we would like. See [here](http://sape.inf.usi.ch/quick-reference/ggplot2/linetype) for a list of options.
+The `geom_hline()` function requires, just the y intercept as this function always creates a horizontal line. The `linetype` argument specifies what style of line we would like. See [here](http://sape.inf.usi.ch/quick-reference/ggplot2/linetype) for a list of options.
 
 ```{r}
 asian_subgroup_plot<- asian_subgroup_plot+ 
@@ -2194,23 +2171,6 @@ asian_subgroup_plot
 ```
 Awesome! Now it is much easier to tell how the disconnection rates for various subgroups compare to the national average and the Asian average. From our plot, we can see that the [Hmong](https://en.wikipedia.org/wiki/Hmong_people) and Cambodian subgroup rates are very high. If we only had the plot of major racial and ethnic groups to rely on, we might not realize that these two groups have such high rates. 
 
-```{r, eval = FALSE}
-    annotate("text", label = 'bold("ASIAN 2017 AVG RATE")',
-           color = "#008393", 
-           size = 3.7,
-           x = 2.5,
-           y = asian_total+.5,
-           parse = TRUE) +
-    annotate("text", label = 'bold("US 2017 AVG RATE")',
-           color = "#008393", 
-           size = 4,
-           x = 2.5,
-           y = US_total +.5, 
-           parse = TRUE)+
-geom_hline(aes(yintercept = asian_total), linetype = 2) +
-geom_hline(aes(yintercept = US_total), linetype = 3)
-
-```
 
 Nice! This shows the importance of adding small details such as the US and Asian rate lines. This helps provide a simple yet nuanced picture of what is going on. 
 
@@ -2231,7 +2191,7 @@ knitr::include_graphics(here("img", "asian_2018_overview.png"))
 
 ```
 
-From the 2018 table, we can caluculate that the Hmong group represented `r round((5300*100)/(23300+21800+9000+15300+20800+5300+4200))`% and the Cambodian subgroup represented `r round((4200*100)/(23300+21800+9000+15300+20800+5300+4200))`%  respectively of all Asian disconnected youth in 2017. 
+From the 2018 table, we can calculate that the Hmong group represented `r round((5300*100)/(23300+21800+9000+15300+20800+5300+4200))`% and the Cambodian subgroup represented `r round((4200*100)/(23300+21800+9000+15300+20800+5300+4200))`%  respectively of all Asian disconnected youth in 2017. 
 
 
 If we wanted to make a similar plot but without the subgroups that are missing a year we could do it like so, by adding the `drop_na()` function of the `tidyr` package to remove rows with `NA` values when the data  is in wide  form and then using the `fct_drop()` function of the `forcats` package to remove the levels of the `Race_Ethnicity` variable that no longer have rows in the data. 
@@ -2307,7 +2267,7 @@ Race_Ethnicity == "Latinx") %>%
 ```
 
 
-Now we will use similar code for the latinx sugroups. The only difference is that we will also change the `"Puerto Rican, Dominican, Cuban"` values to have new line breaks between the groups. First let's plot all subgroups.
+Now we will use similar code for the latinx subgroups. The only difference is that we will also change the `"Puerto Rican, Dominican, Cuban"` values to have new line breaks between the groups. First let's plot all subgroups.
 
 <details> <summary> Click here to reveal the code. </summary> 
 ```{r}
@@ -2364,7 +2324,7 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
 latinx_subgroup_plot
 ```
 
-Now let's drop the subgroups that dont have values for both years.
+Now let's drop the subgroups that don't have values for both years.
 
 
 <details> <summary> Click here to reveal the code. </summary> 
@@ -2842,7 +2802,7 @@ We have pooled (repeated) [cross-sectional](https://en.wikipedia.org/wiki/Cross-
 
 This is data produced from repeated measurement of a [population](https://en.wikipedia.org/wiki/Population?oldformat=true) over time.
 
-It is often infeasible to collect data for an entire population at once. However, we can still obtain meaningful measures using a random [sample](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true) of the population. 
+It is often unfeasible to collect data for an entire population at once. However, we can still obtain meaningful measures using a random [sample](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true) of the population. 
 
 At specific time-points, data is collected from a sample of the population. The individuals in each sample are not necessarily the same individuals. This separates pooled cross-sectional data from panel data, which is longitudinal data from repeated measurement of the same people.   
 
@@ -2857,7 +2817,7 @@ The Mann-Kendall trend test, (which is a variation of the [Kendall rank correlat
 
 #### Monotonic relationships
 ***
-As you can see in the image below, a monotonic relationship does not need to be linear, it simply needs to show a consistent direction of change. A linear relationship on the otherhand shows consistent direction and rate of change.
+As you can see in the image below, a monotonic relationship does not need to be linear, it simply needs to show a consistent direction of change. A linear relationship on the other hand shows consistent direction and rate of change.
 
 ```{r, out.width="400px", echo=FALSE}
 knitr::include_graphics("https://www.statisticshowto.com/wp-content/uploads/2017/03/monotonic-relationship.png")
@@ -2869,12 +2829,12 @@ knitr::include_graphics("https://www.statisticshowto.com/wp-content/uploads/2017
 
 So in other words, we are interested to see if there is a consistent direction in the relationship of disconnection rates with time, as we want to know if rates have been consistently increasing or decreasing or if they have been staying roughly the same. 
 
-So agian, this test does not test if the rate of change has been consistent over time, just the direction.
+So again, this test does not test if the rate of change has been consistent over time, just the direction.
 
-#### Mann-Kendal trend test vs simple linear regression
+#### Mann-Kendall trend test vs simple linear regression
 ***
 
-[Simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) in contrast tests if there is a consitent change in both rate and direction in the dependent variable as a single independent variable changes. The coefficients tell us how much the dependent variable changes with one unit change of the independent variable. 
+[Simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) in contrast tests if there is a consistent change in both rate and direction in the dependent variable as a single independent variable changes. The coefficients tell us how much the dependent variable changes with one unit change of the independent variable. 
 
 <!-- See this [case study](https://opencasestudies.github.io/ocs-bp-co2-emissions/) for more discussion about the difference between simple linear regression and correlation. -->
 
@@ -2900,7 +2860,7 @@ $$sign(x_{j}-x_{k}) = 1 \text{, if } x_{j}-x_{k}>0$$
  $$sign(x_{j}-x_{k}) = -1 \text{, if } x_{j}-x_{k}<0$$
                    
                    
-Thus all possible cases where a value occured later in time must be compared with values that occured earlier in time, giving $n(n – 1) / 2$ comparisons, like so if there were four time points ($n = 4$):
+Thus all possible cases where a value occurred later in time must be compared with values that occurred earlier in time, giving $n(n – 1) / 2$ comparisons, like so if there were four time points ($n = 4$):
 
 $$S = sign(x2−x1) + sign(x3−x1) + sign(x4-x1) + sign(x3−x2) + sign(x4-x2) + sign(x4-x3)$$
 
@@ -2933,9 +2893,9 @@ Major_racial_ethnic_groups
 
 Let's conduct a Mann-Kendall trend test for this data.
 
-So the first value in time was ($x1$ = timepoint 1) 24.4, then ($x2$) 28.8 at the next time point, then ($x3$) 27.0, then ($x4$) 26.3, then ($x5$) 25.8, and finally ($x6$) 23.9.
+So the first value in time was ($x1$ = time point 1) 24.4, then ($x2$) 28.8 at the next time point, then ($x3$) 27.0, then ($x4$) 26.3, then ($x5$) 25.8, and finally ($x6$) 23.9.
 
-If we were to caclulate the Mann-Kendall statistic mannually we could do the following:
+If we were to calculate the Mann-Kendall statistic manually we could do the following:
 
 $$  S = sign(x2−x1) + sign(x3-x1) + sign(x4-x1) + sign(x5-x1) + sign(x6-x1) +$$
 
@@ -2973,15 +2933,15 @@ Finally we can standardize our $S$ score using the variance of $S$. Thus the sta
  $Z_{MK} = \frac{S+1}{\sqrt{VAR(S)}}$
  $Z_{MK} = \frac{-7+1}{\sqrt{28.33333}} = \frac{-6}{5.322906} = -1.127$
  
-The $Z_{MK}$ is the specific Mann-Kendall version of the [Z score](https://en.wikipedia.org/wiki/Standard_score), which is also called a standard or standardized score. This allows us to use a variety of data (which maybe normally distributed or not) and create a standard statistic about the data that is noramlly distributed. We can inturn then use this to better understand our data and how it compares to the actual population of youths in America. 
+The $Z_{MK}$ is the specific Mann-Kendall version of the [Z score](https://en.wikipedia.org/wiki/Standard_score), which is also called a standard or standardized score. This allows us to use a variety of data (which maybe normally distributed or not) and create a standard statistic about the data that is normally distributed. We can in turn then use this to better understand our data and how it compares to the actual population of youths in America. 
 
 We can then look up our calculated $Z_{MK}$ in a standard $Z$ table to determine the p-value (the p stands for [probability](https://en.wikipedia.org/wiki/Probability)). In other words, we can get a sense of the probability that the observed $S$  and $Z_{mk}$ values for our sample is due to just sampling chance alone. See this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) for more information about probability and hypothesis testing. 
 
 The p-value tells us the probability of observing a test statistic as or more extreme than the one we observed if the null hypothesis (that there is no trend) is true. If the p-value is small, say less than 0.05, then our observed $Z$ statistic is pretty rare if the null hypothesis is true. This would lead us to reject the null hypothesis and conclude that there is indeed a trend in the data. We will talk more about p-values, and in particular our choice of 0.05 as a comparison for the p-value, a little later.
 
-First let's figure out what our p-value is using the standarnd $Z$ score table.
+First let's figure out what our p-value is using the standard $Z$ score table.
 
-Using the $Z$ column on the far left we find a row that says -1.1 and because our $Z$ value is -1.127 we round this to -1.13 and then find the column for 0.03 to account for the value that is second after decimal place for our $Z$ score. We see that the value where this row and this column intersect is 0.1292. This is the p-value, that indicates the probablity of having a $Z$ score that is more extreme (on the negative side) of the [$Z$ score normal distribution](https://en.wikipedia.org/wiki/Standard_score) or the colored portion of the distribution in the figure below. In other words, there is a 13% chance of observing data with a more negative $Z$ score (and also a downward trend as the sign of the $Z_{MK}$ is determined by the $S$ score) simply by chance alone.
+Using the $Z$ column on the far left we find a row that says -1.1 and because our $Z$ value is -1.127 we round this to -1.13 and then find the column for 0.03 to account for the value that is second after decimal place for our $Z$ score. We see that the value where this row and this column intersect is 0.1292. This is the p-value, that indicates the probability of having a $Z$ score that is more extreme (on the negative side) of the [$Z$ score normal distribution](https://en.wikipedia.org/wiki/Standard_score) or the colored portion of the distribution in the figure below. In other words, there is a 13% chance of observing data with a more negative $Z$ score (and also a downward trend as the sign of the $Z_{MK}$ is determined by the $S$ score) simply by chance alone.
  
 ```{r,echo=FALSE, out.width="80%"}
  include_graphics(here::here("img", "zscore.png"))
@@ -2989,13 +2949,13 @@ Using the $Z$ column on the far left we find a row that says -1.1 and because ou
 
 ##### [[source]](https://socratic.org/questions/5986a3e1b72cff6fd48a5408)
 
-Since we dont know what type of trend we are looking for (thus we are using what is called a [two-sided hypothesis](https://en.wikipedia.org/wiki/One-_and_two-tailed_tests) - with the $H_{a}$ being that either a positive or negative trend exists), we can use this table to determine that the p-value is ~.1292 for a one-sided hypthesis (specifically testing that a negative trend exists or testing that a postive trend exists) and multiply this by 2 to get a p-value of approximately ~ 0.26 for a two-sided hypothesis.
+Since we don't know what type of trend we are looking for (thus we are using what is called a [two-sided hypothesis](https://en.wikipedia.org/wiki/One-_and_two-tailed_tests) - with the $H_{a}$ being that either a positive or negative trend exists), we can use this table to determine that the p-value is ~.1292 for a one-sided hypothesis (specifically testing that a negative trend exists or testing that a positive trend exists) and multiply this by 2 to get a p-value of approximately ~ 0.26 for a two-sided hypothesis.
 
 See this [article](https://www.onesided.org/articles/the-paradox-of-one-sided-v-two-sided-tests-of-significance.php) for more information about one-sided and two-sided tests.
 
 Thus in other words, there is a 26% chance of observing a more positive or more negative z score by chance alone. This is a pretty high chance!
 
-Thus visualize this, our two-sided test looks for the areas on the probaility distribution of the Z score that are more positive or more negative for both signs of the Z value:
+Thus visualize this, our two-sided test looks for the areas on the probability distribution of the Z score that are more positive or more negative for both signs of the Z value:
 
 ```{r, out.width="30%", echo=FALSE}
 knitr::include_graphics(here::here("img", "twosided.png"))
@@ -3003,7 +2963,7 @@ knitr::include_graphics(here::here("img", "twosided.png"))
 
 Alternatively, we can use this [calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx), which gives us a more precise p-value of 0.26 for the two-sided hypothesis.
  
-Either way, our  p-value of ~ 0.26 suggests that we do not have a trend as our p-value is much larger than the typical [significance threshold](https://en.wikipedia.org/wiki/Statistical_significance) of 0.05. The idea here is that it is acceptable that there is a 5% [probability](https://en.wikipedia.org/wiki/Probability) that our observation occured simply due to chance. 
+Either way, our  p-value of ~ 0.26 suggests that we do not have a trend as our p-value is much larger than the typical [significance threshold](https://en.wikipedia.org/wiki/Statistical_significance) of 0.05. The idea here is that it is acceptable that there is a 5% [probability](https://en.wikipedia.org/wiki/Probability) that our observation occurred simply due to chance. 
 
 
 In our case there is not enough evidence to reject the null hypothesis. Thus we conclude that there is likely no trend.
@@ -3028,7 +2988,7 @@ major_groups_long %>%
 
 Again, just like when we calculated this manually, we see that the score $S$ is -7. The larger the score, the more indication that there is an increasing or decreasing monotonic relationship. We also again see that the p-value is roughly = 0.26 and is much greater than 0.05, suggesting that we don't see a trend in our data.  
 
-avocado... need to make sure it is ok that we dont have the exact same number of years in between each time point...
+avocado... need to make sure it is ok that we don't have the exact same number of years in between each time point...
 
 
 However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations. Thus we may not have enough observations to observe a trend.
@@ -3052,7 +3012,7 @@ Based on the coefficients in the output, for each one year change, the mean incr
 
 We can also see from the p-value (`Pr(>|t|)`), that this relationship is not statistically significant, as it is much larger than 0.05. Again, we are however largely limited by the number of observations in this dataset. 
 
-We can visualize the relationship above like so using the `geom_smooth()` functin of the `ggplot2` package with the `method = "lm"` argument to show the linear model.
+We can visualize the relationship above like so using the `geom_smooth()` function of the `ggplot2` package with the `method = "lm"` argument to show the linear model.
 
 ```{r}
 major_groups_long %>%
@@ -3103,7 +3063,7 @@ The Z score can be calculated like so:
 
  $Z_{MK} = \frac{-13+1}{\sqrt{28.33333}} = \frac{-12}{5.322906} = -2.254408$
 
-The one tailed p-value is half of the 2-sided p-value and is thus roughly 0.012. We just tested two hypotheses, one for the Native Americans and one for the Latinx female population. So we should use the [Bonferroni multiple testing correction](https://en.wikipedia.org/wiki/Bonferroni_correction) to adjust our signifcance threshold $\alpha$ to be $.05/n\text{ tests} = 0.5/2 = .025$. Our p-value for the one sided test was 0.012 which is less than .025.  This suggests that indeed there is a decreasing trend for youth disconnection among the Female Latinx population. That is positive news!
+The one tailed p-value is half of the 2-sided p-value and is thus roughly 0.012. We just tested two hypotheses, one for the Native Americans and one for the Latinx female population. So we should use the [Bonferroni multiple testing correction](https://en.wikipedia.org/wiki/Bonferroni_correction) to adjust our significance threshold $\alpha$ to be $.05/n\text{ tests} = 0.5/2 = .025$. Our p-value for the one sided test was 0.012 which is less than .025.  This suggests that indeed there is a decreasing trend for youth disconnection among the Female Latinx population. That is positive news!
 
 ***
 
@@ -3123,11 +3083,14 @@ Thus we can combine our plots that we previously named and saved as objects.
 
 ```
 
-The `plot_layout()` function allows for specification of the relative heights and widths of the various plot elements. We  will first use this function to specify the relative widths of  blanck spaces on either side of the `plot_gender` plot. Then, since we will create three rows (distinguised by the `/` symbols, we need to specify widths and heights for all 3 rows.)
+The `plot_layout()` function allows for specification of the relative heights and widths of the various plot elements. We  will first use this function to specify the relative widths of  blank spaces on either side of the `plot_gender` plot. Then, since we will create three rows (distinguished by the `/` symbols, we need to specify widths and heights for all 3 rows.)
 
 
 ```{r, eval = FALSE}
-(plot_spacer() + plot_gender+ plot_spacer()  + plot_layout(widths = c(0.3,3,0.3))) / (asian_subgroup_plot_simp + asian_gender_subgroup_plot) /(latinx_subgroup_plot + latinx_gender_subgroup_plot) + 
+  (plot_spacer() + plot_gender + plot_spacer() + 
+   plot_layout(widths = c(0.3,3,0.3))) / 
+  (asian_subgroup_plot_simp + asian_gender_subgroup_plot)/
+  (latinx_subgroup_plot + latinx_gender_subgroup_plot) + 
   plot_layout(heights =c(2, 1.3, 1.3), widths = c(1.5, 2.5, 2.5)) 
 
 ```
@@ -3141,9 +3104,15 @@ We can also use this function to specify the resolution with `res` and in doing 
 ```{r, message = FALSE}
 png(filename = here::here("img", "mainplot.png"),
     res = 300, width = 13.5, height = 14, units = "in")
-(plot_spacer() + plot_gender+ plot_spacer()  + plot_layout(widths = c(0.3,3,0.3))) / (asian_subgroup_plot_simp + asian_gender_subgroup_plot) /(latinx_subgroup_plot + latinx_gender_subgroup_plot) + 
-  plot_layout(heights =c(2, 1.3, 1.3), widths = c(1.5, 2.5, 2.5)) &  theme(axis.title = element_text(size =14),                                           text = element_text(size = 14, face = "bold"))&
- plot_annotation(title = "Deeper Insepection Reveals Differences for Youth Disconnection\n Among Races, Ethnic Subgroups, and Genders", theme = theme(plot.title = element_text(size = 22, face = "bold")))
+
+(plot_spacer() + plot_gender + plot_spacer() +
+    plot_layout(widths = c(0.3,3,0.3))) / 
+  (asian_subgroup_plot_simp + asian_gender_subgroup_plot) / (latinx_subgroup_plot + latinx_gender_subgroup_plot) + 
+  plot_layout(heights =c(2, 1.3, 1.3), widths = c(1.5, 2.5, 2.5)) &  theme(axis.title = element_text(size =14),                                           text = element_text(size = 14, face = "bold")) &
+plot_annotation(title = "Deeper Inspection Reveals Differences for Youth Disconnection\nAmong Races, Ethnic Subgroups, and Genders", 
+               theme = theme(plot.title =
+                               element_text(size = 22, 
+                                            face = "bold")))
 dev.off()
 
 ```
@@ -3164,7 +3133,7 @@ The data in these reports comes from the [American Community Survey(ASC)](https:
 
 We demonstrated how to import data from these PDFs by extracting the text from screen shot images of the tables were were particularly interested in. 
 
-It was identified in the 2019 [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) that Native American populations particularly experience high rates of youth disconnection. Indeed roughly a quarter of this population appears to experience youth disconnection, which is much higher than the other major racial groups. By performing the [Mann-Kendall trend test](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf)(https://www.statisticshowto.com/mann-kendall-trend-test/) both manually and using the `MannKendall()` function of the `Kendall` package, we demonstrated that the rate does not appear to be changing. This suggests that more prevention and rengagement strategies should especially focus on this population.
+It was identified in the 2019 [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) that Native American populations particularly experience high rates of youth disconnection. Indeed roughly a quarter of this population appears to experience youth disconnection, which is much higher than the other major racial groups. By performing the [Mann-Kendall trend test](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf)(https://www.statisticshowto.com/mann-kendall-trend-test/) both manually and using the `MannKendall()` function of the `Kendall` package, we demonstrated that the rate does not appear to be changing. This suggests that more prevention and re-engagement strategies should especially focus on this population.
 
 By plotting subgroups within our data, it is clear that there are differences among particular populations. We see that there are much higher levels of disconnection among youths who are male and black as compared to black females. 
 We also see that youth disconnection rates among [Hmong](https://en.wikipedia.org/wiki/Hmong_people) and Cambodian populations are very high, despite rates being quite low for the Asian population in general.
@@ -3269,9 +3238,9 @@ Package   | Use in this case study
 #### {.emphasis_block}
 
 Want to learn more about how to prevent and mitigate youth disconnection?  
-Or do you know youths who are disonnected?  
+Or do you know youths who are disconnected?  
 
-See [the program directory at youth.gov](https://youth.gov/evidence-innovation/program-directory?keywords=&field_pd_factors_risks_tid=413&field_pd_factors_protective_tid=All) and [this program listing](https://goc.maryland.gov/wp-content/uploads/sites/8/2015/10/Program-Models-for-Serving-Opportunity-Youth.pdf) focused on Maryland but including other locations for listings of programs dedicated to rengaging disconnected youth or preventing disconnection.
+See [the program directory at youth.gov](https://youth.gov/evidence-innovation/program-directory?keywords=&field_pd_factors_risks_tid=413&field_pd_factors_protective_tid=All) and [this program listing](https://goc.maryland.gov/wp-content/uploads/sites/8/2015/10/Program-Models-for-Serving-Opportunity-Youth.pdf) focused on Maryland but including other locations for listings of programs dedicated to re-engaging disconnected youth or preventing disconnection.
 
 Also, see [The Center for Communities That Care](https://www.communitiesthatcare.net/) and the
 [PROSPER program](https://extension.psu.edu/promoting-school-community-university-partnerships-to-enhance-resilience) for particular examples.
