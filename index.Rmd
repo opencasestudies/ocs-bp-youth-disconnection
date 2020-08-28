@@ -1,5 +1,5 @@
 ---
-title: "Open Case Studies : Disparities in Youth Disconnection"
+title: "Open Case Studies: Disparities in Youth Disconnection"
 css: style.css
 output:
   html_document:
@@ -31,7 +31,6 @@ output:
 <base target="_blank"/>  
 
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE, cache = FALSE,
@@ -47,6 +46,8 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 ```
 
 ####
+
+AVOCADO: Ok, I wanted to "soak" in the main figure and spent some time reading through it before diving into the case study. I still haven't dived into the case yet (that's next), but my initial impression is that there is way way too much going on in this main figure. It took me like a good 5 mins to understand. I think we should talk about removing portions of it and simplying it. My current suggestion is to remove all the bar plots and only have the line plots at the top. 
 
 ## {.disclaimer_block}
 
@@ -67,25 +68,27 @@ Wright, Carrie, and Ontiveros, Michael and Jager, Leah and Taub, Margaret and Hi
 ## **Motivation**
 *** 
 
-According to this [report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) youth disconnection although generally showing decreasing trends for the past 7 years, shows **racial and ethnic disparities**, where some groups are showing increased rates of disconnection.
+First, let's discuss the meaning of the term **"youth disconnection"**. 
 
-So what does the term **"youth disconnection"** mean?
-
-According to [Measure of America](https://www.ssrc.org/programs/view/moa/) (a nonpartisan project of the nonprofit [Social Science Research Council](https://www.ssrc.org/) that is focused on opportunity in the United States) disconnected youth are:
+According to [Measure of America](https://www.ssrc.org/programs/view/moa/) (a nonpartisan project of the nonprofit [Social Science Research Council](https://www.ssrc.org/) that is focused on opportunity in the United States), disconnected youth are:
 
 > "young people between the ages of **16 and 24** who are **neither working nor in school**"
 
-They state that such disconnection hinders these individuals to acquire skills and create relationships necessary to have a successful adulthood. 
+The group states that such disconnection hinders these individuals to acquire skills and create relationships necessary to have a successful adulthood. 
 
-They state that:
+The group goes on to state that:
 
 > "people who experience a period of disconnection as young adults go on to **earn less** and are **less likely** to be **employed, own a home, or report good health** by the time they reach their thirties"
 
-Disconnected youth are also referred to as **opportunity youth**, which has the added positive connotation that promoting such individuals can be beneficial not only for these individuals but also for their communities and for society. 
+Disconnected youth are also referred to as **opportunity youth**, which has the added positive connotation that promoting such individuals can be beneficial not only for these individuals, but also for their communities and for society. 
 
-We will expand beyond the [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) to take a deeper look at differences of specific groups of youths. Identifying youths particularly at risk or disconnected, can help inform the design of targeted prevention and rengagement strategies.
+**Good news**: According to this [report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf), the youth disconnection is generally showing decreasing trends for the past 7 years. 
 
-This case study is motivated by this [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/): 
+**Bad news**: The same report shows **racial and ethnic disparities**, where some groups are showing **increased rates of disconnection**.
+
+In this case study, we will expand beyond the [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) to take a deeper look at differences in disconnection between different subgroups of youths. 
+Identifying youths particularly at risk or disconnected, can help inform the design of targeted prevention and re-engagement strategies.
+To do this, we use the following [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/) as our motivation for this case study. 
 
 #### {.reference_block}
 
@@ -93,7 +96,8 @@ Mendelson, T., Mmari, K., Blum, R. W., Catalano, R. F. & Brindis, C. D. Opportun
 
 ####
  
-This [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/) describes strategies for prevention of disconnection and re-engagement of disconnected youth and how such interventions could greatly positively impact opportunity youth for the entire trajectory of their lives and for future generations. It also points out that indeed their are disparities among different racial/ethnic groups.
+The [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/) describes strategies for prevention of disconnection and re-engagement of disconnected youth and how such interventions could greatly positively impact opportunity youth for the entire trajectory of their lives and for future generations. 
+It also points out that indeed there are disparities among different racial/ethnic groups.
 
 
 ## **Main Questions**
@@ -110,11 +114,11 @@ This [article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/) describes 
 ## **Learning Objectives** 
 *** 
 
-In this case study, we will demonstrate how to import and wrangle data available in the <u>**P**</u>ortable <u>**D**</u>ocument <u>**F**</u>ormat (**PDF**). We will especially focus on using packages and functions from the [`Tidyverse`](https://www.tidyverse.org/), such as `dplyr`, `ggplot2`. The tidyverse is a library of packages created by RStudio. While some students may be familiar with previous R programming packages, these packages make data science in R more legible and intuitive.
+In this case study, we will demonstrate how to import and wrangle data available in a <u>**P**</u>ortable <u>**D**</u>ocument <u>**F**</u>ormat (**PDF**). We will especially focus on using packages and functions from the [`tidyverse`](https://www.tidyverse.org/), such as `dplyr`, `ggplot2`. The tidyverse is a library of packages created by RStudio. While some students may be familiar with previous R programming packages, these packages make data science in R more legible and intuitive.
 
 The skills, methods, and concepts that students will be familiar with by the end of this case study are:
 
-Data science skills:  
+<u>**Data science Learning Objectives:**</u>
 
 1. Importing text from PDF files using images and the `magick` package  
 2. Apply action verbs in `dplyr` for data wrangling  
@@ -124,7 +128,7 @@ Data science skills:
 6. How to add images to plots using `cowplot`
 7. How to create effective bar plots to for multiple comparisons, including adding gaps between bars in bar plots, adding figure legends to the plot area, and adding comparison lines (`ggplot2`)
 
-Statistical concepts and methods:  
+<u>**Statistical Learning Objectives:**</u>  
 
 1. Implementation of the Mann-Kendall trend test  
 2. Interpretation of the Mann-Kendall trend test 
@@ -142,6 +146,7 @@ We will begin by loading the packages that we will need:
 ```{r}
 library(here)
 library(pdftools)
+library(tesseract)
 library(magick)
 library(knitr)
 library(dplyr)
@@ -163,6 +168,7 @@ library(patchwork)
 ---------- |-------------
 [here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data  
 [pdftools](https://readr.tidyverse.org/)      | to import PDF documents  
+[tesseract]() | AVOCADO: need to add details for `tesseract` (I could not compile until i installed and loaded it)
 [magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for importing images and extracting text from images   
 [knitr](https://yihui.org/knitr/) |  for showing images in reports    
 [dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to filter, subset, join, add rows to, and modify the data   
@@ -217,7 +223,7 @@ knitr::include_graphics(here::here("img", "jon-tyson-ajzN2AYNi1U-unsplash.jpg"))
 ```
 <span>Photo by <a href="https://unsplash.com/@jontyson?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jon Tyson</a> on <a href="https://unsplash.com/s/photos/unemployment?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
 
-Furthermore, in 2012 it was estimated that each disconnected youth costs taxpayers $250000 during a life time due to lost tax revenue and costs for social services, heath care and criminal justice.
+Furthermore, in 2012 it was estimated that each disconnected youth costs taxpayers $250,000 during a lifetime due to lost tax revenue and costs for social services, heath care and criminal justice.
 
 Youth disconnection can be described as a continuum, as some youths will be disconnected for a brief time, while others are chronically disconnected. Additionally, while an individual who is out of school and work and also has poor support from the relationships of others may be further disconnected than an individual who has social support.
 
@@ -234,7 +240,7 @@ knitr::include_graphics(here::here("img", "risk_factors.png"))
 
 Many programs have identified useful strategies in re-engaging disconnected youth or preventing disconnection of youth. 
 
-generally speaking, most programs focus on re-engagement strategies, however, prevention strategies are likely to be just as important. 
+Generally speaking, most programs focus on re-engagement strategies, however, prevention strategies are likely to be just as important. 
 
 Research suggests that active involvement with at risk youth from infancy and across multiple developmental stages through young adulthood would be the most beneficial.
 
@@ -271,13 +277,13 @@ The statistics used in this section came from this [article](https://www.ncbi.nl
 
 There are some important considerations regarding this data analysis to keep in mind: 
 
-1) This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/)  project reports from the is derived from [American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs) which excludes or under-represents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused is not available in this dataset. Thus, this data likely underestimates youth disconnection rates. Furthermore, the data used in these reports are collected from human participants; this presents the *potential* for [response bias](https://en.wikipedia.org/wiki/Response_bias), as there is the *potential* that participants in the [sampling frame](https://en.wikipedia.org/wiki/Sampling_frame?oldformat=true){target="_blank"} may for a variety of reasons report inaccurate information. 
+1. This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/) project is derived from [American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs), which excludes or under-represents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused are not available in this dataset. Thus, this data likely underestimates youth disconnection rates. Furthermore, the data used in these reports are collected from human participants; this presents the *potential* for [response bias](https://en.wikipedia.org/wiki/Response_bias), as there is the *potential* that participants in the [sampling frame](https://en.wikipedia.org/wiki/Sampling_frame?oldformat=true){target="_blank"} may for a variety of reasons report inaccurate information. 
 
-2) Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination) (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as [LGBTQIA+](https://www.uis.edu/gendersexualitystudentservices/about/lgbtqaterminology/) (lesbian/gay/bisexual/pansexual/transgender/genderqueer/queer,questioning/intersexed/agender/asexual) is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs) has more detailed information about a greater number of racial and ethnic groups and racial/ethnic intersections.
+2. Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination) (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as [LGBTQIA+](https://www.uis.edu/gendersexualitystudentservices/about/lgbtqaterminology/) (lesbian/gay/bisexual/pansexual/transgender/genderqueer/queer,questioning/intersexed/agender/asexual) is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs) has more detailed information about a greater number of racial and ethnic groups and racial/ethnic intersections.
 
-3) The statistical procedures we are using may be overly simplistic. *In all data analysis, we need to be wary about deriving meaning from the statistical procedures we use*.
+3. The statistical procedures we are using may be overly simplistic. *In all data analysis, we need to be wary about deriving meaning from the statistical procedures we use*.
 
-4) Using image processing tools can be very helpful. The manner in which data is obtained with image processing tools is what we would describe as a **black box process**, <u>*a process with known inputs and outputs but unknown mechanics*</u>. Because we are unaware of how our outputs are generated from our inputs, we need to be wary of the output. With the small output we are creating in this case study, a visual inspection should suffice. 
+4. Using image processing tools can be very helpful. The manner in which data is obtained with image processing tools is what we would describe as a **black box process**, <u>*a process with known inputs and outputs but unknown mechanics*</u>. Because we are unaware of how our outputs are generated from our inputs, we need to be wary of the output. With the small output we are creating in this case study, a visual inspection should suffice. 
 
 
 ## **What are the data?**

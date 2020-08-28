@@ -29,5 +29,7 @@ Imports:
     png, 
     testthat, 
     rmarkdown,
-    knitr
+    knitr, 
+    tesseract, 
+    Kendall
 VignetteBuilder: knitr
