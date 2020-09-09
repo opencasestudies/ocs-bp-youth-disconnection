@@ -47,7 +47,7 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 ####
 
-AVOCADO: Ok, I wanted to "soak" in the main figure and spent some time reading through it before diving into the case study. I still haven't dived into the case yet (that's next), but my initial impression is that there is way way too much going on in this main figure. It took me like a good 5 mins to understand. I think we should talk about removing portions of it and simplying it. My current suggestion is to remove all the bar plots and only have the line plots at the top. 
+AVOCADO: Ok, I wanted to "soak" in the main figure and spent some time reading through it before diving into the case study. I still haven't dived into the case study yet (that's next), but my initial impression is that there is way way too much going on in this main figure. It took me like a good 5 mins to understand it. I think we should talk about removing portions of it and simplying it. My current suggestion is to remove all the bar plots and only have the line plots at the top. 
 
 ## {.disclaimer_block}
 
@@ -468,7 +468,7 @@ We appear to have lost the column names (likely because of the different backgro
 
 You may notice that there are lots of `\n` values in the text from our image. These are [**newline**](https://en.wikipedia.org/wiki/Newline?oldformat=true) characters, which denote the end of a line of text and the start of a new line of text.  
 
-We can use the `str_split()` function of the `stringr` package to split based on the `\n` characters in the output. We will then unlist the output using the base R `unlist()` function. By base, we mean that the function it is loaded automatically in an R session. Finally we will use the `as_tibble()` function of the `tibble` package to convert the data into [tibble](https://tibble.tidyverse.org/) format, which is the tidyverse version of a data frame. This will allow us to see the values in the table much better.
+To deal with these, we use the `str_split()` function of the `stringr` package to split based on the `\n` characters in the output, which turns out to be a list. Then, we can "unlist" the output using the base R `unlist()` function. By base R, we mean that the function it is loaded automatically in an R session. Finally, we use the `as_tibble()` function of the `tibble` package to convert the data into [tibble](https://tibble.tidyverse.org/) format, which is the tidyverse version of a data frame. This will allow us to see the values in the table much better.
 
 To do all of these sequential steps efficiently we will use a method called piping.
 
@@ -481,17 +481,17 @@ This allows us to perform multiple sequential steps on one data input.
 ***
 
 ```{r}
- major_groups <- major_groups %>%
+ major_groups <- 
+  major_groups %>%
   stringr::str_split(pattern ="\n") %>%
   unlist() %>%
   tibble::as_tibble()
 ```
 
-
 #### {.scrollable }
 ```{r}
-  
-  major_groups %>%print(n = 20)
+major_groups %>% 
+  print(n = 20)
 
 ```
 ####
@@ -528,9 +528,9 @@ knitr::include_graphics(here::here("img", "look_around.png"))
 We will use the "preceded by" and "followed by" look arounds. Thus `(?<=[:alpha:])` stands for any letter that appears before a space `\\s` that is followed by any digit `(?=[0-9])`. Altogether the pattern we want to separate by looks like this: `"(?<=[:alpha:])\\s(?=[0-9])"`.
 
 
-Now to separate the value column into two columns, we can use the `separate` function of the `tidyr` package to do this. This will allow us to not only split the rows by our regex expression, but also to create column names.
+Now to separate the value column into two columns, we can use the `separate()` function of the `tidyr` package to do this. This will allow us to not only split the rows by our regex expression, but also to create column names.
 
-There are three important arguments for the `seperate()` function:  
+There are three important arguments for the `separate()` function:  
 - `col` - this specifies what column you are separating   
 - `into` - this specifies the names of the new columns you are creating  
 - `sep` - this specifies what character string to look for to separate by  
@@ -538,8 +538,11 @@ There are three important arguments for the `seperate()` function:
 Thus we will separate the `value` column into `Group` and `years` columns.
 
 ```{r}
-major_groups <-major_groups %>%
-  tidyr::separate(col = value, into = c("Group", "Years"), sep = "(?<=[:alpha:])\\s(?=[0-9])")
+major_groups <- 
+  major_groups %>%
+  tidyr::separate(col = value, 
+                  into = c("Group", "Years"), 
+                  sep = "(?<=[:alpha:])\\s(?=[0-9])")
 
 major_groups
 ```
@@ -548,7 +551,7 @@ Looks good!
 
 Let's also get rid of the all caps for the major categories of the `Group` column. We can convert the words to only capitalize the first letter using the `str_to_title()` function of the `stringr` package. To specifically modify the `Group` column we can use the `mutate` function of the `dplyr` package. 
 
-We are also going to use a special pipe operator from the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html) called the compound assignment pipe-operator or sometimes the double pipe operator. 
+We are also going to use a special pipe operator (`%<>%`) from the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html) called the compound assignment pipe-operator or sometimes the double pipe operator. 
 
 This allows us to use the `major_groups` as our input and reassign it at the end after all the subsequent steps have been performed, although in this case it is only one step.
 
@@ -563,20 +566,16 @@ Nice! That looks better.
 
 For the year data we would like to try splitting the strings for each row into different columns based on a space. Currently all the data is listed in one column called `Years`.
 
-We can use the `separate` function of the `tidyr` package again to do this. This will allow us to split the rows by spaces, as well as provide names for the new columns. 
+We can use the `separate()` function of the `tidyr` package again to do this. This will allow us to split the rows by spaces, as well as provide names for the new columns. 
 
 
 ```{r}
-
 major_groups %<>%
-tidyr::separate(col = Years, 
-               into = c("2008", "2010",
-                       "2012", "2014", 
-                       "2016", "2017"), 
-                sep = " ")
+  tidyr::separate(col = Years, 
+                  into = c("2008", "2010", "2012", "2014", "2016", "2017"), 
+                  sep = " ")
 
 major_groups
- 
 ```
 
 
@@ -596,25 +595,25 @@ Great, now we have 18 rows.
 
 It's important to look very carefully at the text. Again, there are some values missing a decimal place. For example the row where the `Group` value is `Asian`, the third and fourth values are missing a decimal place.
 
+AVOCADO: would it make more sense to talk about "Click here for an explanation about data types in R and about character strings" here instead of below? 
+
 Looking at the original table we see that even values like 10 are represented as 10.0. 
 
-So, to fix this we will remove all decimals (which is sort of like multiplying all values that do have a decimal by 10) and then we will multiply all values by .01 to add the decimals back. We will use the `mutate()` function combined with the `across()` function which allows us to specify which columns we want to perform a function on. We want to do this to all the year columns, so we can exclude the `Group` column by using a minus sign `-` in the `.cols` argument of the `across()` function like so: `mutate(across(.cols = -Group))`
+To fix this, we will remove all decimals (which is sort of like multiplying all values that do have a decimal by 10) and then we will multiply all values by .01 to add the decimals back. 
+Here, we use the `mutate()` function combined with the `across()` function, which allows us to specify the columns we want to perform a function on. We want to do this for all the year columns, so we can exclude the `Group` column by using a minus sign operator `-` in the `.cols` argument of the `across()` function like so: `mutate(across(.cols = -Group))`
 
-
-Finally, we will use the `str_remove()` function of the `stringr` package to find instances of "." and remove them. Since "." is a regex, and indicates any character string, thus we need "\\" to have R interpret a decimal or a period instead, as we can see from the RStudio cheatsheets:
+Finally, we will use the `str_remove()` function of the `stringr` package to find instances of "." and remove them. Since "." is a regex, and indicates any character string, thus we need "\\" to have R interpret a decimal or a period instead, as we can see from the RStudio cheat sheets:
 
 ```{r, echo = FALSE, out.width="60%"}
 knitr::include_graphics(here::here("img", "regex_period.png"))
-
 ```
 
 To pass the data from all the columns except our `Group` variable into our `str_remove()` function, we need to use the `.` notation as a replacement for the data that we specified by the `.cols`argument and we need to use `~` in front of the function name. 
 
 ```{r}
-
- major_groups %<>%
-    mutate(across(.cols = -Group, ~str_remove(string = .,
-                                             pattern = "\\.")))
+major_groups %<>%
+    mutate(across(.cols = -Group, 
+                  ~str_remove(string = ., pattern = "\\.")))
 
 major_groups
 ```
@@ -622,8 +621,9 @@ major_groups
 
 Great, now in order to multiply each value by 0.1 we need to first make the values numeric. Currently we can tell that they are character strings based on the `<char>` values listed under each column name.
 
-
+*** 
 <details> <summary> Click here for an explanation about data types in R and about character strings. </summary>
+*** 
 
 There are several classes of data in R programming. 
 Character is one of these classes. 
@@ -698,17 +698,16 @@ head(major_groups)
 For the new `Gender` variable we would like to extract just the "Female" and "Male" text from the `Group` variable. The `str_extract()` function of the `stringr` package will do this, and it will give us an `NA` value for any rows where "Female" or "Male" were not present. We can then replace the `NA` values with  the text "All" to represent the total value for both male and female using the `replace_na()` function of the `tidyr()` package.
 
 ```{r}
-
 major_groups %<>% 
   mutate(Gender = str_extract(string = Group, 
-                             pattern = "Female|Male")) %>%
+                              pattern = "Female|Male")) %>%
   mutate(Gender = replace_na(Gender, replace = "All"))
 
 head(major_groups)
 ```
 
 We would also like to replace Latino and Latina with Latinx. 
-We can  use another `string_r` function for this. This function, `str_replace()` allows us to remove and replace a particular pattern. 
+We can  use another `stringr` function for this. This function, `str_replace()` allows us to remove and replace a particular pattern. 
 
 ```{r}
 major_groups %<>%
@@ -725,6 +724,8 @@ Why is the `str_replace()` function in this case a better option than using the 
 
 ####
 
+AVOCADO: does this need a hidden answer block?
+
 ```{r}
 major_groups
 ```
@@ -737,9 +738,9 @@ We will use the `pivot_longer()` function of the `tidyr` package to change the s
 
 There are 3 main arguments in this function:   
 
-1. `cols` - which specifies what columns to collapse  
-2. `names_to` - which specifies the name of the new column that will be created that will contain the column names of the columns you are collapsing  
-3. `values_to` - which specifies the name of the new column that will be created that will contain the values from the columns you are collapsing 
+1. `cols` - specifies what columns to collapse  
+2. `names_to` - specifies the name of the new column that will be created that will contain the column names of the columns you are collapsing  
+3. `values_to` - specifies the name of the new column that will be created that will contain the values from the columns you are collapsing 
 
 To specify that we want to collapse all the columns that have year values, we can chose those that contain the string `"20"` using the `contains()` function of `dplyr`. 
 
@@ -758,7 +759,6 @@ major_groups_long
 Excellent, now we need to do the same for the other two tables on this page:
 
 ```{r, echo  = FALSE}
-
 knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
 ```
 
@@ -822,16 +822,13 @@ See [this other case study](https://opencasestudies.github.io/ocs-bloomberg-vapi
 In general, the process of writing functions involves first specifying an input that is used within the function to create an output. In this case, the data input is `text`  which will be replaced by the actual image text that we are working on, and then used in the subsequent steps to wrangle the data. We will call our function `make_rows()`.
 
 ```{r}
-
 make_rows <- function(text){
   text %>%
   str_split("\n") %>%
   unlist() %>%
   as_tibble()
 }
-
 ```
-
 
 Great! Now let's apply our function to the `asian_subgroups` data!
 
@@ -844,20 +841,23 @@ asian_subgroups
 
 As you can see, there are some strange values for some of the rows. For example the row that starts with `CHINESE MAle` has `AT` percentage of disconnected youth, and the row that should say `FILIPINO` says `S™S™~SS`.
 
-
+AVOCADO: the 2nd example you listed is not show in the output of the first 10 rows. Did you want to do a scroll instead?
 
 ```{r, echo = FALSE}
-
-temp <-asian_subgroups %>%
+temp <- 
+  asian_subgroups %>%
   pull(value) %>%
   str_split(" ")
+
 temp[8]
 temp[28]
 ```
 
-The rows with no values are possibly causing this issue.  According to the PDF, these spaces are empty to denote that the estimates were unreliable for these groups.
+The rows with no values are possibly causing this issue. According to the report (PDF), these spaces are empty to denote that the estimates were unreliable for these groups.
 
 So we will now import and extract text from three screenshots of this table where we stop just after the row that starts with `PAKISTANI` in the first image, and then an image of the Korean rows up to the next row with no values, and finally an image starting at the row that starts with `FILIPNO`.
+
+AVOCADO: how did you know splitting the images up would work? Maybe more insights just as to how you knew to try that next? or why couldn't you just ignore those rows in the original table you imported before breaking it up into three images?
 
 ```{r, out.width= "60%"}
 Asian_sub_A <- image_read(here("img", "asian_sub_A.png"))
@@ -912,7 +912,6 @@ Can you explain what each of the commands are doing within the function?
 ####
 
 ```{r}
-
 clean_table <- function(table){
   table %>%
     separate(., col = value,
@@ -921,24 +920,21 @@ clean_table <- function(table){
     drop_na() %>%
     mutate(Group = str_to_title(Group)) %>%
     mutate(Percentage = str_remove(string = Percentage,
-                                  pattern = "\\.")) %>%
+                                   pattern = "\\.")) %>%
     separate(Percentage, c("Percent"), sep = " ") %>%
     mutate(Percent = as.numeric(Percent)) %>%
     mutate(Percent = Percent * 0.1) %>%
     mutate(Race_Ethnicity = recode(Group, 
-                        "United States" = "All_races",
-                               "Female" = "All_races",
-                                 "Male" = "All_races")) %>%
-    mutate(Race_Ethnicity = 
-             str_remove(string = Race_Ethnicity,  
-                       pattern = " Female| Male"))%>%
-    mutate(Gender = 
-             str_extract(string = Group,
-                        pattern ="Female|Male")) %>%
+                  "United States" = "All_races", 
+                  "Female" = "All_races",
+                  "Male" = "All_races")) %>%
+    mutate(Race_Ethnicity = str_remove(string = Race_Ethnicity,  
+                                       pattern = " Female| Male")) %>%
+    mutate(Gender = str_extract(string = Group,
+                                pattern ="Female|Male")) %>%
     mutate(Gender = replace_na(Gender, replace = "All"))
  
 }
-
 ```
 
 
@@ -973,6 +969,8 @@ knitr::include_graphics(here::here("img", "latinx2017.png"))
 Do you notice anything incorrect about this table?
 
 ####
+
+AVOCADO: I was confused by this question and still not quite sure what the typo is? Maybe give an answer here or provide more explanation below? Still not sure if you are suggesting two rows were swapped or if it was something else?
 
 Sometimes when wrangling text data, we will come across a typo. We need to determine how to respond to the typo and make note of it. It's often best to consult a secondary source to confirm that changes made are accurate. 
 
@@ -1021,7 +1019,7 @@ latinx_C
 We can combine the strings together using the `str_c()` function (which stands for string **collapse**) of the `stringr` package.
 
 ```{r}
-latinx_sub_2017 <-stringr::str_c(latinx_A, latinx_B, latinx_C)
+latinx_sub_2017 <- stringr::str_c(latinx_A, latinx_B, latinx_C)
 
 latinx_sub_2017
 ```
@@ -1050,6 +1048,8 @@ latinx_sub_2017 %<>%
 ```{r}
 latinx_sub_2017
 ```
+
+AVOCADO: OH i totally missed that. Yeah, definitely suggest more commentary above... :/ 
 
 
 #### {.recall_code_question_block}
@@ -1088,7 +1088,7 @@ Let's also replace the abbreviations for Puerto Rican and Dominican and let's re
 #### {.think_question_block}
 <b><u> Question Opportunity </u></b>
 
-How might you do this?
+How might you do this using the `str_replace()` function?
 
 ####
 
@@ -1157,15 +1157,15 @@ asian_sub_2018
 ```
 Now we need to modify our function a bit for this new data. 
 
-Firstly, we now have colons `:` in our table that we will want to separate by. Unfortunately, the text in each row isn't extracted in the same way by the OCR.Thus some rows have only a space, while others have spaces around a colon; or for the row with `VIETNAM` we see a colon directly after the word followed by a space. Thus we will modify our `seperate()` function with this change. We can specify  that the separator between any letter and any digit should be either a space (`\\s`) or a colon with a space before and after it (`\\s:\\s`) using the or (`|`)operator. 
+First, we now have colons `:` in our table that we will want to separate by. Unfortunately, the text in each row isn't extracted in the same way by the OCR. Some rows have only a space, while others have spaces around a colon; or for the row with `VIETNAM` we see a colon directly after the word followed by a space. Thus, we will modify our `seperate()` function with this change. We can specify that the separator between any letter and any digit should be either a space (`\\s`) or a colon with a space before and after it (`\\s:\\s`) using the or (`|`)operator. 
 
 So this will look like this:
 
 ```{r}
 asian_sub_2018 %>%
     separate(., col = value,
-               into = c("Group", "Percent"), 
-                sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])")
+             into = c("Group", "Percent"), 
+             sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])")
 
 ```
 Then because of the row with `VIETNAM`, we will want to remove this colon using the `str_remove()` function like this:
@@ -1184,7 +1184,6 @@ The other difference from the previous function, is that we want to fill in a ne
 This will look like this:
 
 ```{r}
-
 asian_sub_2018 %>%
 separate(., col = value, 
            into = c("Group", "Percent"), 
@@ -1217,7 +1216,6 @@ mutate(Race_Ethnicity = str_replace(string = Group,
 mutate(Race_Ethnicity = na_if(Race_Ethnicity, "missing")) %>%
 fill(Race_Ethnicity, .direction = "down") %>%
 head()
-
 ```
 
 OK! Now, let's combine these pieces of our new function with the old pieces:
@@ -1488,15 +1486,15 @@ latinx_subgroups
 Again, we would like to have `NA` values for the comparable years/genders that are possible. We will fill out the rest of the table with `NA` values by performing the `pivot_wider()` and `pivot_longer()` functions sequentially like so:
 
 ```{r, eval = FALSE}
-
-latinx_subgroups %<>% 
-select(-Group) %>%
-pivot_wider(names_from = Year, values_from = Percent) %>%
-pivot_longer(cols = -c(Race_Ethnicity, Gender), 
-names_to ="Year" , 
-values_to="Percent")
+latinx_subgroups %<>%
+  select(-Group) %>%
+  pivot_wider(names_from = Year, values_from = Percent) %>%
+  pivot_longer(cols = -c(Race_Ethnicity, Gender), 
+               names_to ="Year" , 
+               values_to="Percent")
 ```
 
+AVOCADO: maybe mention the use of `datatable` in the `DT` package here? 
 
 ```{r, echo = FALSE}
 DT::datatable(asian_subgroups)
@@ -1513,12 +1511,11 @@ asian_subgroups
 latinx_subgroups
 ```
 
-Looks good!
+Looks good! If you made it this far, you should pat yourself on your back. That was a lot of wrangling! 
 
 ```{r, echo= FALSE, eval = TRUE}
 save(major_groups_long, asian_subgroups, latinx_subgroups,
      file = here::here("data", "wrangled_data.rda"))
-
 ```
 
 ## **Data Visualization**
