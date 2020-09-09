@@ -299,17 +299,19 @@ In this case study we will be using data related to youth disconnection from the
 knitr::include_graphics(here::here("img", "Making_the_Connection.png"))
 ```
 
-2. : Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf). New York: Measure of America, Social Science Research Council, 2020. (Data up to 2018)
+2. Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf). New York: Measure of America, Social Science Research Council, 2020. (Data up to 2018)
 
 ```{r, out.width="400px", echo = FALSE}
 knitr::include_graphics(here::here("img", "A_Decade_Undone.png"))
 ```
 
-The data used in these reports comes from the [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs), which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizenship, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey.
+The data used in these reports comes from the [American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs), which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizenship, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey.
 
 According to [Wikipedia](https://en.wikipedia.org/wiki/American_Community_Survey):
 
-> Data is collected by internet, mail, telephone interviews and in-person interviews...About 95 percent of households across all response modes ultimately respond... ACS responses are confidential... and "immune from legal process"
+> Data is collected by internet, mail, telephone interviews and in-person interviews... About 95 percent of households across all response modes ultimately respond... ACS responses are confidential... and "immune from legal process".
+
+AVOCADO: curious -- what's the purpose of including the "immune from legal process" portion?
 
 > It is a mandatory survey, it is governed by federal laws that could impose a fine of as much as $5,000 for refusing to participate.
 
@@ -320,7 +322,7 @@ We are particularly interested in the following tables on the last page of the [
 knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
 ```
 
-We are particularly interested in the tables on the following pages from the [Measure of America 2020 report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf):
+Also, we are particularly interested in the tables on the following pages from the [Measure of America 2020 report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf):
 
 
 ```{r, echo = FALSE}
@@ -336,13 +338,16 @@ knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
 ## **Data Import**
 *** 
 
-One way to import data from a pdf is to use the `pdf_text()` function of the `pdftools` package. The `here()` function of the `here` package can allow us to specify where the document that we want to import is located easily, starting from the directory where a `.Rproj` file is located. In this case, we will import the `Making_the_Connection.pdf` in the `docs` directory. *Note this is the case if you pull the repository from github.*
+### Importing with `pdftools`
+
+One way to import data from a pdf is to use the `pdf_text()` function of the `pdftools` package. The `here()` function in the `here` package allows us to specify the path or location of the document that we want to import, starting from the directory where a `.Rproj` file is located. In this case, we will import the `Making_the_Connection.pdf` in the `docs` directory. (*Note this is only the case if you pull the repository from github.*)
 
 ```{r}
-pdf_tools_example <- pdftools::pdf_text(here::here("docs","Making_the_Connection.pdf"))
+pdf_tools_example <- 
+  pdftools::pdf_text(here::here("docs","Making_the_Connection.pdf"))
 ```
 
-We can take a look at the output for the page with our table of interests by simply using brackets `[]` around the page number. The page we are interested in (although called 39 in the report) is the 44th page, which looks like this:
+We can take a look at the output for the page with our table of interests by simply using brackets `[]` around the page number. The page we are interested in (although labeled 39 in the report) is the 44th page, which looks like this:
 
 ```{r, gender_race_eth_2019, echo=FALSE}
 ```
@@ -354,39 +359,50 @@ pdf_tools_example[44]
 ```
 ####
 
-From the output, it's clear that a relatively large amount of manipulation will be required to wrangle this data. If you are interested in learning more about this method, please see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) and this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
+From the output, it's clear that a relatively large amount of manipulation will be required to wrangle this data. If you are interested in learning more about the `pdftools` package, please see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) and this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
 
-While not impossible, using the `pdftools` package in this scenario will be a bit challenging because of how the multiple tables are displayed on this page.
+AVOCADO: the two links above are the same. Assuming you meant to change one. 
+
+#### {.think_question_block}
+<b><u> Question Opportunity </u></b>
+
+If are familiar with `pdftools`, spend 3-5 minutes trying to extract the multiple tables from page 44. 
+
+####
+
+While you might find the question above to not be impossible using the `pdftools` package, you might find it a bit challenging because of how the multiple tables are displayed on this page.
 
 While our output may be reproducible, this process may be too time consuming.
 
-Fortunately, there is another way we can proceed to wrangle the data. 
+Let's consider alternative approaches to importing these data. 
 
-We will demonstrate how to produce reproducible tables with image processing software in `R` using  a package called `magick` which allows for the extraction of text from images. The **advantage** of this option, is that we can take a screenshot of just a piece of the page to wrangle. 
+Next, we will demonstrate how to produce reproducible tables with image processing software in `R` using a package called `magick` which allows for the extraction of text from images. The **advantage** of this option, is that we can take a screenshot of just a piece of the page to wrangle. 
 
 
 ### Importing with `magick`
 
-We will now import the data using the `magick` package which allows for the importation of images. 
+We will now import the data using the `magick` package which allows for the importation of data from images. 
 
-First we will take a screenshot of the top part of the gender, race, and ethnicity table on the last page of the [2019 Measure of America Report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf). We are only interested in the percentage of disconnection across the years, so we don't need our screenshot to include the last couple of columns.
+First, we will take a screenshot (specifically create a `.png` file) of the top part of the gender, race, and ethnicity table on the last page of the [2019 Measure of America Report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf). We are only interested in the percentage of disconnection across the years, so we don't need our screenshot to include the last couple of columns.
 
-We can show what this file looks like in this rendered rmarkdown website by using the `include_graphics()` function of the `knitr` package.
+Here, we show what this file looks like in this rendered rmarkdown website by using the `include_graphics()` function of the `knitr` package.
 
 ```{r}
 knitr::include_graphics(here::here("img", "Major_ethnic_groups_screenshot.png"))
 ```
 
-Now, we will use the `image_read()` function of the `magick` package to import this image.
+Next, we use the `image_read()` function of the `magick` package to import this image.
 
-We can then use the `image_info()` function to make sure that the import worked and to get information about the size, format and color of the image.
+Then, we use the `image_info()` function to make sure that the import worked and to get information about the size, format and color of the image.
 
 ```{r, dpi = 1000}
-Major_racial_ethnic_groups <- magick::image_read(here::here("img", "Major_ethnic_groups_screenshot.png"))
+Major_racial_ethnic_groups <- 
+  magick::image_read(here::here("img", "Major_ethnic_groups_screenshot.png"))
 
 magick::image_info(Major_racial_ethnic_groups)
 ```
-Now let's take a look at our image in R! Now that we have imported it to see this image, we simply need to type the name of the image.
+
+We get some basic information, such as the file format is a PNG, the width and height of the image, etc. Let's take a closer look at our image in R! Now that we have imported it to see this image, we simply need to type the name of the image.
 
 ```{r}
 Major_racial_ethnic_groups
@@ -398,7 +414,9 @@ Nice!
 Let's import a couple more images just for fun. Here we will import an image directly from a URL.
 
 ```{r, out.width="20%"}
-ggplot2_logo <- image_read("https://d33wubrfki0l68.cloudfront.net/2c6239d311be6d037c251c71c3902792f8c4ddd2/12f67/css/images/hex/ggplot2.png")
+ggplot2_url <- "https://d33wubrfki0l68.cloudfront.net/2c6239d311be6d037c251c71c3902792f8c4ddd2/12f67/css/images/hex/ggplot2.png"
+
+ggplot2_logo <- image_read(ggplot2_url)
 ggplot2_logo
 ```
 
@@ -415,12 +433,16 @@ One thing to keep in mind is that this doesn't always work. Unusual font, angles
 Here is an example that does not work with the current version of `magick`:
 
 ```{r, out.width="20%"}
-tidyverse_logo <- image_read("https://tidyverse.tidyverse.org/logo.png")
+tidyverse_url <- "https://tidyverse.tidyverse.org/logo.png"
+
+tidyverse_logo <- image_read(tidyverse_url)
 tidyverse_logo
 magick::image_ocr(tidyverse_logo)
 ```
 
 This is likely do to the background on this particular hex sticker. So sometimes this process requires a bit of trial and error.
+
+
 
 ## **Data Wrangling**
 *** 
