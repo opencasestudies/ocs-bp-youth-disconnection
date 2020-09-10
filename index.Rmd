@@ -2368,9 +2368,8 @@ AVOCADO: I moved the "subgroup by gender plots" and the "faceted year and gender
 load(here::here("data", "wrangled_data.rda"))
 ```
 
-### Sampling methods
-***
-We have pooled (repeated) [cross-sectional](https://en.wikipedia.org/wiki/Cross-sectional_data?oldformat=true) data.
+
+In our data, we have pooled (repeated) [cross-sectional](https://en.wikipedia.org/wiki/Cross-sectional_data?oldformat=true) data.
 
 This is data produced from repeated measurement of a [population](https://en.wikipedia.org/wiki/Population?oldformat=true) over time.
 
@@ -2378,10 +2377,12 @@ It is often unfeasible to collect data for an entire population at once. However
 
 At specific time-points, data is collected from a sample of the population. The individuals in each sample are not necessarily the same individuals. This separates pooled cross-sectional data from panel data, which is longitudinal data from repeated measurement of the same people.   
 
-By sampling from a population at multiple time points, we can generate estimates of population level statistics. Although these statistics have some random error, they can provide insight into how the measure variable is changing in a population over time. This is the concept of using [sampling methods](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true){target="_blank"} to make [statistical inference](https://www.britannica.com/science/inference-statistics) about actual populations based on a smaller sample of the population.
+By sampling from a population at multiple time points, we can generate estimates of population level statistics. Although these statistics have some random error, they can provide insight into how the measure variable is changing in a population over time.
 
 
-As we have measured values over time, we can plot the data to see if there is a trend. Sometimes, however, the trend isn't exactly clear. Fortunately, there are statistical methods to resolve this issue.
+As we have measured values over time, we can plot the data to see if there is a trend (increasing, decreasing, monotonic, non-monotonic, linear, non-linear, etc). Sometimes, however, the trend isn't exactly clear. Fortunately, there are statistical methods to resolve this issue.
+
+Next, we will introduce and discuss the Mann-Kendall trend test. 
 
 ### Mann-Kendall trend test
 ***
@@ -2401,22 +2402,23 @@ knitr::include_graphics("https://www.statisticshowto.com/wp-content/uploads/2017
 
 So in other words, we are interested to see if there is a consistent direction in the relationship of disconnection rates with time, as we want to know if rates have been consistently increasing or decreasing or if they have been staying roughly the same. 
 
-So again, this test does not test if the rate of change has been consistent over time, just the direction.
+**Note**: this test does not test if the rate of change has been consistent over time, just the direction.
 
 #### Mann-Kendall trend test vs simple linear regression
 ***
 
-[Simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) in contrast tests if there is a consistent change in both rate and direction in the dependent variable as a single independent variable changes. The coefficients tell us how much the dependent variable changes with one unit change of the independent variable. 
+In contrast to the Mann-Kendall trend test, we briefly compare this to [Simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression). 
 
-<!-- See this [case study](https://opencasestudies.github.io/ocs-bp-co2-emissions/) for more discussion about the difference between simple linear regression and correlation. -->
+There are a couple of difference between the two: 
 
-avocado: I had this in here as well.. as it is relevant and maybe we need discussion about the difference between the trend test and correlation but I thought this might complicate this section... what do you think?
+1. Linear regression assesses if there a consistent change in both rate and direction in the dependent variable as a single independent variable changes. The coefficients tell us how much the dependent variable changes with one unit change of the independent variable. 
 
-The Mann-Kendall trend test is a [nonparametric](https://en.wikipedia.org/wiki/Nonparametric_statistics) test, which means that it does not require as many assumptions as some [parametric](https://en.wikipedia.org/wiki/Parametric_statistics) tests, like the [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression).
+2. The Mann-Kendall trend test is a [nonparametric](https://en.wikipedia.org/wiki/Nonparametric_statistics) test, which means that it does not require as many assumptions as some [parametric](https://en.wikipedia.org/wiki/Parametric_statistics) tests, like the [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression).
 
-### Mann-Kendall trend test calculations
+
+### M-K test by hand
 ***
-The [null hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) $H_{0}$ of the test is that there is no monotonic trend, while the [alternative hypothesis](https://en.wikipedia.org/wiki/Alternative_hypothesis) $H_{a}$ is that there is a trend.
+The [null hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) $H_{0}$ of the test is that there is no monotonic trend, while the [alternative hypothesis](https://en.wikipedia.org/wiki/Alternative_hypothesis) $H_{a}$ is that there is a monotonic trend.
 
 According to [this report](https://www.statisticshowto.com/wp-content/uploads/2016/08/Mann-Kendall-Analysis-1.pdf), the Mann-Kendall $S$ score is calculated as follows:
 
@@ -2425,37 +2427,45 @@ According to [this report](https://www.statisticshowto.com/wp-content/uploads/20
 
 $$S =\sum_{k=1}^{n-1}\sum_{j = k+1}^{n} sign(x_{j} - x_{k}) $$
 
-where:
+where we assume there are $n$ time points and observations $x_{j}$ and $x_{k}$ at two time points and:
 
 $$sign(x_{j}-x_{k}) = 1 \text{, if } x_{j}-x_{k}>0$$
  $$sign(x_{j}-x_{k}) = 0 \text{, if } x_{j}-x_{k}=0$$
  $$sign(x_{j}-x_{k}) = -1 \text{, if } x_{j}-x_{k}<0$$
                    
                    
-Thus all possible cases where a value occurred later in time must be compared with values that occurred earlier in time, giving $n(n – 1) / 2$ comparisons, like so if there were four time points ($n = 4$):
+Another way of stating this is all possible cases where a value occurred later in time must be compared with values that occurred earlier in time, giving $n(n–1)/2$ comparisons, like so if there were four time points ($n = 4$):
 
-$$S = sign(x2−x1) + sign(x3−x1) + sign(x4-x1) + sign(x3−x2) + sign(x4-x2) + sign(x4-x3)$$
+$$S = sign(x_2−x_1) + sign(x_3−x_1) + sign(x_4-x_1) + sign(x_3−x_2) + sign(x_4-x_2) + sign(x_4-x_3)$$
 
-Which is consistent with $4(4-1)/2 = 4(3)/2 = 12/2 = 6$ comparisons.
+which is consistent with $4(4-1)/2 = 4(3)/2 = 12/2 = 6$ comparisons.
 
+Once we have calculated the Mann-Kendall $S$ score, we want to know if the score is meaningfully large or small enough from what we would expect with data with no trend. To determine that, we need to know what the _variance_ is of the Mann-Kendall $S$ score (or how much variability we expect). 
 
-Then the variance of $S$ ($VAR(S)$ or $\sigma^2$) is calculated like so:
+We won't explain the details here, but it turns out the variance of the Mann-Kendall $S$ score (or $\text{var}(S)$) is calculated like so:
 
-$$ VAR(S)=\frac{1}{18}(n(n−1)(2n+5)−\sum_{p-1}^{g}t_{p}(t_{p}−1)(2t_{p}+5))$$
-Where: 
+$$ \text{var}(S)=\frac{1}{18}(n(n−1)(2n+5)−\sum_{p-1}^{g}t_{p}(t_{p}−1)(2t_{p}+5))$$
+where: 
 
 $$g =  \text{number of tied groups}$$
-$$t_{p} =  \text{number of observations in the }p\text{th group for a given tie}$$
+$$t_{p} =  \text{number of observations in the }p^{th}\text{ group for a given tie}$$
 
-Thus if there were 3 observations in our example were 35, then there would be 1 $g$ tied group and 3 $t_{p}$ observations. 
+For example, if 3 observations in our example were 35, then there would be 1 $g$ tied group and 3 $t_{p}$ observations. 
 
-Note that according to this [source](https://www.statisticshowto.com/mann-kendall-trend-test/), a minimum 4 observations should be used for this test and it is recommended to have 8 or more. 
+**Note**: according to this [source](https://www.statisticshowto.com/mann-kendall-trend-test/), a minimum of 4 observations should be used for this test and it is recommended to have 8 or more. 
 
-Finally the test statistic $Z_{MK}$ is calculated as follows:
+Putting this all together, the test statistic we are interested in (to know if the score is meaningfully large or small enough from what we would expect with data with no trend) $Z_{MK}$ is calculated as follows:
 
- if $S > 0$ then $Z_{MK} = \frac{S-1}{\sqrt{VAR(S)}}$  
- if $S < 0$ then $Z_{MK} = \frac{S+1}{\sqrt{VAR(S)}}$  
- if $S < 0$ then $Z_{MK} = 0$  
+ if $S > 0$ then $Z_{MK} = \frac{S-1}{\sqrt{\text{var}(S)}}$  
+ if $S < 0$ then $Z_{MK} = \frac{S+1}{\sqrt{\text{var}(S)}}$  
+ if $S = 0$ then $Z_{MK} = 0$  
+
+This test statistic $Z_{MK}$ is considered a [Z score](https://en.wikipedia.org/wiki/Standard_score) (also known as a standard or standardized score). We can use standard look up tables from there to calculate a p-value. We will walk through an example of how to do this below. 
+
+Let's conduct a Mann-Kendall trend test using our data to see if there are any monotonic trends in youth disconnection across time. 
+
+#### M-K trend test for Native Americans
+***
 
 Recall that the youth disconnection rates for Native Americans were some of the highest in the first table we examined. 
 
@@ -2463,21 +2473,25 @@ Recall that the youth disconnection rates for Native Americans were some of the 
 Major_racial_ethnic_groups
 ```
 
-Let's conduct a Mann-Kendall trend test for this data.
+and the plot we made: 
 
-So the first value in time was ($x1$ = time point 1) 24.4, then ($x2$) 28.8 at the next time point, then ($x3$) 27.0, then ($x4$) 26.3, then ($x5$) 25.8, and finally ($x6$) 23.9.
+```{r}
+youth_plot
+```
+
+Let's consider just observed values for the Native American subgroup. The first value in time was ($x_1$ = time point 1) 24.4, then ($x_2$) 28.8 at the next time point, then ($x_3$) 27.0, then ($x_4$) 26.3, then ($x_5$) 25.8, and finally ($x_6$) 23.9.
 
 If we were to calculate the Mann-Kendall statistic manually we could do the following:
 
-$$  S = sign(x2−x1) + sign(x3-x1) + sign(x4-x1) + sign(x5-x1) + sign(x6-x1) +$$
+$$  S = sign(x_2−x_1) + sign(x_3-x_1) + sign(x_4-x_1) + sign(x_5-x_1) + sign(x_6-x_1) +$$
 
-$$ sign(x3-x2) + sign(x4-x2) + sign(x5-x2) + sign(x6-x2) +$$  
+$$ sign(x_3-x_2) + sign(x_4-x_2) + sign(x_5-x_2) + sign(x_6-x_2) +$$  
 
-$$sign(x4-x3) + sign(x5-x3) + sign(x6-x3) +$$  
+$$sign(x_4-x_3) + sign(x_5-x_3) + sign(x_6-x_3) +$$  
 
-$$sign(x5-x4) + sign(x6-x4) +$$   
+$$sign(x_5-x_4) + sign(x_6-x_4) +$$   
 
-$$sign(x6-x5)$$  
+$$sign(x_6-x_5)$$  
 
 Thus to calculate $S$ manually in R we could do like so:
 
@@ -2490,30 +2504,30 @@ x5 = 25.8
 x6 = 23.9
 
 sign(x2-x1) + sign(x3-x1) + sign(x4-x1) + sign(x5-x1) + sign(x6-x1) +
-sign(x3-x2) + sign(x4-x2) + sign(x5-x2) + sign(x6-x2) +sign(x4-x3) + sign(x5-x3) + sign(x6-x3) +sign(x5-x4) + sign(x6-x4) +sign(x6-x5)
+sign(x3-x2) + sign(x4-x2) + sign(x5-x2) + sign(x6-x2) +sign(x4-x3) + sign(x5-x3) + sign(x6-x3) +sign(x5-x4) + sign(x6-x4) + sign(x6-x5)
 ```
 
 The result is -7. 
 
-The $VAR(S)$ or $\sigma^2$ would be calculated like so (since we have n = 6 observations and no ties):
+The $\text{var}(S)$ would be calculated like so (since we have $n$ = 6 observations and no ties):
 
-$$ VAR(S)=\frac{1}{18}(6(6−1)(2(6)+5)−\sum_{p-1}^{g}0(0−1)(2(0)+5))$$
-$$ VAR(S)=\frac{1}{18}(30)(17)−0 =1.666667(17) = 28.33333$$
+$$ \text{var}(S)=\frac{1}{18}(6(6−1)(2(6)+5)−\sum_{p-1}^{g}0(0−1)(2(0)+5))$$
+$$ \text{var}(S)=\frac{1}{18}(30)(17)−0 =1.666667(17) = 28.33333$$
 
-Finally we can standardize our $S$ score using the variance of $S$. Thus the standardized score $Z_{MK}$ would be calculated as (since $S$ < 0):
+Finally, we calculate the standardized score $Z_{MK}$ (with $S$ < 0):
 
  $Z_{MK} = \frac{S+1}{\sqrt{VAR(S)}}$
  $Z_{MK} = \frac{-7+1}{\sqrt{28.33333}} = \frac{-6}{5.322906} = -1.127$
  
-The $Z_{MK}$ is the specific Mann-Kendall version of the [Z score](https://en.wikipedia.org/wiki/Standard_score), which is also called a standard or standardized score. This allows us to use a variety of data (which maybe normally distributed or not) and create a standard statistic about the data that is normally distributed. We can in turn then use this to better understand our data and how it compares to the actual population of youths in America. 
+As we noted above, the $Z_{MK}$ is the specific Mann-Kendall version of the [Z score](https://en.wikipedia.org/wiki/Standard_score). This allows us to use a variety of data (which maybe normally distributed or not) and create a standard statistic about the data that is normally distributed. 
 
-We can then look up our calculated $Z_{MK}$ in a standard $Z$ table to determine the p-value (the p stands for [probability](https://en.wikipedia.org/wiki/Probability)). In other words, we can get a sense of the probability that the observed $S$  and $Z_{mk}$ values for our sample is due to just sampling chance alone. See this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) for more information about probability and hypothesis testing. 
+Using the $Z_{MK}$ Z score, we can use a standard $Z$ table to determine the $p$-value. 
 
-The p-value tells us the probability of observing a test statistic as or more extreme than the one we observed if the null hypothesis (that there is no trend) is true. If the p-value is small, say less than 0.05, then our observed $Z$ statistic is pretty rare if the null hypothesis is true. This would lead us to reject the null hypothesis and conclude that there is indeed a trend in the data. We will talk more about p-values, and in particular our choice of 0.05 as a comparison for the p-value, a little later.
+The $p$-value tells us the probability of observing a test statistic as or more extreme than the one we observed if the null hypothesis (that there is no trend) is true. If the $p$-value is small, say less than 0.05, then our observed $Z_{MK}$ statistic is pretty rare if the null hypothesis is true. This would lead us to reject the null hypothesis and conclude that there is indeed a trend in the data. We will talk more about $p$-values, and in particular our choice of 0.05 as a comparison for the $p$-value, a little later. See this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) for more information about probability and hypothesis testing.
 
-First let's figure out what our p-value is using the standard $Z$ score table.
+Ok back to our example. Let's figure out what our $p$-value is using the standard $Z$ score table.
 
-Using the $Z$ column on the far left we find a row that says -1.1 and because our $Z$ value is -1.127 we round this to -1.13 and then find the column for 0.03 to account for the value that is second after decimal place for our $Z$ score. We see that the value where this row and this column intersect is 0.1292. This is the p-value, that indicates the probability of having a $Z$ score that is more extreme (on the negative side) of the [$Z$ score normal distribution](https://en.wikipedia.org/wiki/Standard_score) or the colored portion of the distribution in the figure below. In other words, there is a 13% chance of observing data with a more negative $Z$ score (and also a downward trend as the sign of the $Z_{MK}$ is determined by the $S$ score) simply by chance alone.
+Using the table below, in the the $Z$ column on the far left, we find a row that says -1.1 and because our $Z$ value is -1.127 we round this to -1.13 and then find the column for 0.03 to account for the value that is second after decimal place for our $Z$ score. We see that the value where this row and this column intersect is 0.1292. This is the $p$-value, that indicates the probability of having a $Z$ score that is more extreme (on the negative side) of the [$Z$ score normal distribution](https://en.wikipedia.org/wiki/Standard_score) or the colored portion of the distribution in the figure below. In other words, there is a 13% chance of observing data with a more negative $Z$ score (and also a downward trend as the sign of the $Z_{MK}$ is determined by the $S$ score) simply by chance alone.
  
 ```{r,echo=FALSE, out.width="80%"}
  include_graphics(here::here("img", "zscore.png"))
@@ -2521,54 +2535,63 @@ Using the $Z$ column on the far left we find a row that says -1.1 and because ou
 
 ##### [[source]](https://socratic.org/questions/5986a3e1b72cff6fd48a5408)
 
-Since we don't know what type of trend we are looking for (thus we are using what is called a [two-sided hypothesis](https://en.wikipedia.org/wiki/One-_and_two-tailed_tests) - with the $H_{a}$ being that either a positive or negative trend exists), we can use this table to determine that the p-value is ~.1292 for a one-sided hypothesis (specifically testing that a negative trend exists or testing that a positive trend exists) and multiply this by 2 to get a p-value of approximately ~ 0.26 for a two-sided hypothesis.
+Since we do not know what type of trend we are looking for (thus we are using what is called a [two-sided hypothesis](https://en.wikipedia.org/wiki/One-_and_two-tailed_tests) - with the the alternative hypothesis or $H_{a}$ being that either a positive or negative trend exists), we can use this table to determine that the $p$-value is ~.1292 for a one-sided hypothesis (specifically testing that a negative trend exists or testing that a positive trend exists) and multiply this by 2 to get a $p$-value of approximately ~ 0.26 for a two-sided hypothesis.
 
 See this [article](https://www.onesided.org/articles/the-paradox-of-one-sided-v-two-sided-tests-of-significance.php) for more information about one-sided and two-sided tests.
 
 Thus in other words, there is a 26% chance of observing a more positive or more negative z score by chance alone. This is a pretty high chance!
 
-Thus visualize this, our two-sided test looks for the areas on the probability distribution of the Z score that are more positive or more negative for both signs of the Z value:
+Thus visualize this, our two-sided test looks for the areas on the probability distribution of the Z score that are more positive or more negative for both signs of the $Z$ value:
 
 ```{r, out.width="30%", echo=FALSE}
 knitr::include_graphics(here::here("img", "twosided.png"))
 ```
 
-Alternatively, we can use this [calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx), which gives us a more precise p-value of 0.26 for the two-sided hypothesis.
+Alternatively, we can use this [calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx), which gives us a more precise $p$-value of 0.26 for the two-sided hypothesis.
  
-Either way, our  p-value of ~ 0.26 suggests that we do not have a trend as our p-value is much larger than the typical [significance threshold](https://en.wikipedia.org/wiki/Statistical_significance) of 0.05. The idea here is that it is acceptable that there is a 5% [probability](https://en.wikipedia.org/wiki/Probability) that our observation occurred simply due to chance. 
-
+Either way, our $p$-value of ~ 0.26 suggests that we do not have a monotonic trend as our $p$-value is much larger than the typical [significance threshold](https://en.wikipedia.org/wiki/Statistical_significance) of 0.05. The idea here is that it is acceptable that there is a 5% [probability](https://en.wikipedia.org/wiki/Probability) that our observation occurred simply due to chance. 
 
 In our case there is not enough evidence to reject the null hypothesis. Thus we conclude that there is likely no trend.
- 
-### Mann-Kendall trend test implementation in R
-***
-We can also accomplish this with the `MannKendall()` function of the `Kendall` package. This function requires a vector of data for which a trend may be observed. See the [documentation](https://rdrr.io/cran/Kendall/man/MannKendall.html) for this function of the `kendall` package for more details.
 
-#### Native Americans
+### M-K test implementation in R
 ***
-First we filter for just the data for the Native American group and then we need to use the `pull()` function of the `dplyr` package to get just the vector of this data. We then need to use the base `summary()` function to get more information for the results of our Mann-Kendall trend test.
+We can also accomplish this with the `MannKendall()` function of the `Kendall` package. This function requires a vector of data for which a trend may be observed. See the [documentation](https://rdrr.io/cran/Kendall/man/MannKendall.html) for this function of the `Kendall` package for more details.
+
+#### M-K trend test for Native Americans
+***
+In the following we: 
+
+1. Filter for just the data for the Native American group
+2. Use the `pull()` function of the `dplyr` package to get just the vector of this data
+3. Apply the `MannKendall()` function from the `Kendall` package
+4. Use the base `summary()` function to get more information for the results of our Mann-Kendall trend test
 
 ```{r}
 major_groups_long %>%
-  filter(Gender == "All",
- Race_Ethnicity == "Native American") %>%
+  filter(Gender == "All", Race_Ethnicity == "Native American") %>%
   pull(Percent) %>%
   MannKendall(.) %>%
   summary()
-
 ```
 
-Again, just like when we calculated this manually, we see that the score $S$ is -7. The larger the score, the more indication that there is an increasing or decreasing monotonic relationship. We also again see that the p-value is roughly = 0.26 and is much greater than 0.05, suggesting that we don't see a trend in our data.  
+Again, just like when we calculated this manually, we see that the score $S$ is -7. The larger the score, the more indication that there is an increasing or decreasing monotonic relationship. We also again see that the $p$-value is roughly = 0.26 and is greater than 0.05, suggesting that we failed to find a monotonic trend in the data. 
 
 avocado... need to make sure it is ok that we don't have the exact same number of years in between each time point...
 
+However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations. Thus, we may not have enough observations to observe a trend.
 
-However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations. Thus we may not have enough observations to observe a trend.
+We can also explore whether there is a **linear** trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true) by using the `lm()` function of the `stats` package.
 
-We can also explore the trend using [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression?oldformat=true) by using the `lm()` function of the `stats` package which is automatically loaded in R sessions.
+First, we visualize the data with `Year` on the x-axis and `Percent` of youth disconnection on the y-axis.
 
-We are interested in modeling how the percent disconnection changes with time, thus we will use the formula `Percent ~ Year` which uses the `Percent` and `Year` variables. See this [case study](https://opencasestudies.github.io/ocs-bp-diet/) for more information about linear regression. 
+```{r}
+major_groups_long %>%
+  filter(Gender == "All", Race_Ethnicity == "Native American") %>%
+  gplot(aes(x = Year, y = Percent)) +
+    geom_point() 
+```
 
+We are interested in modeling how the percent disconnection changes with time, thus we will use the formula `Percent ~ Year` in the `lm()` function, which uses the `Percent` and `Year` variables. See this [case study](https://opencasestudies.github.io/ocs-bp-diet/) for more information about linear regression. 
 
 ```{r}
 major_groups_long %>%
@@ -2578,11 +2601,10 @@ major_groups_long %>%
   summary()
 ```
 
-
 Based on the coefficients in the output, for each one year change, the mean increase in disconnection rates is
 `r (major_groups_long%>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% lm(Percent ~ Year, data = .))[["coefficients"]]["Year"]`
 
-We can also see from the p-value (`Pr(>|t|)`), that this relationship is not statistically significant, as it is much larger than 0.05. Again, we are however largely limited by the number of observations in this dataset. 
+We can also see from the $p$-value (`Pr(>|t|)`), that this relationship is not statistically significant, as it is much larger than 0.05. Again, we are however largely limited by the number of observations in this dataset. 
 
 We can visualize the relationship above like so using the `geom_smooth()` function of the `ggplot2` package with the `method = "lm"` argument to show the linear model.
 
@@ -2603,7 +2625,6 @@ major_groups_long %>%
        y = "Disconnection Rate")
 ```
 
-
 As we can see, that although the line appears to have a negative slope, there is a large amount of uncertainty around the fitted line. 
 
 ***
@@ -2617,24 +2638,21 @@ What about if we look at data that we think we might see a trend according to ou
 plot_by_gender
 ```
 
-
 ```{r}
 major_groups_long %>%
-  filter(Gender == "Female",
- Race_Ethnicity == "Latinx") %>%
+  filter(Gender == "Female", Race_Ethnicity == "Latinx") %>%
   pull(Percent) %>%
   MannKendall(.) %>%
   summary()
-
 ```
 
-Indeed this data does shows a trend of declining rates of youth disconnection as the score is again negative and larger and the p-value is now  much less than 0.5 for even the 2-sided hypothesis. 
+Indeed this data does shows a trend of declining rates of youth disconnection as the score is again negative and larger and the $p$-value is now  much less than 0.5 for even the 2-sided hypothesis. 
 
 The Z score can be calculated like so:
 
  $Z_{MK} = \frac{-13+1}{\sqrt{28.33333}} = \frac{-12}{5.322906} = -2.254408$
 
-The one tailed p-value is half of the 2-sided p-value and is thus roughly 0.012. We just tested two hypotheses, one for the Native Americans and one for the Latinx female population. So we should use the [Bonferroni multiple testing correction](https://en.wikipedia.org/wiki/Bonferroni_correction) to adjust our significance threshold $\alpha$ to be $.05/n\text{ tests} = 0.5/2 = .025$. Our p-value for the one sided test was 0.012 which is less than .025.  This suggests that indeed there is a decreasing trend for youth disconnection among the Female Latinx population. That is positive news!
+The one tailed p-value is half of the 2-sided p-value and is thus roughly 0.012. We just tested two hypotheses, one for the Native Americans and one for the Latinx female population. So we should use the [Bonferroni multiple testing correction](https://en.wikipedia.org/wiki/Bonferroni_correction) to adjust our significance threshold $\alpha$ to be $.05/(n\text{ tests}) = 0.5/2 = .025$. Our $p$-value for the one sided test was 0.012 which is less than .025.  This suggests that indeed there is a decreasing trend for youth disconnection among the Female Latinx population. 
 
 ***
 
