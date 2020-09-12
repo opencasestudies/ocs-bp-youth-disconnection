@@ -2587,7 +2587,7 @@ First, we visualize the data with `Year` on the x-axis and `Percent` of youth di
 ```{r}
 major_groups_long %>%
   filter(Gender == "All", Race_Ethnicity == "Native American") %>%
-  gplot(aes(x = Year, y = Percent)) +
+  ggplot(aes(x = Year, y = Percent)) +
     geom_point() 
 ```
 
@@ -2653,6 +2653,8 @@ The Z score can be calculated like so:
  $Z_{MK} = \frac{-13+1}{\sqrt{28.33333}} = \frac{-12}{5.322906} = -2.254408$
 
 The one tailed p-value is half of the 2-sided p-value and is thus roughly 0.012. We just tested two hypotheses, one for the Native Americans and one for the Latinx female population. So we should use the [Bonferroni multiple testing correction](https://en.wikipedia.org/wiki/Bonferroni_correction) to adjust our significance threshold $\alpha$ to be $.05/(n\text{ tests}) = 0.5/2 = .025$. Our $p$-value for the one sided test was 0.012 which is less than .025.  This suggests that indeed there is a decreasing trend for youth disconnection among the Female Latinx population. 
+
+AVOCADO: maybe more info about bonferroni here.
 
 ***
 
