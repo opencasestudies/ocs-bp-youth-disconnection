@@ -179,6 +179,7 @@ Package   | Use in this case study
 [here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data  
 [pdftools](https://readr.tidyverse.org/)      | to import PDF documents  
 [magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for importing images and extracting text from images   
+[tesseract](https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html) | for extracting text from images with `magick`  
 [knitr](https://yihui.org/knitr/) |  for showing images in reports    
 [dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to filter, subset, join, add rows to, and modify the data   
 [stringr](https://stringr.tidyverse.org/){target="_blank"}      | to manipulate strings  
@@ -199,7 +200,7 @@ There is a [`Makefile`](Makefile) in this folder that allows you to type `make` 
 
 #### For instructors
 
-Instructors can start at the Data Visualization or Data Analysis sections.
+Instructors can start at the Data Visualization or Data Analysis sections. Instructors can also skip the *Subgroup plots* section if they don't wish to instruct students about making bar plots in depth.
 
 #### Target audience 
 
@@ -207,5 +208,7 @@ This case study is appropriate for those new to R programming and new to statist
 
 #### Suggested homework
 
-Find another table in one of the reports to import using the `magick` package (for example perhaps the data about different states over time in the 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)) Look for differences between groups by plotting the data and evaluating with the Mann-Kendall test. 
+- For the Asian and Latinx subgroup bar plots made across year, modify these plots to consider gender differences (instead of across time).
+- Taking the plot you made above, modify the plot to facet across years. 
+- Find another table in one of the reports to import using the `magick` package (for example perhaps the data about different states over time in the 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)). Look for differences between groups by plotting the data and evaluating with the Mann-Kendall test. 
 

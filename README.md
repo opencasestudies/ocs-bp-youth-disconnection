@@ -277,50 +277,54 @@ study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
 <td>for importing images and extracting text from images</td>
 </tr>
 <tr class="even">
+<td><a href="https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html">tesseract</a></td>
+<td>for extracting text from images with <code>magick</code></td>
+</tr>
+<tr class="odd">
 <td><a href="https://yihui.org/knitr/">knitr</a></td>
 <td>for showing images in reports</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="https://dplyr.tidyverse.org/" target="_blank">dplyr</a></td>
 <td>to filter, subset, join, add rows to, and modify the data</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="https://stringr.tidyverse.org/" target="_blank">stringr</a></td>
 <td>to manipulate strings</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="https://magrittr.tidyverse.org/" target="_blank">magrittr</a></td>
 <td>to pipe sequential commands</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="https://tidyr.tidyverse.org/" target="_blank">tidyr</a></td>
 <td>to change the shape or format of tibbles to wide and long, to drop rows with <code>NA</code> values, to separate a column into additional columns, and to fill out values based on previous values</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="https://tibble.tidyverse.org/" target="_blank">tibble</a></td>
 <td>to create tibbles</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="https://ggplot2.tidyverse.org/" target="_blank">ggplot2</a></td>
 <td>to create plots</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="http://directlabels.r-forge.r-project.org/docs/index.html" target="_blank">directlabels</a></td>
 <td>to add labels directly to lines in plots</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html" target="_blank">cowplot</a></td>
 <td>to add images to plots</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="https://forcats.tidyverse.org/" target="_blank">forcats</a></td>
 <td>to reorder factor for plot</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="https://cran.r-project.org/web/packages/Kendall/Kendall.pdf">kendall</a></td>
 <td>to implement the Mann-Kendall trend test in R</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="https://github.com/thomasp85/patchwork">patchwork</a></td>
 <td>to combine plots</td>
 </tr>
@@ -337,7 +341,8 @@ markdown file (`README.md`).
 #### For instructors
 
 Instructors can start at the Data Visualization or Data Analysis
-sections.
+sections. Instructors can also skip the *Subgroup plots* section if they
+don’t wish to instruct students about making bar plots in depth.
 
 #### Target audience
 
@@ -348,9 +353,13 @@ fundamental knowledge of statistics.
 
 #### Suggested homework
 
-Find another table in one of the reports to import using the `magick`
-package (for example perhaps the data about different states over time
-in the 2019 report called [Making the
-Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf))
-Look for differences between groups by plotting the data and evaluating
-with the Mann-Kendall test.
+-   For the Asian and Latinx subgroup bar plots made across year, modify
+    these plots to consider gender differences (instead of across time).
+-   Taking the plot you made above, modify the plot to facet across
+    years.
+-   Find another table in one of the reports to import using the
+    `magick` package (for example perhaps the data about different
+    states over time in the 2019 report called [Making the
+    Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)).
+    Look for differences between groups by plotting the data and
+    evaluating with the Mann-Kendall test.

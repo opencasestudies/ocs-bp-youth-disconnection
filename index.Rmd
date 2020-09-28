@@ -41,7 +41,7 @@ library(knitr)
 
 
 #### {.outline }
-```{r, echo = FALSE, out.width = "600 px"}
+```{r, echo = FALSE, out.width = "900 px"}
 knitr::include_graphics(here::here("img", "mainplot.png"))
 ```
 
@@ -168,8 +168,8 @@ library(patchwork)
 ---------- |-------------
 [here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data  
 [pdftools](https://readr.tidyverse.org/)      | to import PDF documents  
-[tesseract]() | AVOCADO: need to add details for `tesseract` (I could not compile until i installed and loaded it)
 [magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for importing images and extracting text from images   
+[tesseract](https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html) | for extracting text from images with `magick`   
 [knitr](https://yihui.org/knitr/) |  for showing images in reports    
 [dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to filter, subset, join, add rows to, and modify the data   
 [stringr](https://stringr.tidyverse.org/){target="_blank"}      | to manipulate strings  
@@ -281,7 +281,7 @@ There are some important considerations regarding this data analysis to keep in 
 
 2. Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination) (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as [LGBTQIA+](https://www.uis.edu/gendersexualitystudentservices/about/lgbtqaterminology/) (lesbian/gay/bisexual/pansexual/transgender/genderqueer/queer,questioning/intersexed/agender/asexual) is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs) has more detailed information about a greater number of racial and ethnic groups and racial/ethnic intersections.
 
-3. The statistical procedures we are using may be overly simplistic. *In all data analysis, we need to be wary about deriving meaning from the statistical procedures we use*.
+3. The statistical procedures we are using may be overly simplistic. *In all data analysis, we need to be wary about deriving meaning from the statistical procedures we use*. Furthermore, the data we are using is summary level showing averages for large groups. Thus, it is difficult to know how reliable the summary estimates are, as we don't have information about the variability of the data within a group.
 
 4. Using image processing tools can be very helpful. The manner in which data is obtained with image processing tools is what we would describe as a **black box process**, <u>*a process with known inputs and outputs but unknown mechanics*</u>. Because we are unaware of how our outputs are generated from our inputs, we need to be wary of the output. With the small output we are creating in this case study, a visual inspection should suffice. 
 
@@ -309,9 +309,7 @@ The data used in these reports comes from the [American Community Survey (ASC)](
 
 According to [Wikipedia](https://en.wikipedia.org/wiki/American_Community_Survey):
 
-> Data is collected by internet, mail, telephone interviews and in-person interviews... About 95 percent of households across all response modes ultimately respond... ACS responses are confidential... and "immune from legal process".
-
-AVOCADO: curious -- what's the purpose of including the "immune from legal process" portion?
+> Data is collected by internet, mail, telephone interviews and in-person interviews... About 95 percent of households across all response modes ultimately respond... ACS responses are confidential"
 
 > It is a mandatory survey, it is governed by federal laws that could impose a fine of as much as $5,000 for refusing to participate.
 
@@ -359,9 +357,8 @@ pdf_tools_example[44]
 ```
 ####
 
-From the output, it's clear that a relatively large amount of manipulation will be required to wrangle this data. If you are interested in learning more about the `pdftools` package, please see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) and this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
+From the output, it's clear that a relatively large amount of manipulation will be required to wrangle this data. If you are interested in learning more about the `pdftools` package, please see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) and this [case study](https://opencasestudies.github.io/ocs-bp-diet/).
 
-AVOCADO: the two links above are the same. Assuming you meant to change one. 
 
 #### {.think_question_block}
 <b><u> Question Opportunity </u></b>
@@ -595,11 +592,28 @@ Great, now we have 18 rows.
 
 It's important to look very carefully at the text. Again, there are some values missing a decimal place. For example the row where the `Group` value is `Asian`, the third and fourth values are missing a decimal place.
 
-AVOCADO: would it make more sense to talk about "Click here for an explanation about data types in R and about character strings" here instead of below? 
-
 Looking at the original table we see that even values like 10 are represented as 10.0. 
 
-To fix this, we will remove all decimals (which is sort of like multiplying all values that do have a decimal by 10) and then we will multiply all values by .01 to add the decimals back. 
+We can also see that the number values are of class character based on the `<chr>` at the top of each column.
+
+*** 
+<details> <summary> Click here for an explanation about data types in R and about character strings. </summary>
+
+
+There are several classes of data in R programming. 
+Character is one of these classes. 
+A character string is an individual data value made up of characters. 
+This can be a paragraph, like the legend for the table, or it can be a single letter or number like the letter `"a"` or the number `"3"`. 
+If data are of class character, than the numeric values will not be processed like a numeric value in a mathematical sense. 
+If you want your numeric values to be interpreted that way, they need to be converted to a numeric class. 
+The options typically used are integer (which has no decimal place) and double precision (which has a decimal place). 
+
+</details>
+*** 
+
+
+To fix this, we will first remove all decimals by taking advantage of the fact that these values are character strings (this is also sort of like multiplying all values that do have a decimal by 10). Next we will convert the values to be numeric and finally we will multiply all values by .01 to add the decimals back. 
+
 Here, we use the `mutate()` function combined with the `across()` function, which allows us to specify the columns we want to perform a function on. We want to do this for all the year columns, so we can exclude the `Group` column by using a minus sign operator `-` in the `.cols` argument of the `across()` function like so: `mutate(across(.cols = -Group))`
 
 Finally, we will use the `str_remove()` function of the `stringr` package to find instances of "." and remove them. Since "." is a regex, and indicates any character string, thus we need "\\" to have R interpret a decimal or a period instead, as we can see from the RStudio cheat sheets:
@@ -621,19 +635,6 @@ major_groups
 
 Great, now in order to multiply each value by 0.1 we need to first make the values numeric. Currently we can tell that they are character strings based on the `<char>` values listed under each column name.
 
-*** 
-<details> <summary> Click here for an explanation about data types in R and about character strings. </summary>
-*** 
-
-There are several classes of data in R programming. 
-Character is one of these classes. 
-A character string is an individual data value made up of characters. 
-This can be a paragraph, like the legend for the table, or it can be a single letter or number like the letter `"a"` or the number `"3"`. 
-If data are of class character, than the numeric values will not be processed like a numeric value in a mathematical sense. 
-If you want your numeric values to be interpreted that way, they need to be converted to a numeric class. 
-The options typically used are integer (which has no decimal place) and double precision (which has a decimal place). 
-
-</details>
 
 
 To convert our values to be numeric we can use the base `as.numeric()` function. Again we will use `mutate()` and `across()`. Since this function doesn't require any arguments, we don't need to specify it's input like we just did for the `str_remove()` but we could do so as shown below.
@@ -709,6 +710,36 @@ head(major_groups)
 We would also like to replace Latino and Latina with Latinx. 
 We can  use another `stringr` function for this. This function, `str_replace()` allows us to remove and replace a particular pattern. 
 
+#### {.think_question_block}
+<b><u> Question Opportunity </u></b>
+
+What other tidyverse functions could you use to replace `Latino` and `Latina` with `Latinx`. Why might the `str_replace()` function be preferable?
+
+####
+
+<details> <summary> Click here to reveal the answer. </summary>
+
+While the `recode()` function will work in this case, the `str_replace()` function can be used more simply, as it will look for the pattern of `Latino` and `Latina` to replace even if that pattern is part of a value that has more characters. In contrast, the `recode` and `case_when()` functions would require that `Latinx` be specified for the replacement for both `Latino` and `Latina` separately, as well as the more complicated replacements for the compound groups like `Latinx Male` for  `Latino Male`. This is longer and thus creates more opportunities for a mistake. 
+
+You could also use the `case_when()` function of the `dplyr` package if you are familiar with it. However, this would have the same issues as the `recode()` function in that it replaces values not patterns. In addition, you would need to make sure that the other values of the `Race_Ethnicity` and `Group` variables were not replaced with `NA`.
+
+```{r}
+major_groups %>% 
+  mutate(Race_Ethnicity = 
+           recode(Race_Ethnicity, "Latino" = "Latinx",
+                                  "Latina" = "Latinx"),
+          Group = 
+           recode(Group, "Latino" = "Latinx",
+                    "Latino Male" = "Latinx Male", 
+                  "Latina Female" = "Latinx Female"))
+
+```
+
+</details>
+
+***
+
+
 ```{r}
 major_groups %<>%
   mutate(across(.cols = c(Group, Race_Ethnicity), 
@@ -717,14 +748,8 @@ major_groups %<>%
                         replacement = "Latinx")))
 ```
 
-#### {.think_question_block}
-<b><u> Question Opportunity </u></b>
 
-Why is the `str_replace()` function in this case a better option than using the `recode()` function?
 
-####
-
-AVOCADO: does this need a hidden answer block?
 
 ```{r}
 major_groups
@@ -834,14 +859,17 @@ Great! Now let's apply our function to the `asian_subgroups` data!
 
 ```{r}
 asian_subgroups <- make_rows(asian_subgroups) 
+```
 
+#### {.scrollable }
+```{r}
+# Scroll through the output!
 asian_subgroups
 ```
 
+####
 
 As you can see, there are some strange values for some of the rows. For example the row that starts with `CHINESE MAle` has `AT` percentage of disconnected youth, and the row that should say `FILIPINO` says `S™S™~SS`.
-
-AVOCADO: the 2nd example you listed is not show in the output of the first 10 rows. Did you want to do a scroll instead?
 
 ```{r, echo = FALSE}
 temp <- 
@@ -853,11 +881,10 @@ temp[8]
 temp[28]
 ```
 
-The rows with no values are possibly causing this issue. According to the report (PDF), these spaces are empty to denote that the estimates were unreliable for these groups.
+Notice how there are empty rows. According to the report (PDF), these spaces are empty to denote that the estimates were unreliable for these groups. Since we don't really need these rows as they are missing values anyway and because images with less text that of higher resolution are often easier for the OCR to interpret correctly, we will now try using three images of this table rather than just one. This allows us to zoom in on the parts of the table that we actually want and hopefully, the OCR will be able to interpret the text correctly. 
 
-So we will now import and extract text from three screenshots of this table where we stop just after the row that starts with `PAKISTANI` in the first image, and then an image of the Korean rows up to the next row with no values, and finally an image starting at the row that starts with `FILIPNO`.
+So we will now import and extract text from three screenshots of this table where we stop just after the row that starts with `PAKISTANI` in the first image, and then an image of the Korean rows up to the next row with no values, and finally an image starting at the row that starts with `FILIPNO`. Thus all of the empty rows will not be included.
 
-AVOCADO: how did you know splitting the images up would work? Maybe more insights just as to how you knew to try that next? or why couldn't you just ignore those rows in the original table you imported before breaking it up into three images?
 
 ```{r, out.width= "60%"}
 Asian_sub_A <- image_read(here("img", "asian_sub_A.png"))
@@ -966,18 +993,23 @@ knitr::include_graphics(here::here("img", "latinx2017.png"))
 #### {.think_question_block}
 <b><u> Question Opportunity </u></b>
 
-Do you notice anything incorrect about this table?
+Do you notice anything incorrect about this table? It's always important to be pay attention to the data even when it is in raw format. 
 
 ####
 
-AVOCADO: I was confused by this question and still not quite sure what the typo is? Maybe give an answer here or provide more explanation below? Still not sure if you are suggesting two rows were swapped or if it was something else?
+***
+<details><summary> Click here to see what is incorrect. </summary>
+
+The last two rows both say **"Female"**.
+
+</details>
+***
 
 Sometimes when wrangling text data, we will come across a typo. We need to determine how to respond to the typo and make note of it. It's often best to consult a secondary source to confirm that changes made are accurate. 
 
 For the purposes of this case study, we will assume that the first of the two rows represents male disconnection rates in the Latino/a subgroup; this would be consistent with the ordering of genders in the previous subgroups. 
 
 We will make sure to correct this typo when we can. 
-
 
 After trial and error, two screenshots were determined best for importing this data. The names of the files for the screenshots are `latinx_sub_A.png` and `"latinx_sub_B.png`. They are located in the `img` directory.
 
@@ -1048,8 +1080,6 @@ latinx_sub_2017 %<>%
 ```{r}
 latinx_sub_2017
 ```
-
-AVOCADO: OH i totally missed that. Yeah, definitely suggest more commentary above... :/ 
 
 
 #### {.recall_code_question_block}
@@ -1347,6 +1377,18 @@ DT::datatable(asian_subgroups)
 ```
 
 
+***
+<details> <summary> Click here to see how this interactive table was created </summary>
+This table was created using the `datatable()` function of the `DT` package. 
+
+Like so:
+```{r, eval = FALSE}
+DT::datatable(asian_subgroups)
+```
+
+</details>
+***
+
 Great, now we are ready to perform similar wrangling for the Latinx subgroups.
 
 ### Latinx Subgroups 2018 
@@ -1494,11 +1536,23 @@ latinx_subgroups %<>%
                values_to="Percent")
 ```
 
-AVOCADO: maybe mention the use of `datatable` in the `DT` package here? 
 
 ```{r, echo = FALSE}
 DT::datatable(asian_subgroups)
 ```
+
+***
+<details> <summary> Click here to see how this interactive table was created </summary>
+This table was created using the `datatable()` function of the `DT` package. 
+
+Like so:
+```{r, eval = FALSE}
+DT::datatable(asian_subgroups)
+```
+
+</details>
+***
+
 
 ### Checking the data
 ***
@@ -1563,6 +1617,7 @@ We can create a version of the above plot using the `ggplot2` package of the _ti
 ***
 <details><summary> Click here for an introduction about this package if you are  new to using `ggplot2` </summary>
 
+***
 The [ggplot2 package](http://ggplot2.tidyverse.org) is generally intuitive for beginners because it is based on a  [grammar of graphics](http://vita.had.co.nz/papers/layered-grammar.html) or the `gg` in `ggplot2`. 
 The idea is that you can construct many sentences by learning just a few nouns, adjectives, and verbs. There are specific “words” that we will need to learn and once we do, you will be able to create (or “write”) hundreds of different plots.
 
@@ -1600,7 +1655,7 @@ These will define what we are interested in illustrating using the data.
 
 ***
 
-So for this first plot we just want to recreate the plot in the report. We will use the `major_groups_long` tibble and we will filter for omly the `"All"` values of the `Gender` column.
+So for this first plot we just want to recreate the plot in the report. We will use the `major_groups_long` tibble and we will filter for only the `"All"` values of the `Gender` column.
 We also want to exclude the data for the United states. 
 We can exclude the data from the US using the not equals `!=` operator like so:
 
@@ -1690,29 +1745,51 @@ Getting close!
 
 Now we need to add figurine icons to the plot.  
 
-To add the figurines we can use icons from free resources like [font awesome](https://fontawesome.com/). See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons) for a link to `svg` options. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the original plot to work with. 
+To add the figurines we can use icons from free resources like [font awesome](https://fontawesome.com/). See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons) for a link to `svg` options. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the original plot to work with so we will start with an example of using a font awesome icon. 
 
-AVOCADO: i didn't quite understand what you are doing with `image_fill`? could you provide more text on how this works? 
 
 ##### Using font awesome:
+First we need to import the image from font awesome:
+
 ```{r, out.width="10%"}
 
 fa_figurine <- image_read("https://upload.wikimedia.org/wikipedia/commons/7/7c/User_font_awesome.svg")
 
 fa_figurine
+```
 
+We would like to change the color of the icon to match that of our plot. We can do so using the `image_fill()` function of the `magick` package. We need to list the name of the image object to change, then we need to list the color we want to use. Finally we need to list what points we want to color. We don't want to color the space around the black shapes, just the black shapes themselves. It may take some trial and error to figure out where these pixels are.
+
+According to the documentation for the `magick` package:
+>The `image_fill()` function performs flood-fill by painting starting point and all neighboring pixels of approximately the same color.
+> point = a geometry_point string indicating the starting point of the flood-fill 
+
+First we will color in the circle at the top of the icon. If we use `point = +600+600` this is starting at the pixel at x:600, y:600. We can see from the output about the `fa_figurine` that the image is 1792 by 1792 pixels in size. Thus, if we choose a pixel that is within the borders of the shape we want to change then we can change that shape. We can use the size of the image to figure out where the pixel might be. Since the image is 1792 by 1792 pixels, 800 is about half way through the image image from the left side (x:0) and 600 is about a third of the way through the and the top (y:0).
+
+
+
+```{r, out.width="10%"}
 fa_figurine <- image_fill(fa_figurine,
                           color = "#008393", 
-                          point = "+800+800",
-                          fuzz = 0)
+                          point = "+800+600")
+
 fa_figurine
+
+```
+
+Second we will color in the lower shape of the icon. This shape is in the lower half of the image and in the middle of the image according to the x axis, thus we will start at the pixel that is at about half way for the width at x:800 and a bit more than half way down from the top (y:0) for the height y:1000. 
+
+```{r, out.width="10%"}
 fa_figurine <- image_fill(fa_figurine,
                           color = "#008393", 
-                          point = "+800+1000",
-                          fuzz = 0)
+                          point = "+800+1000")
 
 fa_figurine
 ```
+
+Nice! We changed the color of the image.
+
+Now let's try using a screenshot of the original plot.
 
 #### Using a screenshot:
 ```{r, out.width= "10%"}
@@ -1721,7 +1798,7 @@ figurine <-image_read(here::here("img", "figurine.png"))
 figurine
 ```
 
-Now to add the image of the figurine to the plot we can use the `draw_image()` function of the `cowplot` package. We simply need to specify the name of the image, and then where we would like it to go according to the x- and y-axis and finally the scaled size of the image. This `scale` argument takes a bit of trial and error. 
+Now to add the image of the figurine to the plot we can use the `draw_image()` function of the `cowplot` package. We simply need to specify the name of the image, and then where we would like it to go according to the x- and y-axis and finally the scaled size of the image. This `scale` argument also takes a bit of trial and error. 
 
 Here we will add both images of the figurines to a couple of groups:
 
@@ -1875,8 +1952,11 @@ plot_by_gender
 Very interesting! By parsing the groups further into intersections of racial and ethnic groups with gender, we see that there are some very striking differences for the Black and Latinx groups when stratified by `Gender`. One positive thing that we can see, is that there has been a steep decline in youth disconnection for Latinx females. Unfortunately, the level of disconnection for females in 2008 was quite high, so now Latinx females have similar rates to Latinx males. In contrast, we see that Black males have had and continue to have much higher rates of disconnection than Black females. Both Black females and males show an increased rate since 2016. Native American females also show an increased rate since 2016. 
 
 
+If you have time, the next section will show how to make bar plots to look for differences in subgroups for the Asian and Latinx data. Otherwise, you can skip ahead to the [**Data Analysis**] section.
+
 ### Subgroup plots
 ***
+
 It is clear from the previous plot that observing more specific subgroups in our data can be very informative!
 
 Thus, we also want to make plots of the Asian and Latinx subgroups, to see if there are particular ethnic groups that have higher levels of youth disconnection. If so, these groups may particularly benefit for prevention and re-engagement efforts.
@@ -1899,9 +1979,7 @@ Here we can see the [hex triplet](https://en.wikipedia.org/wiki/Web_colors?oldfo
 OK, now let's start with the Asian subgroups. Since we only have two time points of data for each group, we will create a bar graph this time where the two years are displayed next to each other for each year. Thus, we want the `Year` variable to be a discrete variable. To ensure that it is interpreted as a discrete variable, we need to convert it to be a character type variable rather than numeric using the base `as.character()` function. 
 
 
-First, we want to filter for the rows where the `Gender` variable values are `All`, we also do not want to include the data for the average of all races. We also 
-
-AVOCADO: the last sentence above seemed like an unfinished thought?
+First, we want to filter for the rows where the `Gender` variable values are `All`, we also do not want to include the data for the average of all races.
 
 ```{r}
 asian_subgroups %>%
@@ -1925,7 +2003,7 @@ The options for the `position` argument are:
 
 We will use the `dodge` option.
 
-For the colors, we can try out various numbers of shades for the palette untill we get shades that we like. In this case, 2 shades out of a gradient of 4 shades from gray to teal looks nice,
+For the colors, we can try out various numbers of shades for the palette until we get shades that we like. In this case, 2 shades out of a gradient of 4 shades from gray to teal looks nice,
 
 ```{r}  
 asian_subgroups %>%
@@ -2356,11 +2434,6 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
 latinx_subgroup_plot_simp
 ```
 
-AVOCADO: I think we should discuss whether or not to keep the subgroup analysis in the case study. My concern is (1) most the "subgroup plots" section (both asian and latinx) gets realllllly into the weeds with ggplot2. I'm not sure how relevant this is. (2) the data analysis section doesn't look at this at all, so it makes it feel more like "fluff". And I hate for people to get so bogged down into something we aren't going to use in the next section (at least for educational purposes).
-
-AVOCADO: I moved the "subgroup by gender plots" and the "faceted year and gender plots" to the homework section. 
-
-
 
 ## **Data Analysis**
 *** 
@@ -2527,7 +2600,7 @@ Using the $Z_{MK}$ Z score, we can use a standard $Z$ table to determine the $p$
 
 The $p$-value tells us the probability of observing a test statistic as or more extreme than the one we observed if the null hypothesis (that there is no trend) is true. If the $p$-value is small, say less than 0.05, then our observed $Z_{MK}$ statistic is pretty rare if the null hypothesis is true. This would lead us to reject the null hypothesis and conclude that there is indeed a trend in the data. We will talk more about $p$-values, and in particular our choice of 0.05 as a comparison for the $p$-value, a little later. See this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) for more information about probability and hypothesis testing.
 
-Ok back to our example. Let's figure out what our $p$-value is using the standard $Z$ score table.
+OK back to our example. Let's figure out what our $p$-value is using the standard $Z$ score table.
 
 Using the table below, in the the $Z$ column on the far left, we find a row that says -1.1 and because our $Z$ value is -1.127 we round this to -1.13 and then find the column for 0.03 to account for the value that is second after decimal place for our $Z$ score. We see that the value where this row and this column intersect is 0.1292. This is the $p$-value, that indicates the probability of having a $Z$ score that is more extreme (on the negative side) of the [$Z$ score normal distribution](https://en.wikipedia.org/wiki/Standard_score) or the colored portion of the distribution in the figure below. In other words, there is a 13% chance of observing data with a more negative $Z$ score (and also a downward trend as the sign of the $Z_{MK}$ is determined by the $S$ score) simply by chance alone.
  
@@ -2577,8 +2650,6 @@ major_groups_long %>%
 ```
 
 Again, just like when we calculated this manually, we see that the score $S$ is -7. The larger the score, the more indication that there is an increasing or decreasing monotonic relationship. We also again see that the $p$-value is roughly = 0.26 and is greater than 0.05, suggesting that we failed to find a monotonic trend in the data. 
-
-avocado... need to make sure it is ok that we don't have the exact same number of years in between each time point...
 
 However, it's important to note that we only have `r length(major_groups_long %>% filter(Gender == "All", Race_Ethnicity == "Native American") %>% pull(Percent))` observations. Thus, we may not have enough observations to observe a trend.
 
@@ -2654,9 +2725,11 @@ The Z score can be calculated like so:
 
  $Z_{MK} = \frac{-13+1}{\sqrt{28.33333}} = \frac{-12}{5.322906} = -2.254408$
 
-The one tailed p-value is half of the 2-sided p-value and is thus roughly 0.012. We just tested two hypotheses, one for the Native Americans and one for the Latinx female population. So we should use the [Bonferroni multiple testing correction](https://en.wikipedia.org/wiki/Bonferroni_correction) to adjust our significance threshold $\alpha$ to be $.05/(n\text{ tests}) = 0.5/2 = .025$. Our $p$-value for the one sided test was 0.012 which is less than .025.  This suggests that indeed there is a decreasing trend for youth disconnection among the Female Latinx population. 
+The one tailed p-value is half of the 2-sided p-value and is thus roughly 0.012. We just tested two hypotheses, one for the Native Americans and one for the Latinx female population. So we should use the [Bonferroni multiple testing correction](https://en.wikipedia.org/wiki/Bonferroni_correction) to adjust our significance threshold $\alpha$ to be $.05/(n\text{ tests}) = 0.5/2 = .025$. In this method we divide our significance threshold alpha (generally 0.05) by the number of tests. Why do we need to do this?
 
-AVOCADO: maybe more info about bonferroni here.
+Alpha is the amount of risk that you are willing to accept that a statistical test result is actually a false positive, in other words we reject the null hypothesis when the null hypothesis is true. This is also called type 1 error. A significance threshold of .05 is customary and it means that we are accepting a 5% chance that our result is actually a false positive. When we perform multiple tests, the probability of not making a type 1 error would remain the same for each test. But the probability overall of making an error across the tests increases. We can calculate this by multiplying the probabilities for each test(which stays the same for each individual test). See [here](http://mathforum.org/library/drmath/view/74065.html) about why we multiply probabilities together. The more tests we do, the larger the chance that we get a significant result in error. See [this case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) for more details about multiple testing correction.
+
+Our $p$-value for the one sided test was 0.012 which is less than our adjusted significance threshold of .025 for multiple testing.  This suggests that indeed there is a decreasing trend for youth disconnection among the Female Latinx population. 
 
 ***
 
@@ -2764,7 +2837,7 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 ### Synopsis
 
-In this case study we evaluated rates of youth disconnection in the United States between 2008 and 2018, which was defined as individuals between age **16 - 24** who are **neither working nor in school**". In particular, we focused on evaluating specific subgroups to identify populations that may experience particularly high levels of disconnection. We used data from two [Measure of America](https://measureofamerica.org/) reports:  
+In this case study we evaluated rates of youth disconnection in the United States between 2008 and 2018, which was defined as individuals between age **16 - 24** who are **neither working nor in school**". In particular, we focused on evaluating specific subgroups to identify populations that may experience particularly high levels of disconnection. We used summary level data from two [Measure of America](https://measureofamerica.org/) reports:  
 
 1) The 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)  
 2) The 2020 report called [A Decade Undone](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf)  
@@ -2776,18 +2849,18 @@ We demonstrated how to import data from these PDFs by extracting the text from s
 It was identified in the 2019 [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) that Native American populations particularly experience high rates of youth disconnection. Indeed roughly a quarter of this population appears to experience youth disconnection, which is much higher than the other major racial groups. By performing the [Mann-Kendall trend test](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf)(https://www.statisticshowto.com/mann-kendall-trend-test/) both manually and using the `MannKendall()` function of the `Kendall` package, we demonstrated that the rate does not appear to be changing. This suggests that more prevention and re-engagement strategies should especially focus on this population.
 
 By plotting subgroups within our data, it is clear that there are differences among particular populations. We see that there are much higher levels of disconnection among youths who are male and black as compared to black females. 
+
 We also see that youth disconnection rates among [Hmong](https://en.wikipedia.org/wiki/Hmong_people) and Cambodian populations are very high, despite rates being quite low for the Asian population in general.
 
 Overall, this case study demonstrates the importance of looking at populations at deeper levels. This is something of great importance facing the field of public health. Where possible data should be collected on a variety of demographic groups to better characterize vulnerable populations.
 
-avocado talk about statistical limitations more?
 
 ## **Suggested Homework**
 *** 
 
-- For the asian and latinx subgroup barplots made across year, modify these plots to consider gender differences (instead of across time).
+- For the Asian and Latinx subgroup bar plots made across year, modify these plots to consider gender differences (instead of across time).
 - Taking the plot you made above, modify the plot to facet across years. 
-- Find another table in one of the reports to import using the `magick` package (for example perhaps the data about different states over time in the 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)) Look for differences between groups by plotting the data and evaluating with the Mann-Kendall test. 
+- Find another table in one of the reports to import using the `magick` package (for example perhaps the data about different states over time in the 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)). Look for differences between groups by plotting the data and evaluating with the Mann-Kendall test. 
 
 ## **Additional Information**
 *** 
@@ -2863,7 +2936,8 @@ Package   | Use in this case study
 ---------- |-------------
 [here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data  
 [pdftools](https://readr.tidyverse.org/)      | to import PDF documents  
-[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for importing images and extracting text from images   
+[magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for importing images and extracting text from images  
+[tesseract](https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html) | for extracting text from images with `magick`   
 [knitr](https://yihui.org/knitr/) |  for showing images in reports    
 [dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to filter, subset, join, add rows to, and modify the data   
 [stringr](https://stringr.tidyverse.org/){target="_blank"}      | to manipulate strings  
