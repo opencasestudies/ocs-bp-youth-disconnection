@@ -47,7 +47,7 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 ####
 
-AVOCADO: Ok, I wanted to "soak" in the main figure and spent some time reading through it before diving into the case study. I still haven't dived into the case study yet (that's next), but my initial impression is that there is way way too much going on in this main figure. It took me like a good 5 mins to understand it. I think we should talk about removing portions of it and simplying it. My current suggestion is to remove all the bar plots and only have the line plots at the top. 
+
 
 ## {.disclaimer_block}
 
@@ -1755,7 +1755,7 @@ youth_plot <- major_groups_long %>%
     geom_line( size = 0.5) +
     geom_point( size = 3) +
     scale_x_continuous(breaks = seq(2008,2018, by=1),
-                      limits = c(2008,2020)) +
+                      limits = c(2008,2019)) +
     scale_y_continuous(breaks = seq(5,30, by =5),
                       limits = c(5,30)) +
     theme_classic() +
@@ -1766,13 +1766,15 @@ youth_plot <- major_groups_long %>%
                               face = "bold"),
           axis.title.x = element_blank())+
     scale_color_manual(values = c(rep( "#008393", 5)))+
-    draw_image(figurine, x = 2017, y = 23.5, scale = 4) +
-    draw_image(figurine, x = 2017, y = 17.5, scale = 4) +
-    draw_image(figurine, x = 2017, y = 13.5, scale = 4) +
-    draw_image(figurine, x = 2017, y = 9, scale = 4) +
-    draw_image(figurine, x = 2017, y = 5.5, scale = 4)
+    draw_image(figurine, x = 2017.25, y = 23.5, scale = 4) +
+    draw_image(figurine, x = 2017.25, y = 17.5, scale = 4) +
+    draw_image(figurine, x = 2017.25, y = 13.5, scale = 4) +
+    draw_image(figurine, x = 2017.25, y = 9, scale = 4) +
+    draw_image(figurine, x = 2017.25, y = 5.5, scale = 4)
 
-youth_plot <- directlabels::direct.label(youth_plot, list(dl.trans(x = x+1.2, y = y +0), "last.points"))
+youth_plot <- directlabels::direct.label(youth_plot, list(dl.trans(x = x + 1.4, 
+                                                                   y = y + 0),  
+                                                               "last.points"))
 ```
 
 </details>
@@ -1820,7 +1822,7 @@ plot_by_gender <- major_groups_long %>%
     scale_y_continuous(breaks = seq(5,30, by =5),
                        limits = c(5,31)) +
     theme_classic() +
-    labs(title = "YOUTH DISCONNECTION BY GENDER AND RACIAL/ETHNIC GROUP, 2008 - 2017",
+    labs(title = "YOUTH DISCONNECTION BY GENDER AND RACIAL/ETHNIC GROUP",
          y = "YOUTH DISCONNECTION (%)") +
     theme(title = element_text(size = 10,
                                color = "#008393",
@@ -2093,7 +2095,7 @@ asian_subgroup_plot <-
   df_asian_subgroup %>%
   ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
     geom_col(aes(fill = Year), position = "dodge")+
-    labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP AND YEAR",
+    labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP",
          subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
          y = "YOUTH DISCONNECTION (%)") +
   scale_fill_manual(values = custom_pal) +
@@ -2189,7 +2191,7 @@ asian_subgroup_plot_simp <-
   df_asian_subgroup %>%
   ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
     geom_col(aes(fill = Year), position = "dodge")+
-    labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP AND YEAR",
+    labs(title = "YOUTH DISCONNECTION BY ASIAN SUBGROUP",
          subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
          y = "YOUTH DISCONNECTION (%)") +
     scale_fill_manual(values = custom_pal) +
@@ -2259,7 +2261,7 @@ latinx_subgroup_plot <-
   latinx_for_plot %>%
   ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
     geom_col(aes(fill = Year), position = "dodge") +
-    labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP AND YEAR",
+    labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP",
          subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
          y = "YOUTH DISCONNECTION (%)") +
     scale_fill_manual(values = custom_pal) +
@@ -2315,7 +2317,7 @@ latinx_for_plot <-latinx_subgroups %>%
 latinx_subgroup_plot_simp <-latinx_for_plot %>%
 ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
  geom_col(aes(fill = Year), position = "dodge")+
-  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP AND YEAR",
+  labs(title = "YOUTH DISCONNECTION BY LATINX SUBGROUP",
     subtitle = "ORDERED BY AVERAGE DISCONNECTION LEVEL OF 2017 & 2018",
            y = "YOUTH DISCONNECTION (%)") +
   scale_fill_manual(values = custom_pal) +
@@ -2663,54 +2665,99 @@ AVOCADO: maybe more info about bonferroni here.
 
 ### Summary Plot
 
-Now we will create a plot that summarize our findings. We will use the `patchwork` package to do so.
+Now we will create a plot that summarize our findings. 
+
+
+We will create a plot that is just an arrow using `geom_segment()`. 
+
+This requires the following arguments :
+1) x -  x coordinate of starting point of the arrow
+2) y - y coordinate of starting point of the arrow
+3) xend -  x coordinate of end point of the arrow
+4) yend - y coordinate of end point if the arrow
+
+Also `ggplot` requires a data input, we will use this to create the y axis value for the arrow. We will use the `aes()` function to define the length and location of the arrow.
+
+
+We need to use the `arrow` argument with the `arrow()` function to create an arrow. The `lineend` and `linejoin` arguments specify what styles to use. The `size()` function specifies how thick the arrow is displayed.
+
+See [here](https://ggplot2.tidyverse.org/reference/geom_segment.html) for different arrow style options.
+
+Then we will use the `xlim()` function of the `ggplot2` package to specify the overall size of the plot relative to the arrow.
+
+
+```{r}
+arrow_df <- data.frame( y = 1)
+arrow_df
+
+arrowplot<-ggplot(arrow_df, aes(x = .5, y = 1, xend = 1, yend = 1)) +
+                geom_segment(arrow = arrow(),
+                           lineend = "butt",
+                          linejoin = "mitre",
+                              size = 3)+
+                xlim(0.25, 1.25) + ylim(0,1.5)+
+  geom_text( label = "Look at\n subgroups", aes(x = .75, y = .8), size = 5, face = "bold")
+
+arrowplot
+```
+
+
+Then we will use `theme_void()` remove  the background.
+
+
+```{r}
+arrowplot <- arrowplot +  theme_void()
+arrowplot
+```
+
+
+
+We will use the `patchwork` package to do so.
 
 This package allows us to create formulas for our plot layouts. Thus we can use `+` to add plots and plot elements like `plot_spacer()` to add an empty space` and we can use `/` to place plots in different rows on top of one another like a fraction. 
 
 Thus we can combine our plots that we previously named and saved as objects.
 
-```{r, eval = FALSE}
-(plot_spacer() + plot_by_gender)/ (asian_subgroup_plot_simp)
 
+```{r}
+
+youth_plot + arrowplot  + (plot_by_gender /asian_subgroup_plot_simp) 
 ```
 
-The `plot_layout()` function allows for specification of the relative heights and widths of the various plot elements. We  will first use this function to specify the relative widths of  blank spaces on either side of the `plot_by_gender` plot. Then, since we will create three rows (distinguished by the `/` symbols, we need to specify widths and heights for all 3 rows.)
+The `plot_layout()` function allows for specification of the relative heights and widths of the various plot elements. Then, since we will create three columns (distinguished by the `+` symbols, we need to specify widths and heights for all three.)
 
-AVOCADO: just a reminder I removed `asian_gender_subgroup_plot` and `latinx_gender_subgroup_plot` from the code above so plot below needs to updated. 
 
-```{r, eval = FALSE}
-  (plot_spacer() + plot_by_gender + plot_spacer() + 
-   plot_layout(widths = c(0.3,3,0.3))) / 
-  (asian_subgroup_plot_simp + asian_gender_subgroup_plot)/
-  (latinx_subgroup_plot + latinx_gender_subgroup_plot) + 
-  plot_layout(heights =c(2, 1.3, 1.3), widths = c(1.5, 2.5, 2.5)) 
-```
-
-Finally we can change aspects about all of the plots using the `&` symbol and the `theme()` function as we have previously used it. Thus we will change the size of the fonts to be larger in all plots. We will also add an overall title using the `plot_annotation()` function.
+We can change aspects about  the plots using the `+` symbol and the `theme()` function as we have previously used it.  We will also add an overall title using the `plot_annotation()` function.
 
 Finally, we will use the `png()` function of the `grDevices` package which is automatically loaded in RStudio sessions to save the plot. 
 We will use the `here()` function of the `here` package, to specify that we want to save it in the `img` directory and call it `mainplot.png`.
 We can also use this function to specify the resolution with `res` and in doing so, we need to save the image with size specifications to make it larger. 
 
-AVOCADO: I set the code chunk below to eval=FALSE because I removed `asian_gender_subgroup_plot` and `latinx_gender_subgroup_plot` from the code above.
+```{r}
 
-```{r, message = FALSE, eval=FALSE}
+plot_by_gender  <-plot_by_gender + theme(axis.text =element_text(size = 12))
+asian_subgroup_plot_simp  <-asian_subgroup_plot_simp + theme(axis.text =element_text(size = 12))
+
 png(filename = here::here("img", "mainplot.png"),
-    res = 300, width = 13.5, height = 14, units = "in")
+    res = 300, width = 15, height = 10, units = "in")
+    youth_plot  +
+      theme(axis.text =element_text(size = 14, angle = 90)) +
+    arrowplot  + 
+      (plot_by_gender /
+         asian_subgroup_plot_simp)  + 
+      plot_layout(widths = c(4.6, 1, 4.65)) &
+plot_annotation(title = "Deeper Inspection Reveals Unexpected Differences for Youth Disconnection Among\nGender and Racial/Ethnic Subgroups", 
+               theme = theme(plot.title = element_text(size = 22, 
+                                                       face = "bold")))
 
-(plot_spacer() + plot_by_gender + plot_spacer() +
-    plot_layout(widths = c(0.3,3,0.3))) / 
-  (asian_subgroup_plot_simp + asian_gender_subgroup_plot) / (latinx_subgroup_plot + latinx_gender_subgroup_plot) + 
-  plot_layout(heights =c(2, 1.3, 1.3), widths = c(1.5, 2.5, 2.5)) &  theme(axis.title = element_text(size =14),                                           text = element_text(size = 14, face = "bold")) &
-plot_annotation(title = "Deeper Inspection Reveals Differences for Youth Disconnection\nAmong Races, Ethnic Subgroups, and Genders", 
-               theme = theme(plot.title =
-                               element_text(size = 22, 
-                                            face = "bold")))
 dev.off()
-
 ```
 
-```{r, echo = FALSE}
+
+
+
+
+```{r}
 knitr::include_graphics(here::here("img", "mainplot.png"))
 ```
 
