@@ -2461,7 +2461,9 @@ Next, we will introduce and discuss the Mann-Kendall trend test.
 
 ### Mann-Kendall trend test
 ***
-The Mann-Kendall trend test, (which is a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)), tests whether there is a [monotonic association](https://www.statisticshowto.com/monotonic-relationship/) between two variables, or a relationship with consistent direction between two variables, where one variable (typically time) determines the order of the other variable. Thus this test is most often used to see if there is a consistent change in direction (or [mathematical sign](https://en.wikipedia.org/wiki/Sign_(mathematics))) for a variable across time. 
+The Mann-Kendall trend test, (which is a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)), tests whether there is a [monotonic association](https://www.statisticshowto.com/monotonic-relationship/) between two variables, or a relationship with consistent direction between two variables, where one variable (typically time) determines the order of the other variable. Thus this test is most often used to see if there is a consistent change in direction (or [mathematical sign](https://en.wikipedia.org/wiki/Sign_(mathematics))) for a variable across time.
+
+See this [link](https://vsp.pnnl.gov/help/vsample/Design_Trend_Mann_Kendall.htm) for information on using this test with missing data.
 
 #### Monotonic relationships
 ***
