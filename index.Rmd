@@ -522,7 +522,7 @@ Now to specify that we want to see a letter first followed by a space, followed 
 knitr::include_graphics(here::here("img", "look_around.png"))
 ```
 
-We will use the "preceded by" and "followed by" look arounds. Thus `(?<=[:alpha:])` stands for any letter that appears before a space `\\s` that is followed by any digit `(?=[0-9])`. Altogether the pattern we want to separate by looks like this: `"(?<=[:alpha:])\\s(?=[0-9])"`.
+We will use the "preceded by" and "followed by" look arounds. Thus `(?<=[[:alpha:]])` stands for any letter that appears before a space `\\s` that is followed by any digit `(?=[0-9])`. Altogether the pattern we want to separate by looks like this: `"(?<=[[:alpha:]])\\s(?=[0-9])"`.
 
 
 Now to separate the value column into two columns, we can use the `separate()` function of the `tidyr` package to do this. This will allow us to not only split the rows by our regex expression, but also to create column names.
@@ -539,7 +539,7 @@ major_groups <-
   major_groups %>%
   tidyr::separate(col = value, 
                   into = c("Group", "Years"), 
-                  sep = "(?<=[:alpha:])\\s(?=[0-9])")
+                  sep = "(?<=[[:alpha:]])\\s(?=[0-9])")
 
 major_groups
 ```
@@ -943,7 +943,7 @@ clean_table <- function(table){
   table %>%
     separate(., col = value,
                into = c("Group", "Percentage"),
-                sep =  "(?<=[:alpha:])\\s(?=[0-9])") %>% 
+                sep =  "(?<=[[:alpha:]])\\s(?=[0-9])") %>% 
     drop_na() %>%
     mutate(Group = str_to_title(Group)) %>%
     mutate(Percentage = str_remove(string = Percentage,
@@ -1195,7 +1195,7 @@ So this will look like this:
 asian_sub_2018 %>%
     separate(., col = value,
              into = c("Group", "Percent"), 
-             sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])")
+             sep =  "(?<=[[:alpha:]])\\s:\\s|\\s(?=[0-9])")
 
 ```
 Then because of the row with `VIETNAM`, we will want to remove this colon using the `str_remove()` function like this:
@@ -1204,7 +1204,7 @@ Then because of the row with `VIETNAM`, we will want to remove this colon using 
 asian_sub_2018 %>%
     separate(., col = value, 
                into = c("Group", "Percent"), 
-                sep = "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>% 
+                sep = "(?<=[[:alpha:]])\\s:\\s|\\s(?=[0-9])") %>% 
     mutate(Group= str_remove(string = Group, pattern = ":"))
 
 ```
@@ -1217,7 +1217,7 @@ This will look like this:
 asian_sub_2018 %>%
 separate(., col = value, 
            into = c("Group", "Percent"), 
-            sep = "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
+            sep = "(?<=[[:alpha:]])\\s:\\s|\\s(?=[0-9])") %>%
 mutate(Group = str_remove(string = Group, pattern = ":")) %>%
 mutate(Race_Ethnicity = str_replace(string = Group,
                                    pattern = "Men|Women", 
@@ -1227,7 +1227,7 @@ head()
 asian_sub_2018 %>%
 separate(., col = value, 
            into = c("Group", "Percent"), 
-            sep = "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
+            sep = "(?<=[[:alpha:]])\\s:\\s|\\s(?=[0-9])") %>%
 mutate(Group = str_remove(string = Group, pattern = ":")) %>%
 mutate(Race_Ethnicity = str_replace(string = Group,
                                    pattern = "Men|Women", 
@@ -1238,7 +1238,7 @@ head()
 asian_sub_2018 %>%
 separate(., col = value, 
            into = c("Group", "Percent"), 
-            sep = "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>%
+            sep = "(?<=[[:alpha:]])\\s:\\s|\\s(?=[0-9])") %>%
 mutate(Group = str_remove(string = Group, pattern = ":")) %>%
 mutate(Race_Ethnicity = str_replace(string = Group,
                                    pattern = "Men|Women", 
@@ -1256,7 +1256,7 @@ clean_table <- function(table){
   table %>%
     separate(., col = value, 
                into = c("Group", "Percent"), 
-                sep =  "(?<=[:alpha:])\\s:\\s|\\s(?=[0-9])") %>% 
+                sep =  "(?<=[[:alpha:]])\\s:\\s|\\s(?=[0-9])") %>% 
     mutate(Group= str_remove(string = Group, 
                             pattern = ":")) %>%
     drop_na() %>%
