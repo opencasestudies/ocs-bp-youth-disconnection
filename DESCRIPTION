@@ -5,7 +5,7 @@ Authors@R: c(
     email = "shicks19@jhu.edu",
     comment = c(ORCID = "0000-0002-7858-0231")),
     person("Carrie", "Wright", role = "aut"))
-Package: ocs-bp-youth-disconnection
+Package: ocsbpyouthdisconnection
 Type: package
 Title: Disparities in Youth Disconnection
 Version: 0.99.0
