@@ -7,7 +7,6 @@ OpenCaseStudies
 
 [![render-README](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-README/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
 [![render-index](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-index/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
-[![R-CMD-check](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/R-CMD-check/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
 <!-- badges: end -->
 
 ### Disclaimer
