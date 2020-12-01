@@ -1,10 +1,13 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 OpenCaseStudies
 ===============
 
 <!-- badges: start -->
-[![R build
-status](https://github.com/opencasestudies/ocs-youth-disconnection-case-study/workflows/R-CMD-check/badge.svg)](https://github.com/opencasestudies/ocs-youth-disconnection-case-study/actions)
+
+[![R-CMD-check](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/R-CMD-check/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
+[![render-index](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-index/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
+[![render-readme](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-readme/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
 <!-- badges: end -->
 
 ### Disclaimer
