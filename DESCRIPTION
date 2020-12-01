@@ -34,6 +34,7 @@ Imports:
     tesseract, 
     Kendall, 
     patchwork,
-    cowplot
+    cowplot, 
+    DT
 VignetteBuilder: knitr
 Encoding: UTF-8

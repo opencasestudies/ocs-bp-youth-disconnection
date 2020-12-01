@@ -160,6 +160,7 @@ library(cowplot)
 library(forcats)
 library(Kendall)
 library(patchwork)
+library(DT)
 ```
 
 
@@ -182,7 +183,7 @@ library(patchwork)
 [forcats](https://forcats.tidyverse.org/){target="_blank"}      | to reorder factor for plot
 [kendall](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf) | to implement the Mann-Kendall trend test in R   
 [patchwork](https://github.com/thomasp85/patchwork) | to combine plots
-
+[DT](https://cran.r-project.org/web/packages/DT/index.html) | Interactive tables
 
 
 The first time we use a function, we will use the `::` to indicate which package we are using. Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
