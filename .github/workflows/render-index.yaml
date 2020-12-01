@@ -19,7 +19,6 @@ jobs:
       - name: Install rmarkdown, remotes, and dependencies
         run: |
           install.packages("remotes")
-          remotes::install_local(".")
           remotes::install_cran("rmarkdown")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}

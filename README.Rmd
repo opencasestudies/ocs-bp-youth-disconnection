@@ -12,7 +12,6 @@ output: md_document
 [![render-readme](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-readme/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
 <!-- badges: end -->
 
-
 ### Disclaimer 
 
 The purpose of the [Open Case
