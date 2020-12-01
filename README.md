@@ -32,9 +32,9 @@ United States License.
 
 To cite this case study:
 
-Wright, Carrie, and Ontiveros, Michael and Jager, Leah and Taub,
-Margaret and Hicks, Stephanie. (2020).
-<a href="https://github.com/opencasestudies/ocs-youth-disconnection-case-study" class="uri">https://github.com/opencasestudies/ocs-youth-disconnection-case-study</a>.
+Wright, Carrie and Ontiveros, Michael and Jager, Leah and Taub, Margaret
+and Hicks, Stephanie. (2020).
+<https://github.com/opencasestudies/ocs-youth-disconnection-case-study>.
 Disparities in Youth Disconnection (Version v1.0.0).
 
 ### Acknowledgements
@@ -102,7 +102,10 @@ These reports use data from the [American Community Survey
 
 #### Learning Objectives
 
-Data science skills:
+The skills, methods, and concepts that students will be familiar with by
+the end of this case study are:
+
+<u>**Data Science Learning Objectives:**</u>
 
 1.  Importing text from PDF files using images and the `magick`
     package  
@@ -117,7 +120,7 @@ Data science skills:
     including adding gaps between bars in bar plots, adding figure
     legends to the plot area, and adding comparison lines (`ggplot2`)
 
-Statistical concepts and methods:
+<u>**Statistical Learning Objectives:**</u>
 
 1.  Implementation of the Mann-Kendall trend test  
 2.  Interpretation of the Mann-Kendall trend test
