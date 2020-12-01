@@ -19,7 +19,7 @@ output:
 
 <style>
 #TOC {
-  background: url("https://opencasestudies.github.io/img/logo.jpg");
+  background: url("https://opencasestudies.github.io/img/icon-bahi.png");
   background-size: contain;
   padding-top: 240px !important;
   background-repeat: no-repeat;
@@ -49,21 +49,24 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 
 
-## {.disclaimer_block}
+#### {.disclaimer_block}
 
 **Disclaimer**: The purpose of the [Open Case Studies](https://opencasestudies.github.io) project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most appropriate way to analyze a given data set, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
 
+####
 
-## {.license_block}
+#### {.license_block}
 
 This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 [(CC BY-NC 3.0)](https://creativecommons.org/licenses/by-nc/3.0/us/)  United States License.
 
+####
 
-## {.reference_block}
+#### {.reference_block}
 
 To cite this case study please use:
 
-Wright, Carrie, and Ontiveros, Michael and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). https://github.com/opencasestudies/ocs-youth-disconnection-case-study. Disparities in Youth Disconnection (Version v1.0.0).
+Wright, Carrie and Ontiveros, Michael and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). [https://github.com/opencasestudies/ocs-youth-disconnection-case-study](https://github.com/opencasestudies/ocs-youth-disconnection-case-study). Disparities in Youth Disconnection (Version v1.0.0).
+####
 
 ## **Motivation**
 *** 
@@ -118,7 +121,7 @@ In this case study, we will demonstrate how to import and wrangle data available
 
 The skills, methods, and concepts that students will be familiar with by the end of this case study are:
 
-<u>**Data science Learning Objectives:**</u>
+<u>**Data Science Learning Objectives:**</u>
 
 1. Importing text from PDF files using images and the `magick` package  
 2. Apply action verbs in `dplyr` for data wrangling  
@@ -163,6 +166,7 @@ library(patchwork)
 library(DT)
 ```
 
+<u>**Packages used in this case study:** </u>
 
 
  Package   | Use in this case study                                                                      
@@ -237,7 +241,8 @@ knitr::include_graphics(here::here("img", "risk_factors.png"))
 ##### [[source]](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/pdf/10.1177_0033354918799344.pdf) 
 
 
-### Strategies to mitigate youth disconnection
+### **Strategies to mitigate youth disconnection**
+***
 
 Many programs have identified useful strategies in re-engaging disconnected youth or preventing disconnection of youth. 
 
@@ -337,7 +342,8 @@ knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
 ## **Data Import**
 *** 
 
-### Importing with `pdftools`
+### **Importing with `pdftools`**
+***
 
 One way to import data from a pdf is to use the `pdf_text()` function of the `pdftools` package. The `here()` function in the `here` package allows us to specify the path or location of the document that we want to import, starting from the directory where a `.Rproj` file is located. In this case, we will import the `Making_the_Connection.pdf` in the `docs` directory. (*Note this is only the case if you pull the repository from github.*)
 
@@ -377,7 +383,8 @@ Let's consider alternative approaches to importing these data.
 Next, we will demonstrate how to produce reproducible tables with image processing software in `R` using a package called `magick` which allows for the extraction of text from images. The **advantage** of this option, is that we can take a screenshot of just a piece of the page to wrangle. 
 
 
-### Importing with `magick`
+### **Importing with `magick`**
+***
 
 We will now import the data using the `magick` package which allows for the importation of data from images. 
 
@@ -446,7 +453,8 @@ This is likely do to the background on this particular hex sticker. So sometimes
 *** 
 Now let's try extracting the text from our image files.
 
-### Major Racial and Ethnic Groups
+### **Major Racial and Ethnic Groups**
+***
 
 The first image we imported looks like this. 
 
@@ -789,7 +797,8 @@ knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
 ```
 
 
-### Asian Subgroups 2017
+### **Asian Subgroups 2017**
+***
 
 Now let's do the same for the Asian subgroups table.
 
@@ -982,7 +991,8 @@ Why do we not need to use `pivot_longer()` with this data?
 ####
 
 
-### Latinx Subgroups 2017
+### **Latinx Subgroups 2017**
+***
 
 
 Recall that this is the table we want to wrangle:
@@ -1152,7 +1162,7 @@ Great!
 Now we are ready to look at the data from 2018 for the Asian and Latinx subgroups from the other [report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf).
 
 
-### Asian Subgroups 2018
+### **Asian Subgroups 2018**
 ***
 Recall that this was the page with the table of interest for the Asian subgroups with 2018 data:
 
@@ -1392,7 +1402,7 @@ DT::datatable(asian_subgroups)
 
 Great, now we are ready to perform similar wrangling for the Latinx subgroups.
 
-### Latinx Subgroups 2018 
+### **Latinx Subgroups 2018** 
 ***
 Recall that this was the page with the table of interest for the Latinx subgroup 2018 data:
 
@@ -1555,7 +1565,7 @@ DT::datatable(asian_subgroups)
 ***
 
 
-### Checking the data
+### **Checking the data**
 ***
 
 OK, now let's make sure that our notations match across our different tables. For example in the first report the terms male and female where used, but in the second report men and women were used. Let's make sure everything is consistent now.
@@ -1596,7 +1606,7 @@ load(here::here("data", "wrangled_data.rda"))
 
 
 
-### Major Race and Ethnic Groups Plot
+### **Major Race and Ethnic Groups Plot**
 ***
 
 We are particularly interested in being able to reproduce the plot below from the report, as we would like to make similar looking plots.
@@ -1864,7 +1874,7 @@ Nice! Our plot looks very similar stylistically to the plot in the report.
 
 We can see from this plot that Native Americans have a very high rate of youth disconnection, with roughly still a quarter of the population experiencing youth disconnection in this survey. Although some groups show a downward trend, like the Latinx group, the level has been fairly stable since 2008, as we see that the slope of each line is fairly flat. We will investigate this further in our analysis. 
 
-### Major Race and Ethnic Groups and Gender Plot
+### **Major Race and Ethnic Groups and Gender Plot**
 ***
 Now let's create a similar plot for females and males. To do this we can simply use the `facet_wrap()` function. We need to specify what variable we want to facet by, in this case the `Gender` variable, by using the `~` operator. We also want to set the `scales` argument to `"free"`, so that we have a y-axis for both the female and male plots. See this [case study](https://opencasestudies.github.io/ocs-bp-co2-emissions/#Faceted_plots) for more information about faceting plots.
 
@@ -1955,7 +1965,7 @@ Very interesting! By parsing the groups further into intersections of racial and
 
 If you have time, the next section will show how to make bar plots to look for differences in subgroups for the Asian and Latinx data. Otherwise, you can skip ahead to the [**Data Analysis**] section.
 
-### Subgroup plots
+### **Subgroup plots**
 ***
 
 It is clear from the previous plot that observing more specific subgroups in our data can be very informative!
@@ -2460,13 +2470,13 @@ As we have measured values over time, we can plot the data to see if there is a 
 
 Next, we will introduce and discuss the Mann-Kendall trend test. 
 
-### Mann-Kendall trend test
+### **Mann-Kendall trend test**
 ***
 The Mann-Kendall trend test, (which is a variation of the [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient?oldformat=true)), tests whether there is a [monotonic association](https://www.statisticshowto.com/monotonic-relationship/) between two variables, or a relationship with consistent direction between two variables, where one variable (typically time) determines the order of the other variable. Thus this test is most often used to see if there is a consistent change in direction (or [mathematical sign](https://en.wikipedia.org/wiki/Sign_(mathematics))) for a variable across time.
 
 See this [link](https://vsp.pnnl.gov/help/vsample/Design_Trend_Mann_Kendall.htm) for information on using this test with missing data.
 
-#### Monotonic relationships
+### **Monotonic relationships**
 ***
 As you can see in the image below, a monotonic relationship does not need to be linear, it simply needs to show a consistent direction of change. A linear relationship on the other hand shows consistent direction and rate of change.
 
@@ -2494,7 +2504,7 @@ There are a couple of difference between the two:
 2. The Mann-Kendall trend test is a [nonparametric](https://en.wikipedia.org/wiki/Nonparametric_statistics) test, which means that it does not require as many assumptions as some [parametric](https://en.wikipedia.org/wiki/Parametric_statistics) tests, like the [simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression).
 
 
-### M-K test by hand
+### **M-K test by hand**
 ***
 The [null hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) $H_{0}$ of the test is that there is no monotonic trend, while the [alternative hypothesis](https://en.wikipedia.org/wiki/Alternative_hypothesis) $H_{a}$ is that there is a monotonic trend.
 
@@ -2631,7 +2641,7 @@ Either way, our $p$-value of ~ 0.26 suggests that we do not have a monotonic tre
 
 In our case there is not enough evidence to reject the null hypothesis. Thus we conclude that there is likely no trend.
 
-### M-K test implementation in R
+### **M-K test implementation in R**
 ***
 We can also accomplish this with the `MannKendall()` function of the `Kendall` package. This function requires a vector of data for which a trend may be observed. See the [documentation](https://rdrr.io/cran/Kendall/man/MannKendall.html) for this function of the `Kendall` package for more details.
 
@@ -2739,7 +2749,8 @@ Our $p$-value for the one sided test was 0.012 which is less than our adjusted s
 ## **Summary**
 *** 
 
-### Summary Plot
+### **Summary Plot**
+***
 
 Now we will create a plot that summarize our findings. 
 
@@ -2809,7 +2820,7 @@ Finally, we will use the `png()` function of the `grDevices` package which is au
 We will use the `here()` function of the `here` package, to specify that we want to save it in the `img` directory and call it `mainplot.png`.
 We can also use this function to specify the resolution with `res` and in doing so, we need to save the image with size specifications to make it larger. 
 
-```{r}
+```{r, comment  = FALSE}
 
 plot_by_gender  <-plot_by_gender + theme(axis.text =element_text(size = 12))
 asian_subgroup_plot_simp  <-asian_subgroup_plot_simp + theme(axis.text =element_text(size = 12))
@@ -2838,7 +2849,8 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 ```
 
 
-### Synopsis
+### **Synopsis**
+***
 
 In this case study we evaluated rates of youth disconnection in the United States between 2008 and 2018, which was defined as individuals between age **16 - 24** who are **neither working nor in school**". In particular, we focused on evaluating specific subgroups to identify populations that may experience particularly high levels of disconnection. We used summary level data from two [Measure of America](https://measureofamerica.org/) reports:  
 
@@ -2870,7 +2882,8 @@ Overall, this case study demonstrates the importance of looking at populations a
 
 
 
-### Helpful Links
+### **Helpful Links**
+***
 
 [RStudio](https://rstudio.com/products/rstudio/features/){target="_blank"}  
 [Cheatsheet on RStuido IDE](https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf){target="_blank"}  
@@ -2966,7 +2979,8 @@ Also, see [The Center for Communities That Care](https://www.communitiesthatcare
 
 ####
 
-### Acknowledgements
+### **Acknowledgements**
+***
 
 We would like to acknowledge [Tamar Mendelson](https://www.jhsph.edu/faculty/directory/profile/1770/tamar-mendelson) for assisting in framing the major direction of the case study.
 
