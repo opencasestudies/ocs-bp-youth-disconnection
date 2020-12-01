@@ -12,9 +12,11 @@ Version: 0.99.0
 Depends: R (>= 4.0)
 Imports:
     here,
-    readxl,
+    pdftools,
+    magick,
     readr,
     dplyr,
+    tibble,
     magrittr,
     stringr,
     purrr,
@@ -22,9 +24,6 @@ Imports:
     forcats,
     ggplot2,
     directlabels,
-    ggrepel,
-    broom,
-    patchwork,
     qpdf,
     Rcpp,
     jpeg, 
@@ -33,6 +32,8 @@ Imports:
     rmarkdown,
     knitr, 
     tesseract, 
-    Kendall
+    Kendall, 
+    patchwork,
+    cowplot
 VignetteBuilder: knitr
 Encoding: UTF-8
