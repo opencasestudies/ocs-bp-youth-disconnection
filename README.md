@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-Open Case Studies
-=================
+Open Case Studies: Disparities in Youth Disconnection
+=====================================================
 
 <!-- badges: start -->
 
