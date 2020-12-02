@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-OpenCaseStudies
-===============
+Open Case Studies
+=================
 
 <!-- badges: start -->
 
@@ -9,33 +9,41 @@ OpenCaseStudies
 [![render-index](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-index/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
 <!-- badges: end -->
 
+### Important links
+
+-   HTML:
+    <a href="https://www.opencasestudies.org/ocs-bp-youth-disconnection" class="uri">https://www.opencasestudies.org/ocs-bp-youth-disconnection</a>
+-   GitHub:
+    <a href="https://github.com/opencasestudies/ocs-bp-youth-disconnection" class="uri">https://github.com/opencasestudies/ocs-bp-youth-disconnection</a>
+-   Bloomberg American Health Initiative:
+    <a href="https://americanhealth.jhu.edu/open-case-studies" class="uri">https://americanhealth.jhu.edu/open-case-studies</a>
+
 ### Disclaimer
 
-The purpose of the [Open Case
-Studies](https://opencasestudies.github.io) project is **to demonstrate
-the use of various data science methods, tools, and software in the
-context of messy, real-world data**. A given case study does not cover
-all aspects of the research process, is not claiming to be the most
-appropriate way to analyze a given dataset, and should not be used in
-the context of making policy decisions without external consultation
-from scientific experts.
+The purpose of the [Open Case Studies](https://www.opencasestudies.org)
+project is **to demonstrate the use of various data science methods,
+tools, and software in the context of messy, real-world data**. A given
+case study does not cover all aspects of the research process, is not
+claiming to be the most appropriate way to analyze a given dataset, and
+should not be used in the context of making policy decisions without
+external consultation from scientific experts.
 
 ### License
 
-This case study is part of the
-[OpenCaseStudies](https://opencasestudies.github.io) project. This work
-is licensed under the Creative Commons Attribution-NonCommercial 3.0
-([CC BY-NC 3.0](https://creativecommons.org/licenses/by-nc/3.0/us/))
-United States License.
+This case study is part of the [Open Case
+Studies](https://www.opencasestudies.org) project. This work is licensed
+under the Creative Commons Attribution-NonCommercial 3.0 ([CC BY-NC
+3.0](https://creativecommons.org/licenses/by-nc/3.0/us/)) United States
+License.
 
 ### Citation
 
 To cite this case study:
 
 Wright, Carrie and Ontiveros, Michael and Jager, Leah and Taub, Margaret
-and Hicks, Stephanie. (2020).
+and Hicks, Stephanie C. (2020).
 <https://github.com/opencasestudies/ocs-youth-disconnection-case-study>.
-Disparities in Youth Disconnection (Version v1.0.0).
+Disparities in Youth Disconnection.
 
 ### Acknowledgements
 
@@ -197,7 +205,7 @@ more detailed information about the survey
 <a href="https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html" target="_blank">Piping in R</a>  
 [Writing functions](https://r4ds.had.co.nz/functions.html)  
 Also see
-<a href="https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/" target="_blank">this case study</a>
+<a href="https://www.opencasestudies.org/ocs-bp-vaping-case-study/" target="_blank">this case study</a>
 for more information on writing functions.  
 <a href="https://rstudio.com/resources/cheatsheets/" target="_blank">String manipulation cheatsheet</a>  
 <a href="https://en.wikipedia.org/wiki/Wide_and_narrow_data" target="_blank">Table formats</a>
@@ -227,7 +235,7 @@ calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx)
 
 <a href="http://ggplot2.tidyverse.org" target="_blank"><code>ggplot2</code> package</a>  
 Please see [this case
-study](https://opencasestudies.github.io/ocs-bp-co2-emissions/) for more
+study](https://www.opencasestudies.org/ocs-bp-co2-emissions/) for more
 details on using `ggplot2`  
 <a href="http://vita.had.co.nz/papers/layered-grammar.html" target="_blank">grammar of graphics</a>  
 <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" target="_blank"><code>ggplot2</code> themes</a>  
@@ -241,9 +249,7 @@ youth](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/)
 
 To learn more about importing and wrangling PDFs using the `pdftools`
 package see this [case
-study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/)
-and this [case
-study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
+study](https://www.opencasestudies.org/ocs-bp-rural-and-urban-obesity/).
 
 To learn more about what you can do with the `magick` package see this
 [vingette](https://cran.r-project.org/web/packages/magick/vignettes/intro.html).
@@ -253,7 +259,7 @@ To learn more about the **Mann-Kendall trend test** see
 [here](https://www.statisticshowto.com/wp-content/uploads/2016/08/Mann-Kendall-Analysis-1.pdf).
 
 To learn more about hypothesis testing, see this [case
-study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
+study](https://www.opencasestudies.org/ocs-bp-rural-and-urban-obesity/).
 
 <u>**Packages used in this case study:** </u>
 
@@ -333,15 +339,12 @@ study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/).
 <td><a href="https://github.com/thomasp85/patchwork">patchwork</a></td>
 <td>to combine plots</td>
 </tr>
+<tr class="odd">
+<td><a href="https://cran.r-project.org/web/packages/DT/index.html">DT</a></td>
+<td>Interactive tables</td>
+</tr>
 </tbody>
 </table>
-
-#### For users
-
-There is a [`Makefile`](Makefile) in this folder that allows you to type
-`make` to knit the case study contained in the `index.Rmd` to
-`index.html` and it will also knit the [`README.Rmd`](README.Rmd) to a
-markdown file (`README.md`).
 
 #### For instructors
 
