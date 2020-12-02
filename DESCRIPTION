@@ -27,7 +27,7 @@ Imports:
     forcats,
     Kendall, 
     patchwork,
-    DT
+    DT,
     jpeg, 
     png, 
     testthat, 
