@@ -4,7 +4,7 @@ output: md_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Open Case Studies
+# Open Case Studies: Disparities in Youth Disconnection
 
 <!-- badges: start -->
 [![render-README](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-README/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)

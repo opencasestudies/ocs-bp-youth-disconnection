@@ -28,5 +28,5 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git commit --force index.html img/mainplot.png data/wrangled_data.rda -m 'Re-build index.Rmd' || echo "No changes to commit"
+          git commit --force index.html -m 'Re-build index.Rmd' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
