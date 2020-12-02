@@ -169,7 +169,6 @@ library(DT)
 
 <u>**Packages used in this case study:** </u>
 
-
  Package   | Use in this case study                                                                      
 ---------- |-------------
 [here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data  

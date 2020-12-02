@@ -2,3 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
+
+# ignore these files because they will be updated with git actions
+index.html
+img/mainplot.png
+data/wrangled_data.rda
+
