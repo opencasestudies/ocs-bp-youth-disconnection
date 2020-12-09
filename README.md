@@ -45,7 +45,7 @@ and Hicks, Stephanie C. (2020).
 <https://github.com/opencasestudies/ocs-youth-disconnection-case-study>.
 Disparities in Youth Disconnection.
 
-### Acknowledgements
+### Acknowledgments
 
 We would like to acknowledge [Tamar
 Mendelson](https://www.jhsph.edu/faculty/directory/profile/1770/tamar-mendelson)
