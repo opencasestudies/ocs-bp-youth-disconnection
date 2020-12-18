@@ -32,6 +32,7 @@ output:
 
 
 ```{r setup, include=FALSE}
+options(crayon.enabled = NULL)
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE, cache = FALSE,
                       fig.align = "center", out.width = '90%')
