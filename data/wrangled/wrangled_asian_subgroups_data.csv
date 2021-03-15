@@ -1,0 +1,46 @@
+Group,Percent,Race_Ethnicity,Gender,Year
+United States,11.5,All_races,All,2017
+Male,11.8,All_races,Male,2017
+Female,11.100000000000001,All_races,Female,2017
+Asian,6.6000000000000005,Asian,All,2017
+Asian Male,6.5,Asian,Male,2017
+Asian Female,6.7,Asian,Female,2017
+Chinese,4.3,Chinese,All,2017
+Chinese Male,4.7,Chinese,Male,2017
+Chinese Female,3.9000000000000004,Chinese,Female,2017
+Vietnamese,5.5,Vietnamese,All,2017
+Vietnamese Male,7.5,Vietnamese,Male,2017
+Vietnamese Female,3.4000000000000004,Vietnamese,Female,2017
+Indian,5.9,Indian,All,2017
+Indian Male,4.1000000000000005,Indian,Male,2017
+Indian Female,7.800000000000001,Indian,Female,2017
+Pakistani,6.4,Pakistani,All,2017
+Korean,6.5,Korean,All,2017
+Korean Male,8,Korean,Male,2017
+Korean Female,5,Korean,Female,2017
+Two Or More,6.6000000000000005,Two Or More,All,2017
+Filipino,7.300000000000001,Filipino,All,2017
+Filipino Male,6.5,Filipino,Male,2017
+Filipino Female,8.1,Filipino,Female,2017
+Hmong,14,Hmong,All,2017
+Hmong Male,18.6,Hmong,Male,2017
+Chinese,4.1000000000000005,Chinese,All,2018
+Male,4.5,Chinese,Male,2018
+Female,3.7,Chinese,Female,2018
+Indian,5.4,Indian,All,2018
+Male,4.7,Indian,Male,2018
+Female,6.1000000000000005,Indian,Female,2018
+Korean,5.5,Korean,All,2018
+Male,5.6000000000000005,Korean,Male,2018
+Female,5.4,Korean,Female,2018
+Vietnamese,6.300000000000001,Vietnamese,All,2018
+Male,7.6000000000000005,Vietnamese,Male,2018
+Female,5,Vietnamese,Female,2018
+Filipino,6.800000000000001,Filipino,All,2018
+Male,6.300000000000001,Filipino,Male,2018
+Female,7.4,Filipino,Female,2018
+Hmong,10.200000000000001,Hmong,All,2018
+Cambodian,13.8,Cambodian,All,2018
+Asian,6.2,Asian,All,2018
+Asian,6.4,Asian,Male,2018
+Asian,6.1,Asian,Female,2018

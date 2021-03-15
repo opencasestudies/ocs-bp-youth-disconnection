@@ -352,17 +352,15 @@ knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
 ### **Importing with `pdftools`**
 ***
 
-One way to import data from a pdf is to use the `pdf_text()` function of the `pdftools` package. The `here()` function in the `here` package allows us to specify the path or location of the document that we want to import, starting from the directory where a `.Rproj` file is located. In this case, we will import the `Making_the_Connection.pdf` in the `docs` directory. (*Note this is only the case if you pull the repository from github.*)
+One way to import data from a pdf is to use the `pdf_text()` function of the `pdftools` package. The `here()` function in the `here` package allows us to specify the path or location of the document that we want to import, starting from the directory where a `.Rproj` file is located. In this case, we will import the `Making_the_Connection.pdf` in the `raw` directory of the `data` directory. (*Note the next chunk of code will only work for you if you pull the repository from GitHub and set up your file structure in the same way.*) You can download the pdf file [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/Making_the_Connection.pdf)).
 
 ```{r}
 pdf_tools_example <- 
-  pdftools::pdf_text(here::here("docs","Making_the_Connection.pdf"))
+  pdftools::pdf_text(here::here("data", "raw", "Making_the_Connection.pdf"))
 ```
 
 We can take a look at the output for the page with our table of interests by simply using brackets `[]` around the page number. The page we are interested in (although labeled 39 in the report) is the 44th page, which looks like this:
 
-```{r, gender_race_eth_2019, echo=FALSE}
-```
 
 #### {.scrollable }
 ```{r}
@@ -400,8 +398,10 @@ First, we will take a screenshot (specifically create a `.png` file) of the top 
 Here, we show what this file looks like in this rendered rmarkdown website by using the `include_graphics()` function of the `knitr` package.
 
 ```{r}
-knitr::include_graphics(here::here("img", "Major_ethnic_groups_screenshot.png"))
+knitr::include_graphics(here::here("data", "raw", "Major_ethnic_groups_screenshot.png"))
 ```
+
+You can download this image file to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/Major_ethnic_groups_screenshot.png).
 
 Next, we use the `image_read()` function of the `magick` package to import this image.
 
@@ -409,7 +409,7 @@ Then, we use the `image_info()` function to make sure that the import worked and
 
 ```{r, dpi = 1000}
 Major_racial_ethnic_groups <- 
-  magick::image_read(here::here("img", "Major_ethnic_groups_screenshot.png"))
+  magick::image_read(here::here("data", "raw", "Major_ethnic_groups_screenshot.png"))
 
 magick::image_info(Major_racial_ethnic_groups)
 ```
@@ -452,7 +452,7 @@ tidyverse_logo
 magick::image_ocr(tidyverse_logo)
 ```
 
-This is likely do to the background on this particular hex sticker. So sometimes this process requires a bit of trial and error.
+This is likely do to the background on this particular hex sticker. So sometimes this process requires a bit of **trial and error**.
 
 
 
@@ -823,7 +823,7 @@ Can you recall the command to import an image into R using the `magick` package?
 
 
 ```{r, out.width}
-asian_subgroups <- image_read(here::here("img", "asian_subgroups_2017.png"))
+asian_subgroups <- image_read(here::here("data", "raw", "asian_subgroups_2017.png"))
 ```
 
 </details>
@@ -904,9 +904,9 @@ So we will now import and extract text from three screenshots of this table wher
 
 
 ```{r, out.width= "60%"}
-Asian_sub_A <- image_read(here("img", "asian_sub_A.png"))
-Asian_sub_B <- image_read(here("img", "asian_sub_B.png"))
-Asian_sub_C <- image_read(here("img", "asian_sub_C.png"))
+Asian_sub_A <- image_read(here("data", "raw", "asian_sub_A.png"))
+Asian_sub_B <- image_read(here("data", "raw", "asian_sub_B.png"))
+Asian_sub_C <- image_read(here("data", "raw", "asian_sub_C.png"))
 
 Asian_sub_A
 Asian_sub_B
@@ -1042,9 +1042,9 @@ Can you recall the commands to import and extract the data?
 <details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
-latinx_imageA <- image_read(here::here("img", "latinx_sub_A.png"))
-latinx_imageB <- image_read(here::here("img", "latinx_sub_B.png"))
-latinx_imageC <- image_read(here::here("img", "latinx_sub_C.png"))
+latinx_imageA <- image_read(here::here("data", "raw", "latinx_sub_A.png"))
+latinx_imageB <- image_read(here::here("data", "raw", "latinx_sub_B.png"))
+latinx_imageC <- image_read(here::here("data", "raw", "latinx_sub_C.png"))
 
 latinx_A <- image_ocr(latinx_imageA)
 latinx_B <- image_ocr(latinx_imageB)
@@ -1182,7 +1182,7 @@ As you can see, the data for the subgroups is shown in the table but the overall
 We will use a screenshot of each to extract the data for this year.
 
 ```{r, echo = FALSE, out.width="30%"}
-knitr::include_graphics(here::here("img/asian_subgroups_2018.png"))
+knitr::include_graphics(here::here("img", "asian_subgroups_2018.png"))
 ```
 
 ```{r, echo = FALSE, out.width="80%"}
@@ -1191,9 +1191,9 @@ knitr::include_graphics(here::here("img", "asian_youth_excerpt.png"))
 Trial and error indicated that again dividing the table into multiple screenshots improved the text extraction:
 
 ```{r}
-asian_sub_2018_A <- image_read(here::here("img", "asian_sub_2018_A.png"))
+asian_sub_2018_A <- image_read(here::here("data", "raw", "asian_sub_2018_A.png"))
 asian_sub_2018_A <- image_ocr(asian_sub_2018_A)
-asian_sub_2018_B <- image_read(here::here("img", "asian_sub_2018_B.png"))
+asian_sub_2018_B <- image_read(here::here("data", "raw", "asian_sub_2018_B.png"))
 asian_sub_2018_B <- image_ocr(asian_sub_2018_B)
 asian_sub_2018 <-str_c(asian_sub_2018_A, asian_sub_2018_B)
 ```
@@ -1420,7 +1420,7 @@ knitr::include_graphics(here::here("img", "latinx_2018_overview.png"))
 In this case only a single image was needed:
 
 ```{r}
-latinx_sub_2018 <- image_read(here::here("img", "latinx_subgroups_2018.png"))
+latinx_sub_2018 <- image_read(here::here("data", "raw", "latinx_subgroups_2018.png"))
 latinx_sub_2018 <- image_ocr(latinx_sub_2018)
 latinx_sub_2018
 ```
@@ -1585,9 +1585,15 @@ latinx_subgroups
 
 Looks good! If you made it this far, you should pat yourself on your back. That was a lot of wrangling! 
 
-```{r, echo= FALSE, eval = TRUE}
-save(major_groups_long, asian_subgroups, latinx_subgroups,
-     file = here::here("data", "wrangled_data.rda"))
+Now let's save the wrangled data so we can use it for later if we wanted to start again at this point. We can do so using the `save` function like so. We will save this data in a subdirectory called "wrangled" within the "data" directory of our working directory. 
+We will also save a csv file as this is often useful to send our data to collaborators. To use the `write_csv()` function we need to save a different CSV file for each tibble.
+
+```{r}
+save(major_groups_long, asian_subgroups, latinx_subgroups, file = here::here("data", "wrangled", "wrangled_data.rda"))
+readr::write_csv(major_groups_long, file = here::here("data", "wrangled", "wrangled_major_groups_data.csv"))
+readr::write_csv(asian_subgroups, file = here::here("data", "wrangled", "wrangled_asian_subgroups_data.csv"))
+readr::write_csv(latinx_subgroups, file = here::here("data", "wrangled", "wrangled_latinx_subgroups_data.csv"))
+
 ```
 
 ## **Data Visualization**
@@ -1606,11 +1612,45 @@ Recall what our main questions were?
 
 Now that we have wrangled our data and made it easy to work with, let's create some visualizations to explore these questions.
 
-```{r, echo = FALSE}
-# To allow starting at this section:
-load(here::here("data", "wrangled_data.rda"))
+If you have been following along but stopped and are starting here you can load the data like so:
+
+```{r}
+load(here::here("data", "wrangled", "wrangled_data.rda"))
 ```
 
+
+
+***
+<details> <summary> If you skipped the data wrangling section click here. </summary>
+
+An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth_disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth_disconnections/master/data/imported/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+
+```{r}
+load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+
+***
+<details> <summary> Click here to see more about creating new projects in RStudio. </summary>
+
+You can create a project by going to the File menu of RStudio like so:
+
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "New_project.png"))
+```
+
+You can also do so by clicking the project button:
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "project_button.png"))
+```
+
+See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
+
+</details>
+***
+</details>
 
 
 ### **Major Race and Ethnic Groups Plot**
