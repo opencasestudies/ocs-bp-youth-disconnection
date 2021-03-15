@@ -160,6 +160,7 @@ library(pdftools)
 library(tesseract)
 library(magick)
 library(knitr)
+library(readr)
 library(dplyr)
 library(stringr)
 library(magrittr)
@@ -183,6 +184,7 @@ library(DT)
 [magick](https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution)      | for importing images and extracting text from images   
 [tesseract](https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html) | for extracting text from images with `magick`   
 [knitr](https://yihui.org/knitr/) |  for showing images in reports    
+[readr](https://readr.tidyverse.org/) | for saving files
 [dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to filter, subset, join, add rows to, and modify the data   
 [stringr](https://stringr.tidyverse.org/){target="_blank"}      | to manipulate strings  
 [magrittr](https://magrittr.tidyverse.org/){target="_blank"}      | to pipe sequential commands 
@@ -1651,6 +1653,7 @@ See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Project
 </details>
 ***
 </details>
+***
 
 
 ### **Major Race and Ethnic Groups Plot**
@@ -2496,11 +2499,47 @@ latinx_subgroup_plot_simp
 ## **Data Analysis**
 *** 
 
-```{r, echo = FALSE}
-# To allow starting at this section:
-load(here::here("data", "wrangled_data.rda"))
+If you have been following along but stopped and are starting here you can load the data like so:
+
+```{r}
+load(here::here("data", "wrangled", "wrangled_data.rda"))
 ```
 
+
+
+***
+<details> <summary> If you skipped the data wrangling section click here. </summary>
+
+An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth_disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth_disconnections/master/data/imported/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+
+```{r}
+load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+
+***
+<details> <summary> Click here to see more about creating new projects in RStudio. </summary>
+
+You can create a project by going to the File menu of RStudio like so:
+
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "New_project.png"))
+```
+
+You can also do so by clicking the project button:
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "project_button.png"))
+```
+
+See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
+
+</details>
+***
+
+</details>
+***
 
 In our data, we have pooled (repeated) [cross-sectional](https://en.wikipedia.org/wiki/Cross-sectional_data?oldformat=true) data.
 
