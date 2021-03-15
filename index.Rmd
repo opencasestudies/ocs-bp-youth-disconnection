@@ -648,7 +648,7 @@ Finally let's get the Latinx subgroup data for 2018
 
 ### **Latinx Subgroups 2018** 
 ***
-Recall that this was the page with the table of interest for the Latinx subgroup 2018 data:
+Recall that this was the page with the table of interest for the Latinx subgroup 2018 data (published in 2020):
 
 ```{r, echo = FALSE, }
 knitr::include_graphics(here::here("img", "latinx_2018_overview.png"))
@@ -1377,7 +1377,7 @@ Now we are ready to look at the data from 2018 for the Asian and Latinx subgroup
 
 ### **Asian Subgroups 2018**
 ***
-Recall that this was the page with the table of interest for the Asian subgroups with 2018 data:
+Recall that this was the page with the table of interest for the Asian subgroups with 2018 data (published in 2020):
 
 ```{r, echo = FALSE, }
 knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
