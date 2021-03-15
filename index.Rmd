@@ -399,11 +399,11 @@ First, we will take a screenshot (specifically create a `.png` file) of the top 
 
 Here, we show what this file looks like in this rendered rmarkdown website by using the `include_graphics()` function of the `knitr` package.
 
-```{r}
+```{r, out.width="60%"}
 knitr::include_graphics(here::here("data", "raw", "Major_ethnic_groups_screenshot.png"))
 ```
 
-You can download this image file to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/Major_ethnic_groups_screenshot.png).
+You can download this image file from our [GitHub repostory](https://github.com//opencasestudies/ocs-bp-youth-disconnection) to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/Major_ethnic_groups_screenshot.png).
 
 Next, we use the `image_read()` function of the `magick` package to import this image.
 
@@ -456,28 +456,306 @@ magick::image_ocr(tidyverse_logo)
 
 This is likely do to the background on this particular hex sticker. So sometimes this process requires a bit of **trial and error**.
 
+OK! So now let's try extracting the text for our `Major_racial_ethnic_groups` image.
 
+### **Magor Racial and Ethnic Groups**
+
+```{r}
+major_groups <- magick::image_ocr(Major_racial_ethnic_groups)
+major_groups
+```
+
+This looks like it worked fairly well!
+
+
+Excellent, now we need to do the same for the other two tables on the bottom half of this page that we are interested in:
+
+```{r, echo  = FALSE}
+knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
+```
+
+So now we will take some screenshots of the other tables of interest. **We will later explain why we took the specific screenshots that we did, but for now just focus on importing the data.** In general,it is helpful to leave off any additional header information that you don't intend to include in the actual table. In addition empty spaces in tables can cause the need for additional images.
+
+### **Asian Subgroups 2017**
+***
+First, we are also interested in data about the Asian subgroups in 2017.
+
+You can download the next image file to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_subgroups_2017.png).
+
+#### {.recall_code_question_block}
+<b><u> Question Opportunity </u></b>
+
+Can you recall the command to import an image into R using the `magick` package?
+
+####
+
+
+<details> <summary> Click here to reveal the code. </summary>
+
+
+```{r}
+asian_subgroups <- image_read(here::here("data", "raw", "asian_subgroups_2017.png"))
+```
+
+</details>
+
+
+```{r, out.width="40%"}
+asian_subgroups
+```
+
+#### {.recall_code_question_block}
+<b><u> Question Opportunity </u></b>
+
+Can you recall the command to extract the text from an image using the `magick` package? 
+
+####
+
+<details> <summary> Click here to reveal the code. </summary>
+
+```{r}
+asian_subgroups <- image_ocr(asian_subgroups)
+```
+
+</details>
+
+```{r}
+asian_subgroups
+```
+
+Trial and error during the wrangling section will demonstrate that we needed some additional images. We will import these now. 
+
+You can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_C.png).
+
+```{r, out.width= "40%"}
+asian_sub_A <- image_read(here("data", "raw", "asian_sub_A.png"))
+asian_sub_B <- image_read(here("data", "raw", "asian_sub_B.png"))
+asian_sub_C <- image_read(here("data", "raw", "asian_sub_C.png"))
+
+asian_sub_A
+asian_sub_B
+asian_sub_C 
+
+```
+
+
+```{r}
+asian_sub_A <- image_ocr(asian_sub_A)
+asian_sub_B <- image_ocr(asian_sub_B)
+asian_sub_C <- image_ocr(asian_sub_C)
+
+asian_sub_A
+```
+
+```{r}
+asian_sub_B
+```
+
+
+```{r}
+asian_sub_C 
+```
+
+OK, now moving on to the last table on this page
+
+### **Latinx Subgroups 2017**
+
+```{r, out.width = "70%", echo = FALSE}
+knitr::include_graphics(here::here("img", "latinx2017.png"))
+```
+
+Again after trial and error, three screenshots were determined best for importing this data. 
+
+The names of the files for the screenshots are `latinx_sub_A.png`, `"latinx_sub_B.png`, and `"latinx_sub_C.png"`. They are located in the "raw" subdirectory of the "data" directory in our GitHub repository.
+
+You can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_C.png).
+
+
+#### {.recall_code_question_block}
+<b><u> Question Opportunity </u></b>
+
+Can you recall the commands to import and extract the data?
+
+####
+
+
+<details> <summary> Click here to reveal the code. </summary>
+
+```{r}
+latinx_imageA <- image_read(here::here("data", "raw", "latinx_sub_A.png"))
+latinx_imageB <- image_read(here::here("data", "raw", "latinx_sub_B.png"))
+latinx_imageC <- image_read(here::here("data", "raw", "latinx_sub_C.png"))
+
+latinx_A <- image_ocr(latinx_imageA)
+latinx_B <- image_ocr(latinx_imageB)
+latinx_C <- image_ocr(latinx_imageC)
+
+```
+
+</details>
+
+
+
+```{r, out.width="40%"}
+latinx_imageA
+latinx_A
+
+latinx_imageB
+latinx_B
+
+latinx_imageC
+latinx_C
+```
+
+
+
+
+Great! Now let's import the text from some images for the 2018 data from the other [report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf).
+
+
+### **Asian Subgroups 2018**
+***
+Recall that this was the page with the table of interest for the Asian subgroups with 2018 data:
+
+```{r, echo = FALSE, }
+knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
+```
+
+As you can see, the data for the subgroups is shown in the table but the overall data for Asians is located in the text.
+
+We will use a screenshot of each to extract the data for this year.
+
+```{r, echo = FALSE, out.width="30%"}
+knitr::include_graphics(here::here("img", "asian_subgroups_2018.png"))
+```
+
+```{r, echo = FALSE, out.width="80%"}
+knitr::include_graphics(here::here("img", "asian_youth_excerpt.png"))
+```
+
+Trial and error indicated that again dividing the table into multiple screenshots improved the text extraction:
+
+```{r}
+asian_sub_2018_A <- image_read(here::here("data", "raw", "asian_sub_2018_A.png"))
+asian_sub_2018_A <- image_ocr(asian_sub_2018_A)
+asian_sub_2018_B <- image_read(here::here("data", "raw", "asian_sub_2018_B.png"))
+asian_sub_2018_B <- image_ocr(asian_sub_2018_B)
+```
+
+
+
+Finally let's get the Latinx subgroup data for 2018
+
+### **Latinx Subgroups 2018** 
+***
+Recall that this was the page with the table of interest for the Latinx subgroup 2018 data:
+
+```{r, echo = FALSE, }
+knitr::include_graphics(here::here("img", "latinx_2018_overview.png"))
+```
+
+In this case only a single image was needed:
+
+```{r}
+latinx_sub_2018 <- image_read(here::here("data", "raw", "latinx_subgroups_2018.png"))
+latinx_sub_2018 <- image_ocr(latinx_sub_2018)
+latinx_sub_2018
+```
+
+
+Excellent! Now let's save all our imported data for users to start at later sections.
+
+```{r}
+save(
+  major_groups,
+  asian_subgroups,
+  asian_sub_A, 
+  asian_sub_B,
+  asian_sub_C, 
+  latinx_A,
+  latinx_B,
+  latinx_C,
+  asian_sub_2018_A,
+  asian_sub_2018_B,
+  latinx_sub_2018,
+  file = here::here("data", "imported", "imported_data.rda"))
+```
+
+```{r, echo = FALSE}
+# for instructors who would like to have a simpler data import we will save csv files:
+
+write_file(major_groups, file = here::here("data", "simpler_import", "major_groups.csv"))
+write_file(asian_subgroups, file = here::here("data", "simpler_import", "asian_subgroups.csv"))
+write_file(asian_sub_A, file = here::here("data", "simpler_import", "asian_sub_A.csv"))
+write_file(asian_sub_B, file = here::here("data", "simpler_import", "asian_sub_B.csv"))
+write_file(asian_sub_C, file = here::here("data", "simpler_import", "asian_sub_C.csv"))
+write_file(latinx_A, file = here::here("data", "simpler_import", "latinx_A.csv"))
+write_file(latinx_B, file = here::here("data", "simpler_import", "latinx_B.csv"))
+write_file(latinx_C, file = here::here("data", "simpler_import", "latinx_C.csv"))
+write_file(asian_sub_2018_A, file = here::here("data", "simpler_import", "asian_sub_2018_A.csv"))
+write_file(asian_sub_2018_B, file = here::here("data", "simpler_import", "asian_sub_2018_B.csv"))
+write_file(latinx_sub_2018, file = here::here("data", "simpler_import", "latinx_sub_2018.csv"))
+```
 
 ## **Data Wrangling**
 *** 
 Now let's try extracting the text from our image files.
+
+If you have been following along but stopped and are starting here you can load the data like so:
+
+```{r}
+load(here::here("data", "imported", "imported_data.rda"))
+```
+
+
+
+***
+<details> <summary> If you skipped the data import section click here. </summary>
+
+An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth_disconnection/tree/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth_disconnections/master/data/imported/imported_data.rda). Download this file and then place it in your current working directory within a subdirectory called "imported" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+
+```{r}
+load(here::here("data", "imported", "imported_data.rda"))
+```
+
+
+***
+<details> <summary> Click here to see more about creating new projects in RStudio. </summary>
+
+You can create a project by going to the File menu of RStudio like so:
+
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "New_project.png"))
+```
+
+You can also do so by clicking the project button:
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "project_button.png"))
+```
+
+See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
+
+</details>
+***
+</details>
+***
 
 ### **Major Racial and Ethnic Groups**
 ***
 
 The first image we imported looks like this. 
 
-```{r}
-Major_racial_ethnic_groups
+```{r, out.width="60%"}
+knitr::include_graphics(here::here("data", "raw", "Major_ethnic_groups_screenshot.png"))
 ```
 
-Now we will extract the text! 
+After extracting the text we got this:
 
 ```{r}
-major_groups <- magick::image_ocr(Major_racial_ethnic_groups)
-major_groups
+major_groups 
 ```
-This looks like it worked fairly well!
 
 We appear to have lost the column names (likely because of the different background color) but the values look pretty good.
 
@@ -809,46 +1087,7 @@ knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
 ### **Asian Subgroups 2017**
 ***
 
-Now let's do the same for the Asian subgroups table.
-
-First we will start by importing a screenshot for this table without the header, as we did before. The name of the file for the screenshot is `asian_subgroups.png` and it is located in the `img` directory.
-
-#### {.recall_code_question_block}
-<b><u> Question Opportunity </u></b>
-
-Can you recall the command to import an image into R using the `magick` package?
-
-####
-
-
-<details> <summary> Click here to reveal the code. </summary>
-
-
-```{r, out.width}
-asian_subgroups <- image_read(here::here("data", "raw", "asian_subgroups_2017.png"))
-```
-
-</details>
-
-
-```{r, out.width="40%"}
-asian_subgroups
-```
-
-#### {.recall_code_question_block}
-<b><u> Question Opportunity </u></b>
-
-Can you recall the command to extract the text from an image using the `magick` package? 
-
-####
-
-<details> <summary> Click here to reveal the code. </summary>
-
-```{r}
-asian_subgroups <- image_ocr(asian_subgroups)
-```
-
-</details>
+Here was the text from our our first image of this table:
 
 ```{r}
 asian_subgroups
@@ -861,7 +1100,7 @@ One option is to copy and paste code we wrote above each time.
 However, this is not very efficient and is error prone.
 Alternatively, we can create a R function to accomplish this succinctly. 
 Functions allow us to perform the same process on multiple data inputs. 
-See [this other case study](https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/) for more details about how to write a function.
+See [this other case study](https://www.opencasestudies.org/ocs-bp-vaping-case-study/) for more details about how to write a function.
 
 In general, the process of writing functions involves first specifying an input that is used within the function to create an output. In this case, the data input is `text`  which will be replaced by the actual image text that we are working on, and then used in the subsequent steps to wrangle the data. We will call our function `make_rows()`.
 
@@ -905,30 +1144,18 @@ Notice how there are empty rows. According to the report (PDF), these spaces are
 So we will now import and extract text from three screenshots of this table where we stop just after the row that starts with `PAKISTANI` in the first image, and then an image of the Korean rows up to the next row with no values, and finally an image starting at the row that starts with `FILIPNO`. Thus all of the empty rows will not be included.
 
 
-```{r, out.width= "60%"}
-Asian_sub_A <- image_read(here("data", "raw", "asian_sub_A.png"))
-Asian_sub_B <- image_read(here("data", "raw", "asian_sub_B.png"))
-Asian_sub_C <- image_read(here("data", "raw", "asian_sub_C.png"))
+These images are called `asian_sub_A`, `asian_sub_B`, and `asian_sub_C`.
 
-Asian_sub_A
-Asian_sub_B
-Asian_sub_C 
-
-```
-
+Now we will apply our `make_rows()` function to the text from these images.
 
 ```{r}
-Asian_sub_A <- image_ocr(Asian_sub_A)
-Asian_sub_B <- image_ocr(Asian_sub_B)
-Asian_sub_C <- image_ocr(Asian_sub_C)
+asian_sub_A <- make_rows(asian_sub_A)
+asian_sub_B <- make_rows(asian_sub_B)
+asian_sub_C <- make_rows(asian_sub_C)
 
-Asian_sub_A <- make_rows(Asian_sub_A)
-Asian_sub_B <- make_rows(Asian_sub_B)
-Asian_sub_C <- make_rows(Asian_sub_C)
-
-Asian_sub_A 
-Asian_sub_B
-Asian_sub_C 
+asian_sub_A 
+asian_sub_B
+asian_sub_C 
 ```
 
 Much better!
@@ -936,9 +1163,9 @@ Much better!
 We can now combine the objects with the `bind_rows()` function of the `dplyr` package, which will append each of these tibbles together one after the other.
 
 ```{r}
-asian_sub_2017 <-bind_rows(Asian_sub_A, 
-                           Asian_sub_B,
-                           Asian_sub_C)
+asian_sub_2017 <-bind_rows(asian_sub_A, 
+                           asian_sub_B,
+                           asian_sub_C)
 
 asian_sub_2017
 ```
@@ -1031,43 +1258,20 @@ For the purposes of this case study, we will assume that the first of the two ro
 
 We will make sure to correct this typo when we can. 
 
-After trial and error, two screenshots were determined best for importing this data. The names of the files for the screenshots are `latinx_sub_A.png` and `"latinx_sub_B.png`. They are located in the `img` directory.
-
-#### {.recall_code_question_block}
-<b><u> Question Opportunity </u></b>
-
-Can you recall the commands to import and extract the data?
-
-####
-
-
-<details> <summary> Click here to reveal the code. </summary>
+First let's take a look of the text from the images we imported:
 
 ```{r}
-latinx_imageA <- image_read(here::here("data", "raw", "latinx_sub_A.png"))
-latinx_imageB <- image_read(here::here("data", "raw", "latinx_sub_B.png"))
-latinx_imageC <- image_read(here::here("data", "raw", "latinx_sub_C.png"))
-
-latinx_A <- image_ocr(latinx_imageA)
-latinx_B <- image_ocr(latinx_imageB)
-latinx_C <- image_ocr(latinx_imageC)
-
+latinx_A
 ```
 
-</details>
-
-
-
-```{r, out.width="40%"}
-latinx_imageA
-latinx_A
-
-latinx_imageB
+```{r}
 latinx_B
+```
 
-latinx_imageC
+```{r}
 latinx_C
 ```
+
 We can combine the strings together using the `str_c()` function (which stands for string **collapse**) of the `stringr` package.
 
 ```{r}
@@ -1183,29 +1387,34 @@ As you can see, the data for the subgroups is shown in the table but the overall
 
 We will use a screenshot of each to extract the data for this year.
 
-```{r, echo = FALSE, out.width="30%"}
+```{r, echo = FALSE, out.width="20%"}
 knitr::include_graphics(here::here("img", "asian_subgroups_2018.png"))
 ```
 
 ```{r, echo = FALSE, out.width="80%"}
 knitr::include_graphics(here::here("img", "asian_youth_excerpt.png"))
 ```
-Trial and error indicated that again dividing the table into multiple screenshots improved the text extraction:
+
+Trial and error indicated that again dividing the table into multiple screenshots improved the text extraction. We saved the text from these images during the [**Data Import**] section as `asian_sub_2018_A` and `asian_sub_2018_B`.
 
 ```{r}
-asian_sub_2018_A <- image_read(here::here("data", "raw", "asian_sub_2018_A.png"))
-asian_sub_2018_A <- image_ocr(asian_sub_2018_A)
-asian_sub_2018_B <- image_read(here::here("data", "raw", "asian_sub_2018_B.png"))
-asian_sub_2018_B <- image_ocr(asian_sub_2018_B)
+asian_sub_2018_A
+asian_sub_2018_B
+```
+
+Again, let collapse these together with `str_c()` function.
+
+```{r}
 asian_sub_2018 <-str_c(asian_sub_2018_A, asian_sub_2018_B)
 ```
+
+Now we can apply our `make_rows()` function:
 
 ```{r}
 asian_sub_2018 <- make_rows(asian_sub_2018)
 
 asian_sub_2018
 ```
-Now we need to modify our function a bit for this new data. 
 
 First, we now have colons `:` in our table that we will want to separate by. Unfortunately, the text in each row isn't extracted in the same way by the OCR. Some rows have only a space, while others have spaces around a colon; or for the row with `VIETNAM` we see a colon directly after the word followed by a space. Thus, we will modify our `seperate()` function with this change. We can specify that the separator between any letter and any digit should be either a space (`\\s`) or a colon with a space before and after it (`\\s:\\s`) using the or (`|`)operator. 
 
@@ -1218,6 +1427,7 @@ asian_sub_2018 %>%
              sep =  "(?<=[[:alpha:]])\\s:\\s|\\s(?=[0-9])")
 
 ```
+
 Then because of the row with `VIETNAM`, we will want to remove this colon using the `str_remove()` function like this:
 
 ```{r, eval = FALSE}
@@ -1399,6 +1609,7 @@ DT::datatable(asian_subgroups)
 
 ***
 <details> <summary> Click here to see how this interactive table was created </summary>
+
 This table was created using the `datatable()` function of the `DT` package. 
 
 Like so:
@@ -1419,11 +1630,9 @@ Recall that this was the page with the table of interest for the Latinx subgroup
 knitr::include_graphics(here::here("img", "latinx_2018_overview.png"))
 ```
 
-In this case only a single image was needed:
+In this case only a single image was needed. We previously imported the text form this image and called it `latinx_sub_2018`:
 
 ```{r}
-latinx_sub_2018 <- image_read(here::here("data", "raw", "latinx_subgroups_2018.png"))
-latinx_sub_2018 <- image_ocr(latinx_sub_2018)
 latinx_sub_2018
 ```
 
@@ -1436,6 +1645,7 @@ latinx_sub_2018 <- str_replace_all(string = latinx_sub_2018,
 latinx_sub_2018 
 ```
 
+Now we can apply our `make_rows()` and `clean_table()` functions:
 
 ```{r}
 latinx_sub_2018 <- make_rows(latinx_sub_2018 )
@@ -1446,6 +1656,7 @@ latinx_sub_2018
 
 ```{r}
 latinx_sub_2018 <-clean_table(latinx_sub_2018)
+
 latinx_sub_2018
 ```
 
@@ -1625,7 +1836,7 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
 
-An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth_disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth_disconnections/master/data/imported/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth_disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth_disconnections/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
@@ -1850,7 +2061,7 @@ fa_figurine
 
 Nice! We changed the color of the image.
 
-Now let's try using a screenshot of the original plot.
+Now let's try using a screenshot of the original plot. You can find our screenshot in our `img` directory on our GitHub repository.
 
 #### Using a screenshot:
 ```{r, out.width= "10%"}
@@ -2510,7 +2721,7 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
 
-An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth_disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth_disconnections/master/data/imported/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth_disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth_disconnections/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
@@ -2643,8 +2854,8 @@ Let's conduct a Mann-Kendall trend test using our data to see if there are any m
 
 Recall that the youth disconnection rates for Native Americans were some of the highest in the first table we examined. 
 
-```{r, echo = FALSE}
-Major_racial_ethnic_groups
+```{r, echo = FALSE, out.width = "80%"}
+knitr::include_graphics(here::here("data", "raw", "Major_ethnic_groups_screenshot.png"))
 ```
 
 and the plot we made: 
@@ -2992,7 +3203,7 @@ See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more det
 
 [Piping in R](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html){target="_blank"}   
 [Writing functions](https://r4ds.had.co.nz/functions.html)   
-Also see [this case study](https://opencasestudies.github.io/ocs-bloomberg-vaping-case-study/){target="_blank"}  for more information on writing functions.   
+Also see [this case study](https://www.opencasestudies.org/ocs-bp-vaping-case-study/){target="_blank"}  for more information on writing functions.   
 [String manipulation cheatsheet](https://rstudio.com/resources/cheatsheets/){target="_blank"}  
 [Table formats](https://en.wikipedia.org/wiki/Wide_and_narrow_data){target="_blank"}
 
@@ -3022,7 +3233,7 @@ Please see [this case study](https://opencasestudies.github.io/ocs-bp-co2-emissi
 [Motivating article for this case study about youth disconnection/opportunity youth](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/)
 
 
-To learn more about importing and wrangling PDFs using the `pdftools` package see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) and this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/). 
+To learn more about importing and wrangling PDFs using the `pdftools` package see this [case study](https://opencasestudies.github.io/ocs-bp-rural-and-urban-obesity/) and this [case study](https://opencasestudies.github.io/ocs-bp-diet/). 
 
 To learn more about what you can do with the `magick` package see this [vingette](https://cran.r-project.org/web/packages/magick/vignettes/intro.html).   
 
