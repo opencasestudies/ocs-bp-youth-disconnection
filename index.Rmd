@@ -500,14 +500,14 @@ Can you recall the command to import an image into R using the `magick` package?
 
 
 ```{r}
-asian_subgroups <- image_read(here::here("data", "raw", "asian_subgroups_2017.png"))
+asian_sub_2017 <- image_read(here::here("data", "raw", "asian_subgroups_2017.png"))
 ```
 
 </details>
 
 
 ```{r, out.width="40%"}
-asian_subgroups
+asian_sub_2017
 ```
 
 #### {.recall_code_question_block}
@@ -520,46 +520,46 @@ Can you recall the command to extract the text from an image using the `magick` 
 <details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
-asian_subgroups <- image_ocr(asian_subgroups)
+asian_sub_2017 <- image_ocr(asian_sub_2017)
 ```
 
 </details>
 
 ```{r}
-asian_subgroups
+asian_sub_2017
 ```
 
 Trial and error during the wrangling section will demonstrate that we needed some additional images. We will import these now. 
 
-You can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_C.png).
+You can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_C.png).
 
 ```{r, out.width= "40%"}
-asian_sub_A <- image_read(here("data", "raw", "asian_sub_A.png"))
-asian_sub_B <- image_read(here("data", "raw", "asian_sub_B.png"))
-asian_sub_C <- image_read(here("data", "raw", "asian_sub_C.png"))
+asian_sub_2017_A <- image_read(here("data", "raw", "asian_sub_2017_A.png"))
+asian_sub_2017_B <- image_read(here("data", "raw", "asian_sub_2017_B.png"))
+asian_sub_2017_C <- image_read(here("data", "raw", "asian_sub_2017_C.png"))
 
-asian_sub_A
-asian_sub_B
-asian_sub_C 
+asian_sub_2017_A
+asian_sub_2017_B
+asian_sub_2017_C
 
 ```
 
 
 ```{r}
-asian_sub_A <- image_ocr(asian_sub_A)
-asian_sub_B <- image_ocr(asian_sub_B)
-asian_sub_C <- image_ocr(asian_sub_C)
+asian_sub_2017_A <- image_ocr(asian_sub_2017_A)
+asian_sub_2017_B <- image_ocr(asian_sub_2017_B)
+asian_sub_2017_C <- image_ocr(asian_sub_2017_C)
 
-asian_sub_A
+asian_sub_2017_A
 ```
 
 ```{r}
-asian_sub_B
+asian_sub_2017_B 
 ```
 
 
 ```{r}
-asian_sub_C 
+asian_sub_2017_C
 ```
 
 OK, now moving on to the last table on this page
@@ -572,9 +572,9 @@ knitr::include_graphics(here::here("img", "latinx2017.png"))
 
 Again after trial and error, three screenshots were determined best for importing this data. 
 
-The names of the files for the screenshots are `latinx_sub_A.png`, `"latinx_sub_B.png`, and `"latinx_sub_C.png"`. They are located in the "raw" subdirectory of the "data" directory in our GitHub repository.
+The names of the files for the screenshots are `latinx_sub_2017_A.png`, `"latinx_sub_2017_B.png`, and `"latinx_sub_2017_C.png"`. They are located in the "raw" subdirectory of the "data" directory in our GitHub repository.
 
-You can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_C.png).
+You can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_2017_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_2017_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_2017_C.png).
 
 
 #### {.recall_code_question_block}
@@ -588,13 +588,13 @@ Can you recall the commands to import and extract the data?
 <details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
-latinx_imageA <- image_read(here::here("data", "raw", "latinx_sub_A.png"))
-latinx_imageB <- image_read(here::here("data", "raw", "latinx_sub_B.png"))
-latinx_imageC <- image_read(here::here("data", "raw", "latinx_sub_C.png"))
+latinx_imageA <- image_read(here::here("data", "raw", "latinx_sub_2017_A.png"))
+latinx_imageB <- image_read(here::here("data", "raw", "latinx_sub_2017_B.png"))
+latinx_imageC <- image_read(here::here("data", "raw", "latinx_sub_2017_C.png"))
 
-latinx_A <- image_ocr(latinx_imageA)
-latinx_B <- image_ocr(latinx_imageB)
-latinx_C <- image_ocr(latinx_imageC)
+latinx_sub_2017_A <- image_ocr(latinx_imageA)
+latinx_sub_2017_B <- image_ocr(latinx_imageB)
+latinx_sub_2017_C <- image_ocr(latinx_imageC)
 
 ```
 
@@ -604,13 +604,13 @@ latinx_C <- image_ocr(latinx_imageC)
 
 ```{r, out.width="40%"}
 latinx_imageA
-latinx_A
+latinx_sub_2017_A
 
 latinx_imageB
-latinx_B
+latinx_sub_2017_B
 
 latinx_imageC
-latinx_C
+latinx_sub_2017_C
 ```
 
 
@@ -674,13 +674,13 @@ Excellent! Now let's save all our imported data for users to start at later sect
 ```{r}
 save(
   major_groups,
-  asian_subgroups,
-  asian_sub_A, 
-  asian_sub_B,
-  asian_sub_C, 
-  latinx_A,
-  latinx_B,
-  latinx_C,
+  asian_sub_2017,
+  asian_sub_2017_A, 
+  asian_sub_2017_B,
+  asian_sub_2017_C, 
+  latinx_sub_2017_A,
+  latinx_sub_2017_B,
+  latinx_sub_2017_C,
   asian_sub_2018_A,
   asian_sub_2018_B,
   latinx_sub_2018,
@@ -691,13 +691,13 @@ save(
 # for instructors who would like to have a simpler data import we will save csv files:
 
 write_file(major_groups, file = here::here("data", "simpler_import", "major_groups.csv"))
-write_file(asian_subgroups, file = here::here("data", "simpler_import", "asian_subgroups.csv"))
-write_file(asian_sub_A, file = here::here("data", "simpler_import", "asian_sub_A.csv"))
-write_file(asian_sub_B, file = here::here("data", "simpler_import", "asian_sub_B.csv"))
-write_file(asian_sub_C, file = here::here("data", "simpler_import", "asian_sub_C.csv"))
-write_file(latinx_A, file = here::here("data", "simpler_import", "latinx_A.csv"))
-write_file(latinx_B, file = here::here("data", "simpler_import", "latinx_B.csv"))
-write_file(latinx_C, file = here::here("data", "simpler_import", "latinx_C.csv"))
+write_file(asian_sub_2017, file = here::here("data", "simpler_import", "asian_sub_2017.csv"))
+write_file(asian_sub_2017_A, file = here::here("data", "simpler_import", "asian_sub_2017_A.csv"))
+write_file(asian_sub_2017_B, file = here::here("data", "simpler_import", "asian_sub_2017_B.csv"))
+write_file(asian_sub_2017_C, file = here::here("data", "simpler_import", "asian_sub_2017_C.csv"))
+write_file(latinx_sub_2017_A, file = here::here("data", "simpler_import", "latinx_sub_2017_A.csv"))
+write_file(latinx_sub_2017_B, file = here::here("data", "simpler_import", "latinx_sub_2017_B.csv"))
+write_file(latinx_sub_2017_C, file = here::here("data", "simpler_import", "latinx_sub_2017_C.csv"))
 write_file(asian_sub_2018_A, file = here::here("data", "simpler_import", "asian_sub_2018_A.csv"))
 write_file(asian_sub_2018_B, file = here::here("data", "simpler_import", "asian_sub_2018_B.csv"))
 write_file(latinx_sub_2018, file = here::here("data", "simpler_import", "latinx_sub_2018.csv"))
@@ -1096,7 +1096,7 @@ knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
 Here was the text from our our first image of this table:
 
 ```{r}
-asian_subgroups
+asian_sub_2017
 ```
 
 
@@ -1119,16 +1119,16 @@ make_rows <- function(text){
 }
 ```
 
-Great! Now let's apply our function to the `asian_subgroups` data!
+Great! Now let's apply our function to the `asian_sub_2017` data!
 
 ```{r}
-asian_subgroups <- make_rows(asian_subgroups) 
+asian_sub_2017 <- make_rows(asian_sub_2017) 
 ```
 
 #### {.scrollable }
 ```{r}
 # Scroll through the output!
-asian_subgroups
+asian_sub_2017
 ```
 
 ####
@@ -1137,7 +1137,7 @@ As you can see, there are some strange values for some of the rows. For example 
 
 ```{r, echo = FALSE}
 temp <- 
-  asian_subgroups %>%
+  asian_sub_2017 %>%
   pull(value) %>%
   str_split(" ")
 
@@ -1150,18 +1150,18 @@ Notice how there are empty rows. According to the report (PDF), these spaces are
 So we will now import and extract text from three screenshots of this table where we stop just after the row that starts with `PAKISTANI` in the first image, and then an image of the Korean rows up to the next row with no values, and finally an image starting at the row that starts with `FILIPNO`. Thus all of the empty rows will not be included.
 
 
-These images are called `asian_sub_A`, `asian_sub_B`, and `asian_sub_C`.
+These images are called `asian_sub_2017_A`, `asian_sub_2017_B`, and `asian_sub_2017_C`.
 
 Now we will apply our `make_rows()` function to the text from these images.
 
 ```{r}
-asian_sub_A <- make_rows(asian_sub_A)
-asian_sub_B <- make_rows(asian_sub_B)
-asian_sub_C <- make_rows(asian_sub_C)
+asian_sub_2017_A<- make_rows(asian_sub_2017_A)
+asian_sub_2017_B <- make_rows(asian_sub_2017_B)
+asian_sub_2017_C <- make_rows(asian_sub_2017_C)
 
-asian_sub_A 
-asian_sub_B
-asian_sub_C 
+asian_sub_2017_A 
+asian_sub_2017_B
+asian_sub_2017_C
 ```
 
 Much better!
@@ -1169,9 +1169,9 @@ Much better!
 We can now combine the objects with the `bind_rows()` function of the `dplyr` package, which will append each of these tibbles together one after the other.
 
 ```{r}
-asian_sub_2017 <-bind_rows(asian_sub_A, 
-                           asian_sub_B,
-                           asian_sub_C)
+asian_sub_2017 <-bind_rows(asian_sub_2017_A, 
+                           asian_sub_2017_B,
+                           asian_sub_2017_C)
 
 asian_sub_2017
 ```
@@ -1267,21 +1267,21 @@ We will make sure to correct this typo when we can.
 First let's take a look of the text from the images we imported:
 
 ```{r}
-latinx_A
+latinx_sub_2017_A
 ```
 
 ```{r}
-latinx_B
+latinx_sub_2017_B
 ```
 
 ```{r}
-latinx_C
+latinx_sub_2017_C
 ```
 
 We can combine the strings together using the `str_c()` function (which stands for string **collapse**) of the `stringr` package.
 
 ```{r}
-latinx_sub_2017 <- stringr::str_c(latinx_A, latinx_B, latinx_C)
+latinx_sub_2017 <- stringr::str_c(latinx_sub_2017_A, latinx_sub_2017_B, latinx_sub_2017_C)
 
 latinx_sub_2017
 ```
