@@ -12,6 +12,7 @@ Version: 0.99.0
 Depends: R (>= 4.0)
 Imports:
     here,
+    readr,
     pdftools,
     magick,
     tesseract, 
