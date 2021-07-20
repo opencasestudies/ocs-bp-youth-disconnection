@@ -83,7 +83,15 @@ Wright, Carrie and Ontiveros, Michael and Jager, Leah and Taub, Margaret and Hic
 
 ####
 
-To access the GitHub repository for this case study see here: https://github.com//opencasestudies/ocs-bp-youth-disconnection.   
+To access the GitHub repository for this case study see here: https://github.com//opencasestudies/ocs-bp-youth-disconnection. 
+
+You may also access and download the data using our `OCSdata` package. To learn more about this package including examples, see this [link](https://github.com/opencasestudies/OCSdata). Here is how you would install this package:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("opencasestudies/OCSdata")
+```
+
 This case study is part of a series of public health case studies for the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/open-case-studies).   
 
 Please help us by filling out our survey.
@@ -367,10 +375,47 @@ knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
 ## **Data Import**
 *** 
 
+If you did not clone the GitHub repository, you may download the raw data files, including the pdf file of the report and the screenshots, using the `OCSdata` package:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+# devtools::install_github("opencasestudies/OCSdata")
+
+load_raw_data("ocs-bp-youth-disconnection", outpath = getwd())
+# This function creates a "data" sub-directory in your current working directory.
+# It also creates a "raw" sub-directory within "data" which contains the .pdf file.
+```
+
 ### **Importing with `pdftools`**
 ***
 
-One way to import data from a pdf is to use the `pdf_text()` function of the `pdftools` package. The `here()` function in the `here` package allows us to specify the path or location of the document that we want to import, starting from the directory where a `.Rproj` file is located. In this case, we will import the `Making_the_Connection.pdf` in the `raw` directory of the `data` directory. (*Note the next chunk of code will only work for you if you pull the repository from GitHub and set up your file structure in the same way.*) You can download the pdf file [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/Making_the_Connection.pdf)).
+If you still have trouble obtaining the pdf file, you can download it using this [link](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/Making_the_Connection.pdf).
+
+One way to import data from a pdf is to use the `pdf_text()` function of the `pdftools` package. In our case, we downloaded the `Making_the_Connection.pdf` file and put it within a `raw` subdirectory of a `data` directory for our project. If you use an RStudio project, then you can use the `here()` function of the `here` package to specify the path or location of the document that we want to import. The `here` package automatically starts looking for files based on where you have a `.Rproj` file which is created when you start a new RStudio project. We can specify that we want to look for the `Making_the_Connection.pdf` file within the `raw` directory within the `data` directory within a directory where our `.Rproj` file is located. Starting from "data", we separate the names of these directories using commas.
+
+***
+<details> <summary> Click here to see more about creating new projects in RStudio. </summary>
+
+You can create a project by going to the File menu of RStudio like so:
+
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "New_project.png"))
+```
+
+You can also do so by clicking the project button:
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "project_button.png"))
+```
+
+See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
+
+</details>
+
+***
+
+*Note the next chunk of code will only work for you if you set up your file structure in the same way as stated above.*
 
 ```{r}
 pdf_tools_example <- 
@@ -393,7 +438,7 @@ From the output, it's clear that a relatively large amount of manipulation will 
 #### {.think_question_block}
 <b><u> Question Opportunity </u></b>
 
-If are familiar with `pdftools`, spend 3-5 minutes trying to extract the multiple tables from page 44. 
+If you are familiar with `pdftools`, spend 3-5 minutes trying to extract the multiple tables from page 44. 
 
 ####
 
@@ -450,7 +495,7 @@ ggplot2_logo <- image_read(ggplot2_url)
 ggplot2_logo
 ```
 
-Now we will use the `image_ocr()` function of the `magick` package to extract the text from the OCS logo image. This function uses the `tesseract` package which has tools for [optical character recognition (OCR)](https://en.wikipedia.org/wiki/Optical_character_recognition), hence the `ocr` in the function name. This allows the function to identify text in images. These OCR tools have often been developed using [machine learning](https://en.wikipedia.org/wiki/Machine_learning) in which an algorithm was trained on images with and without text to "learn" to recognize text. See [here](https://towardsdatascience.com/a-gentle-introduction-to-ocr-ee1469a201aa) to learn more about how OCR works.
+Now we will use the `image_ocr()` function of the `magick` package to extract the text from the ggplot2 logo image. This function uses the `tesseract` package which has tools for [optical character recognition (OCR)](https://en.wikipedia.org/wiki/Optical_character_recognition), hence the `ocr` in the function name. This allows the function to identify text in images. These OCR tools have often been developed using [machine learning](https://en.wikipedia.org/wiki/Machine_learning) in which an algorithm was trained on images with and without text to "learn" to recognize text. See [here](https://towardsdatascience.com/a-gentle-introduction-to-ocr-ee1469a201aa) to learn more about how OCR works.
 
 ```{r}
 magick::image_ocr(ggplot2_logo)
@@ -496,7 +541,7 @@ So now we will take some screenshots of the other tables of interest. **We will 
 ***
 First, we are also interested in data about the Asian subgroups in 2017.
 
-You can download the next image file to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_subgroups_2017.png).
+If you have not done so already, you can download the next image file [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_subgroups_2017.png).
 
 #### {.recall_code_question_block}
 <b><u> Question Opportunity </u></b>
@@ -505,6 +550,7 @@ Can you recall the command to import an image into R using the `magick` package?
 
 ####
 
+***
 
 <details> <summary> Click here to reveal the code. </summary>
 
@@ -515,6 +561,7 @@ asian_sub_2017 <- image_read(here::here("data", "raw", "asian_subgroups_2017.png
 
 </details>
 
+***
 
 ```{r, out.width="40%"}
 asian_sub_2017
@@ -527,6 +574,8 @@ Can you recall the command to extract the text from an image using the `magick` 
 
 ####
 
+***
+
 <details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
@@ -535,13 +584,15 @@ asian_sub_2017 <- image_ocr(asian_sub_2017)
 
 </details>
 
+***
+
 ```{r}
 asian_sub_2017
 ```
 
 Trial and error during the wrangling section will demonstrate that we needed some additional images. We will import these now. 
 
-You can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_C.png).
+If you have not done so already, you can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_C.png).
 
 ```{r, out.width= "40%"}
 asian_sub_2017_A <- image_read(here("data", "raw", "asian_sub_2017_A.png"))
@@ -584,7 +635,7 @@ Again after trial and error, three screenshots were determined best for importin
 
 The names of the files for the screenshots are `latinx_sub_2017_A.png`, `"latinx_sub_2017_B.png`, and `"latinx_sub_2017_C.png"`. They are located in the "raw" subdirectory of the "data" directory in our GitHub repository.
 
-You can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_2017_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_2017_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_2017_C.png).
+If you have not done so already, you can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_2017_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_2017_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/latinx_sub_2017_C.png).
 
 
 #### {.recall_code_question_block}
@@ -594,6 +645,7 @@ Can you recall the commands to import and extract the data?
 
 ####
 
+***
 
 <details> <summary> Click here to reveal the code. </summary>
 
@@ -610,7 +662,7 @@ latinx_sub_2017_C <- image_ocr(latinx_imageC)
 
 </details>
 
-
+***
 
 ```{r, out.width="40%"}
 latinx_imageA
@@ -717,7 +769,15 @@ write_file(latinx_sub_2018, file = here::here("data", "simpler_import", "latinx_
 *** 
 Now let's try extracting the text from our image files.
 
-If you have been following along but stopped and are starting here you can load the data like so:
+If you have been following along but stopped and are starting here you could load the imported data using the `OCSdata` package like so:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+# devtools::install_github("opencasestudies/OCSdata")
+load_imported_data("ocs-bp-youth-disconnection")
+```
+
+If you prefer loading the imported data from the "data" directory, you may do it like so:
 
 ```{r}
 load(here::here("data", "imported", "imported_data.rda"))
@@ -728,7 +788,20 @@ load(here::here("data", "imported", "imported_data.rda"))
 ***
 <details> <summary> If you skipped the data import section click here. </summary>
 
-An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/imported/imported_data.rda). Download this file and then place it in your current working directory within a subdirectory called "imported" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+First you need to install the `OCSdata` package:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("opencasestudies/OCSdata")
+```
+
+Then, you may load the imported data into your R environment using the following function:
+
+```{r, eval=FALSE}
+load_imported_data("ocs-bp-youth-disconnection")
+```
+
+If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/imported/imported_data.rda). Download this file and then place it in your current working directory within a subdirectory called "imported" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
 ```{r}
 load(here::here("data", "imported", "imported_data.rda"))
@@ -785,7 +858,16 @@ To do all of these sequential steps efficiently we will use a method called pipi
 <details> <summary>Click here if you are unfamiliar with piping in R, which uses this `%>%` operator.</summary>  
 
 By [piping](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html) we mean using the `%>%` pipe operator which is accessible after loading the `tidyverse` or several of the packages within the tidyverse like `dplyr` because they load the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html). 
-This allows us to perform multiple sequential steps on one data input.   
+This allows us to perform multiple sequential steps on one data input.  
+It takes the object in front of the `%>%` pipe operator as the first argument of the function after the pipe operator.
+
+For example, the following two lines of code are equivalent.
+
+```{r}
+head(mtcars, n = 2)
+
+mtcars %>% head(n = 2)
+```
 </details>  
 ***
 
@@ -816,7 +898,7 @@ First, let's separate the first column about ethnicities with the values in the 
 
 We want to separate by instances where a letter is followed by a space and then a number. 
 
-We can specify any letter by using the regex `[:alpha:]` notation and any number by using the regex `[:digit]` notation. We could have listed every letter that we saw the first column ending with like so `s|e|E|O|K|N` but this would not be as reproducible (meaning maybe this would not work as well next year if a new group were added that ended in a different letter), and we might make a mistake. This is why the regex are so useful. 
+We can specify any letter by using the regex `[:alpha:]` notation and any number by using the regex `[:digit:]` notation. We could have listed every letter that we saw the first column ending with like so `s|e|E|O|K|N` but this would not be as reproducible (meaning maybe this would not work as well next year if a new group were added that ended in a different letter), and we might make a mistake. This is why the regex are so useful. 
 
 ```{r, echo = FALSE, out.width= "40%"}
 knitr::include_graphics(here::here("img", "alpha.png"))
@@ -1029,6 +1111,8 @@ What other tidyverse functions could you use to replace `Latino` and `Latina` wi
 
 ####
 
+***
+
 <details> <summary> Click here to reveal the answer. </summary>
 
 While the `recode()` function will work in this case, the `str_replace()` function can be used more simply, as it will look for the pattern of `Latino` and `Latina` to replace even if that pattern is part of a value that has more characters. In contrast, the `recode` and `case_when()` functions would require that `Latinx` be specified for the replacement for both `Latino` and `Latina` separately, as well as the more complicated replacements for the compound groups like `Latinx Male` for  `Latino Male`. This is longer and thus creates more opportunities for a mistake. 
@@ -1103,7 +1187,7 @@ knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
 ### **Asian Subgroups 2017**
 ***
 
-Here was the text from our our first image of this table:
+Here was the text from our first image of this table:
 
 ```{r}
 asian_sub_2017
@@ -1114,7 +1198,7 @@ Now we again want to split the data into rows based on the newline regex. This i
 
 One option is to copy and paste code we wrote above each time. 
 However, this is not very efficient and is error prone.
-Alternatively, we can create a R function to accomplish this succinctly. 
+Alternatively, we can create an R function to accomplish this succinctly. 
 Functions allow us to perform the same process on multiple data inputs. 
 See [this other case study](https://www.opencasestudies.org/ocs-bp-vaping-case-study/) for more details about how to write a function.
 
@@ -1138,7 +1222,7 @@ asian_sub_2017 <- make_rows(asian_sub_2017)
 #### {.scrollable }
 ```{r}
 # Scroll through the output!
-asian_sub_2017
+print(asian_sub_2017, n = 50)
 ```
 
 ####
@@ -1306,6 +1390,8 @@ How might you do this?
 
 ####
 
+***
+
 <details> <summary> Click here to reveal the code. </summary>
 
 
@@ -1316,6 +1402,8 @@ latinx_sub_2017 %<>%
          replacement = "DR, Cuban Male 15.7\nPR")
 ```
 </details>
+
+***
 
 ```{r}
 latinx_sub_2017
@@ -1329,6 +1417,8 @@ Can you recall the commands within our `make_rows()` function to separate the da
 
 ####
 
+***
+
 <details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
@@ -1338,6 +1428,8 @@ latinx_sub_2017 %<>%
   as_tibble()
 ```
 </details>
+
+***
 
 ```{r}
 latinx_sub_2017
@@ -1362,6 +1454,8 @@ How might you do this using the `str_replace()` function?
 
 ####
 
+***
+
 <details> <summary> Click here to reveal the code. </summary>
 
 
@@ -1380,6 +1474,7 @@ latinx_sub_2017 %<>%
 
 </details>
 
+***
 
 ```{r}
 latinx_sub_2017
@@ -1710,6 +1805,7 @@ Can you recall how to add additional rows?
 
 ####
 
+***
 
 <details> <summary> Click here to reveal the code. </summary>
 
@@ -1732,6 +1828,7 @@ latinx_sub_2018 %<>%
 
 </details>
 
+***
 
 ```{r}
 tail(latinx_sub_2018)
@@ -1841,7 +1938,15 @@ Recall what our main questions were?
 
 Now that we have wrangled our data and made it easy to work with, let's create some visualizations to explore these questions.
 
-If you have been following along but stopped and are starting here you can load the data like so:
+If you have been following along but stopped and are starting here you could load the wrangled data using the `OCSdata` package like so:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+# devtools::install_github("opencasestudies/OCSdata")
+load_wrangled_data("ocs-bp-youth-disconnection")
+```
+
+If you prefer loading the wrangled data from the "data" directory, you may do it like so:
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
@@ -1852,7 +1957,20 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
 
-An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+First you need to install the `OCSdata` package:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("opencasestudies/OCSdata")
+```
+
+Then, you may load the wrangled data into your R environment using the following function:
+
+```{r, eval=FALSE}
+load_wrangled_data("ocs-bp-youth-disconnection")
+```
+
+If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
@@ -2049,7 +2167,9 @@ fa_figurine
 We would like to change the color of the icon to match that of our plot. We can do so using the `image_fill()` function of the `magick` package. We need to list the name of the image object to change, then we need to list the color we want to use. Finally we need to list what points we want to color. We don't want to color the space around the black shapes, just the black shapes themselves. It may take some trial and error to figure out where these pixels are.
 
 According to the documentation for the `magick` package:
->The `image_fill()` function performs flood-fill by painting starting point and all neighboring pixels of approximately the same color.
+
+> The `image_fill()` function performs flood-fill by painting starting point and all neighboring pixels of approximately the same color.
+
 > point = a geometry_point string indicating the starting point of the flood-fill 
 
 First we will color in the circle at the top of the icon. If we use `point = +600+600` this is starting at the pixel at x:600, y:600. We can see from the output about the `fa_figurine` that the image is 1792 by 1792 pixels in size. Thus, if we choose a pixel that is within the borders of the shape we want to change then we can change that shape. We can use the size of the image to figure out where the pixel might be. Since the image is 1792 by 1792 pixels, 800 is about half way through the image image from the left side (x:0) and 600 is about a third of the way through the and the top (y:0).
@@ -2107,6 +2227,8 @@ How might we change the Native American label to have two lines? (hint: think ab
 
 ####
 
+***
+
 <details> <summary>Click here to reveal the code.</summary>
 
 ```{r}
@@ -2144,6 +2266,8 @@ youth_plot <- directlabels::direct.label(youth_plot, list(dl.trans(x = x + 1.4,
 
 </details>
 
+***
+
 ```{r}
 youth_plot
 ```
@@ -2163,6 +2287,8 @@ We do not want to plot the `"All"` values for the `Gender` variable as we have a
 How do we modify the plot above to not include the `"All"` values for the `Gender` variable and stratify by `Gender`?
 
 ####
+
+***
 
 <details> <summary>Click here to reveal the code.</summary>
 
@@ -2203,6 +2329,8 @@ plot_by_gender <- direct.label(plot_by_gender, list(dl.trans(x = x+0.3, y = y +0
 
 ```
 </details>
+
+***
 
 ```{r}
 plot_by_gender
@@ -2726,7 +2854,15 @@ latinx_subgroup_plot_simp
 ## **Data Analysis**
 *** 
 
-If you have been following along but stopped and are starting here you can load the data like so:
+If you have been following along but stopped and are starting here you could load the wrangled data using the `OCSdata` package like so:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+# devtools::install_github("opencasestudies/OCSdata")
+load_wrangled_data("ocs-bp-youth-disconnection")
+```
+
+If you prefer loading the wrangled data from the "data" directory, you may do it like so:
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
@@ -2737,7 +2873,20 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
 
-An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+First you need to install the `OCSdata` package:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("opencasestudies/OCSdata")
+```
+
+Then, you may load the wrangled data into your R environment using the following function:
+
+```{r, eval=FALSE}
+load_wrangled_data("ocs-bp-youth-disconnection")
+```
+
+If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
