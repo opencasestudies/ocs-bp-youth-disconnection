@@ -1,10 +1,12 @@
 ---
-title: "Open Case Studies: Disparities in Youth Disconnection"
-css: style.css
+title: |
+  ![](www/img/interactive_logo.png){width=120px align=left style="padding-right: 20px"}
+  Disparities in Youth Disconnection
+css: www/style.css
 output:
   html_document:
     includes:
-      in_header: GA_Script.Rhtml
+       in_header: www/GA_Script.Rhtml
     self_contained: yes
     code_download: yes
     highlight: tango
@@ -16,23 +18,13 @@ output:
     toc: yes
   word_document:
     toc: yes
-
+runtime: shiny_prerendered
 ---
-
-<style>
-#TOC {
-  background: url("https://opencasestudies.github.io/img/icon-bahi.png");
-  background-size: contain;
-  padding-top: 240px !important;
-  background-repeat: no-repeat;
-}
-</style>
-
 
 <!-- Open all links in new tab-->  
 <base target="_blank"/>  
 
-<div id="google_translate_element"></div>
+<div align="left" id="google_translate_element",></div>
 
 <script type="text/javascript" src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
 
@@ -51,12 +43,16 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
 library(here)
 library(knitr)
 library(readr)
+
+library(learnr)
+library(gradethis)
+gradethis::gradethis_setup()
 ```
 
 
 #### {.outline }
 ```{r, echo = FALSE, out.width = "900 px"}
-knitr::include_graphics(here::here("img", "mainplot.png"))
+knitr::include_graphics(here::here("www", "img", "mainplot.png"))
 ```
 
 ####
@@ -257,7 +253,7 @@ There are also many known **negative consequences** associated with youth discon
 
 
 ```{r, out.width= "400px",echo=FALSE}
-knitr::include_graphics(here::here("img", "jon-tyson-ajzN2AYNi1U-unsplash.jpg"))
+knitr::include_graphics(here::here("www", "img", "jon-tyson-ajzN2AYNi1U-unsplash.jpg"))
 ```
 <span>Photo by <a href="https://unsplash.com/@jontyson?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jon Tyson</a> on <a href="https://unsplash.com/s/photos/unemployment?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
 
@@ -268,7 +264,7 @@ Youth disconnection can be described as a continuum, as some youths will be disc
 Here is an illustration of risk factors, protective factors and the continuum of disconnection:
 
 ```{r, echo = FALSE, out.width = "800 px"}
-knitr::include_graphics(here::here("img", "risk_factors.png"))
+knitr::include_graphics(here::here("www", "img", "risk_factors.png"))
 ```
 
 ##### [[source]](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6243446/pdf/10.1177_0033354918799344.pdf) 
@@ -335,13 +331,13 @@ In this case study we will be using data related to youth disconnection from the
 1. Lewis, Kristen. [Making the Connection: Transportation and Youth Disconnection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) . New York: Measure of America, Social Science Research Council, 2019.  (Data up to 2017)
 
 ```{r, out.width="400px", echo = FALSE}
-knitr::include_graphics(here::here("img", "Making_the_Connection.png"))
+knitr::include_graphics(here::here("www", "img", "Making_the_Connection.png"))
 ```
 
 2. Lewis, Kristen. [A Decade Undone: Youth Disconnection in the Age of Coronavirus](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf). New York: Measure of America, Social Science Research Council, 2020. (Data up to 2018)
 
 ```{r, out.width="400px", echo = FALSE}
-knitr::include_graphics(here::here("img", "A_Decade_Undone.png"))
+knitr::include_graphics(here::here("www", "img", "A_Decade_Undone.png"))
 ```
 
 The data used in these reports comes from the [American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs), which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizenship, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey.
@@ -356,18 +352,18 @@ According to [Wikipedia](https://en.wikipedia.org/wiki/American_Community_Survey
 We are particularly interested in the following tables on the last page of the [Measure of America 2019 report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf):
 
 ```{r, echo = FALSE, gender_race_eth_2019}
-knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
+knitr::include_graphics(here::here("www", "img", "gender_race_ethnicity_overview.png"))
 ```
 
 Also, we are particularly interested in the tables on the following pages from the [Measure of America 2020 report](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf):
 
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img", "latinx_2018_overview.png"))
+knitr::include_graphics(here::here("www", "img", "latinx_2018_overview.png"))
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
+knitr::include_graphics(here::here("www", "img", "asian_2018_overview.png"))
 ```
 
 
@@ -400,13 +396,13 @@ You can create a project by going to the File menu of RStudio like so:
 
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "New_project.png"))
+knitr::include_graphics(here::here("www", "img", "New_project.png"))
 ```
 
 You can also do so by clicking the project button:
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "project_button.png"))
+knitr::include_graphics(here::here("www", "img", "project_button.png"))
 ```
 
 See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
@@ -417,9 +413,14 @@ See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Project
 
 *Note the next chunk of code will only work for you if you set up your file structure in the same way as stated above.*
 
-```{r}
+```{r, eval=FALSE}
 pdf_tools_example <- 
   pdftools::pdf_text(here::here("data", "raw", "Making_the_Connection.pdf"))
+```
+
+```{r, echo=FALSE}
+pdf_tools_example <- 
+  pdftools::pdf_text(here::here("www", "data", "raw", "Making_the_Connection.pdf"))
 ```
 
 We can take a look at the output for the page with our table of interests by simply using brackets `[]` around the page number. The page we are interested in (although labeled 39 in the report) is the 44th page, which looks like this:
@@ -442,6 +443,22 @@ If you are familiar with `pdftools`, spend 3-5 minutes trying to extract the mul
 
 ####
 
+```{r, echo=FALSE}
+save(pdf_tools_example, file = here("www", "exercise", "di_code1.rda"))
+```
+
+```{r di_code1-setup}
+library(tidyverse)
+library(magrittr)
+library(pdftools)
+
+load(here("www", "exercise", "di_code1.rda"))
+```
+
+```{r di_code1, exercise=TRUE}
+# try this out if you'd like
+```
+
 While you might find the question above to not be impossible using the `pdftools` package, you might find it a bit challenging because of how the multiple tables are displayed on this page.
 
 While our output may be reproducible, this process may be too time consuming.
@@ -460,8 +477,12 @@ First, we will take a screenshot (specifically create a `.png` file) of the top 
 
 Here, we show what this file looks like in this rendered rmarkdown website by using the `include_graphics()` function of the `knitr` package.
 
-```{r, out.width="60%"}
+```{r, out.width="60%", eval=FALSE}
 knitr::include_graphics(here::here("data", "raw", "Major_ethnic_groups_screenshot.png"))
+```
+
+```{r, out.width="60%", echo=FALSE}
+knitr::include_graphics(here::here("www", "data", "raw", "Major_ethnic_groups_screenshot.png"))
 ```
 
 You can download this image file from our [GitHub repostory](https://github.com//opencasestudies/ocs-bp-youth-disconnection) to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/Major_ethnic_groups_screenshot.png).
@@ -470,9 +491,16 @@ Next, we use the `image_read()` function of the `magick` package to import this 
 
 Then, we use the `image_info()` function to make sure that the import worked and to get information about the size, format and color of the image.
 
-```{r, dpi = 1000}
+```{r, dpi = 1000, eval=FALSE}
 Major_racial_ethnic_groups <- 
   magick::image_read(here::here("data", "raw", "Major_ethnic_groups_screenshot.png"))
+
+magick::image_info(Major_racial_ethnic_groups)
+```
+
+```{r, dpi = 1000, echo=FALSE}
+Major_racial_ethnic_groups <- 
+  magick::image_read(here::here("www", "data", "raw", "Major_ethnic_groups_screenshot.png"))
 
 magick::image_info(Major_racial_ethnic_groups)
 ```
@@ -532,7 +560,7 @@ This looks like it worked fairly well!
 Excellent, now we need to do the same for the other two tables on the bottom half of this page that we are interested in:
 
 ```{r, echo  = FALSE}
-knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
+knitr::include_graphics(here::here("www", "img", "gender_race_ethnicity_overview.png"))
 ```
 
 So now we will take some screenshots of the other tables of interest. **We will later explain why we took the specific screenshots that we did, but for now just focus on importing the data.** In general,it is helpful to leave off any additional header information that you don't intend to include in the actual table. In addition empty spaces in tables can cause the need for additional images.
@@ -555,8 +583,12 @@ Can you recall the command to import an image into R using the `magick` package?
 <details> <summary> Click here to reveal the code. </summary>
 
 
-```{r}
+```{r, eval=FALSE}
 asian_sub_2017 <- image_read(here::here("data", "raw", "asian_subgroups_2017.png"))
+```
+
+```{r, echo=FALSE}
+asian_sub_2017 <- image_read(here::here("www", "data", "raw", "asian_subgroups_2017.png"))
 ```
 
 </details>
@@ -594,10 +626,21 @@ Trial and error during the wrangling section will demonstrate that we needed som
 
 If you have not done so already, you can download the next image files to follow along [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_A.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_B.png) and [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/raw/asian_sub_2017_C.png).
 
-```{r, out.width= "40%"}
+```{r, out.width= "40%", eval=FALSE}
 asian_sub_2017_A <- image_read(here("data", "raw", "asian_sub_2017_A.png"))
 asian_sub_2017_B <- image_read(here("data", "raw", "asian_sub_2017_B.png"))
 asian_sub_2017_C <- image_read(here("data", "raw", "asian_sub_2017_C.png"))
+
+asian_sub_2017_A
+asian_sub_2017_B
+asian_sub_2017_C
+
+```
+
+```{r, out.width= "40%", echo=FALSE}
+asian_sub_2017_A <- image_read(here("www", "data", "raw", "asian_sub_2017_A.png"))
+asian_sub_2017_B <- image_read(here("www", "data", "raw", "asian_sub_2017_B.png"))
+asian_sub_2017_C <- image_read(here("www", "data", "raw", "asian_sub_2017_C.png"))
 
 asian_sub_2017_A
 asian_sub_2017_B
@@ -628,7 +671,7 @@ OK, now moving on to the last table on this page
 ### **Latinx Subgroups 2017**
 
 ```{r, out.width = "70%", echo = FALSE}
-knitr::include_graphics(here::here("img", "latinx2017.png"))
+knitr::include_graphics(here::here("www", "img", "latinx2017.png"))
 ```
 
 Again after trial and error, three screenshots were determined best for importing this data. 
@@ -649,7 +692,7 @@ Can you recall the commands to import and extract the data?
 
 <details> <summary> Click here to reveal the code. </summary>
 
-```{r}
+```{r, eval=FALSE}
 latinx_imageA <- image_read(here::here("data", "raw", "latinx_sub_2017_A.png"))
 latinx_imageB <- image_read(here::here("data", "raw", "latinx_sub_2017_B.png"))
 latinx_imageC <- image_read(here::here("data", "raw", "latinx_sub_2017_C.png"))
@@ -659,6 +702,18 @@ latinx_sub_2017_B <- image_ocr(latinx_imageB)
 latinx_sub_2017_C <- image_ocr(latinx_imageC)
 
 ```
+
+```{r, echo=FALSE}
+latinx_imageA <- image_read(here::here("www", "data", "raw", "latinx_sub_2017_A.png"))
+latinx_imageB <- image_read(here::here("www", "data", "raw", "latinx_sub_2017_B.png"))
+latinx_imageC <- image_read(here::here("www", "data", "raw", "latinx_sub_2017_C.png"))
+
+latinx_sub_2017_A <- image_ocr(latinx_imageA)
+latinx_sub_2017_B <- image_ocr(latinx_imageB)
+latinx_sub_2017_C <- image_ocr(latinx_imageC)
+
+```
+
 
 </details>
 
@@ -686,7 +741,7 @@ Great! Now let's import the text from some images for the 2018 data from the oth
 Recall that this was the page with the table of interest for the Asian subgroups with 2018 data:
 
 ```{r, echo = FALSE, }
-knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
+knitr::include_graphics(here::here("www", "img", "asian_2018_overview.png"))
 ```
 
 As you can see, the data for the subgroups is shown in the table but the overall data for Asians is located in the text.
@@ -694,19 +749,26 @@ As you can see, the data for the subgroups is shown in the table but the overall
 We will use a screenshot of each to extract the data for this year.
 
 ```{r, echo = FALSE, out.width="30%"}
-knitr::include_graphics(here::here("img", "asian_subgroups_2018.png"))
+knitr::include_graphics(here::here("www", "img", "asian_subgroups_2018.png"))
 ```
 
 ```{r, echo = FALSE, out.width="80%"}
-knitr::include_graphics(here::here("img", "asian_youth_excerpt.png"))
+knitr::include_graphics(here::here("www", "img", "asian_youth_excerpt.png"))
 ```
 
 Trial and error indicated that again dividing the table into multiple screenshots improved the text extraction:
 
-```{r}
+```{r, eval=FALSE}
 asian_sub_2018_A <- image_read(here::here("data", "raw", "asian_sub_2018_A.png"))
 asian_sub_2018_A <- image_ocr(asian_sub_2018_A)
 asian_sub_2018_B <- image_read(here::here("data", "raw", "asian_sub_2018_B.png"))
+asian_sub_2018_B <- image_ocr(asian_sub_2018_B)
+```
+
+```{r, echo=FALSE}
+asian_sub_2018_A <- image_read(here::here("www", "data", "raw", "asian_sub_2018_A.png"))
+asian_sub_2018_A <- image_ocr(asian_sub_2018_A)
+asian_sub_2018_B <- image_read(here::here("www", "data", "raw", "asian_sub_2018_B.png"))
 asian_sub_2018_B <- image_ocr(asian_sub_2018_B)
 ```
 
@@ -719,21 +781,26 @@ Finally let's get the Latinx subgroup data for 2018
 Recall that this was the page with the table of interest for the Latinx subgroup 2018 data (published in 2020):
 
 ```{r, echo = FALSE, }
-knitr::include_graphics(here::here("img", "latinx_2018_overview.png"))
+knitr::include_graphics(here::here("www", "img", "latinx_2018_overview.png"))
 ```
 
 In this case only a single image was needed:
 
-```{r}
+```{r, eval=FALSE}
 latinx_sub_2018 <- image_read(here::here("data", "raw", "latinx_subgroups_2018.png"))
 latinx_sub_2018 <- image_ocr(latinx_sub_2018)
 latinx_sub_2018
 ```
 
+```{r, echo=FALSE}
+latinx_sub_2018 <- image_read(here::here("www", "data", "raw", "latinx_subgroups_2018.png"))
+latinx_sub_2018 <- image_ocr(latinx_sub_2018)
+latinx_sub_2018
+```
 
 Excellent! Now let's save all our imported data for users to start at later sections.
 
-```{r}
+```{r, eval=FALSE}
 save(
   major_groups,
   asian_sub_2017,
@@ -749,21 +816,66 @@ save(
   file = here::here("data", "imported", "imported_data.rda"))
 ```
 
+```{r, echo=FALSE}
+save(
+  major_groups,
+  asian_sub_2017,
+  asian_sub_2017_A, 
+  asian_sub_2017_B,
+  asian_sub_2017_C, 
+  latinx_sub_2017_A,
+  latinx_sub_2017_B,
+  latinx_sub_2017_C,
+  asian_sub_2018_A,
+  asian_sub_2018_B,
+  latinx_sub_2018,
+  file = here::here("www", "data", "imported", "imported_data.rda"))
+```
+
+
 ```{r, echo = FALSE}
 # for instructors who would like to have a simpler data import we will save csv files:
 
-write_file(major_groups, file = here::here("data", "simpler_import", "major_groups.csv"))
-write_file(asian_sub_2017, file = here::here("data", "simpler_import", "asian_sub_2017.csv"))
-write_file(asian_sub_2017_A, file = here::here("data", "simpler_import", "asian_sub_2017_A.csv"))
-write_file(asian_sub_2017_B, file = here::here("data", "simpler_import", "asian_sub_2017_B.csv"))
-write_file(asian_sub_2017_C, file = here::here("data", "simpler_import", "asian_sub_2017_C.csv"))
-write_file(latinx_sub_2017_A, file = here::here("data", "simpler_import", "latinx_sub_2017_A.csv"))
-write_file(latinx_sub_2017_B, file = here::here("data", "simpler_import", "latinx_sub_2017_B.csv"))
-write_file(latinx_sub_2017_C, file = here::here("data", "simpler_import", "latinx_sub_2017_C.csv"))
-write_file(asian_sub_2018_A, file = here::here("data", "simpler_import", "asian_sub_2018_A.csv"))
-write_file(asian_sub_2018_B, file = here::here("data", "simpler_import", "asian_sub_2018_B.csv"))
-write_file(latinx_sub_2018, file = here::here("data", "simpler_import", "latinx_sub_2018.csv"))
+write_file(major_groups, file = here::here("www", "data", "simpler_import", "major_groups.csv"))
+write_file(asian_sub_2017, file = here::here("www", "data", "simpler_import", "asian_sub_2017.csv"))
+write_file(asian_sub_2017_A, file = here::here("www", "data", "simpler_import", "asian_sub_2017_A.csv"))
+write_file(asian_sub_2017_B, file = here::here("www", "data", "simpler_import", "asian_sub_2017_B.csv"))
+write_file(asian_sub_2017_C, file = here::here("www", "data", "simpler_import", "asian_sub_2017_C.csv"))
+write_file(latinx_sub_2017_A, file = here::here("www", "data", "simpler_import", "latinx_sub_2017_A.csv"))
+write_file(latinx_sub_2017_B, file = here::here("www", "data", "simpler_import", "latinx_sub_2017_B.csv"))
+write_file(latinx_sub_2017_C, file = here::here("www", "data", "simpler_import", "latinx_sub_2017_C.csv"))
+write_file(asian_sub_2018_A, file = here::here("www", "data", "simpler_import", "asian_sub_2018_A.csv"))
+write_file(asian_sub_2018_B, file = here::here("www", "data", "simpler_import", "asian_sub_2018_B.csv"))
+write_file(latinx_sub_2018, file = here::here("www", "data", "simpler_import", "latinx_sub_2018.csv"))
 ```
+
+
+### **Exercise**
+***
+
+#### {.exercise_block}
+
+Extract the text from the Open Case Studies logo (URL: https://opencasestudies.github.io/img/icon-bahi.png) using the `magick` package.
+
+```{r di_exercise1-setup}
+library(tidyverse)
+library(magrittr)
+library(magick)
+```
+
+```{r di_exercise1, exercise=TRUE}
+ocs_url <- "https://opencasestudies.github.io/img/icon-bahi.png"
+```
+
+```{r di_exercise1-solution}
+ocs_url <- "https://opencasestudies.github.io/img/icon-bahi.png"
+
+ocs_logo <- image_read(ocs_url)
+
+image_ocr(ocs_logo)
+```
+
+####
 
 ## **Data Wrangling**
 *** 
@@ -779,10 +891,13 @@ load_imported_data("ocs-bp-youth-disconnection")
 
 If you prefer loading the imported data from the "data" directory, you may do it like so:
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "imported", "imported_data.rda"))
 ```
 
+```{r, echo=FALSE}
+load(here::here("www", "data", "imported", "imported_data.rda"))
+```
 
 
 ***
@@ -803,8 +918,12 @@ load_imported_data("ocs-bp-youth-disconnection")
 
 If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/imported/imported_data.rda). Download this file and then place it in your current working directory within a subdirectory called "imported" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "imported", "imported_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "imported", "imported_data.rda"))
 ```
 
 
@@ -815,13 +934,13 @@ You can create a project by going to the File menu of RStudio like so:
 
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "New_project.png"))
+knitr::include_graphics(here::here("www", "img", "New_project.png"))
 ```
 
 You can also do so by clicking the project button:
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "project_button.png"))
+knitr::include_graphics(here::here("www", "img", "project_button.png"))
 ```
 
 See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
@@ -836,8 +955,12 @@ See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Project
 
 The first image we imported looks like this. 
 
-```{r, out.width="60%"}
+```{r, out.width="60%", eval=FALSE}
 knitr::include_graphics(here::here("data", "raw", "Major_ethnic_groups_screenshot.png"))
+```
+
+```{r, out.width="60%", echo=FALSE}
+knitr::include_graphics(here::here("www", "data", "raw", "Major_ethnic_groups_screenshot.png"))
 ```
 
 After extracting the text we got this:
@@ -901,19 +1024,19 @@ We want to separate by instances where a letter is followed by a space and then 
 We can specify any letter by using the regex `[:alpha:]` notation and any number by using the regex `[:digit:]` notation. We could have listed every letter that we saw the first column ending with like so `s|e|E|O|K|N` but this would not be as reproducible (meaning maybe this would not work as well next year if a new group were added that ended in a different letter), and we might make a mistake. This is why the regex are so useful. 
 
 ```{r, echo = FALSE, out.width= "40%"}
-knitr::include_graphics(here::here("img", "alpha.png"))
+knitr::include_graphics(here::here("www", "img", "alpha.png"))
 ```
 We can indicate that we want a space by using this regex:
 
 ```{r, echo = FALSE, out.width= "40%"}
-knitr::include_graphics(here::here("img", "regex.png"))
+knitr::include_graphics(here::here("www", "img", "regex.png"))
 ```
 
 
 Now to specify that we want to see a letter first followed by a space, followed by a digit, we need to use a look around: 
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img", "look_around.png"))
+knitr::include_graphics(here::here("www", "img", "look_around.png"))
 ```
 
 We will use the "preceded by" and "followed by" look arounds. Thus `(?<=[[:alpha:]])` stands for any letter that appears before a space `\\s` that is followed by any digit `(?=[0-9])`. Altogether the pattern we want to separate by looks like this: `"(?<=[[:alpha:]])\\s(?=[0-9])"`.
@@ -1013,7 +1136,7 @@ Here, we use the `mutate()` function combined with the `across()` function, whic
 Finally, we will use the `str_remove()` function of the `stringr` package to find instances of "." and remove them. Since "." is a regex, and indicates any character string, thus we need "\\" to have R interpret a decimal or a period instead, as we can see from the RStudio cheat sheets:
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "regex_period.png"))
+knitr::include_graphics(here::here("www", "img", "regex_period.png"))
 ```
 
 To pass the data from all the columns except our `Group` variable into our `str_remove()` function, we need to use the `.` notation as a replacement for the data that we specified by the `.cols`argument and we need to use `~` in front of the function name. 
@@ -1062,7 +1185,7 @@ Now is a good time to double check that our table looks like what we expect.
 
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img", "gender_race_ethnicity.png"))
+knitr::include_graphics(here::here("www", "img", "gender_race_ethnicity.png"))
 ```
 
 Looks good!
@@ -1180,7 +1303,7 @@ major_groups_long
 Excellent, now we need to do the same for the other two tables on this page:
 
 ```{r, echo  = FALSE}
-knitr::include_graphics(here::here("img", "gender_race_ethnicity_overview.png"))
+knitr::include_graphics(here::here("www", "img", "gender_race_ethnicity_overview.png"))
 ```
 
 
@@ -1333,8 +1456,12 @@ Why do we not need to use `pivot_longer()` with this data?
 
 Recall that this is the table we want to wrangle:
 
-```{r, out.width = "80%"}
+```{r, out.width = "80%", eval=FALSE}
 knitr::include_graphics(here::here("img", "latinx2017.png"))
+```
+
+```{r, out.width = "80%", echo=FALSE}
+knitr::include_graphics(here::here("www", "img", "latinx2017.png"))
 ```
 
 #### {.think_question_block}
@@ -1390,6 +1517,28 @@ How might you do this?
 
 ####
 
+```{r, echo=FALSE}
+save(latinx_sub_2017, file = here("www", "exercise", "dw_code1.rda"))
+```
+
+```{r dw_code1-setup}
+library(tidyverse)
+library(magrittr)
+
+load(here("www", "exercise", "dw_code1.rda"))
+```
+
+```{r dw_code1, exercise=TRUE}
+latinx_sub_2017 %<>% 
+```
+
+```{r dw_code1-solution}
+latinx_sub_2017 %<>% 
+  str_replace(string = .,
+             pattern = "DR, Cuban Female 15.7\nPR",
+         replacement = "DR, Cuban Male 15.7\nPR")
+```
+
 ***
 
 <details> <summary> Click here to reveal the code. </summary>
@@ -1400,10 +1549,14 @@ latinx_sub_2017 %<>%
   str_replace(string = .,
              pattern = "DR, Cuban Female 15.7\nPR",
          replacement = "DR, Cuban Male 15.7\nPR")
+
+latinx_sub_2017
 ```
 </details>
 
 ***
+
+If you completed the exercise, you would get an output like this:
 
 ```{r}
 latinx_sub_2017
@@ -1416,6 +1569,28 @@ latinx_sub_2017
 Can you recall the commands within our `make_rows()` function to separate the data into rows and create a tibble?
 
 ####
+
+```{r, echo=FALSE}
+save(latinx_sub_2017, file = here("www", "exercise", "dw_code2.rda"))
+```
+
+```{r dw_code2-setup}
+library(tidyverse)
+library(magrittr)
+
+load(here("www", "exercise", "dw_code2.rda"))
+```
+
+```{r dw_code2, exercise=TRUE}
+latinx_sub_2017 %<>% 
+```
+
+```{r dw_code2-solution}
+latinx_sub_2017 %<>%
+  str_split("\n") %>%
+  unlist() %>%
+  as_tibble()
+```
 
 ***
 
@@ -1430,6 +1605,8 @@ latinx_sub_2017 %<>%
 </details>
 
 ***
+
+If you completed the exercise, you would get an output like this:
 
 ```{r}
 latinx_sub_2017
@@ -1454,6 +1631,33 @@ How might you do this using the `str_replace()` function?
 
 ####
 
+```{r, echo=FALSE}
+save(latinx_sub_2017, file = here("www", "exercise", "dw_code3.rda"))
+```
+
+```{r dw_code3-setup}
+library(tidyverse)
+library(magrittr)
+
+load(here("www", "exercise", "dw_code3.rda"))
+```
+
+```{r dw_code3, exercise=TRUE}
+latinx_sub_2017 %<>% 
+```
+
+```{r dw_code3-solution}
+latinx_sub_2017 %<>%
+  mutate(across(.cols = c(Group, Race_Ethnicity), 
+           ~str_replace(string = .,
+                       pattern = "Pr, Dr, Cuban",
+                   replacement = "Puerto Rican, Dominican, Cuban")),
+         across(.cols = c(Group,Race_Ethnicity),
+          ~str_replace(string = .,
+                      pattern = "Latino|Latina",
+                  replacement = "Latinx")))
+```
+
 ***
 
 <details> <summary> Click here to reveal the code. </summary>
@@ -1476,6 +1680,8 @@ latinx_sub_2017 %<>%
 
 ***
 
+If you completed the exercise, you would get an output like this:
+
 ```{r}
 latinx_sub_2017
 ```
@@ -1491,7 +1697,7 @@ Now we are ready to look at the data from 2018 for the Asian and Latinx subgroup
 Recall that this was the page with the table of interest for the Asian subgroups with 2018 data (published in 2020):
 
 ```{r, echo = FALSE, }
-knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
+knitr::include_graphics(here::here("www", "img", "asian_2018_overview.png"))
 ```
 
 As you can see, the data for the subgroups is shown in the table but the overall data for Asians is located in the text.
@@ -1499,11 +1705,11 @@ As you can see, the data for the subgroups is shown in the table but the overall
 We will use a screenshot of each to extract the data for this year.
 
 ```{r, echo = FALSE, out.width="20%"}
-knitr::include_graphics(here::here("img", "asian_subgroups_2018.png"))
+knitr::include_graphics(here::here("www", "img", "asian_subgroups_2018.png"))
 ```
 
 ```{r, echo = FALSE, out.width="80%"}
-knitr::include_graphics(here::here("img", "asian_youth_excerpt.png"))
+knitr::include_graphics(here::here("www", "img", "asian_youth_excerpt.png"))
 ```
 
 Trial and error indicated that again dividing the table into multiple screenshots improved the text extraction. We saved the text from these images during the [**Data Import**] section as `asian_sub_2018_A` and `asian_sub_2018_B`.
@@ -1630,7 +1836,7 @@ Looking good!
 Now we just need to add the data for all Asians from the text. 
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "asian_youth_excerpt.png"))
+knitr::include_graphics(here::here("www", "img", "asian_youth_excerpt.png"))
 ```
 
 We can do this using the `add_row()` function of the `dplyr()` package.
@@ -1738,7 +1944,7 @@ Great, now we are ready to perform similar wrangling for the Latinx subgroups.
 Recall that this was the page with the table of interest for the Latinx subgroup 2018 data:
 
 ```{r, echo = FALSE, }
-knitr::include_graphics(here::here("img", "latinx_2018_overview.png"))
+knitr::include_graphics(here::here("www", "img", "latinx_2018_overview.png"))
 ```
 
 In this case only a single image was needed. We previously imported the text form this image and called it `latinx_sub_2018`:
@@ -1792,8 +1998,13 @@ We also want to add the total Latinx values according to the text:
 
 
 
-```{r}
+```{r, eval=FALSE}
 knitr::include_graphics(here::here("img", "latinx_youth_excerpt.png"))
+
+```
+
+```{r, echo=FALSE}
+knitr::include_graphics(here::here("www", "img", "latinx_youth_excerpt.png"))
 
 ```
 
@@ -1914,13 +2125,140 @@ Looks good! If you made it this far, you should pat yourself on your back. That 
 Now let's save the wrangled data so we can use it for later if we wanted to start again at this point. We can do so using the `save` function like so. We will save this data in a subdirectory called "wrangled" within the "data" directory of our working directory. 
 We will also save a csv file as this is often useful to send our data to collaborators. To use the `write_csv()` function we need to save a different CSV file for each tibble.
 
-```{r}
+```{r, eval=FALSE}
 save(major_groups_long, asian_subgroups, latinx_subgroups, file = here::here("data", "wrangled", "wrangled_data.rda"))
 readr::write_csv(major_groups_long, file = here::here("data", "wrangled", "wrangled_major_groups_data.csv"))
 readr::write_csv(asian_subgroups, file = here::here("data", "wrangled", "wrangled_asian_subgroups_data.csv"))
 readr::write_csv(latinx_subgroups, file = here::here("data", "wrangled", "wrangled_latinx_subgroups_data.csv"))
 
 ```
+
+```{r, echo=FALSE}
+save(major_groups_long, asian_subgroups, latinx_subgroups, file = here::here("www", "data", "wrangled", "wrangled_data.rda"))
+readr::write_csv(major_groups_long, file = here::here("www", "data", "wrangled", "wrangled_major_groups_data.csv"))
+readr::write_csv(asian_subgroups, file = here::here("www", "data", "wrangled", "wrangled_asian_subgroups_data.csv"))
+readr::write_csv(latinx_subgroups, file = here::here("www", "data", "wrangled", "wrangled_latinx_subgroups_data.csv"))
+
+```
+
+### **Exercise**
+***
+
+``` {r dw_quiz, echo = FALSE}
+quiz(caption = "",
+  question("Which one of the pipe operators (from the `magrittr` package) should be used right after a variable name if we want to perform a sequence of operations on that variable, and meanwhile, assign the final output to that variable (without redefining that variable using `<-` or `=`)?",
+    answer("`%>%`", message = "This operator cannot assign the final output to that variable."),
+    answer("`%<%`", message = "This is not a valie pipe operator."),
+    answer("`%T>%`", message = "This is the [side-effects operator] (https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html#additional-pipe-operators)."),
+    answer("`%<>%`", correct = TRUE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Which of the following are the main arguments in the `pivot_longer()` function? (Select all that apply)",
+    answer("`names_from`", message = "`names_from` is a main argument in the `pivot_wider` function."),
+    answer("values_from", message = "`values_from` is a main argument in the `pivot_wider` function."),
+    answer("`cols`", correct = TRUE),
+    answer("`names_to`", correct = TRUE),
+    answer("`values_to`", correct = TRUE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("What function from the `dplyr` package can we use to **append** tibbles one after another?",
+    answer("`bind_cols()`"),
+    answer("`inner_join()`"),
+    answer("`bind_rows()`", correct = TRUE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Suppose that we want to change value \"a\" in a column to value \"b\" , which one of the following functions of the `dplyr` package should be used?",
+    answer("`rename()`", message = "`rename()` renames a column, not a value in that column."),
+    answer("`recode()`", correct = TRUE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+#### {.exercise_block}
+
+Suppose a student was manually entering the first five rows of the `iris` R built-in dataset. He ended up missing some decimal points. Also, there is a typo in the third row where he put "setosq" instead of "setosa" in the `Species` column. 
+
+This is what the first five rows of `iris` should look like.
+
+```{r}
+head(iris, n = 5)
+```
+
+Write some code that corrects the errors he made.
+
+```{r dw_exercise1-setup}
+library(tidyverse)
+library(magrittr)
+
+exercise_iris <- head(iris, n = 5) %>%
+  mutate(across(everything(), as.character)) %>%
+  mutate(Sepal.Width = recode(Sepal.Width, "3.2" = "32", "3.6" = "36"),
+         Sepal.Length = recode(Sepal.Length, "4.6" = "46"))
+
+exercise_iris[3, 5] <- "setosq"
+exercise_iris[5, 1] <- "5.0"
+exercise_iris[2, 2] <- "3.0"
+```
+
+```{r dw_exercise1, exercise=TRUE, exercise.eval = TRUE}
+# view the data frame that the student entered
+exercise_iris
+
+# fix the missing decimal points
+
+# fix the typo in the "Species" column
+```
+
+```{r dw_exercise1-solution}
+# one possible solution
+exercise_iris %<>%
+  mutate(across(.cols = -Species, 
+                ~str_remove(string = ., pattern = "\\."))) %>%
+  mutate(across(.cols = -Species, as.numeric)) %>%
+  mutate(across(.cols = -Species, ~ . * 0.1)) %>%
+  mutate(Species = recode(Species, "setosq" = "setosa"))
+
+exercise_iris
+```
+
+####
+
+<p>&nbsp;</p>
+
+#### {.exercise_block}
+
+We have created a dataset called `wide_format` that is in "wide" format. Write some code to convert it to "long" format. (We want 3 columns with names "ID", "Variable", and "Value".)
+
+```{r dw_exercise2-setup}
+library(tidyverse)
+library(magrittr)
+
+ID <- c(1, 2, 3)
+Year <- c(2015, 2018, 2019)
+Length <- c(20, 21.5, 19)
+wide_format <- data.frame(ID, Year, Length)
+```
+
+```{r dw_exercise2, exercise=TRUE, exercise.eval=TRUE}
+wide_format
+```
+
+```{r dw_exercise2-hint}
+wide_format %>%
+  pivot_longer()
+```
+
+```{r dw_exercise2-solution}
+wide_format %>%
+  pivot_longer(cols = -ID, names_to = "Variable", values_to = "Value")
+```
+
+####
 
 ## **Data Visualization**
 *** 
@@ -1948,10 +2286,13 @@ load_wrangled_data("ocs-bp-youth-disconnection")
 
 If you prefer loading the wrangled data from the "data" directory, you may do it like so:
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
 ```
 
+```{r, echo=FALSE}
+load(here::here("www", "data", "wrangled", "wrangled_data.rda"))
+```
 
 
 ***
@@ -1972,8 +2313,12 @@ load_wrangled_data("ocs-bp-youth-disconnection")
 
 If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 
@@ -1984,13 +2329,13 @@ You can create a project by going to the File menu of RStudio like so:
 
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "New_project.png"))
+knitr::include_graphics(here::here("www", "img", "New_project.png"))
 ```
 
 You can also do so by clicking the project button:
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "project_button.png"))
+knitr::include_graphics(here::here("www", "img", "project_button.png"))
 ```
 
 See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
@@ -2007,7 +2352,7 @@ See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Project
 We are particularly interested in being able to reproduce the plot below from the report, as we would like to make similar looking plots.
 
 ```{r, out.width = "100%", echo = FALSE, fig.align ="center"}
-include_graphics(here::here("img", "Making_the_Connection_plot.png"))
+include_graphics(here::here("www", "img", "Making_the_Connection_plot.png"))
 ```
 
 In general, it is very useful to learn how to reproduce the style of a plot.
@@ -2200,9 +2545,15 @@ Nice! We changed the color of the image.
 Now let's try using a screenshot of the original plot. You can find our screenshot in our `img` directory on our GitHub repository.
 
 #### Using a screenshot:
-```{r, out.width= "10%"}
+```{r, out.width= "10%", eval=FALSE}
 
 figurine <-image_read(here::here("img", "figurine.png"))
+figurine
+```
+
+```{r, out.width= "10%", echo=FALSE}
+
+figurine <-image_read(here::here("www", "img", "figurine.png"))
 figurine
 ```
 
@@ -2287,6 +2638,60 @@ We do not want to plot the `"All"` values for the `Gender` variable as we have a
 How do we modify the plot above to not include the `"All"` values for the `Gender` variable and stratify by `Gender`?
 
 ####
+
+```{r, echo=FALSE}
+save(major_groups_long, file = here("www", "exercise", "dv_code1.rda"))
+```
+
+```{r dv_code1-setup}
+library(tidyverse)
+library(magrittr)
+library(directlabels)
+
+load(here("www", "exercise", "dv_code1.rda"))
+```
+
+```{r dv_code1, exercise=TRUE}
+# try this out
+```
+
+```{r dv_code1-solution}
+plot_by_gender <- major_groups_long %>%
+   filter(Race_Ethnicity != "All_races", Gender != "All") %>%
+   mutate(Race_Ethnicity = str_replace(string = Race_Ethnicity, 
+                                      pattern = "Native American",
+                                  replacement = "Native\nAmerican"),
+                  Gender = str_replace(string = Gender, 
+                                      pattern = "Female",
+                                  replacement = "FEMALE"),
+                  Gender = str_replace(string = Gender, 
+                                      pattern = "Male",
+                                  replacement = "MALE")) %>%
+  ggplot(aes(x = Year, y = Percent, color = Race_Ethnicity)) +
+    geom_line(size = 0.5) +
+    geom_point(size = 3) +
+    facet_wrap(~Gender, scales = "free") +
+    scale_x_continuous(breaks = seq(2008,2018, by=1),
+                       limits = c(2008,2020)) +
+    scale_y_continuous(breaks = seq(5,30, by =5),
+                       limits = c(5,31)) +
+    theme_classic() +
+    labs(title = "YOUTH DISCONNECTION BY GENDER AND RACIAL/ETHNIC GROUP",
+         y = "YOUTH DISCONNECTION (%)") +
+    theme(title = element_text(size = 10,
+                               color = "#008393",
+                               face = "bold"),
+          axis.title.x = element_blank(),
+          axis.text.x = element_text(angle = 90),
+          strip.background =element_rect(fill="#003661"),
+          strip.text = element_text(colour = 'white', face = "bold", 
+                                    size = 12)) +
+  scale_color_manual(values = c(rep( "#008393", 6)))
+ 
+plot_by_gender <- direct.label(plot_by_gender, list(dl.trans(x = x+0.3, y = y +0), "last.points"))
+
+plot_by_gender
+```
 
 ***
 
@@ -2850,6 +3255,65 @@ ggplot(aes(x = Race_Ethnicity, y = Percent, fill = Year)) +
 latinx_subgroup_plot_simp
 ```
 
+### **Exercise**
+***
+
+```{r dv_quiz, echo=FALSE}
+question("Which one of the following arguments inside the `ggplot()` function can be used for defining what variables to be plotted on the x/y-axis, as well as choosing variables to color or group the plot by?",
+    answer("geom", message = "Geoms define geometric objects. This can define the type of plot that is being plotted."),
+    answer("scale", message = "Scales define how your data will be plotted. For example, continuous, discrete, etc."),
+    answer("labs", message = "`labs()` function defines title, caption, and the axis labels."),
+    answer("aes", correct = TRUE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+```
+
+#### {.exercise_block}
+
+Suppose that we have a dataset called `weight`. Write some code to plot weight change by individual.\
+We want the plot to:
+
+* have title as "Weight Change"
+* have $x$ axis as "Time_day" and $y$ axis be "Weight_lb"
+* have points connected by lines
+* have different colors representing IDs 1, 2, and 3
+* have direct labels for each line (ID)
+
+```{r, dv_exercise1-setup}
+library(tidyverse)
+library(magrittr)
+library(directlabels)
+
+weight <- data.frame("ID" = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
+                     "Time_day" = c(0, 15, 30, 0, 15, 30, 0, 15, 30),
+                     "Weight_lb" = c(120, 128, 122, 172, 176, 180, 155, 154, 155))
+
+weight$ID <- as.character(weight$ID)
+```
+
+```{r dv_exercise1, exercise=TRUE, exercise.eval=TRUE}
+weight
+```
+
+```{r dv_exercise1-solution}
+# one possible solution
+weight_plot <- weight %>%
+  ggplot(aes(x = Time_day, y = Weight_lb, color = ID)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Weight Change")
+
+weight_plot <- 
+  directlabels::direct.label(weight_plot, 
+                             list(dl.trans(x = x + 0.2, y = y + 0), 
+                                  "last.points"))
+
+weight_plot
+```
+
+####
+
 
 ## **Data Analysis**
 *** 
@@ -2864,8 +3328,12 @@ load_wrangled_data("ocs-bp-youth-disconnection")
 
 If you prefer loading the wrangled data from the "data" directory, you may do it like so:
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 
@@ -2888,8 +3356,12 @@ load_wrangled_data("ocs-bp-youth-disconnection")
 
 If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 
@@ -2900,13 +3372,13 @@ You can create a project by going to the File menu of RStudio like so:
 
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "New_project.png"))
+knitr::include_graphics(here::here("www", "img", "New_project.png"))
 ```
 
 You can also do so by clicking the project button:
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "project_button.png"))
+knitr::include_graphics(here::here("www", "img", "project_button.png"))
 ```
 
 See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
@@ -3020,7 +3492,7 @@ Let's conduct a Mann-Kendall trend test using our data to see if there are any m
 Recall that the youth disconnection rates for Native Americans were some of the highest in the first table we examined. 
 
 ```{r, echo = FALSE, out.width = "80%"}
-knitr::include_graphics(here::here("data", "raw", "Major_ethnic_groups_screenshot.png"))
+knitr::include_graphics(here::here("www", "data", "raw", "Major_ethnic_groups_screenshot.png"))
 ```
 
 and the plot we made: 
@@ -3080,7 +3552,7 @@ OK back to our example. Let's figure out what our $p$-value is using the standar
 Using the table below, in the the $Z$ column on the far left, we find a row that says -1.1 and because our $Z$ value is -1.127 we round this to -1.13 and then find the column for 0.03 to account for the value that is second after decimal place for our $Z$ score. We see that the value where this row and this column intersect is 0.1292. This is the $p$-value, that indicates the probability of having a $Z$ score that is more extreme (on the negative side) of the [$Z$ score normal distribution](https://en.wikipedia.org/wiki/Standard_score) or the colored portion of the distribution in the figure below. In other words, there is a 13% chance of observing data with a more negative $Z$ score (and also a downward trend as the sign of the $Z_{MK}$ is determined by the $S$ score) simply by chance alone.
  
 ```{r,echo=FALSE, out.width="80%"}
- include_graphics(here::here("img", "zscore.png"))
+ include_graphics(here::here("www", "img", "zscore.png"))
 ```
 
 ##### [[source]](https://socratic.org/questions/5986a3e1b72cff6fd48a5408)
@@ -3094,7 +3566,7 @@ Thus in other words, there is a 26% chance of observing a more positive or more 
 Thus visualize this, our two-sided test looks for the areas on the probability distribution of the Z score that are more positive or more negative for both signs of the $Z$ value:
 
 ```{r, out.width="30%", echo=FALSE}
-knitr::include_graphics(here::here("img", "twosided.png"))
+knitr::include_graphics(here::here("www", "img", "twosided.png"))
 ```
 
 Alternatively, we can use this [calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx), which gives us a more precise $p$-value of 0.26 for the two-sided hypothesis.
@@ -3208,6 +3680,26 @@ Our $p$-value for the one sided test was 0.012 which is less than our adjusted s
 
 ***
 
+### **Exercise**
+***
+
+``` {r da_quiz, echo = FALSE}
+quiz(caption = "",
+  question("Pooled cross-sectional data is longitudinal data from repeated measurement of the same people.",
+    answer("True", message = "Panel data is longitudinal data from repeated measurement of the same people. Pooled cross-sectional data is data produced from repeated measurement of a population over time (the individuals in each sample are not necessarily the same individuals)."),
+    answer("False", correct = TRUE, message = "Panel data is longitudinal data from repeated measurement of the same people. Pooled cross-sectional data is data produced from repeated measurement of a population over time (the individuals in each sample are not necessarily the same individuals)."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Both the Mann-Kendall trend test and simple linear regression are parametric tests.",
+    answer("True", message = "The Mann-Kendall trend test is a nonparametric test. Simple linear regression is a parametric test."),
+    answer("False", correct = TRUE, message = "The Mann-Kendall trend test is a nonparametric test. Simple linear regression is a parametric test."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
 ## **Summary**
 *** 
 
@@ -3282,7 +3774,7 @@ Finally, we will use the `png()` function of the `grDevices` package which is au
 We will use the `here()` function of the `here` package, to specify that we want to save it in the `img` directory and call it `mainplot.png`.
 We can also use this function to specify the resolution with `res` and in doing so, we need to save the image with size specifications to make it larger. 
 
-```{r, comment  = FALSE}
+```{r, comment  = FALSE, eval=FALSE}
 
 plot_by_gender  <-plot_by_gender + theme(axis.text =element_text(size = 12))
 asian_subgroup_plot_simp  <-asian_subgroup_plot_simp + theme(axis.text =element_text(size = 12))
@@ -3303,11 +3795,34 @@ dev.off()
 ```
 
 
+```{r, comment  = FALSE, echo=FALSE}
+
+plot_by_gender  <-plot_by_gender + theme(axis.text =element_text(size = 12))
+asian_subgroup_plot_simp  <-asian_subgroup_plot_simp + theme(axis.text =element_text(size = 12))
+
+png(filename = here::here("www", "img", "mainplot.png"),
+    res = 300, width = 15, height = 10, units = "in")
+    youth_plot  +
+      theme(axis.text =element_text(size = 14, angle = 90)) +
+    arrowplot  + 
+      (plot_by_gender /
+         asian_subgroup_plot_simp)  + 
+      plot_layout(widths = c(4.6, 1, 4.65)) &
+plot_annotation(title = "Deeper Inspection Reveals Unexpected Differences for Youth Disconnection Among\nGender and Racial/Ethnic Subgroups", 
+               theme = theme(plot.title = element_text(size = 22, 
+                                                       face = "bold")))
+
+dev.off()
+```
 
 
 
-```{r}
+```{r, eval=FALSE}
 knitr::include_graphics(here::here("img", "mainplot.png"))
+```
+
+```{r, echo=FALSE}
+knitr::include_graphics(here::here("www", "img", "mainplot.png"))
 ```
 
 

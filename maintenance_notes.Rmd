@@ -1,0 +1,35 @@
+---
+title: "Maintenance Notes - Disparities in Youth Disconnection"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Exercise chunks
+## Data Import
+
+* `di_code1`
+* `di_exercise1` - extract text from image
+
+## Data Wrangling
+
+* `dw_code1`
+* `dw_code2`
+* `dw_code3`
+* `dw_quiz` - pipe operators, `pivot_longer` arguments, append tibbles, recode rename
+* `dw_exercise1` - mutate across, str_remove(), recode()
+* `dw_exercise2` - pivot_longer
+
+## Data Visualization
+
+* `dv_code1`
+* `dv_quiz` - ggplot() arguments
+* `dv_exercise1` - ggplot, direct.label
+
+## Data Analysis
+
+* `da_quiz` - pooled cross-sectional/panel data, parametric/nonparametric tests
+
+# Other Notes
