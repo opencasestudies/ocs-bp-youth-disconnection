@@ -316,7 +316,7 @@ The statistics used in this section came from this [article](https://www.ncbi.nl
 
 There are some important considerations regarding this data analysis to keep in mind: 
 
-1. This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/) project is derived from [American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs), which excludes or under-represents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused are not available in this dataset. Thus, this data likely underestimates youth disconnection rates. Furthermore, the data used in these reports are collected from human participants; this presents the *potential* for [response bias](https://en.wikipedia.org/wiki/Response_bias), as there is the *potential* that participants in the [sampling frame](https://en.wikipedia.org/wiki/Sampling_frame?oldformat=true){target="_blank"} may for a variety of reasons report inaccurate information. 
+1. This data used in the [Measure of America](https://www.ssrc.org/programs/view/moa/) project is derived from [American Community Survey (ACS)](https://www.census.gov/programs-surveys/acs), which excludes or under-represents certain opportunity youth groups, such as youths in the juvenile justice system, youths in the foster care system, and homeless youths as the survey is conducted on households. Furthermore, youths who may be more disconnected for other reasons besides not being in work or school, such as dealing with the added challenge of being a teenage mother, or being abused are not available in this dataset. Thus, this data likely underestimates youth disconnection rates. Furthermore, the data used in these reports are collected from human participants; this presents the *potential* for [response bias](https://en.wikipedia.org/wiki/Response_bias), as there is the *potential* that participants in the [sampling frame](https://en.wikipedia.org/wiki/Sampling_frame?oldformat=true){target="_blank"} may for a variety of reasons report inaccurate information. 
 
 2. Data about certain group [intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination) (meaning for example individuals of a particular gender and ethnicity) or particular groups in general such as specific ethnicities or gender or sexual identity groups such as [LGBTQIA+](https://www.uis.edu/gendersexualitystudentservices/about/lgbtqaterminology/) (lesbian/gay/bisexual/pansexual/transgender/genderqueer/queer,questioning/intersexed/agender/asexual) is unfortunately not available in the data used in this analysis and in most research about this topic. Luckily however, recent years of the [ACS survey](https://www.census.gov/programs-surveys/acs) has more detailed information about a greater number of racial and ethnic groups and racial/ethnic intersections.
 
@@ -344,7 +344,7 @@ knitr::include_graphics(here::here("img", "Making_the_Connection.png"))
 knitr::include_graphics(here::here("img", "A_Decade_Undone.png"))
 ```
 
-The data used in these reports comes from the [American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs), which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizenship, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey.
+The data used in these reports comes from the [American Community Survey (ACS)](https://www.census.gov/programs-surveys/acs), which is the largest survey conducted by the United States Census Bureau. The survey started in 2005 and collects data for 3.5 million households annually. Data is collected about ancestry, citizenship, income, employment, disability among many other aspects. See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey.
 
 According to [Wikipedia](https://en.wikipedia.org/wiki/American_Community_Survey):
 
@@ -3319,11 +3319,11 @@ In this case study we evaluated rates of youth disconnection in the United State
 1) The 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)  
 2) The 2020 report called [A Decade Undone](https://ssrc-static.s3.amazonaws.com/moa/ADecadeUndone.pdf)  
 
-The data in these reports comes from the [American Community Survey(ASC)](https://www.census.gov/programs-surveys/acs).
+The data in these reports comes from the [American Community Survey(ACS)](https://www.census.gov/programs-surveys/acs).
 
 We demonstrated how to import data from these PDFs by extracting the text from screen shot images of the tables were were particularly interested in. 
 
-It was identified in the 2019 [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) that Native American populations particularly experience high rates of youth disconnection. Indeed roughly a quarter of this population appears to experience youth disconnection, which is much higher than the other major racial groups. By performing the [Mann-Kendall trend test](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf)(https://www.statisticshowto.com/mann-kendall-trend-test/) both manually and using the `MannKendall()` function of the `Kendall` package, we demonstrated that the rate does not appear to be changing. This suggests that more prevention and re-engagement strategies should especially focus on this population.
+It was identified in the 2019 [Measure of America annual report](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf) that Native American populations particularly experience high rates of youth disconnection. Indeed roughly a quarter of this population appears to experience youth disconnection, which is much higher than the other major racial groups. By performing the [Mann-Kendall trend test](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf)(https://www.statisticshowto.com/mann-kendall-trend-test/) both manually and using the `MannKendall()` function of the `Kendall` package, we demonstrated that, given the available data, there does not appear to be a consistent positive nor a consistent negative trend. This suggests that more prevention and re-engagement strategies should especially focus on this population.
 
 By plotting subgroups within our data, it is clear that there are differences among particular populations. We see that there are much higher levels of disconnection among youths who are male and black as compared to black females. 
 
@@ -3359,7 +3359,7 @@ Overall, this case study demonstrates the importance of looking at populations a
 [Sampling methods](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true){target="_blank"} 
 [Inference](https://www.britannica.com/science/inference-statistics) 
 
-[American Community Survey (ASC)](https://www.census.gov/programs-surveys/acs)  
+[American Community Survey (ACS)](https://www.census.gov/programs-surveys/acs)  
 
 See [here](https://en.wikipedia.org/wiki/American_Community_Survey) for more detailed information about the survey  
 [Measure of America](https://www.ssrc.org/programs/view/moa/)   
