@@ -88,8 +88,7 @@ To access the GitHub repository for this case study see here: https://github.com
 You may also access and download the data using our `OCSdata` package. To learn more about this package including examples, see this [link](https://github.com/opencasestudies/OCSdata). Here is how you would install this package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("opencasestudies/OCSdata")
+install.packages("OCSdata")
 ```
 
 This case study is part of a series of public health case studies for the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/open-case-studies).   
@@ -378,11 +377,11 @@ knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
 If you did not clone the GitHub repository, you may download the raw data files, including the pdf file of the report and the screenshots, using the `OCSdata` package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-# devtools::install_github("opencasestudies/OCSdata")
+# install.packages("OCSdata")
+# library(OCSdata)
 
-load_raw_data("ocs-bp-youth-disconnection", outpath = getwd())
-# This function creates a "data" sub-directory in your current working directory.
+raw_data("ocs-bp-youth-disconnection", outpath = getwd())
+# This function creates a "OCSdata" sub-directory in your current working directory.
 # It also creates a "raw" sub-directory within "data" which contains the .pdf file.
 ```
 
@@ -769,21 +768,11 @@ write_file(latinx_sub_2018, file = here::here("data", "simpler_import", "latinx_
 *** 
 Now let's try extracting the text from our image files.
 
-If you have been following along but stopped and are starting here you could load the imported data using the `OCSdata` package like so:
-
-```{r, eval=FALSE}
-# install.packages("devtools")
-# devtools::install_github("opencasestudies/OCSdata")
-load_imported_data("ocs-bp-youth-disconnection")
-```
-
-If you prefer loading the imported data from the "data" directory, you may do it like so:
+If you have been following along but stopped and are starting here you could load the imported data using the following command:
 
 ```{r}
 load(here::here("data", "imported", "imported_data.rda"))
 ```
-
-
 
 ***
 <details> <summary> If you skipped the data import section click here. </summary>
@@ -791,14 +780,15 @@ load(here::here("data", "imported", "imported_data.rda"))
 First you need to install the `OCSdata` package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("opencasestudies/OCSdata")
+install.packages("OCSdata")
 ```
 
-Then, you may load the imported data into your R environment using the following function:
+Then, you may load the imported data into your R environment using the following code:
 
 ```{r, eval=FALSE}
-load_imported_data("ocs-bp-youth-disconnection")
+# library(OCSdata)
+imported_data("ocs-bp-youth-disconnection", outpath = getwd())
+load(here::here("OCSdata", "data", "imported", "imported_data.rda"))
 ```
 
 If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/imported/imported_data.rda). Download this file and then place it in your current working directory within a subdirectory called "imported" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
@@ -1938,21 +1928,11 @@ Recall what our main questions were?
 
 Now that we have wrangled our data and made it easy to work with, let's create some visualizations to explore these questions.
 
-If you have been following along but stopped and are starting here you could load the wrangled data using the `OCSdata` package like so:
-
-```{r, eval=FALSE}
-# install.packages("devtools")
-# devtools::install_github("opencasestudies/OCSdata")
-load_wrangled_data("ocs-bp-youth-disconnection")
-```
-
-If you prefer loading the wrangled data from the "data" directory, you may do it like so:
+If you have been following along but stopped and are starting here you could load the wrangled data using the following command:
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
 ```
-
-
 
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
@@ -1960,14 +1940,15 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 First you need to install the `OCSdata` package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("opencasestudies/OCSdata")
+install.packages("OCSdata")
 ```
 
-Then, you may load the wrangled data into your R environment using the following function:
+Then, you may load the wrangled data into your R environment using the following code:
 
 ```{r, eval=FALSE}
-load_wrangled_data("ocs-bp-youth-disconnection")
+# library(OCSdata)
+wrangled_rda("ocs-bp-youth-disconnection". outpath = getwd())
+load(here::here("OCSdata", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
@@ -2854,21 +2835,11 @@ latinx_subgroup_plot_simp
 ## **Data Analysis**
 *** 
 
-If you have been following along but stopped and are starting here you could load the wrangled data using the `OCSdata` package like so:
-
-```{r, eval=FALSE}
-# install.packages("devtools")
-# devtools::install_github("opencasestudies/OCSdata")
-load_wrangled_data("ocs-bp-youth-disconnection")
-```
-
-If you prefer loading the wrangled data from the "data" directory, you may do it like so:
+If you have been following along but stopped and are starting here you could load the wrangled data using the following command:
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
 ```
-
-
 
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
@@ -2876,14 +2847,15 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 First you need to install the `OCSdata` package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("opencasestudies/OCSdata")
+install.packages("OCSdata")
 ```
 
-Then, you may load the wrangled data into your R environment using the following function:
+Then, you may load the wrangled data into your R environment using the following code:
 
 ```{r, eval=FALSE}
-load_wrangled_data("ocs-bp-youth-disconnection")
+# library(OCSdata)
+wrangled_rda("ocs-bp-youth-disconnection", outpath = getwd())
+load(here::here("OCSdata", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
