@@ -66,8 +66,6 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 ####
 
-
-
 #### {.disclaimer_block}
 
 **Disclaimer**: The purpose of the [Open Case Studies](https://opencasestudies.github.io) project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most appropriate way to analyze a given data set, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
@@ -88,7 +86,19 @@ Wright, Carrie and Ontiveros, Michael and Jager, Leah and Taub, Margaret and Hic
 
 ####
 
-#### {.disclaimer_block}
+To access the GitHub repository for this case study see here: https://github.com//opencasestudies/ocs-bp-youth-disconnection. 
+
+You may also access and download the data using our `OCSdata` package. To learn more about this package including examples, see this [link](https://github.com/opencasestudies/OCSdata). Here is how you would install this package:
+
+```{r, eval=FALSE}
+install.packages("OCSdata")
+```
+
+This case study is part of a series of public health case studies for the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/open-case-studies).  
+
+***
+
+The total reading time for this case study is calculated via [koRpus](https://github.com/unDocUMeantIt/koRpus) and shown below: 
 
 ```{r, echo=FALSE}
 readtable = text_stats("index.Rmd") # producing reading time markdown table
@@ -99,7 +109,11 @@ readtime = read.so::read.md(readtable) %>% dplyr::select(Method, koRpus) %>% # r
 knitr::kable(readtime, format="markdown")
 ```
 
+***
+
 **Readability Score: **
+
+A readability index estimates the reading difficulty level of a particular text. Flesch-Kincaid, FORCAST, and SMOG are three common readability indices that were calculated for this case study via [koRpus](https://github.com/unDocUMeantIt/koRpus). These indices provide an estimation of the minimum reading level required to comprehend this case study by grade and age. 
 
 ```{r, echo=FALSE}
 rt = wordcountaddin::readability("index.Rmd", quiet=TRUE) # producing readability markdown table
@@ -110,17 +124,7 @@ df = read.so::read.md(rt) %>% dplyr::select(index, grade, age) %>%  # reading ta
 knitr::kable(df, format="markdown")
 ```
 
-####
-
-To access the GitHub repository for this case study see here: https://github.com//opencasestudies/ocs-bp-youth-disconnection. 
-
-You may also access and download the data using our `OCSdata` package. To learn more about this package including examples, see this [link](https://github.com/opencasestudies/OCSdata). Here is how you would install this package:
-
-```{r, eval=FALSE}
-install.packages("OCSdata")
-```
-
-This case study is part of a series of public health case studies for the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/open-case-studies).   
+***
 
 Please help us by filling out our survey.
 
