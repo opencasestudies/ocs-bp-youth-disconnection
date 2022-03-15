@@ -45,6 +45,11 @@ We would like to acknowledge [Tamar Mendelson](https://www.jhsph.edu/faculty/dir
 
 We would also like to acknowledge the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/) for funding this work. 
 
+### Reading Metrics
+
+The total reading time for this case study was calculated with [koRpus](https://github.com/unDocUMeantIt/koRpus): **~ 85 minutes**
+
+The Flesch-Kincaid Readability Index was also calculated with [koRpus](https://github.com/unDocUMeantIt/koRpus): **Grade 8, Age 13**
 
 ### Title 
 
@@ -216,4 +221,8 @@ This case study is appropriate for those new to R programming and new to statist
 - For the Asian and Latinx subgroup bar plots made across year, modify these plots to consider gender differences (instead of across time).
 - Taking the plot you made above, modify the plot to facet across years. 
 - Find another table in one of the reports to import using the `magick` package (for example perhaps the data about different states over time in the 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)). Look for differences between groups by plotting the data and evaluating with the Mann-Kendall test. 
+
+#### RMarkdown Compilation Time
+
+~ 40 seconds
 

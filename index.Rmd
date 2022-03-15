@@ -51,6 +51,7 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
 library(here)
 library(knitr)
 library(readr)
+devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
 library(wordcountaddin)
 library(magrittr)
 
