@@ -51,6 +51,11 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
 library(here)
 library(knitr)
 library(readr)
+library(wordcountaddin)
+library(magrittr)
+
+rmarkdown:::perf_timer_reset_all()
+rmarkdown:::perf_timer_start("render")
 ```
 
 
@@ -60,8 +65,6 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 ```
 
 ####
-
-
 
 #### {.disclaimer_block}
 
@@ -88,11 +91,40 @@ To access the GitHub repository for this case study see here: https://github.com
 You may also access and download the data using our `OCSdata` package. To learn more about this package including examples, see this [link](https://github.com/opencasestudies/OCSdata). Here is how you would install this package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("opencasestudies/OCSdata")
+install.packages("OCSdata")
 ```
 
-This case study is part of a series of public health case studies for the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/open-case-studies).   
+This case study is part of a series of public health case studies for the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/open-case-studies).  
+
+***
+
+The total reading time for this case study is calculated via [koRpus](https://github.com/unDocUMeantIt/koRpus) and shown below: 
+
+```{r, echo=FALSE}
+readtable = text_stats("index.Rmd") # producing reading time markdown table
+readtime = read.so::read.md(readtable) %>% dplyr::select(Method, koRpus) %>% # reading table into dataframe, selecting relevant factors
+  dplyr::filter(Method == "Reading time") %>% # dropping unnecessary rows
+  dplyr::mutate(koRpus = paste(round(as.numeric(stringr::str_split(koRpus, " ")[[1]][1])), "minutes")) %>% # rounding reading time estimate
+  dplyr::mutate(Method = "koRpus") %>% dplyr::relocate(koRpus, .before = Method) %>% dplyr::rename(`Reading Time` = koRpus) # reorganizing table
+knitr::kable(readtime, format="markdown")
+```
+
+***
+
+**Readability Score: **
+
+A readability index estimates the reading difficulty level of a particular text. Flesch-Kincaid, FORCAST, and SMOG are three common readability indices that were calculated for this case study via [koRpus](https://github.com/unDocUMeantIt/koRpus). These indices provide an estimation of the minimum reading level required to comprehend this case study by grade and age. 
+
+```{r, echo=FALSE}
+rt = wordcountaddin::readability("index.Rmd", quiet=TRUE) # producing readability markdown table
+df = read.so::read.md(rt) %>% dplyr::select(index, grade, age) %>%  # reading table into dataframe, selecting relevant factors
+  tidyr::drop_na() %>% dplyr::mutate(grade = round(as.numeric(grade)), # dropping rows with missing values, rounding age and grade columns
+                                     age = round(as.numeric(age))
+                                     )
+knitr::kable(df, format="markdown")
+```
+
+***
 
 Please help us by filling out our survey.
 
@@ -197,6 +229,7 @@ library(forcats)
 library(Kendall)
 library(patchwork)
 library(DT)
+library(OCSdata)
 ```
 
 <u>**Packages used in this case study:** </u>
@@ -221,6 +254,7 @@ library(DT)
 [kendall](https://cran.r-project.org/web/packages/Kendall/Kendall.pdf) | to implement the Mann-Kendall trend test in R   
 [patchwork](https://github.com/thomasp85/patchwork) | to combine plots
 [DT](https://cran.r-project.org/web/packages/DT/index.html) | Interactive tables
+[OCSdata](https://github.com/opencasestudies/OCSdata) | to access and download OCS data files
 
 
 The first time we use a function, we will use the `::` to indicate which package we are using. Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
@@ -378,11 +412,11 @@ knitr::include_graphics(here::here("img", "asian_2018_overview.png"))
 If you did not clone the GitHub repository, you may download the raw data files, including the pdf file of the report and the screenshots, using the `OCSdata` package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-# devtools::install_github("opencasestudies/OCSdata")
+# install.packages("OCSdata")
+# library(OCSdata)
 
-load_raw_data("ocs-bp-youth-disconnection", outpath = getwd())
-# This function creates a "data" sub-directory in your current working directory.
+raw_data("ocs-bp-youth-disconnection", outpath = getwd())
+# This function creates a "OCSdata" sub-directory in your current working directory.
 # It also creates a "raw" sub-directory within "data" which contains the .pdf file.
 ```
 
@@ -769,21 +803,11 @@ write_file(latinx_sub_2018, file = here::here("data", "simpler_import", "latinx_
 *** 
 Now let's try extracting the text from our image files.
 
-If you have been following along but stopped and are starting here you could load the imported data using the `OCSdata` package like so:
-
-```{r, eval=FALSE}
-# install.packages("devtools")
-# devtools::install_github("opencasestudies/OCSdata")
-load_imported_data("ocs-bp-youth-disconnection")
-```
-
-If you prefer loading the imported data from the "data" directory, you may do it like so:
+If you have been following along but stopped and are starting here you could load the imported data using the following command:
 
 ```{r}
 load(here::here("data", "imported", "imported_data.rda"))
 ```
-
-
 
 ***
 <details> <summary> If you skipped the data import section click here. </summary>
@@ -791,14 +815,15 @@ load(here::here("data", "imported", "imported_data.rda"))
 First you need to install the `OCSdata` package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("opencasestudies/OCSdata")
+install.packages("OCSdata")
 ```
 
-Then, you may load the imported data into your R environment using the following function:
+Then, you may load the imported data into your R environment using the following code:
 
 ```{r, eval=FALSE}
-load_imported_data("ocs-bp-youth-disconnection")
+# library(OCSdata)
+imported_data("ocs-bp-youth-disconnection", outpath = getwd())
+load(here::here("OCSdata", "data", "imported", "imported_data.rda"))
 ```
 
 If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/imported/imported_data.rda). Download this file and then place it in your current working directory within a subdirectory called "imported" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
@@ -1938,21 +1963,11 @@ Recall what our main questions were?
 
 Now that we have wrangled our data and made it easy to work with, let's create some visualizations to explore these questions.
 
-If you have been following along but stopped and are starting here you could load the wrangled data using the `OCSdata` package like so:
-
-```{r, eval=FALSE}
-# install.packages("devtools")
-# devtools::install_github("opencasestudies/OCSdata")
-load_wrangled_data("ocs-bp-youth-disconnection")
-```
-
-If you prefer loading the wrangled data from the "data" directory, you may do it like so:
+If you have been following along but stopped and are starting here you could load the wrangled data using the following command:
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
 ```
-
-
 
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
@@ -1960,14 +1975,15 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 First you need to install the `OCSdata` package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("opencasestudies/OCSdata")
+install.packages("OCSdata")
 ```
 
-Then, you may load the wrangled data into your R environment using the following function:
+Then, you may load the wrangled data into your R environment using the following code:
 
 ```{r, eval=FALSE}
-load_wrangled_data("ocs-bp-youth-disconnection")
+# library(OCSdata)
+wrangled_rda("ocs-bp-youth-disconnection". outpath = getwd())
+load(here::here("OCSdata", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
@@ -2854,21 +2870,11 @@ latinx_subgroup_plot_simp
 ## **Data Analysis**
 *** 
 
-If you have been following along but stopped and are starting here you could load the wrangled data using the `OCSdata` package like so:
-
-```{r, eval=FALSE}
-# install.packages("devtools")
-# devtools::install_github("opencasestudies/OCSdata")
-load_wrangled_data("ocs-bp-youth-disconnection")
-```
-
-If you prefer loading the wrangled data from the "data" directory, you may do it like so:
+If you have been following along but stopped and are starting here you could load the wrangled data using the following command:
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
 ```
-
-
 
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
@@ -2876,14 +2882,15 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 First you need to install the `OCSdata` package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("opencasestudies/OCSdata")
+install.packages("OCSdata")
 ```
 
-Then, you may load the wrangled data into your R environment using the following function:
+Then, you may load the wrangled data into your R environment using the following code:
 
 ```{r, eval=FALSE}
-load_wrangled_data("ocs-bp-youth-disconnection")
+# library(OCSdata)
+wrangled_rda("ocs-bp-youth-disconnection", outpath = getwd())
+load(here::here("OCSdata", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 If the package does not work for you, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-youth-disconnection/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-youth-disconnection/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
@@ -3448,6 +3455,13 @@ Also, see [The Center for Communities That Care](https://www.communitiesthatcare
 sessionInfo()
 ```
 
+**RMarkdown Compilation Time: **
+
+```{r, echo=FALSE}
+rmarkdown:::perf_timer_stop("render")
+pts = rmarkdown:::perf_timer_summary()
+cat("About", round(pts$time[1]/1000 + 10), "seconds")
+```
 
 ### **Acknowledgments**
 ***
