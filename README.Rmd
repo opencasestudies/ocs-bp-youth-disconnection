@@ -224,7 +224,8 @@ This case study is appropriate for those new to R programming and new to statist
 - Taking the plot you made above, modify the plot to facet across years. 
 - Find another table in one of the reports to import using the `magick` package (for example perhaps the data about different states over time in the 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)). Look for differences between groups by plotting the data and evaluating with the Mann-Kendall test. 
 
-#### RMarkdown Compilation Time
+#### Estimate of RMarkdown Compilation Time:
 
-~ 40 seconds
+~ About 36 - 46 seconds
 
+This compilation time was measured on a PC machine operating on Windows 10. This range should only be used as an estimate as compilation time will vary with different machines and operating systems.
