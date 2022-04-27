@@ -51,8 +51,21 @@ We would like to acknowledge [Tamar
 Mendelson](https://www.jhsph.edu/faculty/directory/profile/1770/tamar-mendelson)
 for assisting in framing the major direction of the case study.
 
+We would like to acknowledge [Qier
+Meng](https://www.opencasestudies.org/authors/qmeng/) and [Michael
+Breshock](https://mbreshock.github.io/) for their contributions to this
+case study.
+
 We would also like to acknowledge the [Bloomberg American Health
 Initiative](https://americanhealth.jhu.edu/) for funding this work.
+
+### Reading Metrics
+
+The total reading time for this case study was calculated with
+[koRpus](https://github.com/unDocUMeantIt/koRpus): **About 85 minutes**
+
+The Flesch-Kincaid Readability Index was also calculated with
+[koRpus](https://github.com/unDocUMeantIt/koRpus): **Grade 8, Age 13**
 
 ### Title
 
@@ -371,3 +384,11 @@ fundamental knowledge of statistics.
     Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)).
     Look for differences between groups by plotting the data and
     evaluating with the Mann-Kendall test.
+
+#### Estimate of RMarkdown Compilation Time:
+
+~ About 36 - 46 seconds
+
+This compilation time was measured on a PC machine operating on Windows
+10. This range should only be used as an estimate as compilation time
+will vary with different machines and operating systems.
