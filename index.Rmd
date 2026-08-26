@@ -2199,15 +2199,16 @@ Getting close!
 
 Now we need to add figurine icons to the plot.  
 
-To add the figurines we can use icons from free resources like [font awesome](https://fontawesome.com/). See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons) for a link to `svg` options. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the original plot to work with so we will start with an example of using a font awesome icon. 
+To add the figurines we can use icons from free resources like [Font Awesome](https://fontawesome.com/). See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons) for `svg` options. We include a local copy of the user icon with this case study, so the example can be rendered without downloading an image. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the original plot to work with, so we will start with an example using a Font Awesome icon.
 
 
 ##### Using font awesome:
-First we need to import the image from font awesome:
+First we import the local copy of the Font Awesome image:
 
 ```{r, out.width="10%"}
 
-fa_figurine <- image_read("https://upload.wikimedia.org/wikipedia/commons/7/7c/User_font_awesome.svg")
+# Use the checked-in copy so rendering does not depend on Wikimedia or DNS.
+fa_figurine <- image_read(here::here("img", "user_font_awesome.svg"))
 
 fa_figurine
 ```
