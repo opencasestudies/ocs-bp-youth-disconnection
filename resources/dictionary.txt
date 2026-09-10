@@ -61,6 +61,7 @@ LGBTQIA
 lightblue
 lightgreen
 linetype
+lookarounds
 magick
 magrittr
 md
