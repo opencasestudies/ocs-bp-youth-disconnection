@@ -211,7 +211,29 @@ include_graphics("https://tidyverse.tidyverse.org/logo.png")
 
 *** 
 
-We will begin by loading the packages that we will need:
+Before loading the packages, install any that are not already available:
+
+```{r install-missing-packages, eval=TRUE}
+required_packages <- c(
+  "here", "pdftools", "tesseract", "magick", "knitr", "readr", "dplyr",
+  "stringr", "magrittr", "tidyr", "tibble", "ggplot2", "directlabels",
+  "cowplot", "forcats", "Kendall", "patchwork", "DT", "OCSdata"
+)
+missing_packages <- required_packages[!vapply(
+  required_packages, requireNamespace, logical(1), quietly = TRUE
+)]
+if (length(missing_packages)) {
+  install.packages(missing_packages)
+}
+
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+remotes::install_github("benmarwick/wordcountaddin", dependencies = TRUE)
+remotes::install_github("alistaire47/read.so")
+```
+
+We will now load the packages that we will need:
 
 ```{r}
 library(here)
@@ -258,16 +280,6 @@ library(OCSdata)
 [patchwork](https://github.com/thomasp85/patchwork) | to combine plots
 [DT](https://cran.r-project.org/web/packages/DT/index.html) | Interactive tables
 [OCSdata](https://github.com/opencasestudies/OCSdata) | to access and download OCS data files
-
-```{r install-missing-packages, eval=TRUE}
-install.packages(c(
-  "pdftools", "tesseract", "directlabels", "cowplot", "Kendall",
-  "patchwork", "OCSdata"
-))
-
-remotes::install_github("benmarwick/wordcountaddin", dependencies = TRUE)
-remotes::install_github("alistaire47/read.so")
-```
 
 The first time we use a function, we will use the `::` to indicate which package we are using. Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
 
@@ -3482,7 +3494,7 @@ This compilation time was measured on a PC machine operating on Windows 10. This
 
 We would like to acknowledge [Tamar Mendelson](https://www.jhsph.edu/faculty/directory/profile/1770/tamar-mendelson) for assisting in framing the major direction of the case study.
 
-We would like to acknowledge [Qier Meng](https://www.opencasestudies.org/authors/qmeng/) and [Michael Breshock](https://mbreshock.github.io/) for their contributions to this case study. 
+We would like to acknowledge [Qier Meng](https://scholar.google.com/citations?user=EVGygAwAAAAJ&hl=en) and [Michael Breshock](https://mbreshock.github.io/) for their contributions to this case study.
 
 We would also like to acknowledge the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/) for funding this work. 
 
