@@ -215,7 +215,7 @@ Before loading the packages, install any that are not already available:
 
 ```{r install-missing-packages, eval=TRUE}
 required_packages <- c(
-  "here", "pdftools", "magick", "knitr", "readr", "dplyr",
+  "here", "pdftools", "knitr", "readr", "dplyr",
   "stringr", "magrittr", "tidyr", "tibble", "ggplot2", "directlabels",
   "cowplot", "forcats", "Kendall", "patchwork", "DT", "OCSdata"
 )
@@ -232,15 +232,18 @@ if (identical(Sys.info()[["sysname"]], "Linux") &&
     "/usr/bin/apt-get",
     c(
       "install", "--yes", "--no-install-recommends",
-      "libtesseract-dev", "libleptonica-dev", "tesseract-ocr"
+      "libtesseract-dev", "libleptonica-dev", "tesseract-ocr",
+      "libmagick++-dev"
     )
   )
 }
 
-install.packages("tesseract", type = "source")
+install.packages(c("tesseract", "magick"), type = "source")
 
-if (!requireNamespace("tesseract", quietly = TRUE)) {
-  stop("The tesseract R package could not be installed.")
+for (pkg in c("tesseract", "magick")) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(sprintf("The %s R package could not be installed.", pkg))
+  }
 }
 
 if (length(missing_packages)) {
