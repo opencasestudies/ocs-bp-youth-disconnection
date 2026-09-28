@@ -64,10 +64,18 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
 }
 if (!requireNamespace("wordcountaddin", quietly = TRUE)) {
-  remotes::install_github("benmarwick/wordcountaddin", dependencies = TRUE)
+  remotes::install_github(
+    "benmarwick/wordcountaddin",
+    dependencies = TRUE,
+    upgrade = "never"
+  )
 }
 if (!requireNamespace("read.so", quietly = TRUE)) {
-  remotes::install_github("alistaire47/read.so")
+  remotes::install_github(
+    "alistaire47/read.so",
+    dependencies = TRUE,
+    upgrade = "never"
+  )
 }
 
 library(here)
