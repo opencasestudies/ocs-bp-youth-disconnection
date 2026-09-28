@@ -48,6 +48,17 @@ options(crayon.enabled = NULL)
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE, cache = FALSE,
                       fig.align = "center", out.width = '90%')
+
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+if (!requireNamespace("wordcountaddin", quietly = TRUE)) {
+  remotes::install_github("benmarwick/wordcountaddin", dependencies = TRUE)
+}
+if (!requireNamespace("read.so", quietly = TRUE)) {
+  remotes::install_github("alistaire47/read.so")
+}
+
 library(here)
 library(knitr)
 library(readr)
