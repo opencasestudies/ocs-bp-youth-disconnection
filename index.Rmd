@@ -2254,11 +2254,18 @@ To add the figurines we can use icons from free resources like [font awesome](ht
 
 
 ##### Using font awesome:
-First we need to import the image from font awesome:
+The figurine used below is stored locally in the repository. Keeping an image
+asset in the project makes the document reproducible: builds do not depend on
+an external server being available or accepting automated download requests.
+We first make a black version of the local icon so that we can demonstrate the
+recoloring step:
 
 ```{r, out.width="10%"}
 
-fa_figurine <- image_read("https://upload.wikimedia.org/wikipedia/commons/7/7c/User_font_awesome.svg")
+fa_figurine <- image_read(here::here("img", "figurine.png")) |>
+  image_transparent("white") |>
+  image_fill(color = "black", point = "+56+50") |>
+  image_fill(color = "black", point = "+56+100")
 
 fa_figurine
 ```
@@ -2271,20 +2278,20 @@ According to the documentation for the `magick` package:
 
 > point = a geometry_point string indicating the starting point of the flood-fill 
 
-First we will color in the circle at the top of the icon. If we use `point = +600+600` this is starting at the pixel at x:600, y:600. We can see from the output about the `fa_figurine` that the image is 1792 by 1792 pixels in size. Thus, if we choose a pixel that is within the borders of the shape we want to change then we can change that shape. We can use the size of the image to figure out where the pixel might be. Since the image is 1792 by 1792 pixels, 800 is about half way through the image image from the left side (x:0) and 600 is about a third of the way through the and the top (y:0).
+First we will color in the circle at the top of the icon. The local image is 112 by 210 pixels, so `point = +56+50` starts at x:56 and y:50, within the circle. Choosing a point inside the shape lets us change that connected set of pixels.
 
 
 
 ```{r, out.width="10%"}
 fa_figurine <- image_fill(fa_figurine,
                           color = "#008393", 
-                          point = "+800+600")
+                          point = "+56+50")
 
 fa_figurine
 
 ```
 
-Second we will color in the lower shape of the icon. This shape is in the lower half of the image and in the middle of the image according to the x axis, thus we will start at the pixel that is at about half way for the width at x:800 and a bit more than half way down from the top (y:0) for the height y:1000. 
+Second we will color in the lower shape of the icon. It is in the middle of the image horizontally and lower down vertically, so we start at x:56 and y:100.
 
 ```{r, out.width="10%"}
 fa_figurine <- image_fill(fa_figurine,
