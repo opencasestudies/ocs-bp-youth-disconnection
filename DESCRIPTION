@@ -23,7 +23,7 @@ Imports:
     tidyr,
     tibble,
     gtable (>= 0.3.6),
-    ggplot2,
+    ggplot2 (>= 3.5.2),
     directlabels,
     cowplot, 
     forcats,

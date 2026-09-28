@@ -50,13 +50,20 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       fig.align = "center", out.width = '90%')
 
 options(repos = c(CRAN = "https://cloud.r-project.org"))
-gtable_version <- tryCatch(
-  utils::packageVersion("gtable"),
-  error = function(...) NULL
-)
-if (is.null(gtable_version) ||
-    gtable_version < base::package_version("0.3.6")) {
+package_needs_upgrade <- function(package, minimum_version) {
+  installed_version <- tryCatch(
+    utils::packageVersion(package),
+    error = function(...) NULL
+  )
+  is.null(installed_version) ||
+    installed_version < base::package_version(minimum_version)
+}
+
+if (package_needs_upgrade("gtable", "0.3.6")) {
   install.packages("gtable")
+}
+if (package_needs_upgrade("ggplot2", "3.5.2")) {
+  install.packages("ggplot2")
 }
 library(ggplot2)
 
