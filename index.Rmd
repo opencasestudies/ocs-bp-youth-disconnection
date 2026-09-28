@@ -2296,7 +2296,7 @@ Second we will color in the lower shape of the icon. It is in the middle of the 
 ```{r, out.width="10%"}
 fa_figurine <- image_fill(fa_figurine,
                           color = "#008393", 
-                          point = "+800+1000")
+                          point = "+56+100")
 
 fa_figurine
 ```
