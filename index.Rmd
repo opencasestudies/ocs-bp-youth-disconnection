@@ -224,7 +224,24 @@ missing_packages <- required_packages[!vapply(
 )]
 
 options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+if (identical(Sys.info()[["sysname"]], "Linux") &&
+    file.exists("/usr/bin/apt-get")) {
+  system2("/usr/bin/apt-get", c("update", "-qq"))
+  system2(
+    "/usr/bin/apt-get",
+    c(
+      "install", "--yes", "--no-install-recommends",
+      "libtesseract-dev", "libleptonica-dev", "tesseract-ocr"
+    )
+  )
+}
+
 install.packages("tesseract", type = "source")
+
+if (!requireNamespace("tesseract", quietly = TRUE)) {
+  stop("The tesseract R package could not be installed.")
+}
 
 if (length(missing_packages)) {
   install.packages(missing_packages)
