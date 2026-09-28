@@ -215,13 +215,17 @@ Before loading the packages, install any that are not already available:
 
 ```{r install-missing-packages, eval=TRUE}
 required_packages <- c(
-  "here", "pdftools", "tesseract", "magick", "knitr", "readr", "dplyr",
+  "here", "pdftools", "magick", "knitr", "readr", "dplyr",
   "stringr", "magrittr", "tidyr", "tibble", "ggplot2", "directlabels",
   "cowplot", "forcats", "Kendall", "patchwork", "DT", "OCSdata"
 )
 missing_packages <- required_packages[!vapply(
   required_packages, requireNamespace, logical(1), quietly = TRUE
 )]
+
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+install.packages("tesseract", type = "source")
+
 if (length(missing_packages)) {
   install.packages(missing_packages)
 }
