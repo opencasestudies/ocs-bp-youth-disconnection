@@ -32,6 +32,11 @@ Imports:
     jpeg, 
     png, 
     testthat, 
-    rmarkdown
+    rmarkdown,
+    wordcountaddin,
+    read.so
+Remotes:
+    github::benmarwick/wordcountaddin,
+    github::alistaire47/read.so
 VignetteBuilder: knitr
 Encoding: UTF-8

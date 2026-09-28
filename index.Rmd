@@ -52,8 +52,6 @@ library(here)
 library(knitr)
 library(readr)
 library(magrittr)
-remotes::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
-remotes::install_github("alistaire47/read.so")
 library(wordcountaddin)
 library(read.so)
 
@@ -213,7 +211,7 @@ include_graphics("https://tidyverse.tidyverse.org/logo.png")
 
 Before loading the packages, install any that are not already available:
 
-```{r install-missing-packages, eval=TRUE}
+```{r install-missing-packages, eval=FALSE}
 required_packages <- c(
   "here", "pdftools", "knitr", "readr", "dplyr",
   "stringr", "magrittr", "tidyr", "tibble", "ggplot2", "directlabels",
