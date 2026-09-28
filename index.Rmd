@@ -49,6 +49,17 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE, cache = FALSE,
                       fig.align = "center", out.width = '90%')
 
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+gtable_version <- tryCatch(
+  utils::packageVersion("gtable"),
+  error = function(...) NULL
+)
+if (is.null(gtable_version) ||
+    gtable_version < base::package_version("0.3.6")) {
+  install.packages("gtable")
+}
+library(ggplot2)
+
 if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
 }
