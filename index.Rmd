@@ -232,6 +232,9 @@ library(forcats)
 library(Kendall)
 library(patchwork)
 library(DT)
+if (!requireNamespace("OCSdata", quietly = TRUE)) {
+  install.packages("OCSdata")
+}
 library(OCSdata)
 ```
 
