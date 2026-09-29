@@ -52,8 +52,14 @@ library(here)
 library(knitr)
 library(readr)
 library(magrittr)
-remotes::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
-remotes::install_github("alistaire47/read.so")
+required_packages <- c("wordcountaddin", "read.so", "koRpus", "koRpus.lang.en")
+missing_packages <- required_packages[!vapply(required_packages, requireNamespace, logical(1), quietly = TRUE)]
+if (length(missing_packages)) {
+  stop(
+    "Install the required packages before rendering: ",
+    paste(missing_packages, collapse = ", ")
+  )
+}
 library(wordcountaddin)
 library(read.so)
 
@@ -104,8 +110,8 @@ This case study is part of a series of public health case studies for the [Bloom
 The total reading time for this case study is calculated via [koRpus](https://github.com/unDocUMeantIt/koRpus) and shown below: 
 
 ```{r, echo=FALSE}
-readtable = text_stats("index.Rmd") # producing reading time markdown table
-readtime = read.so::read.md(readtable) %>% dplyr::select(Method, koRpus) %>% # reading table into dataframe, selecting relevant factors
+readtable <- text_stats("index.Rmd") # producing reading time markdown table
+readtime <- read.so::read.md(readtable) %>% dplyr::select(Method, koRpus) %>% # reading table into dataframe, selecting relevant factors
   dplyr::filter(Method == "Reading time") %>% # dropping unnecessary rows
   dplyr::mutate(koRpus = paste(round(as.numeric(stringr::str_split(koRpus, " ")[[1]][1])), "minutes")) %>% # rounding reading time estimate
   dplyr::mutate(Method = "koRpus") %>% dplyr::relocate(koRpus, .before = Method) %>% dplyr::rename(`Reading Time` = koRpus) # reorganizing table
@@ -119,11 +125,35 @@ knitr::kable(readtime, format="markdown")
 A readability index estimates the reading difficulty level of a particular text. Flesch-Kincaid, FORCAST, and SMOG are three common readability indices that were calculated for this case study via [koRpus](https://github.com/unDocUMeantIt/koRpus). These indices provide an estimation of the minimum reading level required to comprehend this case study by grade and age. 
 
 ```{r, echo=FALSE}
-rt = wordcountaddin::readability("index.Rmd", quiet=TRUE) # producing readability markdown table
-df = read.so::read.md(rt) %>% dplyr::select(index, grade, age) %>%  # reading table into dataframe, selecting relevant factors
-  tidyr::drop_na() %>% dplyr::mutate(grade = round(as.numeric(grade)), # dropping rows with missing values, rounding age and grade columns
-                                     age = round(as.numeric(age))
-                                     )
+readability_text <- getFromNamespace("prep_text", "wordcountaddin")(
+  paste(scan("index.Rmd", "character", quiet = TRUE), collapse = " ")
+)
+suppressPackageStartupMessages(require("koRpus.lang.en", quietly = TRUE))
+readability_words <- strsplit(readability_text, " ", fixed = TRUE)[[1]]
+readability_words <- ifelse(
+  nchar(readability_words) > 30,
+  substr(readability_words, 1, 10),
+  readability_words
+)
+readability_tokens <- koRpus::tokenize(
+  readability_words,
+  format = "obj",
+  lang = "en"
+)
+invisible(
+  capture.output(
+    readability_result <- suppressMessages(koRpus::readability(
+      readability_tokens,
+      index = c("Flesch.Kincaid", "FORCAST", "SMOG"),
+      quiet = TRUE
+    ))
+  )
+)
+df <- summary(readability_result) %>%
+  dplyr::mutate(
+    grade = round(as.numeric(grade)),
+    age = round(as.numeric(age))
+  )
 knitr::kable(df, format="markdown")
 ```
 
@@ -961,7 +991,8 @@ major_groups <-
   major_groups %>%
   tidyr::separate(col = value, 
                   into = c("Group", "Years"), 
-                  sep = "(?<=[[:alpha:]])\\s(?=[0-9])")
+                  sep = "(?<=[[:alpha:]])\\s(?=[0-9])",
+                  fill = "right")
 
 major_groups
 ```
@@ -970,12 +1001,10 @@ Looks good!
 
 Let's also get rid of the all caps for the major categories of the `Group` column. We can convert the words to only capitalize the first letter using the `str_to_title()` function of the `stringr` package. To specifically modify the `Group` column we can use the `mutate` function of the `dplyr` package. 
 
-We are also going to use a special pipe operator (`%<>%`) from the [`magrittr` package](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html) called the compound assignment pipe-operator or sometimes the double pipe operator. 
-
-This allows us to use the `major_groups` as our input and reassign it at the end after all the subsequent steps have been performed, although in this case it is only one step.
+We can use the assignment arrow (`<-`) to save the transformed `major_groups` data back to the same object. This makes the input and reassignment explicit.
 
 ```{r}
-major_groups %<>%
+major_groups <- major_groups %>%
   mutate(Group = stringr::str_to_title(Group))
 
 major_groups
@@ -989,7 +1018,7 @@ We can use the `separate()` function of the `tidyr` package again to do this. Th
 
 
 ```{r}
-major_groups %<>%
+major_groups <- major_groups %>%
   tidyr::separate(col = Years, 
                   into = c("2008", "2010", "2012", "2014", "2016", "2017"), 
                   sep = " ")
@@ -1004,7 +1033,7 @@ Looks pretty good!
 We appear to have an empty row at the very end. Since all the values are `NA`, we can use the `drop_na()` function  of the `tidyr` package to remove it.
 
 ```{r}
-major_groups %<>%
+major_groups <- major_groups %>%
   tidyr::drop_na()
 
 major_groups
@@ -1047,7 +1076,7 @@ knitr::include_graphics(here::here("img", "regex_period.png"))
 To pass the data from all the columns except our `Group` variable into our `str_remove()` function, we need to use the `.` notation as a replacement for the data that we specified by the `.cols`argument and we need to use `~` in front of the function name. 
 
 ```{r}
-major_groups %<>%
+major_groups <- major_groups %>%
     mutate(across(.cols = -Group, 
                   ~str_remove(string = ., pattern = "\\.")))
 
@@ -1062,12 +1091,12 @@ Great, now in order to multiply each value by 0.1 we need to first make the valu
 To convert our values to be numeric we can use the base `as.numeric()` function. Again we will use `mutate()` and `across()`. Since this function doesn't require any arguments, we don't need to specify it's input like we just did for the `str_remove()` but we could do so as shown below.
 
 ```{r}
-major_groups %<>%
+major_groups <- major_groups %>%
    mutate(across(.cols = -Group, as.numeric))
 
 #this is equivalent:
 
-#major_groups %<>%
+#major_groups <- major_groups %>%
 #   mutate(across(.cols = -Group, ~as.numeric(.)))
 
 major_groups
@@ -1079,7 +1108,7 @@ OK, now we can multiply each value by 0.1 to add our decimal points back and get
 
 ```{r}
 
-major_groups %<>%
+major_groups <- major_groups %>%
     mutate(across(.cols = -Group, ~ . * 0.1))
 
 major_groups
@@ -1098,7 +1127,7 @@ Looks good!
 We also want to add a couple of variables about `Race_Ethnicity` and `Gender` so that we can select across groups later.  We can use the `recode()` function of the `dplyr` package to change specific values, as we create a new `Race_Ethnicity` variable from the `Group` variable. For the Data for all of the US we want the `Race_Ethnicity` variable values to be `"All_races"`.
 
 ```{r}
-major_groups %<>% 
+major_groups <- major_groups %>%
   mutate(Race_Ethnicity = 
            recode(Group, "United States" = "All_races",
                                 "Female" = "All_races",
@@ -1111,7 +1140,7 @@ head(major_groups)
 We also want to remove Male and Female from this "Race_Ethnicity" variable, We can do so using the `str_remove()` function of the `stringr` package. Importantly, we are also removing the space before "Female" and "Male.
 
 ```{r}
-major_groups %<>% 
+major_groups <- major_groups %>%
   mutate(Race_Ethnicity = str_remove(string = Race_Ethnicity,  
                                     pattern = " Female| Male"))
 
@@ -1121,7 +1150,7 @@ head(major_groups)
 For the new `Gender` variable we would like to extract just the "Female" and "Male" text from the `Group` variable. The `str_extract()` function of the `stringr` package will do this, and it will give us an `NA` value for any rows where "Female" or "Male" were not present. We can then replace the `NA` values with  the text "All" to represent the total value for both male and female using the `replace_na()` function of the `tidyr()` package.
 
 ```{r}
-major_groups %<>% 
+major_groups <- major_groups %>%
   mutate(Gender = str_extract(string = Group, 
                               pattern = "Female|Male")) %>%
   mutate(Gender = replace_na(Gender, replace = "All"))
@@ -1165,7 +1194,7 @@ major_groups %>%
 
 
 ```{r}
-major_groups %<>%
+major_groups <- major_groups %>%
   mutate(across(.cols = c(Group, Race_Ethnicity), 
                 ~str_replace(string = ., 
                             pattern = "Latino|Latina",
@@ -1424,7 +1453,7 @@ How might you do this?
 
 
 ```{r}
-latinx_sub_2017 %<>% 
+latinx_sub_2017 <- latinx_sub_2017 %>%
   str_replace(string = .,
              pattern = "DR, Cuban Female 15.7\nPR",
          replacement = "DR, Cuban Male 15.7\nPR")
@@ -1450,7 +1479,7 @@ Can you recall the commands within our `make_rows()` function to separate the da
 <details> <summary> Click here to reveal the code. </summary>
 
 ```{r}
-latinx_sub_2017 %<>%
+latinx_sub_2017 <- latinx_sub_2017 %>%
   str_split("\n") %>%
   unlist() %>%
   as_tibble()
@@ -1489,7 +1518,7 @@ How might you do this using the `str_replace()` function?
 
 
 ```{r}
-latinx_sub_2017 %<>%
+latinx_sub_2017 <- latinx_sub_2017 %>%
   mutate(across(.cols = c(Group, Race_Ethnicity), 
            ~str_replace(string = .,
                        pattern = "Pr, Dr, Cuban",
@@ -1664,7 +1693,7 @@ knitr::include_graphics(here::here("img", "asian_youth_excerpt.png"))
 We can do this using the `add_row()` function of the `dplyr()` package.
 
 ```{r}
-asian_sub_2018 %<>%
+asian_sub_2018 <- asian_sub_2018 %>%
   add_row(Group = "Asian",
         Percent = 6.2,
  Race_Ethnicity = "Asian",
@@ -1686,13 +1715,13 @@ OK, now we just want to combine the 2018 data and the 2017 data for the Asian su
 First let's add a variable for year to both. Using `mutate()` we can add a variable `Year` where all values are `2017` like so:
 
 ```{r}
-asian_sub_2017 %<>%
+asian_sub_2017 <- asian_sub_2017 %>%
   mutate(Year = 2017)
 asian_sub_2017 
 ```
 
 ```{r}
-asian_sub_2018 %<>%
+asian_sub_2018 <- asian_sub_2018 %>%
   mutate(Year = 2018)
 asian_sub_2018
 ```
@@ -1700,7 +1729,7 @@ asian_sub_2018
 You may notice that `Gender` is coded differently for the two years. Let's make this consistent now:
 
 ```{r}
-asian_sub_2018 %<>%
+asian_sub_2018 <- asian_sub_2018 %>%
   mutate(across(.cols = c(Gender, Group),
                ~ str_replace(string = ., 
                             pattern = "Men", 
@@ -1732,7 +1761,7 @@ We would like to have `NA` values for the comparable years/genders that are poss
 
 ```{r, eval=FALSE}
 
-asian_subgroups %<>% 
+asian_subgroups <- asian_subgroups %>%
 select(-Group) %>%
 pivot_wider(names_from = Year, values_from = Percent) %>%
 pivot_longer(cols = -c(Race_Ethnicity, Gender), 
@@ -1802,7 +1831,7 @@ latinx_sub_2018
 
 Again we will replace `Pr, Dr, Cuban`:
 ```{r}
-latinx_sub_2018 %<>%
+latinx_sub_2018 <- latinx_sub_2018 %>%
   mutate(Group = 
            str_replace(string = Group,
                       pattern = "Pr, Dr, Cuban",
@@ -1839,7 +1868,7 @@ Can you recall how to add additional rows?
 
 
 ```{r}
-latinx_sub_2018 %<>%
+latinx_sub_2018 <- latinx_sub_2018 %>%
   add_row(Group = "Latinx",
         Percent = 12.8,
  Race_Ethnicity = "Latinx",
@@ -1865,7 +1894,7 @@ tail(latinx_sub_2018)
 And now we will recode gender like before to be consistent:
 
 ```{r}
-latinx_sub_2018 %<>%
+latinx_sub_2018 <- latinx_sub_2018 %>%
   mutate(across(.cols = c(Gender, Group),
                 ~ str_replace(string = ., 
                              pattern = "Men", 
@@ -1886,10 +1915,10 @@ Now we just need to combine all the data for the Latinx subgroups.
 Again, first we will add a year variable to both the 2017 and 2018 data.
 
 ```{r}
-latinx_sub_2017 %<>%
+latinx_sub_2017 <- latinx_sub_2017 %>%
   mutate(Year = 2017)
 
-latinx_sub_2018 %<>%
+latinx_sub_2018 <- latinx_sub_2018 %>%
   mutate(Year = 2018)
 
 latinx_subgroups <- bind_rows(latinx_sub_2017, latinx_sub_2018)
@@ -1900,7 +1929,7 @@ latinx_subgroups
 Again, we would like to have `NA` values for the comparable years/genders that are possible. We will fill out the rest of the table with `NA` values by performing the `pivot_wider()` and `pivot_longer()` functions sequentially like so:
 
 ```{r, eval = FALSE}
-latinx_subgroups %<>%
+latinx_subgroups <- latinx_subgroups %>%
   select(-Group) %>%
   pivot_wider(names_from = Year, values_from = Percent) %>%
   pivot_longer(cols = -c(Race_Ethnicity, Gender), 
@@ -2170,15 +2199,16 @@ Getting close!
 
 Now we need to add figurine icons to the plot.  
 
-To add the figurines we can use icons from free resources like [font awesome](https://fontawesome.com/). See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons) for a link to `svg` options. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the original plot to work with so we will start with an example of using a font awesome icon. 
+To add the figurines we can use icons from free resources like [Font Awesome](https://fontawesome.com/). See [here](https://commons.wikimedia.org/wiki/Category:Font_Awesome_4_icons) for `svg` options. We include a local copy of the user icon with this case study, so the example can be rendered without downloading an image. Or we could also take a screenshot of just the figurine from the original plot. However, it is useful to know how to create similar icons if we didn't have the original plot to work with, so we will start with an example using a Font Awesome icon.
 
 
 ##### Using font awesome:
-First we need to import the image from font awesome:
+First we import the local copy of the Font Awesome image:
 
 ```{r, out.width="10%"}
 
-fa_figurine <- image_read("https://upload.wikimedia.org/wikipedia/commons/7/7c/User_font_awesome.svg")
+# Use the checked-in copy so rendering does not depend on Wikimedia or DNS.
+fa_figurine <- image_read(here::here("img", "user_font_awesome.svg"))
 
 fa_figurine
 ```
@@ -3056,12 +3086,12 @@ $$sign(x_6-x_5)$$
 Thus to calculate $S$ manually in R we could do like so:
 
 ```{r}
-x1 = 24.4
-x2 = 28.8
-x3 = 27
-x4 = 26.3
-x5 = 25.8
-x6 = 23.9
+x1 <- 24.4
+x2 <- 28.8
+x3 <- 27
+x4 <- 26.3
+x5 <- 25.8
+x6 <- 23.9
 
 sign(x2-x1) + sign(x3-x1) + sign(x4-x1) + sign(x5-x1) + sign(x6-x1) +
 sign(x3-x2) + sign(x4-x2) + sign(x5-x2) + sign(x6-x2) +sign(x4-x3) + sign(x5-x3) + sign(x6-x3) +sign(x5-x4) + sign(x6-x4) + sign(x6-x5)
@@ -3349,6 +3379,11 @@ Overall, this case study demonstrates the importance of looking at populations a
 - Taking the plot you made above, modify the plot to facet across years. 
 - Find another table in one of the reports to import using the `magick` package (for example perhaps the data about different states over time in the 2019 report called [Making the Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)). Look for differences between groups by plotting the data and evaluating with the Mann-Kendall test. 
 
+# **More Case Studies**
+***
+
+Interested in exploring more open case studies? Visit **[opencasestudies.org](https://opencasestudies.org)** to access additional studies and open educational resources.
+
 ## **Additional Information**
 *** 
 
@@ -3462,7 +3497,7 @@ sessionInfo()
 
 ```{r, echo=FALSE}
 rmarkdown:::perf_timer_stop("render")
-pts = rmarkdown:::perf_timer_summary()
+pts <- rmarkdown:::perf_timer_summary()
 cat("About", round(pts$time[1]/1000 + 5), "-", round(pts$time[1]/1000 + 15),"seconds")
 ```
 
