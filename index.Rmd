@@ -60,7 +60,6 @@ if (package_needs_upgrade("gtable", "0.3.6")) {
 if (package_needs_upgrade("ggplot2", "3.5.2")) {
   install.packages("ggplot2")
 }
-library(ggplot2)
 
 if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
@@ -96,6 +95,7 @@ install_github_with_retry <- function(repo, package, dependencies = FALSE) {
 install_github_with_retry("benmarwick/wordcountaddin", "wordcountaddin", dependencies = TRUE)
 install_github_with_retry("alistaire47/read.so", "read.so")
 
+library(ggplot2)
 library(here)
 library(knitr)
 library(readr)
