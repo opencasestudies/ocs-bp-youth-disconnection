@@ -5,8 +5,8 @@ Open Case Studies: Disparities in Youth Disconnection
 
 <!-- badges: start -->
 
-[![render-README](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-README/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
-[![render-index](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-index/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
+[![render-README](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions/workflows/render-readme.yaml/badge.svg?branch=master)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions/workflows/render-readme.yaml)
+[![render-index](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions/workflows/render-index.yaml/badge.svg?branch=master)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions/workflows/render-index.yaml)
 <!-- badges: end -->
 
 ### Important links
