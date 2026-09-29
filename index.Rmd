@@ -65,20 +65,36 @@ library(ggplot2)
 if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
 }
-if (!requireNamespace("wordcountaddin", quietly = TRUE)) {
-  remotes::install_github(
-    "benmarwick/wordcountaddin",
-    dependencies = TRUE,
-    upgrade = "never"
-  )
+install_github_with_retry <- function(repo, package, dependencies = FALSE) {
+  if (requireNamespace(package, quietly = TRUE)) return(invisible())
+
+  installed <- FALSE
+  for (attempt in seq_len(3)) {
+    installed <- tryCatch({
+      remotes::install_github(
+        repo,
+        dependencies = dependencies,
+        upgrade = "never"
+      )
+      TRUE
+    }, error = function(error) {
+      message(sprintf(
+        "Installing %s (attempt %d of 3) failed: %s",
+        package, attempt, conditionMessage(error)
+      ))
+      FALSE
+    })
+    if (installed) break
+    Sys.sleep(10 * attempt)
+  }
+
+  if (!installed) {
+    stop(sprintf("Unable to install %s after 3 attempts.", package))
+  }
 }
-if (!requireNamespace("read.so", quietly = TRUE)) {
-  remotes::install_github(
-    "alistaire47/read.so",
-    dependencies = TRUE,
-    upgrade = "never"
-  )
-}
+
+install_github_with_retry("benmarwick/wordcountaddin", "wordcountaddin", dependencies = TRUE)
+install_github_with_retry("alistaire47/read.so", "read.so")
 
 library(here)
 library(knitr)
@@ -283,8 +299,8 @@ if (length(missing_packages)) {
 if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
 }
-remotes::install_github("benmarwick/wordcountaddin", dependencies = TRUE)
-remotes::install_github("alistaire47/read.so")
+install_github_with_retry("benmarwick/wordcountaddin", "wordcountaddin", dependencies = TRUE)
+install_github_with_retry("alistaire47/read.so", "read.so")
 ```
 
 We will now load the packages that we will need:
