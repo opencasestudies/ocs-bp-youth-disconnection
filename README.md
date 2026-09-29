@@ -1,22 +1,20 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-Open Case Studies: Disparities in Youth Disconnection
-=====================================================
+# Open Case Studies: Disparities in Youth Disconnection
 
 <!-- badges: start -->
 
-[![render-README](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions/workflows/render-readme.yaml/badge.svg?branch=master)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions/workflows/render-readme.yaml)
-[![render-index](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions/workflows/render-index.yaml/badge.svg?branch=master)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions/workflows/render-index.yaml)
+[![render-README](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-README/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
+[![render-index](https://github.com/opencasestudies/ocs-bp-youth-disconnection/workflows/render-index/badge.svg)](https://github.com/opencasestudies/ocs-bp-youth-disconnection/actions)
 <!-- badges: end -->
 
 ### Important links
 
--   HTML:
-    <a href="https://www.opencasestudies.org/ocs-bp-youth-disconnection" class="uri">https://www.opencasestudies.org/ocs-bp-youth-disconnection</a>
--   GitHub:
-    <a href="https://github.com/opencasestudies/ocs-bp-youth-disconnection" class="uri">https://github.com/opencasestudies/ocs-bp-youth-disconnection</a>
--   Bloomberg American Health Initiative:
-    <a href="https://americanhealth.jhu.edu/open-case-studies" class="uri">https://americanhealth.jhu.edu/open-case-studies</a>
+- HTML: <https://www.opencasestudies.org/ocs-bp-youth-disconnection>
+- GitHub:
+  <https://github.com/opencasestudies/ocs-bp-youth-disconnection>
+- Bloomberg American Health Initiative:
+  <https://americanhealth.jhu.edu/open-case-studies>
 
 ### Disclaimer
 
@@ -194,9 +192,13 @@ within the disconnection rates of particular groups of youths over time.
 
 ### Other notes and resources
 
-<a href="https://rstudio.com/products/rstudio/features/" target="_blank">RStudio</a>  
-<a href="https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf" target="_blank">Cheatsheet on RStuido IDE</a>  
-<a href="https://rstudio.com/resources/cheatsheets/" target="_blank">Other RStudio cheatsheets</a>  
+<a href="https://rstudio.com/products/rstudio/features/"
+target="_blank">RStudio</a>  
+<a
+href="https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf"
+target="_blank">Cheatsheet on RStuido IDE</a>  
+<a href="https://rstudio.com/resources/cheatsheets/"
+target="_blank">Other RStudio cheatsheets</a>  
 <a href="https://www.tidyverse.org/" target="_blank">Tidyverse</a>
 
 [Response bias](https://en.wikipedia.org/wiki/Response_bias)  
@@ -204,7 +206,9 @@ within the disconnection rates of particular groups of youths over time.
 data](https://en.wikipedia.org/wiki/Cross-sectional_data?oldformat=true)
 [Population](https://en.wikipedia.org/wiki/Population?oldformat=true)
 [Sample](https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true)
-<a href="https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true" target="_blank">Sampling methods</a>
+<a
+href="https://en.wikipedia.org/wiki/Sampling_(statistics)?oldformat=true"
+target="_blank">Sampling methods</a>
 [Inference](https://www.britannica.com/science/inference-statistics)
 
 [American Community Survey
@@ -215,13 +219,18 @@ more detailed information about the survey
 [Measure of America](https://www.ssrc.org/programs/view/moa/)  
 [Social Science Research Council](https://www.ssrc.org/)
 
-<a href="https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html" target="_blank">Piping in R</a>  
+<a
+href="https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html"
+target="_blank">Piping in R</a>  
 [Writing functions](https://r4ds.had.co.nz/functions.html)  
 Also see
-<a href="https://www.opencasestudies.org/ocs-bp-vaping-case-study/" target="_blank">this case study</a>
-for more information on writing functions.  
-<a href="https://rstudio.com/resources/cheatsheets/" target="_blank">String manipulation cheatsheet</a>  
-<a href="https://en.wikipedia.org/wiki/Wide_and_narrow_data" target="_blank">Table formats</a>
+<a href="https://www.opencasestudies.org/ocs-bp-vaping-case-study/"
+target="_blank">this case study</a> for more information on writing
+functions.  
+<a href="https://rstudio.com/resources/cheatsheets/"
+target="_blank">String manipulation cheatsheet</a>  
+<a href="https://en.wikipedia.org/wiki/Wide_and_narrow_data"
+target="_blank">Table formats</a>
 
 [Regression](https://lindeloev.github.io/tests-as-linear/)  
 [simple linear
@@ -246,13 +255,17 @@ table](https://socratic.org/questions/5986a3e1b72cff6fd48a5408)
 [Z score to p-value
 calculator](https://www.socscistatistics.com/pvalues/normaldistribution.aspx)
 
-<a href="http://ggplot2.tidyverse.org" target="_blank"><code>ggplot2</code> package</a>  
+<a href="http://ggplot2.tidyverse.org"
+target="_blank"><code>ggplot2</code> package</a>  
 Please see [this case
 study](https://www.opencasestudies.org/ocs-bp-co2-emissions/) for more
 details on using `ggplot2`  
-<a href="http://vita.had.co.nz/papers/layered-grammar.html" target="_blank">grammar of graphics</a>  
-<a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" target="_blank"><code>ggplot2</code> themes</a>  
-<a href="http://directlabels.r-forge.r-project.org/docs/index.html" target="_blank"><code>directlabels</code> package methods</a>  
+<a href="http://vita.had.co.nz/papers/layered-grammar.html"
+target="_blank">grammar of graphics</a>  
+<a href="https://ggplot2.tidyverse.org/reference/ggtheme.html"
+target="_blank"><code>ggplot2</code> themes</a>  
+<a href="http://directlabels.r-forge.r-project.org/docs/index.html"
+target="_blank"><code>directlabels</code> package methods</a>  
 [Hmong people](https://en.wikipedia.org/wiki/Hmong_people)  
 [Intersections](https://www.vox.com/the-highlight/2019/5/20/18542843/intersectionality-conservatism-law-race-gender-discrimination)
 
@@ -282,78 +295,95 @@ study](https://www.opencasestudies.org/ocs-bp-rural-and-urban-obesity/).
 <col style="width: 56%" />
 </colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th>Package</th>
 <th>Use in this case study</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td><a href="https://github.com/jennybc/here_here" target="_blank">here</a></td>
+<tr>
+<td><a href="https://github.com/jennybc/here_here"
+target="_blank">here</a></td>
 <td>to easily load and save data</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://readr.tidyverse.org/">pdftools</a></td>
 <td>to import PDF documents</td>
 </tr>
-<tr class="odd">
-<td><a href="https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution">magick</a></td>
+<tr>
+<td><a
+href="https://cran.r-project.org/web/packages/magick/vignettes/intro.html#Kernel_convolution">magick</a></td>
 <td>for importing images and extracting text from images</td>
 </tr>
-<tr class="even">
-<td><a href="https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html">tesseract</a></td>
+<tr>
+<td><a
+href="https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html">tesseract</a></td>
 <td>for extracting text from images with <code>magick</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://yihui.org/knitr/">knitr</a></td>
 <td>for showing images in reports</td>
 </tr>
-<tr class="even">
-<td><a href="https://dplyr.tidyverse.org/" target="_blank">dplyr</a></td>
+<tr>
+<td><a href="https://dplyr.tidyverse.org/"
+target="_blank">dplyr</a></td>
 <td>to filter, subset, join, add rows to, and modify the data</td>
 </tr>
-<tr class="odd">
-<td><a href="https://stringr.tidyverse.org/" target="_blank">stringr</a></td>
+<tr>
+<td><a href="https://stringr.tidyverse.org/"
+target="_blank">stringr</a></td>
 <td>to manipulate strings</td>
 </tr>
-<tr class="even">
-<td><a href="https://magrittr.tidyverse.org/" target="_blank">magrittr</a></td>
+<tr>
+<td><a href="https://magrittr.tidyverse.org/"
+target="_blank">magrittr</a></td>
 <td>to pipe sequential commands</td>
 </tr>
-<tr class="odd">
-<td><a href="https://tidyr.tidyverse.org/" target="_blank">tidyr</a></td>
-<td>to change the shape or format of tibbles to wide and long, to drop rows with <code>NA</code> values, to separate a column into additional columns, and to fill out values based on previous values</td>
+<tr>
+<td><a href="https://tidyr.tidyverse.org/"
+target="_blank">tidyr</a></td>
+<td>to change the shape or format of tibbles to wide and long, to drop
+rows with <code>NA</code> values, to separate a column into additional
+columns, and to fill out values based on previous values</td>
 </tr>
-<tr class="even">
-<td><a href="https://tibble.tidyverse.org/" target="_blank">tibble</a></td>
+<tr>
+<td><a href="https://tibble.tidyverse.org/"
+target="_blank">tibble</a></td>
 <td>to create tibbles</td>
 </tr>
-<tr class="odd">
-<td><a href="https://ggplot2.tidyverse.org/" target="_blank">ggplot2</a></td>
+<tr>
+<td><a href="https://ggplot2.tidyverse.org/"
+target="_blank">ggplot2</a></td>
 <td>to create plots</td>
 </tr>
-<tr class="even">
-<td><a href="http://directlabels.r-forge.r-project.org/docs/index.html" target="_blank">directlabels</a></td>
+<tr>
+<td><a href="http://directlabels.r-forge.r-project.org/docs/index.html"
+target="_blank">directlabels</a></td>
 <td>to add labels directly to lines in plots</td>
 </tr>
-<tr class="odd">
-<td><a href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html" target="_blank">cowplot</a></td>
+<tr>
+<td><a
+href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html"
+target="_blank">cowplot</a></td>
 <td>to add images to plots</td>
 </tr>
-<tr class="even">
-<td><a href="https://forcats.tidyverse.org/" target="_blank">forcats</a></td>
+<tr>
+<td><a href="https://forcats.tidyverse.org/"
+target="_blank">forcats</a></td>
 <td>to reorder factor for plot</td>
 </tr>
-<tr class="odd">
-<td><a href="https://cran.r-project.org/web/packages/Kendall/Kendall.pdf">kendall</a></td>
+<tr>
+<td><a
+href="https://cran.r-project.org/web/packages/Kendall/Kendall.pdf">kendall</a></td>
 <td>to implement the Mann-Kendall trend test in R</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://github.com/thomasp85/patchwork">patchwork</a></td>
 <td>to combine plots</td>
 </tr>
-<tr class="odd">
-<td><a href="https://cran.r-project.org/web/packages/DT/index.html">DT</a></td>
+<tr>
+<td><a
+href="https://cran.r-project.org/web/packages/DT/index.html">DT</a></td>
 <td>Interactive tables</td>
 </tr>
 </tbody>
@@ -374,16 +404,15 @@ fundamental knowledge of statistics.
 
 #### Suggested homework
 
--   For the Asian and Latinx subgroup bar plots made across year, modify
-    these plots to consider gender differences (instead of across time).
--   Taking the plot you made above, modify the plot to facet across
-    years.
--   Find another table in one of the reports to import using the
-    `magick` package (for example perhaps the data about different
-    states over time in the 2019 report called [Making the
-    Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)).
-    Look for differences between groups by plotting the data and
-    evaluating with the Mann-Kendall test.
+- For the Asian and Latinx subgroup bar plots made across year, modify
+  these plots to consider gender differences (instead of across time).
+- Taking the plot you made above, modify the plot to facet across years.
+- Find another table in one of the reports to import using the `magick`
+  package (for example perhaps the data about different states over time
+  in the 2019 report called [Making the
+  Connection](https://ssrc-static.s3.amazonaws.com/moa/Making%20the%20Connection.pdf)).
+  Look for differences between groups by plotting the data and
+  evaluating with the Mann-Kendall test.
 
 #### Estimate of RMarkdown Compilation Time:
 
